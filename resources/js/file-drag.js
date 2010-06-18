@@ -1,5 +1,5 @@
 // Source: https://developer.mozilla.org/en/Using_files_from_web_applications
-
+// Firefox only
 $(function() { 
 	$("#dropbox").bind("dragenter dragover", function(e) {
 		e.stopPropagation();
