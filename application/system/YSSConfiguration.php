@@ -1,0 +1,17 @@
+<?php
+class YSSConfiguration
+{
+	private static $configuration;
+	
+	public function YSSConfiguration($path)
+	{
+		$data       = parse_ini_file($path, true);
+		YSSConfiguration::$configuration = $data[$data['application']['configuration']];
+	}
+	
+	public static function standardConfiguration()
+	{
+		return YSSConfiguration::$configuration;
+	}
+}
+?>
