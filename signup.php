@@ -10,6 +10,7 @@
 	<title>signup</title>
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="Adam Venturella">
+	<link rel="stylesheet" href="resources/css/forms.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<!-- Date: 2010-06-20 -->
 </head>
 <body>
