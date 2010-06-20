@@ -4,6 +4,7 @@ $page = null;
 abstract class YSSPage
 {
 	public $isPostBack = false;
+	protected $session;
 	
 	public static function CodeBehind($class)
 	{
@@ -19,6 +20,8 @@ abstract class YSSPage
 	
 	public function __construct()
 	{
+		$this->session = YSSSession::sharedSession();
+		
 		if(count($_POST))
 		{
 			$this->isPostBack = true;

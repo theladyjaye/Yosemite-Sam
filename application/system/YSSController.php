@@ -1,7 +1,6 @@
 <?php
 abstract class YSSController extends YSSPage
 {
-	public $session;
 	protected $requiresAuthorization  = false;
 	
 	protected function page_load()
@@ -13,8 +12,8 @@ abstract class YSSController extends YSSPage
 			header('Location: /management/login');
 		}
 		
-		$this->session = NakedTruth::session();
 		*/
+		
 		$this->initialize();
 	}
 	
