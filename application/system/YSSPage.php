@@ -6,7 +6,7 @@ abstract class YSSPage
 	public $isPostBack = false;
 	protected $session;
 	
-	public static function CodeBehind($class)
+	public static function Controller($class)
 	{
 		global $page;
 		$configuration = YSSConfiguration::standardConfiguration();
