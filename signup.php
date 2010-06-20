@@ -14,6 +14,5 @@
 </head>
 <body>
 	<?php $page->displayForm() ?>
-	
 </body>
 </html>
