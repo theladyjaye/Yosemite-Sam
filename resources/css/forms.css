@@ -1,0 +1,7 @@
+input.error, label.error{
+	color:#cc0000;
+}
+
+input.error{
+	border-color:#cc0000;
+}
