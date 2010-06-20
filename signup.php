@@ -13,6 +13,7 @@
 	<!-- Date: 2010-06-20 -->
 </head>
 <body>
-
+	<?php $page->displayForm() ?>
+	
 </body>
 </html>
