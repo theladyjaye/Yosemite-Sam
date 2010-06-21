@@ -26,7 +26,7 @@ class SignupController extends YSSController
 	{
 		/*
 			The general idea here is that we can have duplicate company names
-			The subdomains MUST be unique.  The subdomain + username will be hashed 
+			The subdomains MUST be unique.  The subdomain + username might be hashed 
 			so we can check for duplicate usernames within the same company.  
 			In this way the same username can exist
 			across the system, but it will be bound to unique company id, aka the subdomain.
