@@ -1,11 +1,15 @@
 <?php
+require YSSApplication::basePath().'/application/libs/axismundi/data/AMQuery.php';
 require YSSApplication::basePath().'/application/libs/axismundi/display/AMDisplayObject.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/AMForm.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMPatternValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMInputValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMEmailValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMMatchValidator.php';
+require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
 
+require YSSApplication::basePath().'/application/data/YSSCompany.php';
+require YSSApplication::basePath().'/application/data/YSSUser.php';
 require YSSApplication::basePath().'/application/templates/FormSignup.php';
 
 class SignupController extends YSSController
@@ -20,6 +24,13 @@ class SignupController extends YSSController
 	
 	private function processForm()
 	{
+		/*
+			The general idea here is that we can have duplicate company names
+			The subdomains MUST be unique.  The subdomain + username will be hashed 
+			so we can check for duplicate usernames within the same company.  
+			In this way the same username can exist
+			across the system, but it will be bound to unique company id, aka the subdomain.
+		*/
 		$context = array(AMForm::kDataKey=>$_POST);
 		$input   = AMForm::formWithContext($context);
 	
@@ -34,13 +45,58 @@ class SignupController extends YSSController
 		
 		if($input->isValid)
 		{
-			// the input is good, now we need to check some other important things
-			/*
-				TODO  - Normalize Company name (no spaces, no special characters, this will become the subdomain)
-				      - normailize the username lowercase
-				      - normalize the first and last name
-				      - check if the normalized name exists
-			*/
+			// everything looks good so far
+			// but we need to do some additional checking/cleanup
+			// before we can create the account
+			
+			$data =& $input->formData;
+			$data['firstname'] = ucwords(strtolower($data['firstname']));
+			$data['lastname']  = ucwords(strtolower($data['lastname']));
+			$data['email']     = strtolower($data['email']);
+			$data['subdomain'] = strtolower($data['subdomain']);
+			$data['username']  = strtolower($data['username']);
+			
+			// do the subdomain and email values already exist?
+			$company = YSSCompany::companyWithDomain($input->subdomain);
+			$user    = YSSUser::userWithEmail($input->email);
+			
+			$dirty   = false;
+			
+			if($company)
+			{
+				$input->addValidator(new AMErrorValidator('subdomain', "Invalid subdomain.  This subdomain is currently in use."));
+				$dirty = true;
+			}
+			
+			if($user)
+			{
+				$input->addValidator(new AMErrorValidator('email', "Invalid email address.  This email address is currently in use."));
+				$dirty = true;
+			}
+			
+			if($dirty) 
+			{
+				$input->clearInvalidValues();
+			}
+			else
+			{
+				$company            = new YSSCompany();
+				$company->name      = $input->company;
+				$company->domain    = $input->subdomain;
+				
+				$user               = new YSSUser();
+				$user->domain       = $input->subdomain;
+				$user->username     = $input->username;
+				$user->email        = $input->email;
+				$user->firstname    = $input->firstname;
+				$user->lastname     = $input->lastname;
+				$user->password     = YSSUser::passwordWithStringAndDomain($user->password, $user->domain);
+				
+				$company            = $company->save();
+				$user               = $user->save();
+				
+				$company->addUser($user);
+			}
 		}
 		
 		$this->input = $input;

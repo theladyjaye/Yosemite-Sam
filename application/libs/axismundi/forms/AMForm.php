@@ -189,7 +189,7 @@ class AMForm
 		$this->clearInvalidValues();
 	}
 	
-	protected function clearInvalidValues()
+	public function clearInvalidValues()
 	{
 		foreach($this->validators as &$validator)
 		{
