@@ -1,6 +1,7 @@
 <?php
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithEmail.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithUsername.php';
+require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithUsernameInDomain.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserInsert.php';
 
 class YSSUser
@@ -34,11 +35,11 @@ class YSSUser
 		return $object;
 	}
 	
-	public static function userWithUsername($username)
+	public static function userWithUsernameInDomain($username, $domain)
 	{
 		$object   = null;
 		$database = YSSDatabase::connection(YSSDatabase::kSql);
-		$query    = new YSSQueryUserWithUsername($database, $username);
+		$query    = new YSSQueryUserWithUsernameInDomain($database, array('username'=>$username, 'domain'=>$domain));
 		
 		if(count($query) == 1)
 		{
