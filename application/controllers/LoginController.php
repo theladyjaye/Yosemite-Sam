@@ -95,6 +95,10 @@ class LoginController extends YSSController
 			}
 			else
 			{
+				
+				$this->session->domain = $input->domain;
+				$this->session->user = $user;
+				
 				/*
 					TODO Perform the Login Routine, the user is good to go!
 				*/

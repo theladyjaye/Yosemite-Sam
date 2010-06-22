@@ -1,6 +1,5 @@
 <?php
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithEmail.php';
-require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithUsername.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithUsernameInDomain.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserInsert.php';
 
@@ -13,6 +12,7 @@ class YSSUser
 	public $firstname;
 	public $lastname;
 	public $password;
+	public $timestamp;
 	
 	public static function passwordWithStringAndDomain($password, $domain)
 	{
