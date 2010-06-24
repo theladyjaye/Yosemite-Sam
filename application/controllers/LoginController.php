@@ -101,6 +101,7 @@ class LoginController extends YSSController
 				$currentUser->lastname  = $user->lastname;
 				$currentUser->username  = $user->username;
 				$currentUser->email     = $user->email;
+				$currentUser->level     = $user->level;
 				
 				$this->session->currentUser = $currentUser;
 				

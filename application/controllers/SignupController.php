@@ -90,6 +90,7 @@ class SignupController extends YSSController
 				$user->email        = $input->email;
 				$user->firstname    = $input->firstname;
 				$user->lastname     = $input->lastname;
+				$user->level        = YSSUserLevel::kAdministrator;
 				$user->password     = YSSUser::passwordWithStringAndDomain($input->password, $user->domain);
 				
 				$company            = $company->save();

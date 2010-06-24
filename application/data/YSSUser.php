@@ -6,6 +6,7 @@ require YSSApplication::basePath().'/application/data/queries/YSSQueryUserInsert
 class YSSUser
 {
 	public $id;
+	public $level;
 	public $domain;
 	public $username;
 	public $email;
@@ -21,8 +22,6 @@ class YSSUser
 	
 	public static function userWithEmail($email)
 	{
-		
-		
 		$object   = null;
 		$database = YSSDatabase::connection(YSSDatabase::kSql);
 		$query    = new YSSQueryUserWithEmail($database, $email);
@@ -53,6 +52,7 @@ class YSSUser
 	{
 		$object            = new YSSUser();
 		$object->id        = $array['id'];
+		$object->level     = $array['level'];
 		$object->domain    = $array['domain'];
 		$object->username  = $array['username'];
 		$object->email     = $array['email'];
@@ -77,7 +77,8 @@ class YSSUser
 		else
 		{
 			$database = YSSDatabase::connection(YSSDatabase::kSql);
-			$query    = new YSSQueryUserInsert($database, array('domain'    => $this->domain, 
+			$query    = new YSSQueryUserInsert($database, array('level'     => $this->level,
+				                                                'domain'    => $this->domain, 
 			                                                    'username'  => $this->username,
 			                                                    'email'     => $this->email,
 			                                                    'firstname' => $this->firstname,

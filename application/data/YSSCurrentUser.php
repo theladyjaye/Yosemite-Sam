@@ -6,5 +6,6 @@ class YSSCurrentUser
 	public $lastname;
 	public $username;
 	public $email;
+	public $level;
 }
 ?>
