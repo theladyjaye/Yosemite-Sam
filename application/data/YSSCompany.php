@@ -30,6 +30,7 @@ class YSSCompany
 		$object->id         = $array['id'];
 		$object->name       = $array['name'];
 		$object->domain     = $array['domain'];
+		$object->timestamp  = $array['timestamp'];
 		
 		return $object;
 	}

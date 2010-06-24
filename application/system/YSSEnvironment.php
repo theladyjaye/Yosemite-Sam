@@ -6,6 +6,8 @@ require "YSSPage.php";
 require "YSSController.php";
 require "YSSSession.php";
 
+require YSSApplication::basePath().'/application/data/YSSCurrentUser.php';
+
 date_default_timezone_set('America/Los_Angeles');
 if (session_id() == "") session_start();
 

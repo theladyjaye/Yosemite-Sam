@@ -3,21 +3,32 @@ abstract class YSSController extends YSSPage
 {
 	protected $requiresAuthorization  = false;
 	
+	protected abstract function initialize();
 	protected function page_load()
 	{
-		/*$this->hasAuthorizedUser = NakedTruth::hasAuthorizedUser();
-		
-		if($this->requiresAuthorization && !$this->hasAuthorizedUser)
-		{
-			header('Location: /management/login');
-		}
-		
-		*/
+		if($this->requiresAuthorization)
+			$this->verifyAuthorization();
 		
 		$this->initialize();
 	}
+
+	protected function verifyAuthorization()
+	{
+		if($this->session->currentUser)
+		{
+			if($this->session->currentUser->domain != $_GET['domain'])
+				$this->authorizationFailed();
+		}
+		else
+		{
+			$this->authorizationFailed();
+		}
+	}
 	
-	protected abstract function initialize();
+	protected function authorizationFailed()
+	{
+		header('Location: /');
+	}
 	
 }
 ?>

@@ -95,13 +95,17 @@ class LoginController extends YSSController
 			}
 			else
 			{
+				$currentUser            = new YSSCurrentUser();
+				$currentUser->domain    = $input->domain;
+				$currentUser->firstname = $user->firstname;
+				$currentUser->lastname  = $user->lastname;
+				$currentUser->username  = $user->username;
+				$currentUser->email     = $user->email;
 				
-				$this->session->domain = $input->domain;
-				$this->session->user = $user;
+				$this->session->currentUser = $currentUser;
 				
-				/*
-					TODO Perform the Login Routine, the user is good to go!
-				*/
+				$url = "http://".$currentUser->domain.'.'.YSSConfiguration::applicationDomain()."/dashboard";
+				header("Location: $url");
 			}
 		}
 		else

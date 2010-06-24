@@ -96,6 +96,10 @@ class SignupController extends YSSController
 				$user               = $user->save();
 				
 				$company->addUser($user);
+				
+				/*
+					TODO redirect to success page accordingly or send an e-mail etc...
+				*/
 			}
 		}
 		

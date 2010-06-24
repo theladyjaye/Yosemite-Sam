@@ -6,7 +6,7 @@ class YSSQueryCompanyWithDomain extends AMQuery
 		$domain = $this->dbh->real_escape_string($this->options);
 		
 		$this->sql = <<<SQL
-		SELECT id, name, domain FROM company WHERE domain = '$domain';
+		SELECT id, name, domain, `timestamp` FROM company WHERE domain = '$domain';
 SQL;
 	}
 }

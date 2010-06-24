@@ -59,6 +59,7 @@ class YSSUser
 		$object->firstname = $array['firstname'];
 		$object->lastname  = $array['lastname'];
 		$object->password  = $array['password'];
+		$object->timestamp = $array['timestamp'];
 		
 		return $object;
 	}
