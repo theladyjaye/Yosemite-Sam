@@ -10,7 +10,7 @@ class DashboardController extends YSSController
 	
 	public function showAddUser()
 	{
-		if($this->session->currentUser->level == YSSUserLevel::kAdministrator)
+		if($this->session->currentUser->level & YSSUserLevel::kCreateUsers)
 		{
 			echo "20";
 		}

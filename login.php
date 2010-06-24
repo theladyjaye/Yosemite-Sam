@@ -16,7 +16,7 @@
 	
 	<fieldset id="login" class="">
 		<legend>Login</legend>
-		<label for="domain">Domain</label><input type="text" name="domain" value="" id="domain">
+		<label for="domain">Domain</label><input type="text" name="domain" value="<?php echo $_GET['domain'] ?>" id="domain">
 		<br><label for="username">Username or Email</label><input type="text" name="username" value="" id="username">
 		<br><label for="password">Password</label><input type="password" name="password" value="" id="password">
 	</fieldset>
