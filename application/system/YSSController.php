@@ -9,7 +9,6 @@ abstract class YSSController extends YSSPage
 		if($this->requiresAuthorization)
 			$this->verifyAuthorization();
 		
-		print_r($this->session->currentUser);
 		$this->initialize();
 	}
 
