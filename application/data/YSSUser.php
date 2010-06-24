@@ -52,7 +52,7 @@ class YSSUser
 	{
 		$object            = new YSSUser();
 		$object->id        = $array['id'];
-		$object->level     = $array['level'];
+		$object->level     = (int)$array['level'];
 		$object->domain    = $array['domain'];
 		$object->username  = $array['username'];
 		$object->email     = $array['email'];
