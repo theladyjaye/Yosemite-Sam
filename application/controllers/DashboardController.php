@@ -5,7 +5,16 @@ class DashboardController extends YSSController
 	
 	protected function initialize() 
 	{ 
-		print_r($this->session->currentUser);
+	
 	}
+	
+	public function showAddUser()
+	{
+		if($this->session->currentUser->level == YSSUserLevel::kAdministrator)
+		{
+			echo "20";
+		}
+	}
+	
 }
 ?>

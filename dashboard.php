@@ -12,6 +12,6 @@
 	<!-- Date: 2010-06-23 -->
 </head>
 <body>
-
+<?php $page->showAddUser() ?>
 </body>
 </html>
