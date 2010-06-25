@@ -2,12 +2,16 @@
 abstract class YSSController extends YSSPage
 {
 	protected $requiresAuthorization  = false;
+	protected $requiresPermission     = false;
 	
 	protected abstract function initialize();
 	protected function page_load()
 	{
 		if($this->requiresAuthorization)
 			$this->verifyAuthorization();
+		
+		if($this->requiresPermission)
+			$this->verifyPermission() ? null : $this->verifyPermissionFailed();
 		
 		$this->initialize();
 	}
@@ -29,6 +33,16 @@ abstract class YSSController extends YSSPage
 	{
 		header('Location: /');
 	}
+	
+	protected function verifyPermissionFailed() {}
+	protected function verifyPermission()
+	{
+		return true;
+	}
+	
+	
+	
+	
 	
 }
 ?>

@@ -13,9 +13,10 @@ class YSSQueryUserInsert extends AMQuery
 		$firstname = $this->dbh->real_escape_string($this->options['firstname']);
 		$lastname  = $this->dbh->real_escape_string($this->options['lastname']);
 		$password  = $this->dbh->real_escape_string($this->options['password']);
+		$active    = (int) $this->dbh->real_escape_string($this->options['active']);
 		
 		$this->sql = <<<SQL
-		INSERT INTO user (level, domain, username, email, firstname, lastname, password, timestamp) VALUES ('$level', '$domain', '$username', '$email', '$firstname', '$lastname', '$password', '$timestamp');
+		INSERT INTO user (level, domain, username, email, firstname, lastname, password, timestamp, active) VALUES ('$level', '$domain', '$username', '$email', '$firstname', '$lastname', '$password', '$timestamp', '$active');
 SQL;
 	}
 }

@@ -143,13 +143,22 @@ class AMForm
 		{
 			$keys   = explode('->', $key);
 			$value  = $this->formData;
+			$keyCount = count($keys);
 			
-			while(count($keys))
+			if($keyCount > 1)
 			{
-				if(array_key_exists($keys[0], $value))
+				while(count($keys))
 				{
-					$value = $value[array_shift($keys)];
+					if(array_key_exists($keys[0], $value))
+					{
+						$value = $value[array_shift($keys)];
+						$keyCount--;
+					}
 				}
+			}
+			else
+			{
+				$value = $value[array_shift($keys)];
 			}
 		}
 		else if(isset($this->fileData) && isset($this->fileData[$key]))

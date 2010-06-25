@@ -3,6 +3,12 @@ require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithEm
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithUsernameInDomain.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserInsert.php';
 
+class YSSUserActiveState
+{
+	const kActive   = 1;
+	const kInactive = 0;
+}
+
 class YSSUser
 {
 	public $id;
@@ -13,6 +19,7 @@ class YSSUser
 	public $firstname;
 	public $lastname;
 	public $password;
+	public $active;
 	public $timestamp;
 	
 	public static function passwordWithStringAndDomain($password, $domain)
@@ -52,13 +59,14 @@ class YSSUser
 	{
 		$object            = new YSSUser();
 		$object->id        = $array['id'];
-		$object->level     = (int)$array['level'];
+		$object->level     = (int) $array['level'];
 		$object->domain    = $array['domain'];
 		$object->username  = $array['username'];
 		$object->email     = $array['email'];
 		$object->firstname = $array['firstname'];
 		$object->lastname  = $array['lastname'];
 		$object->password  = $array['password'];
+		$object->active    = (int) $array['active'];
 		$object->timestamp = $array['timestamp'];
 		
 		return $object;
@@ -83,6 +91,7 @@ class YSSUser
 			                                                    'email'     => $this->email,
 			                                                    'firstname' => $this->firstname,
 			                                                    'lastname'  => $this->lastname,
+			                                                    'active'    => $this->active,
 			                                                    'password'  => $this->password));
 			$query->execute();
 			$object = YSSUser::userWithEmail($this->email);
