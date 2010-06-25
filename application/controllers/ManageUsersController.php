@@ -18,6 +18,7 @@ require YSSApplication::basePath().'/application/data/queries/YSSQueryUsersForDo
 
 
 
+
 class ManageUsersController extends YSSController
 {
 	protected $requiresAuthorization  = true;
@@ -50,48 +51,57 @@ class ManageUsersController extends YSSController
 			$data['email']     = strtolower($data['email']);
 			$data['username']  = strtolower($data['username']);
 			
-			// do the domain and email values already exist?
 			$company = YSSCompany::companyWithDomain($this->session->currentUser->domain);
-			$user    = YSSUser::userWithEmail($input->email);
 			
-			$dirty   = false;
+			// do the username and email values already exist?
+			$user           = YSSUser::userWithEmail($input->email);
+			$usernameExists = YSSUser::userWithUsernameInDomain($input->username, $this->session->currentUser->domain);
+			$dirty          = false;
 			
-			if(!$company)
+			if($usernameExists == null)
 			{
-				// someone tried something funny...
-				$input->addValidator(new AMErrorValidator('domain', "Invalid domain.  Invalid domain"));
-				header("/dashboard");
-				exit;
-			}
+				if(!$company)
+				{
+					// someone tried something funny...
+					$input->addValidator(new AMErrorValidator('domain', "Invalid domain.  Invalid domain"));
+					header("/dashboard");
+					exit;
+				}
 			
-			if($user)
-			{
-				$input->addValidator(new AMErrorValidator('email', "Invalid email address.  This email address is currently in use."));
-				$dirty = true;
-			}
+				if($user)
+				{
+					$input->addValidator(new AMErrorValidator('email', "Invalid email address.  This email address is currently in use."));
+					$dirty = true;
+				}
 			
-			if($dirty) 
-			{
-				$input->clearInvalidValues();
+				if($dirty) 
+				{
+					$input->clearInvalidValues();
+				}
+				else
+				{
+					$user               = new YSSUser();
+					$user->domain       = $this->session->currentUser->domain;
+					$user->username     = $input->username;
+					$user->email        = $input->email;
+					$user->firstname    = $input->firstname;
+					$user->lastname     = $input->lastname;
+					$user->level        = $input->administrator ? YSSUserLevel::kAdministrator : YSSUserLevel::kUser;
+					$user->active       = YSSUserActiveState::kInactive;
+					$user->password     = YSSSecurity::generate_token();
+				
+					$user               = $user->save();
+				
+					$company->addUser($user);
+				
+					$message = new YSSAuthorizeAccountMessage($user->email, $this->session->currentUser->domain, $user->password);
+					$message->send();
+				}
 			}
 			else
 			{
-				$user               = new YSSUser();
-				$user->domain       = $this->session->currentUser->domain;
-				$user->username     = $input->username;
-				$user->email        = $input->email;
-				$user->firstname    = $input->firstname;
-				$user->lastname     = $input->lastname;
-				$user->level        = $input->administrator ? YSSUserLevel::kAdministrator : YSSUserLevel::kUser;
-				$user->active       = YSSUserActiveState::kInactive;
-				$user->password     = YSSSecurity::generate_token();
-				
-				$user               = $user->save();
-				
-				$company->addUser($user);
-				
-				$message = new YSSAuthorizeAccountMessage($user->email, $this->session->currentUser->domain, $user->password);
-				$message->send();
+				$input->addValidator(new AMErrorValidator('username', "Invalid username.  This username is already taken"));
+				$input->clearInvalidValues();
 			}
 		}
 	}
