@@ -1,7 +1,10 @@
 <?php
+
+require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithId.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithEmail.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithUsernameInDomain.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserInsert.php';
+require YSSApplication::basePath().'/application/data/queries/YSSQueryUserUpdate.php';
 
 class YSSUserActiveState
 {
@@ -25,6 +28,20 @@ class YSSUser
 	public static function passwordWithStringAndDomain($password, $domain)
 	{
 		return hash_hmac('sha256', $password, $domain);
+	}
+	
+	public static function userWithId($id)
+	{
+		$object   = null;
+		$database = YSSDatabase::connection(YSSDatabase::kSql);
+		$query    = new YSSQueryUserWithId($database, $id);
+		
+		if(count($query) == 1)
+		{
+			$object = YSSUser::hydrateWithArray($query->one());
+		}
+		
+		return $object;
 	}
 	
 	public static function userWithEmail($email)
@@ -77,9 +94,17 @@ class YSSUser
 		if($this->id)
 		{
 			// update
-			/*
-				TODO enable YSSUser update
-			*/
+			$database = YSSDatabase::connection(YSSDatabase::kSql);
+			$query    = new YSSQueryUserUpdate($database, array('id'        => $this->id,
+				                                                'level'     => $this->level,
+				                                                'domain'    => $this->domain, 
+			                                                    'username'  => $this->username,
+			                                                    'email'     => $this->email,
+			                                                    'firstname' => $this->firstname,
+			                                                    'lastname'  => $this->lastname,
+			                                                    'active'    => $this->active,
+			                                                    'password'  => $this->password));
+			$query->execute();
 			$object = $this;
 		}
 		else

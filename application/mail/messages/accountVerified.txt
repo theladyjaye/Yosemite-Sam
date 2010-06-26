@@ -1,0 +1,11 @@
+Welcome to the YSS!
+Your account has been verified!
+We went ahead and created you a password, but we don't think you will like it:
+
+
+{password}
+
+
+You can log in here with your username or email address to change it:
+http://{domain}.yss.com
+

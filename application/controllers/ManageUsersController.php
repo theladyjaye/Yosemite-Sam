@@ -12,12 +12,8 @@ require YSSApplication::basePath().'/application/data/YSSCompany.php';
 require YSSApplication::basePath().'/application/data/YSSUser.php';
 require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/mail/YSSMail.php';
-require YSSApplication::basePath().'/application/mail/YSSAuthorizeAccountMessage.php';
+require YSSApplication::basePath().'/application/data/YSSUserVerification.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUsersForDomain.php';
-
-
-
-
 
 class ManageUsersController extends YSSController
 {
@@ -88,14 +84,12 @@ class ManageUsersController extends YSSController
 					$user->lastname     = $input->lastname;
 					$user->level        = $input->administrator ? YSSUserLevel::kAdministrator : YSSUserLevel::kUser;
 					$user->active       = YSSUserActiveState::kInactive;
-					$user->password     = YSSSecurity::generate_token();
+					$user->password     = YSSUser::passwordWithStringAndDomain(YSSSecurity::generate_token(), $this->session->currentUser->domain);
 				
 					$user               = $user->save();
-				
+					
 					$company->addUser($user);
-				
-					$message = new YSSAuthorizeAccountMessage($user->email, $this->session->currentUser->domain, $user->password);
-					$message->send();
+					$token = YSSUserVerification::register($user);
 				}
 			}
 			else

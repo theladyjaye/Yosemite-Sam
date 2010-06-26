@@ -1,5 +1,5 @@
 <?php
-class YSSAuthorizeAccountMessage extends YSSMail
+class YSSMessageVerifyAccount extends YSSMail
 {
 	protected $subject = 'Welcome To YSS!';
 	protected $text    = '/application/mail/messages/accountCreate.txt';

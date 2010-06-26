@@ -67,11 +67,19 @@ class LoginController extends YSSController
 				
 				if($user)
 				{
-					$password = YSSUser::passwordWithStringAndDomain($input->password, $input->domain);
-					//echo YSSUser::passwordWithStringAndDomain($input->password, $input->domain),'<br>';
-					//echo $password,'<br>',$user->password,'<br>';
-					if($password != $user->password)
+					if($user->active == YSSUserActiveState::kActive)
 					{
+						$password = YSSUser::passwordWithStringAndDomain($input->password, $input->domain);
+						//echo YSSUser::passwordWithStringAndDomain($input->password, $input->domain),'<br>';
+						//echo $password,'<br>',$user->password,'<br>';
+						if($password != $user->password)
+						{
+							$dirty = true;
+						}
+					}
+					else
+					{
+						$input->addValidator(new AMErrorValidator('username', "Account not active."));
 						$dirty = true;
 					}
 				}

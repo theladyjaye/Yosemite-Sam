@@ -31,5 +31,29 @@ class YSSSecurity
 		$key =  hash('md5', base64_encode($data).$salt.uniqid(mt_rand(), true));
 		return $key;
 	}
+	
+	public static function generate_password()
+	{
+		/*
+		$base   = "_-!@#%^&*()[]{}|?><.+=;:0123456789bcdfghjkmnpqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		*/
+		
+		$base   = "!@*$0123456789bcdfghjkmnpqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$string = "";
+		$i      = 0;
+
+		while ($i < 8) 
+		{ 
+			$char = substr($base, mt_rand(0, strlen($base)-1), 1);
+
+			if (!strstr($string, $char)) 
+			{ 
+				$string .= $char;
+				$i++;
+			}
+		}
+
+		return $string;
+	}
 }
 ?>

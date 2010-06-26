@@ -1,11 +1,13 @@
 <?php
-class YSSQueryUserInsert extends AMQuery
+/*
+	TODO Yes, this the atomic (as in bomb) option for an update, we are just updating EVERYTHING.
+	Rethink how to better take advantage of updates, instead of this a-bomb of one.
+*/
+class YSSQueryUserUpdate extends AMQuery
 {
 	protected function initialize()
 	{
-		$date      = new DateTime("now", new DateTimeZone("UTC"));
-		$timestamp = $date->format(DateTime::ISO8601);
-		
+		$id        = (int) $this->dbh->real_escape_string($this->options['id']);
 		$level     = $this->dbh->real_escape_string($this->options['level']);
 		$domain    = $this->dbh->real_escape_string($this->options['domain']);
 		$username  = $this->dbh->real_escape_string($this->options['username']);
@@ -16,7 +18,7 @@ class YSSQueryUserInsert extends AMQuery
 		$active    = (int) $this->dbh->real_escape_string($this->options['active']);
 		
 		$this->sql = <<<SQL
-		INSERT INTO user (level, domain, username, email, firstname, lastname, password, active, `timestamp`) VALUES ('$level', '$domain', '$username', '$email', '$firstname', '$lastname', '$password', '$active', '$timestamp');
+		UPDATE user SET level = '$level', domain = '$domain', username = '$username', email='$email', firstname='$firstname', lastname='$lastname', password='$password', active='$active' WHERE id='$id';
 SQL;
 	}
 }
