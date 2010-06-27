@@ -16,6 +16,9 @@ class LoginController extends YSSController
 	
 	protected function initialize() 
 	{ 
+		if($this->session->currentUser->domain)
+			$this->successfulLogin($this->session->currentUser->domain);
+		
 		if($this->isPostBack)
 			$this->processForm();
 	}
@@ -71,7 +74,6 @@ class LoginController extends YSSController
 					{
 						$password = YSSUser::passwordWithStringAndDomain($input->password, $input->domain);
 						//echo YSSUser::passwordWithStringAndDomain($input->password, $input->domain),'<br>';
-						//echo $password,'<br>',$user->password,'<br>';
 						if($password != $user->password)
 						{
 							$dirty = true;
@@ -104,6 +106,7 @@ class LoginController extends YSSController
 			else
 			{
 				$currentUser            = new YSSCurrentUser();
+				$currentUser->id        = $user->id;
 				$currentUser->domain    = $input->domain;
 				$currentUser->firstname = $user->firstname;
 				$currentUser->lastname  = $user->lastname;
@@ -113,8 +116,7 @@ class LoginController extends YSSController
 				
 				$this->session->currentUser = $currentUser;
 				
-				$url = "http://".$currentUser->domain.'.'.YSSConfiguration::applicationDomain()."/dashboard";
-				header("Location: $url");
+				$this->successfulLogin($currentUser->domain);
 			}
 		}
 		else
@@ -129,6 +131,13 @@ class LoginController extends YSSController
 		}
 		
 		$this->input = $input;
+	}
+	
+	private function successfulLogin($domain)
+	{
+		$url = "http://".$domain.'.'.YSSConfiguration::applicationDomain()."/dashboard";
+		header("Location:$url");
+		exit;
 	}
 }
 ?>

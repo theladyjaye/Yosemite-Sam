@@ -9,9 +9,16 @@
 	<title>manage-users</title>
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="Adam Venturella">
+	<link rel="stylesheet" href="/resources/css/forms.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<!-- Date: 2010-06-23 -->
 </head>
 <body>
+	<ul>
+		<li><a href="/dashboard">dashboard</a></li>
+		<li><a href="/manage/users">manage users</a></li>
+		<li><a href="/manage/account">manage account</a></li>
+		<li><a href="/logout">logout</a></li>
+	</ul>
 	<div>
 		<fieldset>
 			<legend>Create New User</legend>
