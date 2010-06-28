@@ -63,7 +63,8 @@ class AMServiceManager
 	public function start()
 	{
 		$endpoints   = null;
-		$method      = strtoupper($_SERVER['REQUEST_METHOD']);
+		$headers     = apache_request_headers();
+		$method      = strtoupper(isset($headers["X-HTTP-Method-Override"]) ? $headers["X-HTTP-Method-Override"] : $_SERVER['REQUEST_METHOD']);
 		$termination = strripos($_SERVER['REQUEST_URI'], '?');
 		$path        = substr($_SERVER['REQUEST_URI'], 0, ($termination === false ? strlen($_SERVER['REQUEST_URI']) : $termination));
 
