@@ -1,4 +1,6 @@
 <?php
+require YSSApplication::basePath().'/application/libs/couchdb/CouchDB.php';
+
 class YSSDatabase
 {
 	const kSql     = 1;
@@ -22,7 +24,7 @@ class YSSDatabase
 	{
 		static $connection = null;
 		
-		if(empty($connection))
+		if(!$connection)
 		{
 			$configuration = YSSConfiguration::standardConfiguration();
 			$connection =  new mysqli($configuration['database.sql.host'], 
@@ -42,7 +44,16 @@ class YSSDatabase
 	
 	private static function CouchDbDatabase()
 	{
+		static $connection;
 		
+		if(!$connection)
+		{
+			$configuration = YSSConfiguration::standardConfiguration();
+			$connection    = new CouchDB(array("host" => $configuration["database.couchdb.host"], 
+			                                   "port" => $configuration["database.couchdb.port"]));
+		}
+		
+		return $connection;
 	}
 }
 ?>

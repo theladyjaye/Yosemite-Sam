@@ -14,7 +14,7 @@ class YSSApplication
 		
 		if($path == null)
 		{
-			$path = realpath('./');
+			$path = realpath(__DIR__.'/../../');
 		}
 		
 		return $path;
