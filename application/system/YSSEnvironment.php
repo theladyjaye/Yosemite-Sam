@@ -11,7 +11,7 @@ require YSSApplication::basePath().'/application/data/YSSUserLevel.php';
 require YSSApplication::basePath().'/application/data/YSSDomain.php';
 
 new YSSApplication();
-YSSDomain::create('yss_test');
+//YSSDomain::create('yss_test');
 
 date_default_timezone_set('America/Los_Angeles');
 session_set_cookie_params(0, '/', '.'.YSSConfiguration::applicationDomain(), false);
