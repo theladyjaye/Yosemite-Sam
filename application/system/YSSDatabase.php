@@ -6,7 +6,7 @@ class YSSDatabase
 	const kSql     = 1;
 	const kCouchDB = 2;
 	
-	public static function connection($type)
+	public static function connection($type, $catalog=null)
 	{
 		switch($type)
 		{
@@ -15,7 +15,7 @@ class YSSDatabase
 				break;
 			
 			case YSSDatabase::kCouchDB:
-				return YSSDatabase::CouchDbDatabase();
+				return YSSDatabase::CouchDbDatabase($catalog);
 				break;
 		}
 	}
@@ -42,15 +42,16 @@ class YSSDatabase
 		return $connection;
 	}
 	
-	private static function CouchDbDatabase()
+	private static function CouchDbDatabase($catalog)
 	{
 		static $connection;
 		
 		if(!$connection)
 		{
 			$configuration = YSSConfiguration::standardConfiguration();
-			$connection    = new CouchDB(array("host" => $configuration["database.couchdb.host"], 
-			                                   "port" => $configuration["database.couchdb.port"]));
+			$connection    = new CouchDB(array("database" => $catalog,
+				                               "host"     => $configuration["database.couchdb.host"], 
+			                                   "port"     => $configuration["database.couchdb.port"]));
 		}
 		
 		return $connection;
