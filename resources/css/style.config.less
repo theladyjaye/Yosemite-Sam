@@ -1,0 +1,38 @@
+/* -- Variables -- */
+
+	/* -- Colors -- */
+	@primary_gray: #272727;
+	@gray: #c9c9c9; 
+	@light_gray: #bebebe; /*7e8080*/
+	@detail_gray: #5b5b5b;
+	@light_blue: #247dc8;	
+	@red: #9f2106;
+	@task_closed: #df842e;
+	@task_total: #b43c16;
+	@view_count: #6c6c6c;
+	
+
+	/* -- Measurements -- */
+	@page_width: 960px;
+	@spacer: 20px;
+
+
+/* -- Mix-ins -- */
+.rounded(@radius: 4px)
+{
+	-moz-border-radius: @radius;
+	-webkit-border-radius: @radius;
+	border-radius: @radius;
+}
+
+.dropshadow(@offsetX: 0, @offsetY: 2px, @radius: 3px, @color: #000)
+{
+	-moz-box-shadow: @offsetX @offsetY @radius @color;
+	-webkit-box-shadow: @offsetX @offsetY @radius @color;
+	box-shadow: @offsetX @offsetY @radius @color;
+}
+
+.seotext()
+{
+	text-indent: -9999px;
+}
