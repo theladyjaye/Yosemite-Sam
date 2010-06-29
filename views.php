@@ -13,7 +13,7 @@
 			$data = array(
 				array(
 					"item-name"=> "Buzz",
-					"percentage"=> "30",
+					"percentage"=> "25",
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
