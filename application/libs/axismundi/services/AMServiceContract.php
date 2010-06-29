@@ -28,12 +28,21 @@
 abstract class AMServiceContract
 {
 	public $endpoints;
+	protected $requiresAuthorization  = false;
 	
 	public function __construct()
 	{
-		$this->endpoints = array();
+		if($this->requiresAuthorization && $this->verifyAuthorization())
+		{
+			$this->endpoints = array();
+		}
+		else
+		{
+			AMServiceManager::not_found();
+		}
+			
+		
 	}
-	
 	
 	abstract public function registerServiceEndpoints();
 	
@@ -41,7 +50,11 @@ abstract class AMServiceContract
 	{
 		$endpoint = new AMServiceEndpoint($method, $uri, $action);
 		$this->endpoints[$endpoint->method][$endpoint->hash] = $endpoint;
-		
+	}
+	
+	public function verifyAuthorization()
+	{
+		return true;
 	}
 
 }

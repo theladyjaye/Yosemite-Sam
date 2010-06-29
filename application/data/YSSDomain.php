@@ -10,7 +10,7 @@ class YSSDomain
 		
 		self::parse($path, $obj);
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $domain);
-		$database->create_database();
+		//$database->create_database();
 		$database->put($obj, '_design/project');
 	}
 	

@@ -10,6 +10,7 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 
 require YSSApplication::basePath().'/application/data/YSSCompany.php';
 require YSSApplication::basePath().'/application/data/YSSUser.php';
+require YSSApplication::basePath().'/application/data/YSSDomain.php';
 require YSSApplication::basePath().'/application/templates/FormSignup.php';
 
 class SignupController extends YSSController
@@ -97,6 +98,9 @@ class SignupController extends YSSController
 				$user               = $user->save();
 				
 				$company->addUser($user);
+				
+				// create the store for the domain
+				YSSDomain::create($company->domain);
 				
 				/*
 					TODO redirect to success page accordingly or send an e-mail etc...

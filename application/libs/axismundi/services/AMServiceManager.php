@@ -93,6 +93,9 @@ class AMServiceManager
 		
 		$branch = $this->contract->endpoints[$method];
 		
+		if(empty($branch))
+			AMServiceManager::not_found();
+		
 		$endpoints = array();
 		foreach($branch as $service)
 		{

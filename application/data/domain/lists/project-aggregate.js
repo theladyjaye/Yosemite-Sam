@@ -20,7 +20,8 @@ function(head, req)
 		}
 		else
 		{
-			result = Math.round((row.value.complete/row.value.count) * 100) / 100;
+			//result = Math.round((row.value.complete/row.value.count) * 100) / 100;
+			result = row.value;
 		}
 		
 		rowIndex++;
