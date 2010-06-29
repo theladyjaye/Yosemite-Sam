@@ -37,8 +37,8 @@ body {background: #fff}
 	#view-editor-header {display: none;}
 
 	#view-table-list {}
-		#view-table-list li {padding: 0 @spacer; height: 60px; border-top: 1px solid #d8d8d8; border-bottom: #fff 1px solid; position: relative;}
-		#view-table-list li.odd {background: #eaeaea;}
+		#view-table-list li {padding: 0 @spacer; background: #eaeaea; height: 60px; border-top: 1px solid #d8d8d8; border-bottom: #fff 1px solid; position: relative;}
+		#view-table-list li.alt {background: transparent;}
 		#view-table-list li.expanded {background: #fff; height: auto; padding-bottom: (@spacer/2);}
 		
 		#view-table-list .item-name {color: @primary_gray; font-size: 22px; position: absolute; top: 20px; left: 40px;}
@@ -52,12 +52,25 @@ body {background: #fff}
 		#view-table-list .item-detail {color: @primary_gray; display: none; font-size: 14px;}
 			#view-table-list .expanded .item-detail {display: block;}
 		#view-table-list .item-tasks {position: relative; top: 0; left: @spacer;}
+		#view-table-list .item-states,
 		#view-table-list .item-views {position: relative; top: -15px; left: 190px;}
 		.item-tasks {padding-left: 26px; width: 150px;}
 			 .tasks-closed {color: @task_closed;}
 			 .tasks-total {color: @task_total;}
-		.item-views {padding-left: 22px; width: 150px;}	
+		
+		.item-states,
+		.item-views {padding-left: 22px; width: 650px;}	
+		
+		.item-states a {color: @light_blue;}
+		
+			.item-states .state-count,
+			.item-attachments .attachment-count,
 			.item-views .view-count {color: @view_count;}
+		
+		.item-attachments {position: relative; top: 0; left: 50px;}			
+			.item-attachments .dd-attachments {position: relative; left: 46px; width: 180px;}
+			.item-attachments .add-attachment {position: relative; left: 340px; display: block; line-height: 20px; padding-left: 28px; top: -20px; width: 200px; color: #000;}
+		
 		#view-table-list .item-detail .item-desc p {padding-left: @spacer; margin-bottom: 10px; font-size: 12px; color: @detail_gray;}
 
 		
@@ -70,9 +83,12 @@ body {background: #fff}
 /* -- icons -- */	
 .icon-folder {background: url(resources/img/icon-folder.png) no-repeat; width: 45px; height: 30px;}
 .icon-add	 {background: url(resources/img/icon-add.png) no-repeat; width: 26px; height: 26px;}
+.icon-add-small	 {background: url(resources/img/icon-add-small.png) no-repeat; width: 21px; height: 21px;}
 .icon-delete {background: url(resources/img/icon-delete.png) no-repeat 0 2px; width: 14px; height: 13px;}
 .icon-check	 {background: url(resources/img/icon-check.png) no-repeat; /*width: 21px;*/ height: 16px;}
-.icon-view	 {background: url(resources/img/icon-view.png) no-repeat; /*width: 17px;*/ height: 19px;}
+.icon-view	 {background: url(resources/img/icon-view.png) no-repeat; width: 28px; height: 33px;}
+.icon-view-small {background: url(resources/img/icon-view-small.png) no-repeat; /*width: 17px;*/ height: 19px;}
+.icon-states {background: url(resources/img/icon-states.png) no-repeat; height: 17px;}
 	
 
 	
