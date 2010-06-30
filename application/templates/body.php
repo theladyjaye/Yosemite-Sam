@@ -9,7 +9,7 @@
 		<?endif;?>
 		</div>
 		<?if($is_views):?>
-		<a href="#" title="Add View" class="font-replace add icon-add no_">Add View</a>
+		<a href="#" title="Add View" class="font-replace add icon-add no_ btn-modal modal-view-views">Add View</a>
 		<?else:?>
 		<a href="#" title="Add Project" class="font-replace add icon-add no_">Add Project</a>
 		<?endif;?>

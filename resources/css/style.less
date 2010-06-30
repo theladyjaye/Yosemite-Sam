@@ -14,8 +14,8 @@ a.no_:hover {border-bottom: 0; padding-bottom: 0;}
 body {background: #fff}
 #container {width: @page_width; margin: 0 auto; position: relative;}
 
-#global-header {background: @primary_gray; color: #fff; font-size: 16px; height: 40px; .dropshadow()}
-	#logo {position: absolute; top: 10px; left: @spacer; color: #fff; background: url(resources/img/logo.png) no-repeat; width: 43px; height: 26px; .seotext()}
+#global-header {background: @primary_gray; color: #fff; font-size: 16px; height: 40px; .dropshadow;}
+	#logo {position: absolute; top: 10px; left: @spacer; color: #fff; background: url(../img/logo.png) no-repeat; width: 43px; height: 26px; .seotext();}
 	#primary-nav {position: absolute; top: 12px; right: 10px;}
 		#primary-nav li {float: left; display: inline; margin-right: 10px; color: @gray;}
 			#primary-nav a:hover {color: #fff; }
@@ -73,22 +73,25 @@ body {background: #fff}
 		
 		#view-table-list .item-detail .item-desc p {padding-left: @spacer; margin-bottom: 10px; font-size: 12px; color: @detail_gray;}
 
+
+/* -- .modal -- */
+.modal {width: @modal_width; height: @modal_height; margin-left: (-1 * (@modal_width/2)); background: #000; .dropshadow(0, 0, 5px); }
 		
 
-/* -- .ui-progressbar */
+/* -- .ui-progressbar -- */
 .ui-widget-content {border: 1px solid #aaa;}
 .ui-progressbar { height:2em; text-align: left; }
-.ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; background-image: url(resources/img/progress-bar-bg.gif); }
+.ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; background-image: url(../img/progress-bar-bg.gif); }
 	
 /* -- icons -- */	
-.icon-folder {background: url(resources/img/icon-folder.png) no-repeat; width: 45px; height: 30px;}
-.icon-add	 {background: url(resources/img/icon-add.png) no-repeat; width: 26px; height: 26px;}
-.icon-add-small	 {background: url(resources/img/icon-add-small.png) no-repeat; width: 21px; height: 21px;}
-.icon-delete {background: url(resources/img/icon-delete.png) no-repeat 0 2px; width: 14px; height: 13px;}
-.icon-check	 {background: url(resources/img/icon-check.png) no-repeat; /*width: 21px;*/ height: 16px;}
-.icon-view	 {background: url(resources/img/icon-view.png) no-repeat; width: 28px; height: 33px;}
-.icon-view-small {background: url(resources/img/icon-view-small.png) no-repeat; /*width: 17px;*/ height: 19px;}
-.icon-states {background: url(resources/img/icon-states.png) no-repeat; height: 17px;}
+.icon-folder {background: url(../img/icon-folder.png) no-repeat; width: 45px; height: 30px;}
+.icon-add	 {background: url(../img/icon-add.png) no-repeat; width: 26px; height: 26px;}
+.icon-add-small	 {background: url(../img/icon-add-small.png) no-repeat; width: 21px; height: 21px;}
+.icon-delete {background: url(../img/icon-delete.png) no-repeat 0 2px; width: 14px; height: 13px;}
+.icon-check	 {background: url(../img/icon-check.png) no-repeat; /*width: 21px;*/ height: 16px;}
+.icon-view	 {background: url(../img/icon-view.png) no-repeat; width: 28px; height: 33px;}
+.icon-view-small {background: url(../img/icon-view-small.png) no-repeat; /*width: 17px;*/ height: 19px;}
+.icon-states {background: url(../img/icon-states.png) no-repeat; height: 17px;}
 	
 
 	

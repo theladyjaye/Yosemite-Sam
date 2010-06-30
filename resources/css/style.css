@@ -1,0 +1,289 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, hr, p, blockquote, pre, a, em, font, img, small, strong, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, input, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  border: 0;
+}
+body { font-family: Arial, Helvetica, sans-serif; }
+ul { list-style: none; }
+a {
+  text-decoration: none;
+  color: #c9c9c9;
+}
+a:hover {
+  border-bottom: 1px solid #247dc8;
+  padding-bottom: 1px;
+}
+a.no_:hover {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.font-replace { font-family: 'Vegur'; }
+body { background: #ffffff; }
+#container {
+  width: 960px;
+  margin: 0 auto;
+  position: relative;
+}
+#global-header {
+  background: #272727;
+  color: #ffffff;
+  font-size: 16px;
+  height: 40px;
+  -moz-box-shadow: 0 2px 3px #000000;
+  -webkit-box-shadow: 0 2px 3px #000000;
+  box-shadow: 0 2px 3px #000000;
+}
+#logo {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  color: #ffffff;
+  background: url(../img/logo.png) no-repeat;
+  width: 43px;
+  height: 26px;
+  text-indent: -9999px;
+}
+#primary-nav {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+}
+#primary-nav li {
+  float: left;
+  display: inline;
+  margin-right: 10px;
+  color: #c9c9c9;
+}
+#primary-nav a:hover { color: #ffffff; }
+#primary-nav .username {
+  color: #ffffff;
+  font-weight: bold;
+  padding-right: 20px;
+}
+#primary-nav .logout { padding-left: 10px; }
+#company-header {
+  position: relative;
+  height: 80px;
+}
+.breadcrumbs {
+  position: absolute;
+  left: 20px;
+  color: #bebebe;
+  font-weight: bold;
+  font-size: 36px;
+  letter-spacing: -2px;
+  line-height: 80px;
+}
+.breadcrumbs .company { color: #000000; }
+#company-header .dd-change-view {
+  position: absolute;
+  top: 35px;
+  right: 20px;
+  width: 160px;
+}
+#global-body {
+  background: #f5f5f5;
+  border-top: 1px solid #cccccc;
+  padding: 20px;
+  position: relative;
+  min-height: 600px;
+}
+.view-header { height: 80px; }
+#view-table-header .page-title {
+  color: #272727;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 7px 50px 0;
+  width: 200px;
+}
+#view-table-header .page-title .count {
+  color: #bebebe;
+  font-size: 16px;
+}
+#view-table-header .add {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  color: #272727;
+  font-size: 24px;
+  padding: 3px 31px 0;
+  width: 120px;
+}
+#view-editor-header { display: none; }
+#view-table-list li {
+  padding: 0 20px;
+  background: #eaeaea;
+  height: 60px;
+  border-top: 1px solid #d8d8d8;
+  border-bottom: #ffffff 1px solid;
+  position: relative;
+}
+#view-table-list li.alt { background: transparent; }
+#view-table-list li.expanded {
+  background: #ffffff;
+  height: auto;
+  padding-bottom: 10px;
+}
+#view-table-list .item-name {
+  color: #272727;
+  font-size: 22px;
+  position: absolute;
+  top: 20px;
+  left: 40px;
+}
+#view-table-list .item-details {
+  color: #111111;
+  font-size: 14px;
+  font-weight: bold;
+  position: absolute;
+  top: 23px;
+  left: 270px;
+  display: none;
+}
+#view-table-list .expanded .item-details { display: block; }
+#view-table-list .over .item-details { display: block; }
+#view-table-list .progress-bar {
+  position: absolute;
+  top: 15px;
+  left: 430px;
+  width: 280px;
+  height: 26px;
+  background: #f8f8f8;
+}
+#view-table-list .progress-value {
+  color: #272727;
+  font-size: 20px;
+  position: absolute;
+  top: 4px;
+  left: 290px;
+  width: 60px;
+}
+#view-table-list .delete {
+  color: #9f2106;
+  line-height: 60px;
+  padding-left: 19px;
+  position: relative;
+  left: 810px;
+}
+#view-table-list .item-detail {
+  color: #272727;
+  display: none;
+  font-size: 14px;
+}
+#view-table-list .expanded .item-detail { display: block; }
+#view-table-list .item-tasks {
+  position: relative;
+  top: 0;
+  left: 20px;
+}
+#view-table-list .item-states {
+  position: relative;
+  top: -15px;
+  left: 190px;
+}
+#view-table-list .item-views {
+  position: relative;
+  top: -15px;
+  left: 190px;
+}
+.item-tasks {
+  padding-left: 26px;
+  width: 150px;
+}
+.tasks-closed { color: #df842e; }
+.tasks-total { color: #b43c16; }
+.item-states, .item-views {
+  padding-left: 22px;
+  width: 650px;
+}
+.item-states a { color: #247dc8; }
+.item-states .state-count { color: #6c6c6c; }
+.item-attachments .attachment-count { color: #6c6c6c; }
+.item-views .view-count { color: #6c6c6c; }
+.item-attachments {
+  position: relative;
+  top: 0;
+  left: 50px;
+}
+.item-attachments .dd-attachments {
+  position: relative;
+  left: 46px;
+  width: 180px;
+}
+.item-attachments .add-attachment {
+  position: relative;
+  left: 340px;
+  display: block;
+  line-height: 20px;
+  padding-left: 28px;
+  top: -20px;
+  width: 200px;
+  color: #000000;
+}
+#view-table-list .item-detail .item-desc p {
+  padding-left: 20px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #5b5b5b;
+}
+.modal {
+  width: 840px;
+  height: 420px;
+  margin-left: -420px;
+  background: #000000;
+  -moz-box-shadow: 0 0 5px #000000;
+  -webkit-box-shadow: 0 0 5px #000000;
+  box-shadow: 0 0 5px #000000;
+}
+.ui-widget-content { border: 1px solid #aaaaaa; }
+.ui-progressbar {
+  height: 2em;
+  text-align: left;
+}
+.ui-progressbar .ui-progressbar-value {
+  margin: -1px;
+  height: 100%;
+  background-image: url(../img/progress-bar-bg.gif);
+}
+.icon-folder {
+  background: url(../img/icon-folder.png) no-repeat;
+  width: 45px;
+  height: 30px;
+}
+.icon-add {
+  background: url(../img/icon-add.png) no-repeat;
+  width: 26px;
+  height: 26px;
+}
+.icon-add-small {
+  background: url(../img/icon-add-small.png) no-repeat;
+  width: 21px;
+  height: 21px;
+}
+.icon-delete {
+  background: url(../img/icon-delete.png) no-repeat 0 2px;
+  width: 14px;
+  height: 13px;
+}
+.icon-check {
+  background: url(../img/icon-check.png) no-repeat;
+  height: 16px;
+}
+.icon-view {
+  background: url(../img/icon-view.png) no-repeat;
+  width: 28px;
+  height: 33px;
+}
+.icon-view-small {
+  background: url(../img/icon-view-small.png) no-repeat;
+  height: 19px;
+}
+.icon-states {
+  background: url(../img/icon-states.png) no-repeat;
+  height: 17px;
+}

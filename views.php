@@ -135,5 +135,6 @@
 			include("application/templates/body.php"); 
 		?>
 	</div>
+	<?php include("application/templates/modal.php"); ?>
 </body>
 </html>
