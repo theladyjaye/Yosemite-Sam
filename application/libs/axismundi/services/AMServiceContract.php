@@ -44,7 +44,7 @@ abstract class AMServiceContract
 		
 	}
 	
-	abstract public function registerServiceEndpoints();
+	abstract public function registerServiceEndpoints($method);
 	
 	public function addEndpoint($method, $uri, $action)
 	{
