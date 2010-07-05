@@ -28,8 +28,6 @@ class YSSServiceProjects extends AMServiceContract
 		{
 			case "GET":
 				$this->addEndpoint("GET",    "/projects",                                                       "generateReport");
-				//$this->addEndpoint("GET",    "/projects?delete=1",                                              "generateReport");
-				//$this->addEndpoint("GET",    "/projects?create=1",                                              "generateReport");
 				$this->addEndpoint("GET",    "/projects/{id}",                                                  "getProject");
 				break;
 			
@@ -50,7 +48,7 @@ class YSSServiceProjects extends AMServiceContract
 	public function getProject($id)
 	{
 		$session  = YSSSession::sharedSession();
-		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, "yss/blitz");//$session->currentUser->domain);
+		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		echo $database->document($id, true);
 	}
 	
@@ -111,71 +109,17 @@ class YSSServiceProjects extends AMServiceContract
 	
 	public function deleteProject($id)
 	{
-		
+		/*
+			TODO Finish delete project logic.  Do we just mark as unused? Do we cascade down all of the associated tasks/comments/attachments/views?
+			just need to decide the best course of action.  Probably will be to delete everything, since it takes up resources to keep it around.
+		*/
 	}
 	
 	public function generateReport()
 	{
-			/*$database = YSSDatabase::connection(YSSDatabase::kCouchDB, "blitz");//$session->currentUser->domain);
-			$database->delete_database();
-		
-			YSSDomain::create("blitz");
-		
-			$p1 = new YSSProject();
-			$p1->name = "Lucy";
-			$p1->description = "Project Lucy Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute ir";
-			$p1->_id = "project.lucy";                                                                                                                                                                                                                                                 
-			                                                                                                                                                                                                                                                                           
-			$p2 = new YSSProject();                                                                                                                                                                                                                                                    
-			$p2->name = "Ollie";                                                                                                                                                                                                                                                       
-			$p2->description = "Project Ollie Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute ir";
-			$p2->_id = "project.ollie";
-			
-			$p3 = new YSSProject();                                                                                                                                                                                                                                                    
-			$p3->name = "YSS";                                                                                                                                                                                                                                                       
-			$p3->description = "Project YSS Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute ir";
-			$p3->_id = "project.yss";
-		
-			$t1 = new YSSTask();
-			$t1->title = "Go for a walk";
-			$t1->description = "lorem ipsum dolor sit amet";
-			$t1->project = $p1->_id;
-			$t1->complete = false;
-		
-			$t2 = new YSSTask();
-			$t2->title = "Go for a ride";
-			$t2->description = "lorem ipsum dolor sit amet";
-			$t2->project = $p1->_id;
-			$t2->complete = false;
-		
-			$t3 = new YSSTask();
-			$t3->title = "Bark";
-			$t3->description = "lorem ipsum dolor sit amet";
-			$t3->project = $p1->_id;
-			$t3->complete = true;
-			
-			$t4 = new YSSTask();
-			$t4->title = "Stare at birds";
-			$t4->description = "lorem ipsum dolor sit amet";
-			$t4->project = $p2->_id;
-			$t4->complete = false;
-		
-			$p1->save();
-			$t1->save();
-			$t2->save();
-			$t3->save();
-			
-			$p2->save();
-			$t4->save();
-			
-			$p3->save();
-			*/
-			
-		
 			$session  = YSSSession::sharedSession();
-			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, "blitz");//$session->currentUser->domain);
+			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 			echo $database->formatList("project/project-aggregate", "project-report", null, true);
-		
 	}
 	
 	public function verifyAuthorization()
@@ -186,7 +130,7 @@ class YSSServiceProjects extends AMServiceContract
 		if($session->currentUser)
 			$result = true;
 		
-		return true;//$result;
+		return $result;
 	}
 }
 
