@@ -9,7 +9,7 @@ class YSSCouchObject
 	{
 		$ok       = false;
 		$session  = YSSSession::sharedSession();
-		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, "yss/blitz");//$session->currentUser->domain);
+		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, "blitz");//$session->currentUser->domain);
 		
 		$response = $database->put($this, $this->_id);
 		

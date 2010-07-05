@@ -1,29 +1,29 @@
 function(head, req)
 {
 	var row;
-	var rowIndex = 1;
-	var result;
+	var result  = [];
+	var current;
 	
 	while(row = getRow())
 	{
-		if(rowIndex % 2 == 0)
+		//send(JSON.stringify(row.value)+"\n\n");
+		
+		if(typeof row.value == "object")
 		{
-			var doc = {};
-			doc.percentComplete = result;
-			
-			for(var key in row.value)
-			{
-				doc[key] = row.value[key];
-			}
-			
-			send(JSON.stringify(doc))
+			if(current)
+				result.push(current)
+				
+			current           = row.value;
+			current.tasks     = 0;
+			current.completed = 0;
 		}
 		else
 		{
-			//result = Math.round((row.value.complete/row.value.count) * 100) / 100;
-			result = row.value;
+			current.tasks++;
+			current.completed += row.value;
 		}
-		
-		rowIndex++;
 	}
+	
+	result.push(current);
+	send(JSON.stringify(result));
 }

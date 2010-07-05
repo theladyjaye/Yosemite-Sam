@@ -10,14 +10,14 @@ class YSSDomain
 		
 		self::parse($path, $obj);
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $domain);
-		//$database->create_database();
+		$database->create_database();
 		$database->put($obj, '_design/project');
 	}
 	
 	private static function parse($path, &$context)
 	{
 		$directory = dir($path);
-		while (false !== ($entry = $directory->read())) 
+		while (false !== ($entry = $directory->read()))
 		{
 			if($entry != '.' && $entry != '..')
 			{
@@ -29,7 +29,8 @@ class YSSDomain
 				{
 					$key             = substr($entry, 0, -3);
 					$contents        = file_get_contents($path.'/'.$entry);
-					$contents        = preg_replace('/\n|\r|\t/', '', $contents);
+					//$contents        = preg_replace('/\t/', '', $contents);
+					//$contents        = preg_replace('/\n|\r|\t/', '', $contents);
 					$context->{$key} = $contents;
 				}
 			}

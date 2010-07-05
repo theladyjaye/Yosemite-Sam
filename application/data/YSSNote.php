@@ -1,18 +1,18 @@
 <?php
-class YSSProject extends YSSCouchObject
+class YSSNote extends YSSCouchObject
 {
 	public $name;
 	public $description;
-	protected $type = "project";
+	protected $type = "note";
 	
 	public static function projectWithJson($jsonString)
 	{
-		return YSSProject::hydrateWithArray(json_decode($jsonString, true));
+		return YSSNote::hydrateWithArray(json_decode($jsonString, true));
 	}
 	
 	private static function hydrateWithArray($array)
 	{
-		$object  = new YSSProject();
+		$object  = new YSSNote();
 		foreach($array as $key=>$value)
 		{
 			$object->{$key} = $value;

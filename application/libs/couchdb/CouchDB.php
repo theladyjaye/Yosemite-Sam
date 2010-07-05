@@ -520,16 +520,47 @@ class CouchDB
 	
 	}
 	
-	public function list()
-	{
-		
-	}
-	
 	public function show()
 	{
 		
 	}
 	*/
+	
+	public function formatList($list, $view, $options=null, $json=false)
+	{
+		static $loaded = false;
+		
+		if(!$loaded)
+		{
+			require 'commands/CDBList.php';
+			$loaded = true;
+		}
+		
+		if($this->shouldPerformActionWithDatabase())
+		{
+			$connection = new CouchDBConnection($this->connectionOptions);
+			$response   = $connection->execute(new CDBList($this->connectionOptions['database'], $list, $view, $options));
+			
+			if($json)
+			{
+				return $response->data;
+			}
+			else
+			{
+				/*$view = CouchDBView::viewWithJSON($response->data);
+				
+				if(isset($options['include_docs']) && $options['include_docs']){
+					$view->context = CouchDBView::kDocContext;
+				}
+				
+				return $view;*/
+			}
+		}
+		else
+		{
+			$this->throw_no_database_exception();
+		}
+	}
 	
 	/**
 	 * Get a View
