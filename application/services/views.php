@@ -11,11 +11,8 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
-require YSSApplication::basePath().'/application/data/YSSCompany.php';
-require YSSApplication::basePath().'/application/data/YSSUser.php';
-require YSSApplication::basePath().'/application/data/YSSDomain.php';
 require YSSApplication::basePath().'/application/data/YSSProject.php';
-require YSSApplication::basePath().'/application/data/YSSTask.php';
+require YSSApplication::basePath().'/application/data/YSSView.php';
 
 
 class YSSServiceViews extends AMServiceContract
@@ -27,20 +24,19 @@ class YSSServiceViews extends AMServiceContract
 		switch($method)
 		{
 			case "GET":
-				$this->addEndpoint("GET",    "/projects",                                                       "generateReport");
-				$this->addEndpoint("GET",    "/projects/{id}",                                                  "getProject");
+				$this->addEndpoint("GET",    "/project/{project_id}/views",               "generateReport");
 				break;
 			
 			case "PUT":
-				$this->addEndpoint("PUT",    "/projects/{id}",                                                  "updateProject");
+				$this->addEndpoint("PUT",    "/project/{project_id}/view/{view_id}",      "updateView");
 				break;
 			
 			case "POST":
-				$this->addEndpoint("POST",   "/projects/{id}",                                                  "updateProject");
+				$this->addEndpoint("POST",    "/project/{project_id}/view/{view_id}",     "updateView");
 				break;
 			
 			case "DELETE":
-				$this->addEndpoint("DELETE", "/projects/{id}",                                                  "deleteProject");
+				$this->addEndpoint("DELETE", "/project/{project_id}/view/{view_id}",      "deleteView");
 				break;
 		}
 	}
@@ -52,20 +48,22 @@ class YSSServiceViews extends AMServiceContract
 		echo $database->document($id, true);
 	}
 	
-	public function updateProject($id)
+	public function updateView($project_id, $view_id)
 	{
-		$response = new stdClass();
+		$response     = new stdClass();
 		$response->ok = false;
 		
-		$data       = json_decode(file_get_contents('php://input'), true);
-		$data['id'] = strtolower($id);
+		$data               = json_decode(file_get_contents('php://input'), true);
+		$data['view_id']    = strtolower($view_id);
+		$data['project_id'] = strtolower($project_id);
 		
-		$context    = array(AMForm::kDataKey=>$data);
-		$input      = AMForm::formWithContext($context);
+		$context = array(AMForm::kDataKey=>$data);
+		$input   = AMForm::formWithContext($context);
 	
-		$input->addValidator(new AMInputValidator('name', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMPatternValidator('id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid project id. Expecting minimum 2 characters."));
+		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
 		
 		if($data['_rev'])
 		{
@@ -74,18 +72,30 @@ class YSSServiceViews extends AMServiceContract
 		
 		if($input->isValid)
 		{
-			$project = new YSSProject();
-			$project->name = $input->name;
-			$project->description = $input->description;
-			$project->_id = strtolower($id);
+			$project = YSSProject::projectWithId($input->project_id);
 			
-			if($input->_rev)
-				$project->_rev = $input->_rev;
-			
-			
-			if($project->save())
+			if($project)
 			{
-				$response->ok = true;
+				$view              = new YSSView();
+				$view->label       = $input->label;
+				$view->description = $input->description;
+				$view->_id         = $project->_id.'/'.$input->view_id;
+				
+				if($input->_rev)
+					$view->_rev = $input->_rev;
+			
+				if($view->save())
+				{
+					$response->ok = true;
+				}
+			}
+			else
+			{
+				$response->errors = array();
+				$error = new stdClass();
+				$error->key = 'project_id';
+				$error->message = "not_found";
+				$response->errors[] = $error;
 			}
 		}
 		else

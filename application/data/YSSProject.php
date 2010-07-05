@@ -1,9 +1,25 @@
 <?php
 class YSSProject extends YSSCouchObject
 {
-	public $name;
+	public $label;
 	public $description;
+	
 	protected $type = "project";
+	
+	public static function projectWithId($id)
+	{
+		$object   = null;
+		$session  = YSSSession::sharedSession();
+		$couchdb  = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		$response = $couchdb->document('project/'.$id);
+		
+		if(!isset($response['error']))
+		{
+			$object = YSSProject::hydrateWithArray($response);
+		}
+		
+		return $object;
+	}
 	
 	public static function projectWithJson($jsonString)
 	{

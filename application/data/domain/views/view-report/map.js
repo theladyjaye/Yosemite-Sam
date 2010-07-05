@@ -14,7 +14,4 @@ function(doc)
 	{
 		emit([doc.project, 2], {type:"task", value:doc.complete ? 1 : 0})
 	}
-	
-	
-	
 }

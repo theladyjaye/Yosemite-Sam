@@ -153,6 +153,8 @@ class CouchDB
 		
 		if($this->shouldPerformActionWithDatabase())
 		{
+			$id = urlencode($id);
+			
 			$connection = new CouchDBConnection($this->connectionOptions);
 			$response   = $connection->execute(new CDBGetDocument($this->connectionOptions['database'], $id));
 			
@@ -255,6 +257,7 @@ class CouchDB
 		
 		if($this->shouldPerformActionWithDatabase())
 		{
+			$id = $id ? urlencode($id) : null;
 			$connection = new CouchDBConnection($this->connectionOptions);
 			$response   = $connection->execute(new CDBPutDocument($this->connectionOptions['database'], $json, $id, $batch));
 			return $response->result;

@@ -1,7 +1,7 @@
 <?php
 class YSSNote extends YSSCouchObject
 {
-	public $name;
+	public $label;
 	public $description;
 	protected $type = "note";
 	

@@ -1,9 +1,11 @@
 <?php
 class YSSTask extends YSSCouchObject
 {
-	public $title;
+	public $label;
 	public $description;
 	public $project;
+	public $view;
+	public $state;
 	public $complete;
 	
 	protected $type = "task";

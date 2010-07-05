@@ -63,7 +63,7 @@ class YSSServiceProjects extends AMServiceContract
 		$context    = array(AMForm::kDataKey=>$data);
 		$input      = AMForm::formWithContext($context);
 	
-		$input->addValidator(new AMInputValidator('name', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMPatternValidator('id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid project id. Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		
@@ -75,7 +75,7 @@ class YSSServiceProjects extends AMServiceContract
 		if($input->isValid)
 		{
 			$project = new YSSProject();
-			$project->name = $input->name;
+			$project->label = $input->label;
 			$project->description = $input->description;
 			$project->_id = strtolower($id);
 			

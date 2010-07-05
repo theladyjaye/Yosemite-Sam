@@ -1,10 +1,10 @@
 <?php
 class YSSView extends YSSCouchObject
 {
-	public $title;
+	public $name;
 	public $description;
 	public $project;
-	public $complete;
+	public $states;
 	
 	protected $type = "view";
 	

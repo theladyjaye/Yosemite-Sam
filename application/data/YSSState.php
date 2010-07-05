@@ -1,9 +1,10 @@
 <?php
 class YSSState extends YSSCouchObject
 {
-	public $title;
+	public $label;
 	public $description;
 	public $project;
+	public $view;
 	public $complete;
 	
 	protected $type = "state";
