@@ -25,6 +25,20 @@ class YSSApplication
 		return 'en-US';
 	}
 	
+	public function startSession()
+	{
+		session_set_cookie_params(0, '/', '.'.YSSConfiguration::applicationDomain(), false);
+		if (session_id() == "") session_start();
+		
+		
+		$configuration = YSSConfiguration::standardConfiguration();
+		if($configuration['currentUser'])
+		{
+			$session = YSSSession::sharedSession();
+			$session->currentUser = $configuration['currentUser'];
+		}
+	}
+	
 	public function __construct()
 	{
 		new YSSConfiguration('config.ini');
