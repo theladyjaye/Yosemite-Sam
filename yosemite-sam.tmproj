@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>application/templates/body.php</string>
+	<string>application/templates/body-projects.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,84 +21,114 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>application/data/domain/lists/project-aggregate.js</key>
+		<key>application/templates/body-projects.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>6</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>35</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>application/data/domain/views/project-report/map.js</key>
+		<key>application/templates/body-settings.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>86</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>19</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>application/data/domain/views/project-report/reduce.js</key>
+		<key>application/templates/body-views.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>86</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>22</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>59</integer>
+				<key>line</key>
+				<integer>22</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>86</integer>
+				<key>line</key>
+				<integer>22</integer>
+			</dict>
+		</dict>
+		<key>application/templates/modal-delete.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>51</integer>
+				<key>line</key>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>application/services/projects.php</key>
+		<key>projects.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>60</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>93</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
-			<integer>100</integer>
+			<integer>414</integer>
 			<key>firstVisibleLine</key>
-			<integer>28</integer>
+			<integer>56</integer>
 		</dict>
-		<key>application/templates/body.php</key>
+		<key>resources/css/jqModal.css</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>27</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>23</integer>
+				<integer>12</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>5</integer>
+			<integer>0</integer>
 		</dict>
 		<key>resources/css/style.config.less</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>32</integer>
+				<integer>36</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -110,14 +140,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>23</integer>
+				<integer>52</integer>
 				<key>line</key>
-				<integer>13</integer>
+				<integer>113</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>4</integer>
+			<integer>100</integer>
 		</dict>
 		<key>resources/js/jquery.countup.js</key>
 		<dict>
@@ -133,34 +163,66 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>resources/js/script.js</key>
+		<key>settings.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>25</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>21</integer>
+				<integer>74</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>44</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>60</integer>
+				<key>line</key>
+				<integer>83</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>74</integer>
+			</dict>
+		</dict>
+		<key>views.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>60</integer>
+				<key>line</key>
+				<integer>173</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>257</integer>
+			<key>firstVisibleLine</key>
+			<integer>131</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>application/templates/body.php</string>
+		<string>views.php</string>
+		<string>application/templates/body-views.php</string>
+		<string>application/templates/body-projects.php</string>
+		<string>application/templates/body-settings.php</string>
+		<string>settings.php</string>
+		<string>application/templates/modal-delete.php</string>
+		<string>projects.php</string>
 		<string>resources/css/style.less</string>
-		<string>application/data/domain/views/project-report/map.js</string>
-		<string>application/data/domain/views/project-report/reduce.js</string>
-		<string>application/data/domain/lists/project-aggregate.js</string>
-		<string>application/services/projects.php</string>
 		<string>resources/css/style.config.less</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{513, 69}, {890, 809}}</string>
+	<string>{{167, 107}, {1117, 794}}</string>
 </dict>
 </plist>

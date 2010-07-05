@@ -59,8 +59,38 @@
 					<p>Duis fermentum nulla at justo ultricies eu lobortis ipsum fringilla. Aenean adipiscing neque non nisl faucibus eget tincidunt felis tempor. Fusce rutrum leo sit amet mi dignissim a dictum libero dignissim. Mauris porta metus et nulla varius tempor. Pellentesque libero urna, sodales accumsan blandit sed, accumsan sed augue. Donec</p>"
 				)
 			);
-			include("application/templates/body.php"); 
+			include("application/templates/body-projects.php"); 
 		?>
 	</div>
+	<?php
+		$modal = array(
+				"id" => "add-project",
+				"title" => "Add Project",
+				"submit-label" => "Add",
+				"action" => "#",
+				"body" => <<<MODAL_CONTENTS
+					<p>
+						<label for="name" class="font-replace">Name</label>					
+						<input type="text" name="name" />
+					</p>
+					<p>
+						<label for="description" class="font-replace">Description</label>					
+						<textarea name="description"></textarea>
+					</p>					
+MODAL_CONTENTS
+		);	
+	?>	
+	<?php include("application/templates/modal.php"); ?>
+	
+	
+	<?php
+		$modal = array(
+			"params" => array(
+				"what" => "user",
+				"user_id" => ""
+			)			
+		);
+	?>
+	<?php include("application/templates/modal-delete.php"); ?>
 </body>
 </html>

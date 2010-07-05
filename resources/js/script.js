@@ -42,7 +42,12 @@ $(function() {
 	});	
 	
 	$(".modal").addClass("jqmWindow").jqm({
-		trigger: false
+		trigger: false,
+		closeClass: "modal-close"
+	});
+	
+	$(".modal form").submit(function() {
+		return false;
 	});
 });
 
@@ -50,7 +55,6 @@ function get_modal_view(btn)
 {
 	var regExp = /modal-view-(.*)/;
 	var class_names = $(btn)[0].className;
-	console.log(class_names);
 	var matches = class_names.match(regExp);
 	return (matches.length) ? "." + matches[0] : "";
 }
