@@ -5,8 +5,6 @@
 		</div>
 		<a href="#" title="Add Project" class="font-replace add icon-add no_ btn-modal modal-view-add-project">Add Project</a>
 	</div>
-	<div id="view-editor-header" class="view-header">
-	</div>
 	
 	<div id="view-body">
 		<ul id="view-table-list">

@@ -49,6 +49,20 @@ $(function() {
 	$(".modal form").submit(function() {
 		return false;
 	});
+	
+	$("#view-body-editor-image img").load(function() {
+		$("#view-body-editor-image").css("width", $(this).width());
+	});
+	
+	$(".view-editor .item-details").toggle(function() {
+		$(".task-list-container").fadeIn()
+	}, function() {
+		$(".task-list-container").fadeOut();
+	});
+	
+	$(".task-list-container .btn-close-task-list").click(function() {
+		$(".task-list-container").fadeOut();
+	});
 });
 
 function get_modal_view(btn)

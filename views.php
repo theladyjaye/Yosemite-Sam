@@ -165,6 +165,30 @@ MODAL_CONTENTS
 	
 	<?php
 		$modal = array(
+				"id" => "add-attachment",
+				"title" => "Add Attachment",
+				"submit-label" => "Add",
+				"action" => "#",
+				"body" => <<<MODAL_CONTENTS
+					<p>
+						<label for="name" class="font-replace">Name</label>					
+						<input type="text" name="name" />
+					</p>
+					<p>
+						<label for="attachment" class="font-replace">Attachment</label>
+						<input type="file" name="attachment" />
+					</p>
+					<p>
+						<label for="description" class="font-replace">Description</label>					
+						<textarea name="description" class="small"></textarea>
+					</p>					
+MODAL_CONTENTS
+		);	
+	?>	
+	<?php include("application/templates/modal.php"); ?>
+	
+	<?php
+		$modal = array(
 			"params" => array(
 				"what" => "user",
 				"user_id" => ""

@@ -5,14 +5,12 @@
 		</div>
 		<a href="#" title="Add View" class="font-replace add icon-add no_ btn-modal modal-view-add-view">Add View</a>
 	</div>
-	<div id="view-editor-header" class="view-header">
-	</div>
 	
 	<div id="view-body">
 		<ul id="view-table-list">
 			<?php foreach($data as $i => $item): ?>			
 			<li class="<?if($i % 2):?>alt<?endif;?>">
-				<a href="#" title="" class="item-name font-replace"><?=$item["item-name"]?></a>
+				<a href="editor.php" title="" class="item-name font-replace"><?=$item["item-name"]?></a>
 				<a href="#" class="item-details font-replace">details</a>
 				<div class="progress-bar">
 					<div class="progress-value font-replace">
@@ -35,7 +33,7 @@
 								<option value="<?=$attachment_dex?>"><?=$attachment?></option>
 							<?endforeach;?>
 						</select>
-						<a href="#" class="add-attachment icon-add-small no_">Add Attachment</a>
+						<a href="#" class="add-attachment icon-add-small no_ btn-modal modal-view-add-attachment">Add Attachment</a>
 					</p>					
 					<div class="item-desc">
 						<?=$item["desc"]?>

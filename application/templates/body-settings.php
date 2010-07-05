@@ -5,8 +5,6 @@
 		</div>
 		<a href="#" title="Add User" class="font-replace add icon-add no_ btn-modal modal-view-add-user">Add User</a>
 	</div>
-	<div id="view-editor-header" class="view-header">
-	</div>
 	
 	<div id="view-body">
 		<ul id="view-table-list" class="settings">			

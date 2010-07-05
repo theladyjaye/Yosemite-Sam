@@ -1,0 +1,26 @@
+TODO
+-----
+
+Phil:
+	[MAJOR] Sign in/up page
+	[MAJOR] "add attachment" modal 
+		- fix attachment field
+		- integrate multiple uploads
+	[MAJOR] Integrate services/back-end
+			 - CRUD
+	[MAJOR] Implement annotations
+	global::breadcrumbs
+	global::better button/link states
+	global::better animation
+	global::add gradients to background
+	global::change progress bar image
+	global::modals
+		- validation
+		- error messages
+ 	Task List
+		- [MAJOR] fix scrolling
+		- sorting
+	Settings
+		- inline or modal edit/change user name, email, user level
+	logo, favicon
+	Get Jony Ive to narrate video (thanks to http://incident57.com/less/versionHistory.html for the reminder) 
