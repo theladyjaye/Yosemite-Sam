@@ -26,7 +26,7 @@
 				<option value="34955">The Stage</option>
 			</select>
 		</div>		
-		<a href="#" title="Add Attachment" class="font-replace add icon-add no_ btn-modal modal-view-add-attachment">Add Attachment</a>
+		<a href="#" title="Add Attachment" class="font-replace add icon-attachment-add no_ btn-modal modal-view-add-attachment">Add Attachment</a>
 		
 		<div class="task-list-container">
 			<div class="task-list">

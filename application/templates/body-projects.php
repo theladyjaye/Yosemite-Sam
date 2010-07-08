@@ -3,7 +3,7 @@
 		<div class="page-title icon-folder font-replace">
 			Projects <span class="count">(5)</span> 
 		</div>
-		<a href="#" title="Add Project" class="font-replace add icon-add no_ btn-modal modal-view-add-project">Add Project</a>
+		<a href="#" title="Add Project" class="font-replace add icon-folder-add no_ btn-modal modal-view-add-project">Add Project</a>
 	</div>
 	
 	<div id="view-body">

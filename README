@@ -3,9 +3,6 @@ TODO
 
 Phil:
 	[MAJOR] Sign in/up page
-	[MAJOR] "add attachment" modal 
-		- fix attachment field
-		- integrate multiple uploads
 	[MAJOR] Integrate services/back-end
 			 - CRUD
 	[MAJOR] Implement annotations
@@ -22,5 +19,6 @@ Phil:
 		- sorting
 	Settings
 		- inline or modal edit/change user name, email, user level
+	"add attachment" modal 
+		- integrate multiple uploads
 	logo, favicon
-	Get Jony Ive to narrate video (thanks to http://incident57.com/less/versionHistory.html for the reminder) 

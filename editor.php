@@ -36,10 +36,16 @@
 						<label for="name" class="font-replace">Name</label>					
 						<input type="text" name="name" />
 					</p>
-					<p>
+					<div class="file-input-container">
 						<label for="attachment" class="font-replace">Attachment</label>
-						<input type="file" name="attachment" />
-					</p>
+						<div class="file-input">						
+							<input type="file" name="attachment" class="file" />
+							<div class="fakefile">
+								<input />
+								<img src="resources/img/icon-folder.png" alt="Browse" />
+							</div>
+						</div>
+					</div>
 					<p>
 						<label for="description" class="font-replace">Description</label>					
 						<textarea name="description" class="small"></textarea>

@@ -8,10 +8,14 @@ $(function() {
 	}).delegate("li", "mouseleave", function() {
 		$(this).removeClass("over");		
 	}).delegate(".item-details", "click", function() {
-		$(this).parents("li").toggleClass("expanded");	
+		$(this).parents("li").toggleClass("expanded");
+		return false;	
 	});
 	
-	
+	$(".fakefile input").keypress(function() {
+		$(this).val("");
+		return false;
+	});
 	
 	$(".progress-bar").each(function() {
 		var $progress_value = $(this).find(".progress-value .value"),

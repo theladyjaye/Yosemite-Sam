@@ -17,10 +17,21 @@
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
-						"Logged In", "Logged Out"
+						array(
+							"item-name" => "Logged In",
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						),
+						array(
+							"item-name" => "Logged Out",
+							"percentage" => "33",
+							"tasks-closed" => 33,
+							"tasks-total" => 100
+						)	
 					),
 					"attachments" => array(
-						"wireframe", "tech spec", "func spec", "documentation"
+						
 					),
 					"desc"=> "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mollis lorem ac nunc pretium ut sagittis mi egestas. Nullam ornare iaculis aliquam. Sed et neque dolor. Fusce rhoncus ligula ut felis venenatis pretium. Quisque enim lorem, sodales non mollis sit amet, condimentum a tellus. Curabitur eget augue lectus, et fermentum nisl. Nulla facilisi. Nulla pharetra dui sed libero ornare eget varius nibh sollicitudin. Vestibulum tincidunt pulvinar sodales. Etiam ac orci ut est dictum pharetra. Nam et diam purus. Phasellus ut libero vitae nulla aliquam pellentesque et facilisis enim. Sed sed nunc diam, sed venenatis nunc. Quisque rhoncus pharetra tempor. Suspendisse et elit dolor, ac placerat ipsum. Nulla purus mauris, consectetur nec mattis vitae, vulputate sit amet leo. Maecenas semper enim in tellus pretium vehicula.</p>
 
@@ -32,10 +43,15 @@
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
-						"Logged In", "Logged Out"
+						array(
+							"item-name" => "default",
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						)
 					),
 					"attachments" => array(
-						"wireframe", "tech spec", "func spec", "documentation"
+						"wireframe", "documentation"
 					),
 					"desc"=> "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mollis lorem ac nunc pretium ut sagittis mi egestas. Nullam ornare iaculis aliquam. Sed et neque dolor. Fusce rhoncus ligula ut felis venenatis pretium. Quisque enim lorem, sodales non mollis sit amet, condimentum a tellus. Curabitur eget augue lectus, et fermentum nisl. Nulla facilisi. Nulla pharetra dui sed libero ornare eget varius nibh sollicitudin. Vestibulum tincidunt pulvinar sodales. Etiam ac orci ut est dictum pharetra. Nam et diam purus. Phasellus ut libero vitae nulla aliquam pellentesque et facilisis enim. Sed sed nunc diam, sed venenatis nunc. Quisque rhoncus pharetra tempor. Suspendisse et elit dolor, ac placerat ipsum. Nulla purus mauris, consectetur nec mattis vitae, vulputate sit amet leo. Maecenas semper enim in tellus pretium vehicula.</p>
 
@@ -47,10 +63,15 @@
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
-						"Logged In", "Logged Out"
+						array(
+							"item-name" => "Logged In",
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						)	
 					),
 					"attachments" => array(
-						"wireframe", "tech spec", "func spec", "documentation"
+						"wireframe", "tech spec", "documentation"
 					),
 					"desc"=> "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mollis lorem ac nunc pretium ut sagittis mi egestas. Nullam ornare iaculis aliquam. Sed et neque dolor. Fusce rhoncus ligula ut felis venenatis pretium. Quisque enim lorem, sodales non mollis sit amet, condimentum a tellus. Curabitur eget augue lectus, et fermentum nisl. Nulla facilisi. Nulla pharetra dui sed libero ornare eget varius nibh sollicitudin. Vestibulum tincidunt pulvinar sodales. Etiam ac orci ut est dictum pharetra. Nam et diam purus. Phasellus ut libero vitae nulla aliquam pellentesque et facilisis enim. Sed sed nunc diam, sed venenatis nunc. Quisque rhoncus pharetra tempor. Suspendisse et elit dolor, ac placerat ipsum. Nulla purus mauris, consectetur nec mattis vitae, vulputate sit amet leo. Maecenas semper enim in tellus pretium vehicula.</p>
 
@@ -62,7 +83,12 @@
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
-						"Logged In", "Logged Out"
+						array(
+							"item-name" => "default",
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						)
 					),
 					"attachments" => array(
 						"wireframe", "tech spec", "func spec", "documentation"
@@ -77,7 +103,12 @@
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
-						"Logged In", "Logged Out"
+						array(
+							"item-name" => "default",
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						)
 					),
 					"attachments" => array(
 						"wireframe", "tech spec", "func spec", "documentation"
@@ -92,7 +123,12 @@
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
-						"Logged In", "Logged Out"
+						array(
+							"item-name" => "default",
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						)
 					),
 					"attachments" => array(
 						"wireframe", "tech spec", "func spec", "documentation"
@@ -107,10 +143,15 @@
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
-						"Logged In", "Logged Out"
+						array(
+							"item-name" => "default",
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						)
 					),
 					"attachments" => array(
-						"wireframe", "tech spec", "func spec", "documentation"
+						"wireframe", "func spec", "documentation"
 					),
 					"desc"=> "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mollis lorem ac nunc pretium ut sagittis mi egestas. Nullam ornare iaculis aliquam. Sed et neque dolor. Fusce rhoncus ligula ut felis venenatis pretium. Quisque enim lorem, sodales non mollis sit amet, condimentum a tellus. Curabitur eget augue lectus, et fermentum nisl. Nulla facilisi. Nulla pharetra dui sed libero ornare eget varius nibh sollicitudin. Vestibulum tincidunt pulvinar sodales. Etiam ac orci ut est dictum pharetra. Nam et diam purus. Phasellus ut libero vitae nulla aliquam pellentesque et facilisis enim. Sed sed nunc diam, sed venenatis nunc. Quisque rhoncus pharetra tempor. Suspendisse et elit dolor, ac placerat ipsum. Nulla purus mauris, consectetur nec mattis vitae, vulputate sit amet leo. Maecenas semper enim in tellus pretium vehicula.</p>
 
@@ -122,10 +163,15 @@
 					"tasks-closed"=> 84,
 					"tasks-total"=> 152,
 					"states" => array(
-						"Logged In", "Logged Out"
+						array(
+							"item-name" => "default",
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						)
 					),
 					"attachments" => array(
-						"wireframe", "tech spec", "func spec", "documentation"
+						"tech spec", "func spec", "documentation"
 					),
 					"desc"=> "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mollis lorem ac nunc pretium ut sagittis mi egestas. Nullam ornare iaculis aliquam. Sed et neque dolor. Fusce rhoncus ligula ut felis venenatis pretium. Quisque enim lorem, sodales non mollis sit amet, condimentum a tellus. Curabitur eget augue lectus, et fermentum nisl. Nulla facilisi. Nulla pharetra dui sed libero ornare eget varius nibh sollicitudin. Vestibulum tincidunt pulvinar sodales. Etiam ac orci ut est dictum pharetra. Nam et diam purus. Phasellus ut libero vitae nulla aliquam pellentesque et facilisis enim. Sed sed nunc diam, sed venenatis nunc. Quisque rhoncus pharetra tempor. Suspendisse et elit dolor, ac placerat ipsum. Nulla purus mauris, consectetur nec mattis vitae, vulputate sit amet leo. Maecenas semper enim in tellus pretium vehicula.</p>
 
@@ -174,14 +220,46 @@ MODAL_CONTENTS
 						<label for="name" class="font-replace">Name</label>					
 						<input type="text" name="name" />
 					</p>
-					<p>
+					<div class="file-input-container">
 						<label for="attachment" class="font-replace">Attachment</label>
-						<input type="file" name="attachment" />
-					</p>
+						<div class="file-input">						
+							<input type="file" name="attachment" class="file" />
+							<div class="fakefile">
+								<input />
+								<img src="resources/img/icon-folder.png" alt="Browse" />
+							</div>
+						</div>
+					</div>
 					<p>
 						<label for="description" class="font-replace">Description</label>					
 						<textarea name="description" class="small"></textarea>
 					</p>					
+MODAL_CONTENTS
+		);	
+	?>	
+	<?php include("application/templates/modal.php"); ?>
+	
+	<?php
+		$modal = array(
+				"id" => "add-state",
+				"title" => "Add State",
+				"submit-label" => "Add",
+				"action" => "#",
+				"body" => <<<MODAL_CONTENTS
+					<p>
+						<label for="name" class="font-replace">Name</label>					
+						<input type="text" name="name" />
+					</p>
+					<div class="file-input-container">
+						<label for="attachment" class="font-replace">Image</label>
+						<div class="file-input">						
+							<input type="file" name="attachment" class="file" />
+							<div class="fakefile">
+								<input />
+								<img src="resources/img/icon-folder.png" alt="Browse" />
+							</div>
+						</div>
+					</div>				
 MODAL_CONTENTS
 		);	
 	?>	
