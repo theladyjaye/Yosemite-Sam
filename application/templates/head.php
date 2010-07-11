@@ -12,6 +12,7 @@
 <!-- todo: combine js files -->
 <script src="resources/js/cufon-yui.js"></script>
 <script src="resources/js/Vegur.font.js"></script>
+<script src="resources/js/jquery.annotate.js"></script>
 <script src="resources/js/jquery.easing.js"></script>
 <script src="resources/js/jquery.countup.js"></script>
 <script src="resources/js/jqModal.js"></script>

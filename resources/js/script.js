@@ -31,6 +31,11 @@ $(function() {
 			"step": 20
 		});	
 	});
+		
+	$("#view-body-editor-image").annotatableImage(ui_note, {
+		xPosition: "left",
+		yPosition: "top"
+	});
 	
 	// all modals are triggered with buttons containing the class btn-modal
 	// the button must also contain the modal-view it is to show.
@@ -68,6 +73,74 @@ $(function() {
 		$(".task-list-container").fadeOut();
 	});
 });
+
+function get_notes()
+{
+	$("#view-body-editor-image .note").serializeAnnotations();
+}
+
+function add_notes() 
+{
+	var notes = [
+		{x: 0.3, y: 0.4, width: 200, height: 300},
+		{x: 0.65, y: 0.28, width: 500, height: 100},
+		{x: 0.58, y: 0.31, width: 300, height: 40}
+	];
+	
+	$("#view-body-editor-image").addAnnotations(ui_note, notes, {
+		xPosition: "left",
+		yPosition: "top"
+	});
+}
+
+function get_next_note_count() {
+	if(!get_next_note_count.count)
+	{
+		get_next_note_count.count = 1;
+	}
+	return get_next_note_count.count++;
+}
+
+function ui_note()
+{
+	var note = $("<div />", {
+		"class": "note"
+	}).resizable({
+		handles: "n, e, s, w, ne, se, sw",
+		resize: function(evt, ui) 
+		{
+			$(this).find(".frm-note").css({
+				"top": ui.size.height + 10
+			});
+		}
+	}).draggable({
+		containment: [0, $("#view-body-editor").position().top, 1900, 800],
+	}).trigger("resize");
+	
+	var border = $("<div />", {
+		"class": "border"
+	}).appendTo(note);
+	
+	var overlay = $("<div />", {
+		"class": "overlay"
+	}).appendTo(note);
+	
+	var note_num = $("<span />", {
+		"class": "note-num",
+		"html": get_next_note_count()
+	}).appendTo(note);
+	
+	var frm = $("<form />", {
+		"class": "frm-note",
+		"action": "post"
+	}).appendTo(note);
+	
+	var frm_content = $("<div />", {
+		"html": "<p>Information about this note"
+	}).appendTo(frm);
+	
+	return note;
+}
 
 function get_modal_view(btn)
 {
