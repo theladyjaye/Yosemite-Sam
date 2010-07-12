@@ -37,6 +37,10 @@ $(function() {
 		yPosition: "top"
 	});
 	
+	$("#view-body-editor-image .note form").delegate("textarea", "resize", function(evt) {
+		console.log('resizing', evt);
+	});
+	
 	// all modals are triggered with buttons containing the class btn-modal
 	// the button must also contain the modal-view it is to show.
 	// Example: <a href="#" class="btn-modal modal-view-mywindow">popup modal</a>
@@ -115,6 +119,7 @@ function ui_note()
 		}
 	}).draggable({
 		containment: [0, $("#view-body-editor").position().top, 1900, 800],
+		handle: ".overlay"
 	}).trigger("resize");
 	
 	var border = $("<div />", {
@@ -132,11 +137,12 @@ function ui_note()
 	
 	var frm = $("<form />", {
 		"class": "frm-note",
-		"action": "post"
+		"action": "post",		
 	}).appendTo(note);
 	
+	
 	var frm_content = $("<div />", {
-		"html": "<p>Information about this note"
+		"html": '<p><textarea></textarea></p><p><label for="type">Type</label><select class="dd-type"><option value="HTML">HTML</option><option value="Flash">Flash</option></select></p><p><label for="assigned-to">Assigned To</label><select class="dd-assigned-to"><option value="bross">bross</option><option value="alincoln">alincoln</option></select><a href="#" class="btn-close-task">Close task</a></p><p class="group-cta"><a href="#" class="btn-save">Save</a><a href="#" class="btn-cancel">Cancel</a><a href="#" class="btn-delete">Delete</a></p>'
 	}).appendTo(frm);
 	
 	return note;
