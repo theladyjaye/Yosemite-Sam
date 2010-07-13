@@ -50,6 +50,16 @@ class YSSServiceViews extends AMServiceContract
 	
 	public function updateView($project_id, $view_id)
 	{
+		print_r($_POST);
+		print_r($_FILES);
+		echo 'Input stream: ',"\n\n";
+		/*$image = fopen("test.jpg", "w");
+		fwrite($image, file_get_contents("php://input"));
+		fclose($image);
+		*/
+		//echo file_get_contents("php://input");
+		exit;
+		
 		$response     = new stdClass();
 		$response->ok = false;
 		
