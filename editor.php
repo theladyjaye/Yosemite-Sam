@@ -21,9 +21,11 @@
 	</div>
 	<div id="view-body-editor">
 		<div id="view-body-editor-image">
-			<img src="resources/img/fpo-comp.jpg" alt="" width="1200" />		
+			<img src="resources/img/fpo-comp.jpg" alt=""  />	
 		</div>
 	</div>
+	
+	<?php include("application/templates/task-list.php"); ?>
 	
 	<?php
 		$modal = array(
@@ -36,10 +38,16 @@
 						<label for="name" class="font-replace">Name</label>					
 						<input type="text" name="name" />
 					</p>
-					<p>
+					<div class="file-input-container">
 						<label for="attachment" class="font-replace">Attachment</label>
-						<input type="file" name="attachment" />
-					</p>
+						<div class="file-input">						
+							<input type="file" name="attachment" class="file" />
+							<div class="fakefile">
+								<input />
+								<img src="resources/img/icon-folder.png" alt="Browse" />
+							</div>
+						</div>
+					</div>
 					<p>
 						<label for="description" class="font-replace">Description</label>					
 						<textarea name="description" class="small"></textarea>

@@ -19,20 +19,6 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>resources/css/jqModal.css</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>4</integer>
-				<key>line</key>
-				<integer>12</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>resources/js/jquery.countup.js</key>
 		<dict>
 			<key>caret</key>
@@ -51,6 +37,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{540, 139}, {1117, 794}}</string>
+	<string>{{578, 95}, {908, 809}}</string>
 </dict>
 </plist>
