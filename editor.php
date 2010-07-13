@@ -21,9 +21,11 @@
 	</div>
 	<div id="view-body-editor">
 		<div id="view-body-editor-image">
-			<img src="resources/img/fpo-comp.jpg" alt="" width="1200" />	
+			<img src="resources/img/fpo-comp.jpg" alt=""  />	
 		</div>
 	</div>
+	
+	<?php include("application/templates/task-list.php"); ?>
 	
 	<?php
 		$modal = array(

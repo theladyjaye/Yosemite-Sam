@@ -5,7 +5,6 @@ Phil:
 	[MAJOR] Sign in/up page
 	[MAJOR] Integrate services/back-end
 			 - CRUD
-	[MAJOR] Implement annotations
 	global::breadcrumbs
 	global::better button/link states
 	global::better animation
@@ -14,8 +13,11 @@ Phil:
 	global::modals
 		- validation
 		- error messages
+	annotations
+		- color code by type
+		- save state
+		- drag to size instead of initialize 100x100		
  	Task List
-		- [MAJOR] fix scrolling
 		- sorting
 	Settings
 		- inline or modal edit/change user name, email, user level

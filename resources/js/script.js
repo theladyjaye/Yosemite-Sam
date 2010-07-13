@@ -37,8 +37,18 @@ $(function() {
 		yPosition: "top"
 	});
 	
-	$("#view-body-editor-image .note form").delegate("textarea", "resize", function(evt) {
-		console.log('resizing', evt);
+	$("#view-body-editor-image").delegate(".note .btn-save", "click", function(evt) {
+		// save to db
+		var $note = $(this).parents(".note");
+		console.log($note.find(".frm-note").serialize());
+		return false;
+	}).delegate(".note .btn-cancel", "click", function(evt) {
+		$(this).parents(".note").remove();
+		return false;
+	}).delegate(".note .btn-delete", "click", function(evt) {
+		$(this).parents(".note").remove();
+		// delete from db
+		return false;
 	});
 	
 	// all modals are triggered with buttons containing the class btn-modal
@@ -68,9 +78,13 @@ $(function() {
 	});
 	
 	$(".view-editor .item-details").toggle(function() {
-		$(".task-list-container").fadeIn()
+		$(".task-list-container").fadeIn();
+		$(".ui-resizable-handle").hide(); // hide handles to prevent resizing
+		$(".note-num").css({"z-index": "2"});
 	}, function() {
 		$(".task-list-container").fadeOut();
+		$(".ui-resizable-handle").show();
+		$(".note-num").css({"z-index": "200002"});
 	});
 	
 	$(".task-list-container .btn-close-task-list").click(function() {
@@ -132,7 +146,11 @@ function ui_note()
 	
 	var note_num = $("<span />", {
 		"class": "note-num",
-		"html": get_next_note_count()
+		"html": get_next_note_count(),
+		"click": function(evt) {
+			var $note = $(this).parents(".note");
+			$note.toggleClass("minimized");
+		}
 	}).appendTo(note);
 	
 	var frm = $("<form />", {
@@ -142,7 +160,7 @@ function ui_note()
 	
 	
 	var frm_content = $("<div />", {
-		"html": '<p><textarea></textarea></p><p><label for="type">Type</label><select class="dd-type"><option value="HTML">HTML</option><option value="Flash">Flash</option></select></p><p><label for="assigned-to">Assigned To</label><select class="dd-assigned-to"><option value="bross">bross</option><option value="alincoln">alincoln</option></select><a href="#" class="btn-close-task">Close task</a></p><p class="group-cta"><a href="#" class="btn-save">Save</a><a href="#" class="btn-cancel">Cancel</a><a href="#" class="btn-delete">Delete</a></p>'
+		"html": '<p><textarea name="desc"></textarea></p><p><label for="type">Type</label><select class="dd-type" name="type"><option value="HTML">HTML</option><option value="Flash">Flash</option></select></p><p><label for="assigned-to">Assigned To</label><select class="dd-assigned-to" name="assigned-to"><option value="bross">bross</option><option value="alincoln">alincoln</option></select><a href="#" class="btn-close-task">Close task</a></p><p class="group-cta"><a href="#" class="btn-save">Save</a><a href="#" class="btn-cancel">Cancel</a><a href="#" class="btn-delete">Delete</a></p>'
 	}).appendTo(frm);
 	
 	return note;

@@ -114,16 +114,16 @@ body.view-editor {background: @gray;}
 
 
 /* -- task-list -- */
-.task-list-container {background: rgba(255, 255, 255, 0.9); margin: 0 auto; position: absolute; top: 80px; left: 0; width: 100%; display: none;}
+.task-list-container {background: rgba(255, 255, 255, 0.9); margin: 0 auto; position: absolute; top: 142px; left: 0; width: 100%; display: none; z-index: 2;}
 	.task-list {width: @page_width; margin: @spacer auto 0 auto;}
-		.task-list .icon-close {float: right; margin-right: (@spacer/2); font-size: 24px; text-indent: 30px; color: @primary_gray;}
-		.sort-tasks {}
+		.task-list .icon-close {float: right; margin-right: (@spacer/2); font-size: 24px; text-indent: 30px; color: @primary_gray; display: none;}
+		.sort-tasks {display: none;}
 		.task-group {float: left; margin: 40px 0 @spacer 0;}
-			.task-title {font-size: 30px; color: @primary_gray; margin: 0 0 15px 80px;}
+			.task-title {font-size: 30px; color: @primary_gray; position: fixed; background: #f5f5f5; width: 460px; height: 60px; line-height: 60px; text-indent: 50px; .dropshadow(0, 1px, 4px, rgba(0, 0, 0, 0.4));}
 			.tasks-open {color: @task_open;}
 			.task-group .tasks-closed {color: @task_total;}
-			.task-group ol {list-style: none;}
-				.task-group li {font-size: 14px; background: #fff; float: left; clear: left; padding: @spacer @spacer @spacer 50px; border-top: 1px solid #d8d8d8; border-bottom: #fff 1px solid; }
+			.task-group ol {list-style: none; margin-top: 60px;}
+				.task-group li {font-size: 14px; background: #fff; float: left; clear: left; padding: @spacer; margin-right: 20px; width: 420px; border-top: 1px solid #d8d8d8; border-bottom: #fff 1px solid; }
 				.task-group li.alt {background: #d8d8d8;}
 					.task-group .task-count {color: @primary_gray; float: left; display: inline; margin-right: @spacer;}
 					.task-group .task-info-group {float: left; display: inline; margin-right: @spacer;}
@@ -150,22 +150,31 @@ body.view-editor {background: @gray;}
 	#view-body-editor {position: relative; top: 200px; left: 0; background: @gray;}
 		#view-body-editor-image {margin: 0 auto; .dropshadow(0, 3px, 6px, rgba(0, 0, 0, 0.5)); padding: 0 5px; position: relative;}
 		
-		#view-body-editor-image .note {width: 100px; height: 100px; position: absolute; background: rgba(255, 255, 255, 0.3); margin-left: 2px; -moz-border-image: url(../img/note-border.png) 5 5 5 5 stretch; -webkit-border-image: url(../img/note-border.png) 5 5 5 5 stretch; border: 5px solid #ff7b09; .rounded(5px)}
-		#view-body-editor-image .note .note-num {position: absolute; top: -13px; left: -13px; background: #272727; border: 1px solid #fff; width: 20px; height: 20px; line-height: 20px; text-align: center; color: #ccc; .rounded(5px); font-size: 12px; }
-		#view-body-editor-image .note .border {position: absolute; top: -1px; left: -1px; border: 1px solid rgba(0, 0, 0, 0.4); .rounded(5px); width: 100%; height: 100%;}
-		#view-body-editor-image .note .overlay {position: absolute; top: 0; left: 0; .rounded(5px); width: 100%; height: 100%; cursor: move;}
-		#view-body-editor-image .note .frm-note {position: absolute; top: 110px; width: 330px; height: 200px; background: #272727; .rounded(5px); color: #ccc; padding: 15px; font-size: 12px; .dropshadow();}
+		#view-body-editor .note {width: 100px; height: 100px; position: absolute; background: rgba(255, 255, 255, 0.3); margin-left: 2px; -moz-border-image: url(../img/note-border.png) 5 5 5 5 stretch; -webkit-border-image: url(../img/note-border.png) 5 5 5 5 stretch; border: 5px solid #ff7b09; .rounded(5px)}
+
+		/** -- minimized note view -- **/
+		#view-body-editor .minimized.note {width: 0 !important; height: 0 !important;}
+	
+		.minimized.note .ui-resizable-handle,
+		.minimized.note .border,		
+		.minimized.note .overlay,		
+		.minimized.note form {display: none;}
+			
+		#view-body-editor .note .note-num {position: absolute; top: -13px; left: -13px; background: #272727; border: 1px solid rgba(255, 255, 255, 0.5); width: 20px; height: 20px; line-height: 20px; text-align: center; color: #ccc; .rounded(5px); font-size: 12px; z-index: 200002; cursor: pointer; .dropshadow(0, 1px, 1px, rgba(0, 0, 0, 0.4); }
+		#view-body-editor .note .border {position: absolute; top: -1px; left: -1px; border: 1px solid rgba(0, 0, 0, 0.4); .rounded(5px); width: 100%; height: 100%;}
+		#view-body-editor .note .overlay {position: absolute; top: 0; left: 0; .rounded(5px); width: 100%; height: 100%; cursor: move;}
+		#view-body-editor .note .frm-note {position: absolute; top: 110px; width: 330px; height: 200px; background: #272727; .rounded(5px); color: #ccc; padding: 15px; font-size: 12px; .dropshadow();}
 		
-		#view-body-editor-image .note form {width: 100%; position: relative; float: left;}			
-			#view-body-editor-image .note form p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
-			#view-body-editor-image .note form textarea {float: left; position: relative; width: 318px; .rounded(3px); border: 1px solid #000; height: 100px; padding: 5px; resize: none;}
-			#view-body-editor-image .note form label {width: 72px; font-weight: bold; position: relative; top: 4px; float: left;}
-			#view-body-editor-image .note form select {width: 170px; position: relative; float: left; margin-left: 10px;}
-			#view-body-editor-image .note form .btn-close-task {position: relative; float: left; margin-left: 20px; top: 4px;}
-			#view-body-editor-image .note form .group-cta {position: relative; top: 15px; width: 327px;}
-			#view-body-editor-image .note form .btn-save {position: relative; float: left;}
-			#view-body-editor-image .note form .btn-cancel {position: relative; float: left; margin-left: 20px;}
-			#view-body-editor-image .note form .btn-delete {position: relative; float: right;}
+		#view-body-editor .note form {width: 100%; position: relative; float: left;}			
+			#view-body-editor .note form p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
+			#view-body-editor .note form textarea {float: left; position: relative; width: 318px; .rounded(3px); border: 1px solid #000; height: 100px; padding: 5px; resize: none;}
+			#view-body-editor .note form label {width: 72px; font-weight: bold; position: relative; top: 4px; float: left;}
+			#view-body-editor .note form select {width: 170px; position: relative; float: left; margin-left: 10px;}
+			#view-body-editor .note form .btn-close-task {position: relative; float: left; margin-left: 20px; top: 4px;}
+			#view-body-editor .note form .group-cta {position: relative; top: 15px; width: 327px;}
+			#view-body-editor .note form .btn-save {position: relative; float: left;}
+			#view-body-editor .note form .btn-cancel {position: relative; float: left; margin-left: 20px;}
+			#view-body-editor .note form .btn-delete {position: relative; float: right;}
 
 /* Resizable
 ----------------------------------*/
