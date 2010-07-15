@@ -57,15 +57,17 @@ class YSSServiceProjects extends AMServiceContract
 		$response = new stdClass();
 		$response->ok = false;
 		
-		$data       = json_decode(file_get_contents('php://input'), true);
-		$data['id'] = strtolower($id);
+		$data                    = json_decode(file_get_contents('php://input'), true);
+		$data['id']              = strtolower($id);
+		$data['transform_label'] = YSSUtils::transform_to_id($data['label']);
 		
 		$context    = array(AMForm::kDataKey=>$data);
 		$input      = AMForm::formWithContext($context);
 	
-		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMPatternValidator('id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid project id. Expecting minimum 2 characters."));
-		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMPatternValidator('id', AMValidator::kRequired, '/^[\w\d-_]+$/', "Invalid project id."));
+		$input->addValidator(new AMPatternValidator('label', AMValidator::kRequired, '/^[\w\d-_ ]{2,}$/', "Invalid label. Expecting minimum 2 characters."));
+		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMMatchValidator('id', 'transform_label', AMValidator::kRequired, "Invalid project id."));
 		
 		if($data['_rev'])
 		{
@@ -77,7 +79,7 @@ class YSSServiceProjects extends AMServiceContract
 			$project = new YSSProject();
 			$project->label = $input->label;
 			$project->description = $input->description;
-			$project->_id = strtolower($id);
+			$project->_id = strtolower('project/'.$id);
 			
 			if($input->_rev)
 				$project->_rev = $input->_rev;

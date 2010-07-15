@@ -9,10 +9,12 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMEmailValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMMatchValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
+require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFilesizeValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
 require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
+require YSSApplication::basePath().'/application/data/YSSState.php';
 
 
 class YSSServiceViews extends AMServiceContract
@@ -50,35 +52,29 @@ class YSSServiceViews extends AMServiceContract
 	
 	public function updateView($project_id, $view_id)
 	{
-		print_r($_POST);
-		print_r($_FILES);
-		echo 'Input stream: ',"\n\n";
-		/*$image = fopen("test.jpg", "w");
-		fwrite($image, file_get_contents("php://input"));
-		fclose($image);
-		*/
-		//echo file_get_contents("php://input");
-		exit;
-		
 		$response     = new stdClass();
 		$response->ok = false;
 		
-		$data               = json_decode(file_get_contents('php://input'), true);
+		$data               = $_POST;//json_decode(file_get_contents('php://input'), true);
 		$data['view_id']    = strtolower($view_id);
 		$data['project_id'] = strtolower($project_id);
 		
-		$context = array(AMForm::kDataKey=>$data);
+		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
 		$input   = AMForm::formWithContext($context);
-	
+		
 		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
 		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
 		
 		if($data['_rev'])
 		{
 			$input->addValidator(new AMPatternValidator('_rev', AMValidator::kRequired, '/^[\d]+-[a-z0-9]{32}+$/', "Invalid _rev."));
 		}
+		echo $input->attachment->tmp_name,"\n";
+		echo $input->attachment->name, "\n";
+		echo $input->attachment->size, "\n";
 		
 		if($input->isValid)
 		{
@@ -96,6 +92,14 @@ class YSSServiceViews extends AMServiceContract
 			
 				if($view->save())
 				{
+					$state              = new YSSState();
+					$state->label       = YSSState::kDefault;
+					$state->description = YSSState::kDefault;
+					$state->_id         = $view->_id.'/'.YSSState::kDefault;
+					
+					//$state->addAttachment();
+					//$view->addState($state);
+					
 					$response->ok = true;
 				}
 			}

@@ -26,7 +26,7 @@
  *    @license http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
  *
  **/
-class FilesizeValidator extends BLITZValidator
+class AMFilesizeValidator extends AMValidator
 {
 	public $bytes;
 	

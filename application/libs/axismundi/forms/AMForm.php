@@ -161,9 +161,13 @@ class AMForm
 				$value = $value[array_shift($keys)];
 			}
 		}
-		else if(isset($this->fileData) && isset($this->fileData[$key]))
+		
+		if($value == null)
 		{
-			$value = (object) $this->fileData[$key];
+			if(isset($this->fileData) && isset($this->fileData[$key]))
+			{
+				$value = (object) $this->fileData[$key];
+			}
 		}
 		
 		return $value;

@@ -5,6 +5,7 @@ require "YSSDatabase.php";
 require "YSSPage.php";
 require "YSSController.php";
 require "YSSSession.php";
+require "YSSUtils.php";
 
 require YSSApplication::basePath().'/application/data/YSSCurrentUser.php';
 require YSSApplication::basePath().'/application/data/YSSUserLevel.php';

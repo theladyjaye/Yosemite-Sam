@@ -13,6 +13,11 @@ class YSSView extends YSSCouchObject
 		return YSSView::hydrateWithArray(json_decode($jsonString, true));
 	}
 	
+	public function addState(YSSState $state)
+	{
+		return $state->save();
+	}
+	
 	private static function hydrateWithArray($array)
 	{
 		$object  = new YSSView();

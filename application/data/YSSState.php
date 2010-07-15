@@ -1,6 +1,7 @@
 <?php
 class YSSState extends YSSCouchObject
 {
+	const kDefault = 'default';
 	public $label;
 	public $description;
 	public $project;
@@ -12,6 +13,11 @@ class YSSState extends YSSCouchObject
 	public static function taskWithJson($jsonString)
 	{
 		return YSSState::hydrateWithArray(json_decode($jsonString, true));
+	}
+	
+	public function addAttachment($attachment)
+	{
+		
 	}
 	
 	private static function hydrateWithArray($array)
