@@ -15,8 +15,7 @@ Phil:
 		- error messages
 	annotations
 		- color code by type
-		- save state
-		- drag to size instead of initialize 100x100		
+		- save state		
  	Task List
 		- sorting
 	Settings
@@ -24,3 +23,8 @@ Phil:
 	"add attachment" modal 
 		- integrate multiple uploads
 	logo, favicon
+	
+	
+	// file uploads as post with xhttpmethod override header
+	// create new put
+	// update is post

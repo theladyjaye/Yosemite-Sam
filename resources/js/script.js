@@ -1,6 +1,5 @@
 Cufon.replace('.font-replace', { fontFamily: 'Vegur', hover: true });
 
-
 $(function() {
 	
 	$("#view-table-list").delegate("li", "mouseenter", function() {
@@ -25,11 +24,14 @@ $(function() {
 			"width": percent + "%"
 		}, 800, "easeOutQuad");
 		
-		$progress_value.countup({
-			"end": percent,
-			"time": percent/200,
-			"step": 20
-		});	
+		if(percent > 0)
+		{		
+			$progress_value.countup({
+				"end": percent,
+				"time": percent/200,
+				"step": 20
+			});	
+		}
 	});
 		
 	$("#view-body-editor-image").annotatableImage(ui_note, {
@@ -90,6 +92,11 @@ $(function() {
 	$(".task-list-container .btn-close-task-list").click(function() {
 		$(".task-list-container").fadeOut();
 	});
+	
+	$("form[name=frm-add-project]").submit(function() {
+		
+		return false;
+	});
 });
 
 function get_notes()
@@ -122,9 +129,9 @@ function get_next_note_count() {
 function ui_note()
 {
 	var note = $("<div />", {
-		"class": "note"
+		"class": "note"			
 	}).resizable({
-		handles: "n, e, s, w, ne, se, sw",
+		handles: "e, s, w, ne, se, sw",
 		resize: function(evt, ui) 
 		{
 			$(this).find(".frm-note").css({
@@ -134,7 +141,22 @@ function ui_note()
 	}).draggable({
 		containment: [0, $("#view-body-editor").position().top, 1900, 800],
 		handle: ".overlay"
-	}).trigger("resize");
+	}).click(function() {
+		$(".note").removeClass("active");
+		$(this).addClass("active");
+	})
+	
+	// drag initial size
+	$("#view-body-editor-image").mousemove(function(evt) {
+		var pos = note.position();
+		note.width(evt.pageX - pos.left).height(evt.pageY - pos.top - 200);
+		note.find(".frm-note").css({
+			"top": note.height() + 10
+		});
+		return false;
+	}).mouseup(function(evt) {
+		$(this).unbind("mousemove");
+	});
 	
 	var border = $("<div />", {
 		"class": "border"
@@ -149,7 +171,25 @@ function ui_note()
 		"html": get_next_note_count(),
 		"click": function(evt) {
 			var $note = $(this).parents(".note");
-			$note.toggleClass("minimized");
+			
+			if($note.hasClass("minimized"))
+			{
+				var data = $note.data("yss");
+				$note.removeClass("minimized").animate({
+					"width": data.width,
+					"height": data.height
+				});
+			}
+			else
+			{
+				$note.data("yss", {
+					"width": $note.width(),
+					"height": $note.height()
+				}).addClass("minimized").animate({
+					"width": 0,
+					"height": 0
+				})
+			}
 		}
 	}).appendTo(note);
 	
@@ -162,6 +202,7 @@ function ui_note()
 	var frm_content = $("<div />", {
 		"html": '<p><textarea name="desc"></textarea></p><p><label for="type">Type</label><select class="dd-type" name="type"><option value="HTML">HTML</option><option value="Flash">Flash</option></select></p><p><label for="assigned-to">Assigned To</label><select class="dd-assigned-to" name="assigned-to"><option value="bross">bross</option><option value="alincoln">alincoln</option></select><a href="#" class="btn-close-task">Close task</a></p><p class="group-cta"><a href="#" class="btn-save">Save</a><a href="#" class="btn-cancel">Cancel</a><a href="#" class="btn-delete">Delete</a></p>'
 	}).appendTo(frm);
+	
 	
 	return note;
 }

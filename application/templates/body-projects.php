@@ -1,7 +1,7 @@
 <div id="global-body">
 	<div id="view-table-header" class="view-header">
 		<div class="page-title icon-folder font-replace">
-			Projects <span class="count">(5)</span> 
+			Projects <span class="count">(<?=count($data)?>)</span> 
 		</div>
 		<a href="#" title="Add Project" class="font-replace add icon-folder-add no_ btn-modal modal-view-add-project">Add Project</a>
 	</div>

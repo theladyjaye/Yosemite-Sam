@@ -1,3 +1,7 @@
+<?php
+	$ary_projects = json_decode(file_get_contents("http://api.yss.com/projects"));
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +11,22 @@
 	<div id="container">
 		<?php include("application/templates/header.php"); ?>
 		<?php 
+			$data = array();
+			foreach($ary_projects as $key => $val)
+			{
+				if(isset($val->type) && $val->type == "project")
+				{
+					array_push($data, array(
+						"item-name" => $val->label,
+						"tasks-total" => $val->tasks,
+						"tasks-closed" => $val->completed,
+						"view-count" => 7,
+						"percentage" => ($val->tasks > 0) ? round($val->completed / $val->tasks) : 0,
+						"desc" => $val->description
+					));
+				}
+			}
+		/*
 			$data = array(
 				array(
 					"item-name"=> "Apple",
@@ -59,6 +79,7 @@
 					<p>Duis fermentum nulla at justo ultricies eu lobortis ipsum fringilla. Aenean adipiscing neque non nisl faucibus eget tincidunt felis tempor. Fusce rutrum leo sit amet mi dignissim a dictum libero dignissim. Mauris porta metus et nulla varius tempor. Pellentesque libero urna, sodales accumsan blandit sed, accumsan sed augue. Donec</p>"
 				)
 			);
+			*/
 			include("application/templates/body-projects.php"); 
 		?>
 	</div>
@@ -70,8 +91,8 @@
 				"action" => "#",
 				"body" => <<<MODAL_CONTENTS
 					<p>
-						<label for="name" class="font-replace">Name</label>					
-						<input type="text" name="name" />
+						<label for="label" class="font-replace">Name</label>					
+						<input type="text" name="label" />
 					</p>
 					<p>
 						<label for="description" class="font-replace">Description</label>					
