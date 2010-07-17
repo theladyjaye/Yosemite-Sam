@@ -26,19 +26,19 @@ class YSSServiceViews extends AMServiceContract
 		switch($method)
 		{
 			case "GET":
-				$this->addEndpoint("GET",    "/project/{project_id}/views",               "generateReport");
+				$this->addEndpoint("GET",    "/api/project/{project_id}/views",               "generateReport");
 				break;
 			
 			case "PUT":
-				$this->addEndpoint("PUT",    "/project/{project_id}/view/{view_id}",      "updateView");
+				$this->addEndpoint("PUT",    "/api/project/{project_id}/view/{view_id}",      "updateView");
 				break;
 			
 			case "POST":
-				$this->addEndpoint("POST",    "/project/{project_id}/view/{view_id}",     "updateView");
+				$this->addEndpoint("POST",    "/api/project/{project_id}/view/{view_id}",     "updateView");
 				break;
 			
 			case "DELETE":
-				$this->addEndpoint("DELETE", "/project/{project_id}/view/{view_id}",      "deleteView");
+				$this->addEndpoint("DELETE", "/api/project/{project_id}/view/{view_id}",      "deleteView");
 				break;
 		}
 	}

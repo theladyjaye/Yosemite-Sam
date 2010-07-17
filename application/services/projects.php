@@ -27,20 +27,20 @@ class YSSServiceProjects extends AMServiceContract
 		switch($method)
 		{
 			case "GET":
-				$this->addEndpoint("GET",    "/projects",                                                      "generateReport");
-				$this->addEndpoint("GET",    "/project/{id}",                                                  "getProject");
+				$this->addEndpoint("GET",    "/api/projects",                                                      "generateReport");
+				$this->addEndpoint("GET",    "/api/project/{id}",                                                  "getProject");
 				break;
 			
 			case "PUT":
-				$this->addEndpoint("PUT",    "/project/{id}",                                                  "updateProject");
+				$this->addEndpoint("PUT",    "/api/project/{id}",                                                  "updateProject");
 				break;
 			
 			case "POST":
-				$this->addEndpoint("POST",   "/project/{id}",                                                  "updateProject");
+				$this->addEndpoint("POST",   "/api/project/{id}",                                                  "updateProject");
 				break;
 			
 			case "DELETE":
-				$this->addEndpoint("DELETE", "/project/{id}",                                                  "deleteProject");
+				$this->addEndpoint("DELETE", "/api/project/{id}",                                                  "deleteProject");
 				break;
 		}
 	}
