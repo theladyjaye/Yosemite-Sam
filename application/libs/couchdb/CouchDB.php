@@ -292,7 +292,7 @@ class CouchDB
 		if($this->shouldPerformActionWithDatabase())
 		{
 			$connection = new CouchDBConnection($this->connectionOptions);
-			$response   = $connection->execute(new CDBGetAttachment($this->connectionOptions['database'], $document, $name));
+			$response   = $connection->execute(new CDBGetAttachment($this->connectionOptions['database'], urlencode($document), $name));
 			return $response->result;
 		}
 		else
@@ -331,7 +331,7 @@ class CouchDB
 			}
 
 			$connection = new CouchDBConnection($this->connectionOptions);
-			$response   = $connection->execute(new CDBDeleteAttachment($this->connectionOptions['database'], $document, $name, $revision));
+			$response   = $connection->execute(new CDBDeleteAttachment($this->connectionOptions['database'], urlencode($document), $name, $revision));
 			return $response->result;
 		}
 		else
@@ -381,7 +381,7 @@ class CouchDB
 			}
 
 			$connection = new CouchDBConnection($this->connectionOptions);
-			$response   = $connection->execute(new CDBPutAttachment($this->connectionOptions['database'], $attachment, $document, $revision));
+			$response   = $connection->execute(new CDBPutAttachment($this->connectionOptions['database'], $attachment, urlencode($document), $revision));
 			return $response->result;
 		}
 		else

@@ -62,6 +62,7 @@ class YSSServiceViews extends AMServiceContract
 		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
 		$input   = AMForm::formWithContext($context);
 		
+		
 		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
@@ -72,9 +73,6 @@ class YSSServiceViews extends AMServiceContract
 		{
 			$input->addValidator(new AMPatternValidator('_rev', AMValidator::kRequired, '/^[\d]+-[a-z0-9]{32}+$/', "Invalid _rev."));
 		}
-		echo $input->attachment->tmp_name,"\n";
-		echo $input->attachment->name, "\n";
-		echo $input->attachment->size, "\n";
 		
 		if($input->isValid)
 		{
@@ -97,10 +95,28 @@ class YSSServiceViews extends AMServiceContract
 					$state->description = YSSState::kDefault;
 					$state->_id         = $view->_id.'/'.YSSState::kDefault;
 					
-					//$state->addAttachment();
-					//$view->addState($state);
+					$view->addState($state);
 					
-					$response->ok = true;
+					$fileinfo     = finfo_open(FILEINFO_MIME_TYPE);
+					$content_type = finfo_file($fileinfo, $input->attachment->tmp_name);
+					finfo_close($fileinfo);
+					
+					$attachment = array('name'         => $input->attachment->name,
+					                    'path'         => $input->attachment->tmp_name,
+					                    'content_type' => $content_type);
+					
+					if($state->addAttachment($attachment))
+					{
+						$response->ok = true;
+					}
+					else
+					{
+						$response->errors = array();
+						$error = new stdClass();
+						$error->key = 'state';
+						$error->message = 'error';
+						$response->errors[] = $error;
+					}
 				}
 			}
 			else

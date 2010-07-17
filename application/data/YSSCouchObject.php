@@ -5,11 +5,24 @@ class YSSCouchObject
 	public $_rev;
 	protected $type;
 	
+	protected function database()
+	{
+		static $database;
+		
+		if(!$database)
+		{
+			$session  = YSSSession::sharedSession();
+			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		}
+		
+		return $database;
+	}
 	public function save()
 	{
 		$ok       = false;
-		$session  = YSSSession::sharedSession();
-		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		//$session  = YSSSession::sharedSession();
+		//$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		$database = $this->database();
 		
 		$response = $database->put($this, $this->_id);
 		

@@ -8,10 +8,14 @@ class YSSProject extends YSSCouchObject
 	
 	public static function projectWithId($id)
 	{
-		$object   = null;
-		$session  = YSSSession::sharedSession();
-		$couchdb  = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		$response = $couchdb->document('project/'.$id);
+		$object    = null;
+		$session   = YSSSession::sharedSession();
+		$database  = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		
+		if(strpos($id, 'project/') !== 0)
+			$id = 'project/'.$id;
+			
+		$response = $database->document($id);
 		
 		if(!isset($response['error']))
 		{
