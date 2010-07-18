@@ -47,7 +47,7 @@ $v3->label       = "Homepage";
 $v3->description = "The homepage";
 $v3->_id         = "homepage";
 
-// States - we make new objects, because once one is saved, it will get an _id and a _rev and we don't want to reuse
+// States - we make new objects, because once one is saved, it will get an _id and a _rev and we don't want to reuse those dudes
 $s1 = new YSSState();
 $s1->label       = "default";
 $s1->description = "default state";
