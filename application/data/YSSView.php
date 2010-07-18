@@ -15,6 +15,12 @@ class YSSView extends YSSCouchObject
 	
 	public function addState(YSSState $state)
 	{
+		if(!$this->_rev)
+			$this->save();
+		
+		if(strpos($state->_id, $this->_id) !== 0)
+			$state->_id = $this->_id.'/'.$state->_id;
+		
 		return $state->save();
 	}
 	

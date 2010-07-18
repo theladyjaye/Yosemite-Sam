@@ -97,13 +97,8 @@ class YSSServiceViews extends AMServiceContract
 					
 					$view->addState($state);
 					
-					$fileinfo     = finfo_open(FILEINFO_MIME_TYPE);
-					$content_type = finfo_file($fileinfo, $input->attachment->tmp_name);
-					finfo_close($fileinfo);
-					
 					$attachment = array('name'         => $input->attachment->name,
-					                    'path'         => $input->attachment->tmp_name,
-					                    'content_type' => $content_type);
+					                    'path'         => $input->attachment->tmp_name);
 					
 					if($state->addAttachment($attachment))
 					{

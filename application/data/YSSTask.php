@@ -10,6 +10,9 @@ class YSSTask extends YSSCouchObject
 	
 	protected $type = "task";
 	
+	// Task Is's should be generated from the following:
+	// YSSSecurity::generate_token($salt) = this->_id;
+	// see YSSState::addTask;
 	public static function taskWithJson($jsonString)
 	{
 		return YSSTask::hydrateWithArray(json_decode($jsonString, true));

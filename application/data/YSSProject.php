@@ -25,6 +25,18 @@ class YSSProject extends YSSCouchObject
 		return $object;
 	}
 	
+	public function addView(YSSView $view)
+	{
+		if(!$this->_rev)
+			$this->save();
+		
+		if(strpos($view->_id, $this->_id) !== 0)
+			$view->_id = $this->_id.'/'.$view->_id;
+		
+		$view->save();
+	}
+	
+	
 	public static function projectWithJson($jsonString)
 	{
 		return YSSProject::hydrateWithArray(json_decode($jsonString, true));

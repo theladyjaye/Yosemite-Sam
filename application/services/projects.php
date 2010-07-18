@@ -15,6 +15,7 @@ require YSSApplication::basePath().'/application/data/YSSCompany.php';
 require YSSApplication::basePath().'/application/data/YSSUser.php';
 require YSSApplication::basePath().'/application/data/YSSDomain.php';
 require YSSApplication::basePath().'/application/data/YSSProject.php';
+require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSTask.php';
 
 

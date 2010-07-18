@@ -4,9 +4,6 @@ class YSSState extends YSSCouchObject
 	const kDefault = 'default';
 	public $label;
 	public $description;
-	public $project;
-	public $view;
-	public $complete;
 	
 	protected $type = "state";
 	
@@ -19,11 +16,22 @@ class YSSState extends YSSCouchObject
 	{
 		$result = false;
 		
-		if(!$this->_rev)
+		if(!isset($attachment['name']) ||
+		   !isset($attachment['path']))
 		{
-			throw new Exception("YSSState must be saved prior to adding an attachment");
-			exit;
+			throw new Exception("Invalid attachment name or path");
+			//return $result;
 		}
+		
+		$fileinfo     = finfo_open(FILEINFO_MIME_TYPE);
+		$content_type = finfo_file($fileinfo, $attachment['path']);
+		finfo_close($fileinfo);
+			
+		$attachment['content_type'] = $content_type;
+		
+		
+		if(!$this->_rev)
+			$this->save();
 			
 		$database = $this->database();
 		$response = $database->put_attachment($attachment, $this->_id, $this->_rev);
@@ -32,6 +40,17 @@ class YSSState extends YSSCouchObject
 			$result = true;
 			
 		return $result;
+	}
+	
+	public function addTask(YSSTask $task)
+	{
+		if(!$this->_rev)
+			$this->save();
+		
+		if(strpos($task->_id, $this->_id) !== 0)
+			$task->_id = $this->_id.'/'.YSSSecurity::generate_token();
+		
+		$task->save();
 	}
 	
 	private static function hydrateWithArray($array)

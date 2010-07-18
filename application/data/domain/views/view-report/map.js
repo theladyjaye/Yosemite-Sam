@@ -1,17 +1,19 @@
 function(doc) 
 {
-	if(doc.type == "project")
-	{    
-		emit([doc._id, 0], doc)
+	var project = doc._id.split("/").slice(0, 2).join("/");
+	
+	if(doc.type == "view")
+	{
+		emit([project, 0], null);
 	}
 	
-	if (doc.type == "view")
+	if(doc.type == "state")
 	{
-		emit([doc.project, 1], {type:"view", value:1});
+		emit([project, 1], {type:"state", label:doc.label});
 	}
 	
 	if (doc.type == "task")
 	{
-		emit([doc.project, 2], {type:"task", value:doc.complete ? 1 : 0})
+		emit([project, 2], {type:"task", value:doc.complete ? 1 : 0})
 	}
 }
