@@ -14,6 +14,6 @@ date_default_timezone_set('America/Los_Angeles');
 new YSSApplication();
 YSSApplication::startSession();
 
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 
 ?>

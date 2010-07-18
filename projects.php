@@ -1,5 +1,5 @@
 <?php
-	$ary_projects = json_decode(file_get_contents("http://api.yss.com/projects"));
+	$ary_projects = json_decode(file_get_contents("http://yss.com/api/projects"));
 ?>
 
 <!DOCTYPE html>

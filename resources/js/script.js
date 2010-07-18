@@ -33,6 +33,20 @@ $(function() {
 			});	
 		}
 	});
+	
+	
+	$(".editable").editable( "save.php", {
+		indicator: "Saving...",
+		tooltip: "Click to edit..."
+	});
+	
+	$(".editable-area").editable("save.php", {
+		type: "textarea",
+		cancel: "Cancel",
+		submit: "Update",
+		tooltip: "Click to edit..."
+	});
+	
 		
 	$("#view-body-editor-image").annotatableImage(ui_note, {
 		xPosition: "left",
@@ -94,10 +108,83 @@ $(function() {
 	});
 	
 	$("form[name=frm-add-project]").submit(function() {
+		var $this = $(this), 
+			label = $this.find("input[name=label]").val(),
+			id = gen_id_from_label(label),
+		 	serialized = form_serialize($this),
+			query_string = serialized + "&id=" + id;
+
+		var params = {};
+		query_string.replace(/([^=&]+)=([^&]*)/g, function(match, key, value) {
+			params[unescape(key)] = value.replace(/(\+)/g, " ");
+		});
 		
+		if(Validation.add_project($this)) {
+			api("project/" + id, params, "PUT", function(data) {
+				if(data.ok)
+				{
+					console.log("success");
+				}
+				else
+				{
+					console.log("failed");
+				}
+			});
+		}
 		return false;
 	});
 });
+
+function api(resource, data, method, successCallback)
+{
+	var url = "http://yss.com/api/" + resource;
+
+	$.ajax({
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("X-HTTP-Method-Override", method || "GET");
+		},
+		type: "POST",
+		data: JSON.stringify(data),
+		contentType: "application/json; charset=utf-8",
+		url: url,
+		async: false, /* ugh */
+		success: function(data) {
+			if($.isFunction(successCallback)) {
+				successCallback(data);
+			}			
+		}
+	});
+}
+
+var Validation = {
+	regexp: {
+		label: /(\w|\d|_|-){2,}/ // at least 2 (word, digit, _, -)
+	},
+	add_project: function($frm) {
+		var label = $frm.find("input[name=label]").val();
+//		 	description = $frm.find("textarea[name=description]").val();
+
+		return Validation.regexp.label.test(label);		
+	}
+};
+
+function form_serialize($frm) 
+{
+	var serialized = $frm.serialize();
+	
+	for(var i in serialized)
+	{
+		serialized[i] = $.trim(serialized[i]);
+	}
+	
+	return serialized;
+}
+
+function gen_id_from_label(label)
+{
+	// replace underscores and spaces to hypens
+	return label.replace(/(_|\s)/g, "-").toLowerCase();
+}
 
 function get_notes()
 {
