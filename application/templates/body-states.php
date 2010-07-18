@@ -11,9 +11,9 @@
 				<span class="percentage-sign">%</span>
 			</div>
 		</div>
-		<a href="#" class="edit icon-edit no_ font-replace">Edit</a>
+		<?php YSSUI::BTN_EDIT("#");?>
 		<?if(count($item["states"]) > 1):?>
-		<a href="#" class="delete icon-delete no_ font-replace btn-modal modal-view-delete">Delete</a>
+		<?php YSSUI::BTN_DELETE("#");?>
 		<?endif;?>
 	</li>
 	<?endforeach;?>			

@@ -1,3 +1,5 @@
+<?php include("ui/YSSUI.php"); ?>
+
 <title>YSS</title>
 <meta charset="utf-8" />
 
@@ -16,4 +18,7 @@
 <script src="resources/js/jquery.easing.js"></script>
 <script src="resources/js/jquery.countup.js"></script>
 <script src="resources/js/jqModal.js"></script>
+<script src="resources/js/jquery.jeditable.js"></script>
+<script src="resources/js/json2.js"></script>
+<script src="resources/js/jquery.phui.js"></script>
 <script src="resources/js/script.js"></script>

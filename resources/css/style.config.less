@@ -36,10 +36,15 @@
 	box-shadow: @offsetX @offsetY @radius @color;
 }
 
+.innershadow(@offsetX: 0, @offsetY: 2px, @radius: 3px, @color: #000)
+{
+	-moz-box-shadow: @offsetX @offsetY @radius @color inset;
+	-webkit-box-shadow: @offsetX @offsetY @radius @color inset;
+	box-shadow: @offsetX @offsetY @radius @color inset;
+}
+
 
 .seotext()
 {
 	text-indent: -9999px;
 }
-
-.example {width: 50px;}

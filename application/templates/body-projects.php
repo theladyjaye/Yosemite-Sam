@@ -18,7 +18,7 @@
 						<span class="percentage-sign">%</span>
 					</div>
 				</div>
-				<a href="#" class="delete icon-delete no_ font-replace btn-modal modal-view-delete">Delete</a>
+				<?php YSSUI::BTN_DELETE("#");?>
 				
 				<div class="item-detail">
 					<p class="item-tasks icon-check">Tasks <span class="tasks-closed"><?=$item["tasks-closed"]?></span>/<span class="tasks-total"><?=$item["tasks-total"]?></span></p>					
