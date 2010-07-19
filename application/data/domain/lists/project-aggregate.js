@@ -6,7 +6,6 @@ function(head, req)
 	
 	while(row = getRow())
 	{
-		//send(JSON.stringify(row.value)+"\n\n");
 		var type  = row.value.type;
 		
 		if(type == "project")
