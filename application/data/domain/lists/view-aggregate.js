@@ -8,21 +8,22 @@ function(head, req)
 	{
 		var type  = row.value.type;
 		
-		if(type == "project")
+		if(type == "view")
 		{
 			if(current)
 				result.push(current)
 				
 			current           = row.value;
 			current.tasks     = {completed:0, total:0};
-			current.views     = 0;
+			current.states    = [];
+			
 		}
 		else
 		{
 			switch(type)
 			{
-				case "view":
-					current.views++;
+				case "state":
+					current.states.push(row.value);
 					break;
 				
 				case "task":

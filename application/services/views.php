@@ -43,7 +43,7 @@ class YSSServiceViews extends AMServiceContract
 		}
 	}
 	
-	public function getProject($id)
+	public function getView($id)
 	{
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
@@ -142,7 +142,7 @@ class YSSServiceViews extends AMServiceContract
 		echo json_encode($response);
 	}
 	
-	public function deleteProject($id)
+	public function deleteView($id)
 	{
 		/*
 			TODO Finish delete project logic.  Do we just mark as unused? Do we cascade down all of the associated tasks/comments/attachments/views?
@@ -154,7 +154,7 @@ class YSSServiceViews extends AMServiceContract
 	{
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		echo $database->formatList("project/project-aggregate", "project-report", null, true);
+		echo $database->formatList("project/view-aggregate", "view-report", null, true);
 	}
 	
 	public function verifyAuthorization()

@@ -1,15 +1,15 @@
 function(doc) 
 {
-	var project = doc._id.split("/").slice(0, 2).join("/");
+	var project = doc._id.split("/").slice(0, 3).join("/");
 	
 	if(doc.type == "view")
 	{
-		emit([project, 0], null);
+		emit([project, 0], doc);
 	}
 	
 	if(doc.type == "state")
 	{
-		emit([project, 1], {type:"state", label:doc.label});
+		emit([project, 1], {type:"state", label:doc.label, _id:doc._id});
 	}
 	
 	if (doc.type == "task")
