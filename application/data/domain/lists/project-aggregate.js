@@ -7,20 +7,33 @@ function(head, req)
 	while(row = getRow())
 	{
 		//send(JSON.stringify(row.value)+"\n\n");
+		var type  = row.value.type;
 		
-		if(typeof row.value == "object")
+		if(type == "project")
 		{
 			if(current)
 				result.push(current)
 				
 			current           = row.value;
 			current.tasks     = 0;
+			current.views     = 0;
 			current.completed = 0;
 		}
 		else
 		{
-			current.tasks++;
-			current.completed += row.value;
+			switch(type)
+			{
+				case "view":
+					current.views++;
+					break;
+				
+				case "task":
+					current.tasks++;
+					current.completed += row.value.value;
+					break;
+			}
+			
+			
 		}
 	}
 	
