@@ -1,9 +1,9 @@
 <div id="global-body">
 	<div id="view-table-header" class="view-header">
 		<div class="page-title icon-view font-replace">			
-			Views <span class="count">(7)</span>		
+			Views <span class="count">(<?=count($data)?>)</span>		
 		</div>
-		<a href="#" title="Add View" class="font-replace add icon-view-add no_ btn-modal modal-view-add-view">Add View</a>
+		<?php YSSUI::BTN_ADD_VIEW(); ?>
 	</div>
 	
 	<div id="view-body">

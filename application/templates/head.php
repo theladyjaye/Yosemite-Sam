@@ -1,5 +1,3 @@
-<?php include("ui/YSSUI.php"); ?>
-
 <title>YSS</title>
 <meta charset="utf-8" />
 
@@ -11,14 +9,30 @@
 
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-<!-- todo: combine js files -->
-<script src="resources/js/cufon-yui.js"></script>
-<script src="resources/js/Vegur.font.js"></script>
-<script src="resources/js/jquery.annotate.js"></script>
-<script src="resources/js/jquery.easing.js"></script>
-<script src="resources/js/jquery.countup.js"></script>
-<script src="resources/js/jqModal.js"></script>
-<script src="resources/js/jquery.jeditable.js"></script>
-<script src="resources/js/json2.js"></script>
-<script src="resources/js/jquery.phui.js"></script>
-<script src="resources/js/script.js"></script>
+
+
+<?
+	// if release=true then load in compressed javascript
+	// else load src js
+if(isset($_REQUEST['release']) && $_REQUEST['release']):?>
+	<script src="resources/js/script.min.js"></script>
+<?else:?>
+	<script src="resources/js/src/cufon/cufon-yui.js"></script>
+	<script src="resources/js/src/cufon/Vegur.font.js"></script>
+	<script src="resources/js/src/jquery-addons/jquery.annotate.js"></script>
+	<script src="resources/js/src/jquery-addons/jquery.easing.js"></script>
+	<script src="resources/js/src/jquery-addons/jquery.countup.js"></script>
+	<script src="resources/js/src/jquery-addons/jqModal.js"></script>
+	<script src="resources/js/src/jquery-addons/jquery.jeditable.js"></script>
+	<script src="resources/js/src/jquery-addons/jquery.phui.js"></script>
+	<script src="resources/js/src/utils/json2.js"></script>
+	<script src="resources/js/src/yss/api.js"></script>
+	<script src="resources/js/src/yss/editable-fields.js"></script>
+	<script src="resources/js/src/yss/forms.js"></script>
+	<script src="resources/js/src/yss/modal.js"></script>
+	<script src="resources/js/src/yss/notes.js"></script>
+	<script src="resources/js/src/yss/progressbar.js"></script>
+	<script src="resources/js/src/yss/table-list.js"></script>
+	<script src="resources/js/src/yss/task-list.js"></script>
+	<script src="resources/js/src/yss/main.js"></script>
+<?endif;?>

@@ -1,3 +1,7 @@
+<?php
+	require 'application/system/YSSEnvironment.php';
+	YSSPage::Controller('ViewsController.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +14,41 @@
 		 	include("application/templates/header.php"); 
 		?>
 		<?php 			
+			$data = array();
+			foreach($page->data as $key => $val)
+			{
+				$view = array(
+					"item-name"=> $val->label,
+					"percentage"=> YSSUtils::calc_percentage($val->tasks->completed, $val->tasks->total),
+					"tasks-closed"=> $val->tasks->completed,
+					"tasks-total"=> $val->tasks->total,					
+					"attachments" => array(
+						
+					),
+					"desc"=> $val->description
+				);
+				
+				$view["states"] = array();
+				foreach($val->states as $stateKey => $stateVal)
+				{
+					array_push($view["states"], array(
+							"item-name" => $stateVal->label,
+							"percentage" => "50",
+							"tasks-closed" => 20,
+							"tasks-total" => 40
+						)
+					);
+				}
+				
+				array_push($data, $view);
+			}	
+		
+				/*
 			$data = array(
 				array(
 					"item-name"=> "Buzz",
 					"percentage"=> "25",
-					"tasks-closed"=> 84,
+					"tasks-closed"=> ,
 					"tasks-total"=> 152,
 					"states" => array(
 						array(
@@ -178,6 +212,7 @@
 					<p>Duis fermentum nulla at justo ultricies eu lobortis ipsum fringilla. Aenean adipiscing neque non nisl faucibus eget tincidunt felis tempor. Fusce rutrum leo sit amet mi dignissim a dictum libero dignissim. Mauris porta metus et nulla varius tempor. Pellentesque libero urna, sodales accumsan blandit sed, accumsan sed augue. Donec</p>"
 				)
 			);
+			*/
 			include("application/templates/body-views.php"); 
 		?>
 	</div>

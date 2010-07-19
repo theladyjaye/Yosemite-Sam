@@ -10,6 +10,8 @@ require "YSSUtils.php";
 require YSSApplication::basePath().'/application/data/YSSCurrentUser.php';
 require YSSApplication::basePath().'/application/data/YSSUserLevel.php';
 
+require YSSApplication::basePath().'/application/templates/ui/YSSUI.php';
+
 date_default_timezone_set('America/Los_Angeles');
 
 new YSSApplication();

@@ -1,5 +1,5 @@
 <p class="item-states icon-states">States <span class="view-count"><?=count($item["states"])?></span></p>
-<a href="#" class="add-state icon-states-add no_ btn-modal modal-view-add-state">Add State</a>
+<?php YSSUI::BTN_ADD_STATE(); ?>
 <ul>
 	<?php foreach($item["states"] as $i => $state_item): ?>			
 	<li class="<?if($i % 2):?>alt<?endif;?>">

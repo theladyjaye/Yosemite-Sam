@@ -1,3 +1,6 @@
+<?php
+	require 'application/system/YSSEnvironment.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>

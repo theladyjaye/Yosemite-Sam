@@ -3,7 +3,7 @@
 		<div class="page-title icon-settings font-replace">
 			Settings <? /*<span class="count">(5)</span> */ ?>
 		</div>
-		<a href="#" title="Add User" class="font-replace add icon-add no_ btn-modal modal-view-add-user">Add User</a>
+		<?php YSSUI::BTN_ADD_USER(); ?>
 	</div>
 	
 	<div id="view-body">
@@ -14,8 +14,8 @@
 				<a href="#" class="item-username font-replace"><?=$item["username"]?></a>
 				<a href="mailto:<?=$item["email"]?>" class="item-email font-replace"><?=$item["email"]?></a>								
 				<p class="item-user-level font-replace"><?=$item["user-level"]?></p>
-				<a href="#" class="edit icon-edit no_ font-replace">Edit</a>				
-				<a href="#" class="delete icon-delete no_ font-replace btn-modal modal-view-delete">Delete</a>				
+				<?php YSSUI::BTN_EDIT(); ?>
+				<?php YSSUI::BTN_DELETE(); ?>
 			</li>
 			<?endforeach;?>			
 		</ul>

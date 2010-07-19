@@ -5,6 +5,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, hr, p, bl
 body {font-family: Arial, Helvetica, sans-serif}
 ul {list-style: none}
 a {text-decoration: none; color: @gray; -moz-transition: color .1s ease-in-out;}
+textarea {resize: none;}
 /*
 a:hover {border-bottom: 1px solid @light_blue; padding-bottom: 1px;}
 a.btn.no_:hover {border-bottom: inherit; padding-bottom: inherit;}
@@ -36,13 +37,13 @@ body.view-editor {background: @gray;}
 			.breadcrumbs .project {}
 		#company-header .dd-change-view {position: absolute; top: 35px; right: 20px; width: 160px;}
 	
-#global-body {border-top: 1px solid #ccc; padding: @spacer; position: relative; min-height: 600px; width: @page_width; margin: 0 auto; .dropshadow(0, 3px, 6px, rgba(0, 0, 0, 0.5)); background: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(255,255,255)), color-stop(1, rgb(242,242,242))); background: #f5f5f5; /*-moz-linear-gradient(100% 0% 90deg, rgb(255, 255, 255), rgb(242, 242, 242))*/}
+#global-body {padding: @spacer; position: relative; min-height: 600px; width: @page_width; margin: 0 auto; .dropshadow(0, 1px, 6px, rgba(0, 0, 0, 0.5)); background: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(255,255,255)), color-stop(1, rgb(242,242,242))); background: #f5f5f5; .rounded(3px); /*-moz-linear-gradient(100% 0% 90deg, rgb(255, 255, 255), rgb(242, 242, 242))*/}
 
 .view-editor #global-body {width: 100%; z-index: 109; min-height: 0; height: 40px; border-bottom: 1px solid rgba(0, 0, 0, 0.3);}
-	.view-header {height: 80px;}
+	.view-header {height: 80px}
 		#view-table-header .page-title {color: @primary_gray; font-size: 24px; font-weight: bold; padding: 7px 50px 0; width: 200px;}
 		#view-table-header .page-title .count {color: @light_gray; font-size: 16px;}
-		#view-table-header .add {position: absolute; top: @spacer; right: 0; color: @primary_gray; font-size: 24px; padding: 6px 31px 0 51px; width: 120px;}
+		#view-table-header .add {position: absolute; top: @spacer; right: @spacer; color: @primary_gray; font-size: 24px; /* padding: 6px 31px 0 51px; width: 120px; */}
 		.view-editor #view-table-header .add {right: @spacer;}
 		
 	
@@ -81,13 +82,12 @@ body.view-editor {background: @gray;}
 		#view-table-list .btn {top: 14px;}
 		
 		#view-table-list .delete {color: @red; /*line-height: 60px; padding-left: 19px; */ position: relative; left: 810px;}
-			#view-table-list .btn img {position: relative; top: 2px; left: -3px;}
 		
 		#view-table-list .item-detail {color: @primary_gray; display: none; font-size: 14px;}
 			#view-table-list .expanded .item-detail {display: block; position: relative; top: 40px; padding: 0 0 40px 0;}
 		#view-table-list .item-tasks {position: relative; top: 0; left: 70px;}
 		#view-table-list .item-states {position: relative; top: -15px; left: 70px; padding-left: 27px; line-height: 20px;}
-			#view-table-list .add-state {position: absolute; top: 15px; left: 250px; color: #000; line-height: 20px; padding-left: 28px; width: 200px;}
+			#view-table-list .add-state {position: absolute; top: 7px; left: 250px; color: #000; /*line-height: 20px; padding-left: 28px; width: 200px; */}
 		#view-table-list .item-views {position: relative; top: -15px; left: 190px;}
 		.item-tasks {padding-left: 26px; width: 150px;}
 			 .tasks-closed {color: @task_closed;}
@@ -201,18 +201,19 @@ body.view-editor {background: @gray;}
 .ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}
 
 /* -- .modal -- */
-.modal {width: @modal_width; height: @modal_height; margin-left: (-1 * (@modal_width/2)); background: #000; .dropshadow(0, 1px, 5px, rgba(0, 0, 0, 0.5)); position: relative;}
+.modal {width: @modal_width; height: @modal_height; margin-left: (-1 * (@modal_width/2)); background: #000; .dropshadow(0, 1px, 5px, rgba(0, 0, 0, 0.5)); position: relative; .rounded(3px);}
 	.modal-title {position: absolute; top: @spacer; left: @spacer; font-weight: bold; font-size: 26px; color: @primary_gray;}
 	.modal-error {position: absolute; top: @spacer; left: 0; width: 100%; text-align: center; font-size: 22px; color: @red_error; display: none;}
 		.modal-error img {position: relative; top: 3px; margin-right: 5px;}
-	.modal-close {position: absolute; top: @spacer; right: @spacer; font-size: 24px; color: @primary_gray; line-height: 24px; padding-left: 27px;}
+	.modal-close.btn {position: absolute; top: @spacer; right: @spacer; font-size: 24px; color: @primary_gray; /*line-height: 24px; padding-left: 27px;*/}
 	.modal form {position: absolute; top: 100px; left: @spacer;}
-		.modal label {color: #000; width: 175px; text-align: right; float: left; height: 58px; font-size: 24px; margin-right: 25px;}
+		.modal label {color: #000; width: 175px; text-align: right; float: left; height: 58px; font-size: 24px; margin-right: 25px; position: relative; top: -8px;}
+
 		.modal input[type=text],
-		.modal input[type=email] {background: url(../img/bg-input-text.png) no-repeat; width: 529px; height: 58px; color: #222; padding: 5px 6px 0; position: relative; top: -16px; font-size: 28px;}
-		 
+		.modal input[type=email] {background: #f3f3f3; border: 1px solid #eee; .innershadow(0, 1px, 2px, rgba(0, 0, 0, 0.5); .rounded(3px); width: 529px; height: 58px; color: #222; padding: 5px 6px 0; position: relative; top: -16px; font-size: 28px;}
+		
 		.modal input[type=text]:focus,
-		.modal input[type=email]:focus {background-image: url(../img/bg-input-text-focus.png);}
+		.modal input[type=email]:focus {border-color: #247DC8;}
 
 		.file-input {position: relative;}		
 			input.file {position: absolute; left: 429px; top: -18px; height: 58px; -moz-opacity: 0; opacity: 0; z-index: 2;}	
@@ -222,17 +223,16 @@ body.view-editor {background: @gray;}
 				.modal .fakefile img {position: absolute; top: 0; right: -45px;}
 		
 		.modal p,
-		.modal .file-input-container {float: left; clear: both;}
+		.modal .file-input-container {float: left; clear: both; margin-bottom: 10px; position: relative;}
 
-		.modal textarea {background: url(../img/bg-input-textarea.png) no-repeat; width: 532px; height: 229px; color: #222; padding: 5px 6px 9px; position: relative; top: -16px; font-size: 28px; border: 0;}		 
-		.modal textarea.small {background: url(../img/bg-input-textarea-small.png) no-repeat; width: 532px; height: 169px; color: #222; padding: 5px 6px 9px; position: relative; top: -16px; font-size: 28px; border: 0;}
+		.modal textarea {background: #f3f3f3; border: 1px solid #eee; .innershadow(0, 1px, 2px, rgba(0, 0, 0, 0.5); .rounded(3px); width: 529px; height: 229px; color: #222; padding: 5px 6px 9px; position: relative; top: -16px; font: 13px Arial, Helvetica, sans-serif; resize: none;}		 
+		.modal textarea.small {width: 532px; height: 169px; color: #222; padding: 5px 6px 9px; position: relative; top: -16px; font-size: 28px;}
 				 
-		.modal textarea:focus {background-image: url(../img/bg-input-textarea-focus.png);}
-		.modal textarea.small:focus {background-image: url(../img/bg-input-textarea-small-focus.png);}
+		.modal textarea:focus {border-color: #247DC8;}
 
 		.modal input[type=checkbox] {position: relative; top: 5px; left: 3px;}
 
-		.modal input[type=submit] {font-size: 24px; color: @primary_gray; position: absolute; right: 0; bottom: (-1 * @spacer); background-position: 0 4px; height: 30px; width: auto; padding-left: 25px; cursor: pointer;}
+		.modal .frm-btn-submit {float: right; clear: both;}
 
 		.modal.modal-view-add-state {height: 250px;}
 			.modal.modal-view-add-state input[type=submit] {bottom: -30px;}
@@ -243,6 +243,10 @@ body.view-editor {background: @gray;}
 				a.frm-delete-yes:hover {background-color: #429F05; color: #fff; border: 1px solid rgba(0, 0, 0, .15);}
 				a.frm-delete-no {background: #fefefe url(../img/icon-cancel.png) no-repeat 10px 5px; font-size: 36px; .rounded(5px); float: left; height: 60px; line-height: 60px; text-indent: 70px; width: 140px; border: 1px solid rgba(0, 0, 0, .15); margin-left: 40px;}
 				a.frm-delete-no:hover {background-color: #9A1E05; color: #fff; border: 1px solid rgba(0, 0, 0, .15);}
+
+/* -- .error -- */
+.error {position: absolute; top: 21px; text-align: center; right: 570px; width: 165px; padding: 5px; color: #fff; background: #DF4729; .rounded(3px); display: block; font-size: 12px; line-height: 18px; display:none;}
+
 
 /* -- .ui-progressbar -- */
 .ui-widget-content {border: 1px solid #aaa;}
@@ -269,9 +273,12 @@ body.view-editor {background: @gray;}
 .icon-attachment-add {background: url(../img/icon-attachment-add.png) no-repeat; height: 40px;}
 	
 	
-.btn.black {}
 .btn {background-image: -moz-linear-gradient(center bottom, #efefef 0%, #fefefe 100%); background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #efefef), color-stop(1, #fefefe))
-; display: inline-block; padding: 5px 10px; color: #fff; text-decoration: none; font-weight: bold; line-height: 1; .rounded(5px); .dropshadow(0, 1px, 3px, rgba(0, 0, 0, 0.5); text-shadow: 0 -1px 1px rbga(0, 0, 0, 0.25); border-bottom: 1px solid rgba(0, 0, 0, 0.25); position: relative; cursor: pointer;}	
+; display: inline-block; padding: 5px 10px; color: @primary_gray; text-decoration: none; font-weight: bold; line-height: 1; .rounded(5px); .dropshadow(0, 1px, 3px, rgba(0, 0, 0, 0.5); text-shadow: 0 -1px 1px rbga(0, 0, 0, 0.25); border-bottom: 1px solid rgba(0, 0, 0, 0.25); position: relative; cursor: pointer;}	
 
 a.btn.on,
 a.btn:hover {border-bottom: none; .innershadow(0, 1px, 2px, rgba(0, 0, 0, 0.5); padding: 5px 10px;}
+
+a.btn:active {margin-top: 1px;}
+
+	.btn img {position: relative; top: 2px; left: -3px;}

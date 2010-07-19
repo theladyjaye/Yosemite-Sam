@@ -3,14 +3,14 @@
 		<div class="page-title icon-folder font-replace">
 			Projects <span class="count">(<?=count($data)?>)</span> 
 		</div>
-		<a href="#" title="Add Project" class="font-replace add icon-folder-add no_ btn-modal modal-view-add-project">Add Project</a>
+		<?php YSSUI::BTN_ADD_PROJECT("#");?>
 	</div>
 	
 	<div id="view-body">
 		<ul id="view-table-list">
 			<?php foreach($data as $i => $item): ?>			
 			<li class="<?if($i % 2):?>alt<?endif;?>">
-				<a href="views.php" title="" class="item-name font-replace"><?=$item["item-name"]?></a>
+				<a href="views.php?project=<?=$item['item-name']?>" title="" class="item-name font-replace"><?=$item["item-name"]?></a>
 				<a href="#" class="item-details font-replace">details</a>
 				<div class="progress-bar">
 					<div class="progress-value font-replace">

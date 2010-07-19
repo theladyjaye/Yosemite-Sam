@@ -1,6 +1,5 @@
 /*!
  * PHUI | PHIL UI
- * http://
  *
  */
 (function($) {	
