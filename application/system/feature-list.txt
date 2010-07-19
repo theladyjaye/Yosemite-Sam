@@ -1,0 +1,10 @@
+Task Estimates
+	- When tasks are present, add the ability to create estimates against
+	that task, eg: This region will take 4 hours to complete.
+	
+Note Commenting
+	- once note/annotation is saved show who created the note and allow others to comment on it
+	
+View Thumbnail preview
+	- In view page, show thumbnail preview of comp with dots notating where notes/annotations are
+	- list notes/annotations and be able to assign them to a user (tie in with tasks estimates feature)
