@@ -30,6 +30,7 @@ if(isset($_REQUEST['release']) && $_REQUEST['release']):?>
 	<script src="resources/js/src/yss/api.js"></script>
 	<script src="resources/js/src/yss/editable-fields.js"></script>
 	<script src="resources/js/src/yss/forms.js"></script>
+	<script src="resources/js/src/yss/forms.validation.js"></script>
 	<script src="resources/js/src/yss/modal.js"></script>
 	<script src="resources/js/src/yss/notes.js"></script>
 	<script src="resources/js/src/yss/progressbar.js"></script>
