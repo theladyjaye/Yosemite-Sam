@@ -27,7 +27,13 @@ class YSSDomain
 				}
 				else if (is_file($path.'/'.$entry))
 				{
-					$key             = substr($entry, 0, -3);
+					$startExtension = strrpos($entry, '.');
+					
+					if($startExtension !== false)
+						$key = substr($entry, 0, $startExtension);
+					else
+						$key = $entry;
+
 					$contents        = file_get_contents($path.'/'.$entry);
 					//$contents        = preg_replace('/\t/', '', $contents);
 					//$contents        = preg_replace('/\n|\r|\t/', '', $contents);
