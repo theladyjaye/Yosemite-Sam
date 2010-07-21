@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>tools/js/compile</string>
+	<string>resources/js/src/yss/table-list.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -18,10 +18,24 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>349</integer>
+	<integer>227</integer>
 	<key>metaData</key>
 	<dict>
-		<key>application/services/projects.php</key>
+		<key>application/templates/head.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>28</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>resources/js/src/jquery-addons/jqModal.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
@@ -33,58 +47,56 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>17</integer>
+			<integer>0</integer>
 		</dict>
-		<key>application/services/views.php</key>
+		<key>resources/js/src/jquery-addons/jquery.annotate.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>19</integer>
+				<key>line</key>
+				<integer>54</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>resources/js/src/jquery-addons/jquery.countup.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>resources/js/src/yss/api.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>2</integer>
 				<key>line</key>
-				<integer>24</integer>
+				<integer>3</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>7</integer>
+			<integer>0</integer>
 		</dict>
-		<key>application/system/vhost.conf</key>
+		<key>resources/js/src/yss/editable-fields.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>7</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>97</integer>
-				<key>line</key>
-				<integer>7</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>7</integer>
-			</dict>
-		</dict>
-		<key>application/templates/body-projects.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>30</integer>
+				<integer>3</integer>
 				<key>line</key>
 				<integer>5</integer>
 			</dict>
@@ -93,96 +105,54 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>application/templates/body-states.php</key>
+		<key>resources/js/src/yss/forms.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>105</integer>
+				<integer>43</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>19</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>36</integer>
+		</dict>
+		<key>resources/js/src/yss/forms.validation.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>4</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>application/templates/body-views.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>33</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>application/templates/head.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>20</integer>
-				<key>line</key>
-				<integer>17</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>application/templates/modal.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>31</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>application/templates/ui/YSSUI.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>46</integer>
-				<key>line</key>
-				<integer>18</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>projects.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>53</integer>
-				<key>line</key>
-				<integer>99</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>110</integer>
-			<key>firstVisibleLine</key>
-			<integer>78</integer>
-		</dict>
-		<key>resources/css/style.config.less</key>
+		<key>resources/js/src/yss/main.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>18</integer>
+				<key>line</key>
+				<integer>19</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>resources/js/src/yss/modal.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>4</integer>
 				<key>line</key>
 				<integer>21</integer>
 			</dict>
@@ -191,42 +161,42 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>resources/css/style.less</key>
+		<key>resources/js/src/yss/notes.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>44</integer>
+				<integer>5</integer>
 				<key>line</key>
-				<integer>251</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>236</integer>
-		</dict>
-		<key>sampledata.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
+				<integer>19</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>tools/js/compile</key>
+		<key>resources/js/src/yss/progressbar.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>9</integer>
 				<key>line</key>
-				<integer>27</integer>
+				<integer>13</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>resources/js/src/yss/table-list.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>9</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -236,24 +206,23 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>projects.php</string>
-		<string>application/services/projects.php</string>
-		<string>sampledata.php</string>
+		<string>resources/js/src/jquery-addons/jqModal.js</string>
+		<string>resources/js/src/jquery-addons/jquery.annotate.js</string>
+		<string>resources/js/src/jquery-addons/jquery.countup.js</string>
+		<string>resources/js/src/yss/editable-fields.js</string>
+		<string>resources/js/src/yss/api.js</string>
+		<string>resources/js/src/yss/forms.js</string>
+		<string>resources/js/src/yss/forms.validation.js</string>
+		<string>resources/js/src/yss/main.js</string>
+		<string>resources/js/src/yss/modal.js</string>
+		<string>resources/js/src/yss/notes.js</string>
+		<string>resources/js/src/yss/progressbar.js</string>
+		<string>resources/js/src/yss/table-list.js</string>
 		<string>application/templates/head.php</string>
-		<string>tools/js/compile</string>
-		<string>application/templates/body-projects.php</string>
-		<string>application/services/views.php</string>
-		<string>application/system/vhost.conf</string>
-		<string>resources/css/style.less</string>
-		<string>application/templates/body-views.php</string>
-		<string>resources/css/style.config.less</string>
-		<string>application/templates/ui/YSSUI.php</string>
-		<string>application/templates/body-states.php</string>
-		<string>application/templates/modal.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
-	<false/>
+	<true/>
 	<key>windowFrame</key>
-	<string>{{973, 111}, {919, 775}}</string>
+	<string>{{857, 112}, {832, 813}}</string>
 </dict>
 </plist>

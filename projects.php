@@ -53,8 +53,8 @@ MODAL_CONTENTS
 	<?php
 		$modal = array(
 			"params" => array(
-				"what" => "user",
-				"user_id" => ""
+				"what" => "project",
+				"id" => ""
 			)			
 		);
 	?>

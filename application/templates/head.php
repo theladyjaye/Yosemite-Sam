@@ -26,6 +26,7 @@ if(isset($_REQUEST['release']) && $_REQUEST['release']):?>
 	<script src="resources/js/src/jquery-addons/jquery.jeditable.js"></script>
 	<script src="resources/js/src/jquery-addons/jquery.phui.js"></script>
 	<script src="resources/js/src/utils/json2.js"></script>
+	<script src="resources/js/src/yss/main.js"></script>
 	<script src="resources/js/src/yss/api.js"></script>
 	<script src="resources/js/src/yss/editable-fields.js"></script>
 	<script src="resources/js/src/yss/forms.js"></script>
@@ -34,5 +35,4 @@ if(isset($_REQUEST['release']) && $_REQUEST['release']):?>
 	<script src="resources/js/src/yss/progressbar.js"></script>
 	<script src="resources/js/src/yss/table-list.js"></script>
 	<script src="resources/js/src/yss/task-list.js"></script>
-	<script src="resources/js/src/yss/main.js"></script>
 <?endif;?>

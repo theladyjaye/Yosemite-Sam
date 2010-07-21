@@ -66,7 +66,6 @@
 		$.phui.utils.browser.version = parseInt($.browser.version);
 	};
 	
-	
 	$.phui = {
 		params: {
 			page: {},

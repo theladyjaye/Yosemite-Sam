@@ -8,3 +8,11 @@ Note Commenting
 View Thumbnail preview
 	- In view page, show thumbnail preview of comp with dots notating where notes/annotations are
 	- list notes/annotations and be able to assign them to a user (tie in with tasks estimates feature)
+	
+Add Priority to Tasks
+	- give a task a priority (weight) to show importance compared to other tasks
+	
+Status of task
+	- assignee can acknowledge status of a task (open, closed, in progress)
+	- assignee can include estimation of time needed to complete task
+	- table view of estimation and shows tasks with no esimated time, as well as total time estimated for view/project

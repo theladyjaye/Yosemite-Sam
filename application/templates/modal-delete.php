@@ -1,6 +1,6 @@
 <div class="modal modal-view-delete">
 	<div class="modal-title font-replace">Delete</div>
-	<a href="#" class="font-replace modal-close icon-close no_">Close</a>
+	<?php YSSUI::BTN_CLOSE();?>
 	
 	<form name="frm-delete" action="#" method="post" class="modal-body">
 		<a href="#" class="frm-delete-yes font-replace no_">Yes</a>
