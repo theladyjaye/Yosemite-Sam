@@ -21,3 +21,8 @@ height
 breadth
 harbinger
 messenger
+response
+apprentice
+prologue
+decode
+anchor
