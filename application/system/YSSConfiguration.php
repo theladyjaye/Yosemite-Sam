@@ -2,12 +2,14 @@
 class YSSConfiguration
 {
 	private static $domain;
+	private static $data;
 	private static $configuration;
 	
 	public function __construct($path)
 	{
 		$data                = parse_ini_file($path, true);
 		self::$domain        = $data['application']['domain'];
+		self::$configuration = $data['application']['configuration'];
 		$currentUser         = null;
 		
 		if($data['autologin'] && $data['application']['configuration'] == 'debug')
@@ -22,10 +24,15 @@ class YSSConfiguration
 			$currentUser->level     = $data['autologin']['level'];
 		}
 		
-		self::$configuration = $data[$data['application']['configuration']];
+		self::$data = $data[$data['application']['configuration']];
 		
 		if($currentUser)
-			self::$configuration['currentUser'] = $currentUser;
+			self::$data['currentUser'] = $currentUser;
+	}
+	
+	public static function applicationConfiguration()
+	{
+		return YSSConfiguration::$configuration;
 	}
 	
 	public static function applicationDomain()
@@ -35,7 +42,7 @@ class YSSConfiguration
 	
 	public static function standardConfiguration()
 	{
-		return YSSConfiguration::$configuration;
+		return YSSConfiguration::$data;
 	}
 }
 ?>

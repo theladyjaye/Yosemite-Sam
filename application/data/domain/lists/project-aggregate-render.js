@@ -1,5 +1,8 @@
 function(head, req)
 {
+	var ddoc     = this;
+	var mustache = require("mustache");
+	
 	var row;
 	var result  = [];
 	var current;
@@ -11,8 +14,10 @@ function(head, req)
 		if(type == "project")
 		{
 			if(current)
-				result.push(current)
-				
+			{
+				send(mustache.to_html(ddoc.templates.project, current)+"\n");
+			}
+			
 			current           = row.value;
 			current.tasks     = {completed:0, total:0};
 			current.views     = 0;
@@ -32,6 +37,4 @@ function(head, req)
 			}
 		}
 	}
-	
-	send(JSON.stringify(result));
 }
