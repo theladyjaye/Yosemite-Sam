@@ -22,10 +22,16 @@ class YSSCouchObject
 	public function save()
 	{
 		$ok       = false;
-		//$session  = YSSSession::sharedSession();
+		$session  = YSSSession::sharedSession();
 		//$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		$database = $this->database();
 		
+		if(!$this->_rev) // it's a new item
+		{
+			$this->cerated_by = $session->currentUser->username;
+			$this->created_at = YSSApplication::timestamp_now();
+		}
+		
+		$database = $this->database();
 		$response = $database->put($this, $this->_id);
 		
 		if(isset($response['ok']))
