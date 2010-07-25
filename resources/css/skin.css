@@ -1,22 +1,25 @@
 #container{margin:0 auto;float:left;display:inline;position:relative;width:100%;margin:10px 0 0 0;}
 #body{width:990px;margin:0 auto;}
-#project-list{position:relative;}
-#project-list li{float:left;display:inline;position:relative;margin:0px;padding:15px;-webkit-transition:width,clear,margin,padding 0.4s ease-out;-moz-transition:width,clear,margin,padding 0.4s ease-out;}
-#project-list.cascade li{width:100%;clear:left;margin:10px 0;padding:0;-webkit-transition:width,clear,margin,padding 0.4s ease-out;-moz-transition:width,clear,margin,padding 0.4s ease-out;}
-#project-list li:hover{background:#f3f3f3;}
-#project-list li .btn-img{width:280px;height:200px;float:left;clear:left;margin:0 0 10px 0;padding:10px;-moz-box-shadow:0 3px 6px rgba(0, 0, 0, 0.5);-webkit-box-shadow:0 3px 6px rgba(0, 0, 0, 0.5);box-shadow:0 3px 6px rgba(0, 0, 0, 0.5);}
-#project-list.cascade li .btn-img{clear:none;margin-right:20px;}
-#project-list li .btn-img img{-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
-#project-list li a.btn-img:hover{background:#f0f0f0;-moz-box-shadow:0 1px 3px rgba(0, 0, 0, 0.3) inset;-webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0.3) inset;box-shadow:0 1px 3px rgba(0, 0, 0, 0.3) inset;}
-#project-list .btn-delete{position:absolute;top:10px;right:0;}
-#project-list h2{margin:5px 0;height:20px;width:300px;overflow:hidden;}
-#project-list .view-info{font-size:13px;color:#666;background:url(/resources/img/icon-view-small.png) no-repeat;padding-left:22px;margin:4px 0;height:20px;line-height:19px;float:left;display:inline: width: 100px;}
-#project-list .progress-bar{width:100px;height:10px;float:right;display:inline;margin:11px 10px 0 0;position:relative;}
-#project-list .progress-bar .progress-value{background:url(/resources/img/bg-tooltip.png) no-repeat;position:absolute;top:-20px;left:33px;height:16px;width:34px;font-size:10px;text-align:center;z-index:2;display:none;}
-#project-list .progress-bar .task-info{position:absolute;top:-15px;right:2px;font-size:10px;text-align:right;}
-#project-list .description{font-size:13px;line-height:18px;margin-top:5px;float:left;clear:both;width:300px;height:90px;overflow:hidden;}
-#project-list.cascade .description{clear:none;width:660px;}
-#project-list .description p{color:#888;margin-bottom:10px;}
+#body .body-content{margin-top:10px;}
+a.project-title{font-size:30px;color:#333;border-bottom:1px solid #eee;padding-bottom:2px;}
+a.project-title:hover{border-bottom:1px solid #ccc;}
+#table-list{position:relative;}
+#table-list li{float:left;display:inline;position:relative;margin:0px;padding:15px;-webkit-transition:width,clear,margin,padding 0.4s ease-out;-moz-transition:width,clear,margin,padding 0.4s ease-out;}
+#table-list.cascade li{width:100%;clear:left;margin:10px 0;padding:0;-webkit-transition:width,clear,margin,padding 0.4s ease-out;-moz-transition:width,clear,margin,padding 0.4s ease-out;}
+#table-list li:hover{background:#f3f3f3;}
+#table-list li .btn-img{width:280px;height:200px;float:left;clear:left;margin:0 0 10px 0;padding:10px;-moz-box-shadow:0 3px 6px rgba(0, 0, 0, 0.5);-webkit-box-shadow:0 3px 6px rgba(0, 0, 0, 0.5);box-shadow:0 3px 6px rgba(0, 0, 0, 0.5);}
+#table-list.cascade li .btn-img{clear:none;margin-right:20px;}
+#table-list li .btn-img img{-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+#table-list li a.btn-img:hover{background:#f0f0f0;-moz-box-shadow:0 1px 3px rgba(0, 0, 0, 0.3) inset;-webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0.3) inset;box-shadow:0 1px 3px rgba(0, 0, 0, 0.3) inset;}
+#table-list .btn-delete{position:absolute;top:10px;right:10px;background:url(/resources/img/icon-delete.png) no-repeat;text-indent:-9999px;width:14px;height:14px;}
+#table-list h2{margin:5px 0;height:20px;width:300px;overflow:hidden;float:left;clear:both;}
+#table-list .view-info{font-size:13px;color:#666;background:url(/resources/img/icon-view-small.png) no-repeat;padding-left:22px;margin:4px 0;height:20px;line-height:19px;float:left;display:inline: width: 100px;float:left;clear:both;}
+#table-list .progress-bar{width:100px;height:10px;float:right;display:inline;margin:11px 10px 0 0;position:relative;}
+#table-list .progress-bar .progress-value{background:url(/resources/img/bg-tooltip.png) no-repeat;position:absolute;top:-20px;left:33px;height:16px;width:34px;font-size:10px;text-align:center;z-index:2;display:none;}
+#table-list .progress-bar .task-info{position:absolute;top:-15px;right:2px;font-size:10px;text-align:right;}
+#table-list .description{font-size:13px;line-height:18px;margin-top:5px;float:left;clear:both;width:300px;height:90px;overflow:hidden;}
+#table-list.cascade .description{clear:none;width:660px;}
+#table-list .description p{color:#888;margin-bottom:10px;}
 #view-detail li{float:left;display:inline;}
 #view-detail .detail{margin-right:40px;width:530px;}
 #view-detail .detail .img-preview{border:1px solid #ccc;padding:10px;}

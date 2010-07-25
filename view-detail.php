@@ -1,5 +1,5 @@
 <?php
-	//require 'application/system/YSSEnvironment.php';
+	require 'application/system/YSSEnvironment.php';
 	//YSSPage::Controller('ViewsController.php');
 ?>
 <!DOCTYPE html>
@@ -57,12 +57,24 @@
 						<div class="module module-states">
 							<h3>States</h3>
 							<ol>
-								<li>Default</li>
-								<li>Log in</li>
+								<li><a href="/#/lucy/logout/default">Default</a> <a href="#" class="delete btn-modal modal-view-delete">Delete</a></li>
+								<li><a href="/#/lucy/logout/login">Log in</a> <a href="#" class="delete btn-modal modal-view-delete">Delete</a></li>
 							</ol>
+						</div>
+						<div class="module module-delete">
+							<a href="#" class="delete btn-modal modal-view-delete">Delete</a>
 						</div>
 					</li>
 				</ul>
+				<?php
+					$modal = array(
+						"params" => array(
+							"what" => "user",
+							"user_id" => ""
+						)			
+					);					
+				?>
+				<?php include("application/templates/modal-delete.php"); ?>
 			</div>
 		</div>
 		<?php 

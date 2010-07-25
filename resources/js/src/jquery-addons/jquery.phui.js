@@ -4,40 +4,16 @@
  */
 (function($) {	
 	function init()
-	{	
-		var scripts = document.getElementsByTagName("script"),
-			phui = scripts[scripts.length - 1]; 
-					
-		$.phui.params.page 	= $.phui.utils.getParams(phui.src);
+	{						
 		determineBrowser();	
 		
 		var today 			= new Date();
 		
 		// add browser name, browser name - version, date-mm-dd-yyyy
 		$("body").addClass($.phui.utils.browser.name + " " + $.phui.utils.browser.name + "-" + $.phui.utils.browser.version + " date-" + (today.getMonth() + 1) + "-" + today.getDate() + "-" + today.getFullYear());
-		
-		// auto generate id based on page name
-		if(($.phui.params.phui.autoID == null || $.phui.params.phui.autoID == "true") && $("body").attr("id") == "")
-		{
-			$("body").attr("id", $.phui.params.page.pageName);
-		}		
-		
-		// pngFix for ie 6
-		if($("body").hasClass("msie-6"))
-		{
-			pngFix();
-		}
+				
 	};
-	
-	function pngFix()
-	{
-		$.getScript("resources/js/jquery.pngFix.js", function() {
-			$(document).pngFix({
-				"blank": $.phui.params.phui.blank || "resources/images/blank.gif"
-			});
-		});
-	};
-	
+		
 	function determineBrowser()
 	{
 		var browser = "webkit";
@@ -68,7 +44,6 @@
 	
 	$.phui = {
 		params: {
-			page: {},
 			phui: {}
 		},			
 		utils: {

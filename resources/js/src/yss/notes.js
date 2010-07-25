@@ -91,7 +91,7 @@
 			// drag initial size
 			$("#view-body-editor-image").mousemove(function(evt) {
 				var pos = note.position();
-				note.width(evt.pageX - pos.left).height(evt.pageY - pos.top - 200);
+				note.width(evt.pageX - pos.left).height(evt.pageY - pos.top - 50);
 				note.find(".frm-note").css({
 					"top": note.height() + 10
 				});

@@ -5,7 +5,8 @@ clarity [Adam] I like clarity
 
 catalyst
 impetus
-spunk - http://www.urbandictionary.com/define.php?term=spunk (nuff said there)
+spunk - http://www.urbandictionary.com/define.php?term=spunk (nuff said there) 
+[Phil] was not aware of the vulgar meaning - veto
 vigor
 muscle
 nimble
@@ -27,12 +28,15 @@ response
 apprentice
 prologue
 decode
-anchor [Adam] I like the concept of anchor too
+anchor [Adam] I like the concept of anchor too 
+[Phil] I like what you did with peek => peeq.  So anchor could be:
+ankor
+anker
+ankr
 =======
 
 [Adam]
 Kansas Sheep Dip
->>>>>>> fa6ba99f7d5f363fa13d021dbc0402372bd1cbfd
 
 wildcat
 searchlight
@@ -46,4 +50,9 @@ tikon
 tribes
 falcon
 focus
-cartography / cartographiqe
+cartography / cartographiqe 
+[Phil] I like cartography.  If we can make it 1-2 syllables I'd consider it a serious candidate]
+carter
+cartr
+karter
+survey

@@ -3,7 +3,6 @@
 	{
 		main: function() 
 		{
-			console.log('in');
 			$(".progress-bar").each(function() {
 				var $progress_value = $(this).find(".progress-value .value"),
 					percent = parseInt($progress_value.text());

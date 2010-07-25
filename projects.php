@@ -13,7 +13,7 @@
 	<div id="container">
 		<div id="body">
 			<div class="body-content">				
-				<ul id="project-list" class="">
+				<ul id="table-list" class="">
 					<li>
 						<?php YSSUI::BTN_ADD_PROJECT('#', 'btn-img');?>
 					</li>
