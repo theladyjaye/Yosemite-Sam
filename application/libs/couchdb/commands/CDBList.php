@@ -74,7 +74,6 @@ class CDBList implements CouchDBCommand
 			$location .= '?';
 			$this->options = array_map("couchdb_json_encode", $this->options);
 			$location .= http_build_query($this->options);
-			
 		}
 		
 		return <<<REQUEST

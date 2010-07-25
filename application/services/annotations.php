@@ -17,7 +17,7 @@ require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSState.php';
 
 
-class YSSServiceViews extends AMServiceContract
+class YSSServiceAnnotations extends AMServiceContract
 {
 	protected $requiresAuthorization = true;
 	
@@ -26,39 +26,54 @@ class YSSServiceViews extends AMServiceContract
 		switch($method)
 		{
 			case "GET":
-				$this->addEndpoint("GET",    "/api/project/{project_id}/views",               "generateReport");
+				$this->addEndpoint("GET",    "/api/project/{project_id}/{view_id}/{state_id}/tasks",               "getTasks");
+				$this->addEndpoint("GET",    "/api/project/{project_id}/{view_id}/{state_id}/notes",               "getNotes");
+				$this->addEndpoint("GET",    "/api/project/{project_id}/{view_id}/{state_id}/annotations",         "getAnnotations");
 				break;
 			
 			case "PUT":
-				$this->addEndpoint("PUT",    "/api/project/{project_id}/view/{view_id}",      "updateView");
+				$this->addEndpoint("PUT",    "/api/project/{project_id}/{view_id}/{state_id}",      "updateView");
 				break;
 			
 			case "POST":
-				$this->addEndpoint("POST",    "/api/project/{project_id}/view/{view_id}",     "updateView");
+				$this->addEndpoint("POST",    "/api/project/{project_id}/{view_id}/{state_id}",     "updateView");
 				break;
 			
 			case "DELETE":
-				$this->addEndpoint("DELETE", "/api/project/{project_id}/view/{view_id}",      "deleteView");
+				$this->addEndpoint("DELETE", "/api/project/{project_id}/{view_id}/{state_id}/{annotation_id}",  "deleteAnnotation");
 				break;
 		}
 	}
 	
-	public function getView($id)
+	public function getTasks($project, $view, $state)
 	{
+		
 		$session  = YSSSession::sharedSession();
+		$options = array('key'            => 'project/'.$project.'/'.$view.'/'.$state, 
+		                 'include_docs'   => true);
+		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		echo $database->document($id, true);
+		echo $database->formatList("project/annotation-renderer", "task-report", $options, true);
 	}
 	
-	public function generateReport($project_id)
+	public function getNotes($project, $view, $state)
 	{
 		$session  = YSSSession::sharedSession();
+		$options = array('key'            => 'project/'.$project.'/'.$view.'/'.$state, 
+		                 'include_docs'   => true);
+		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		echo $database->formatList("project/annotation-renderer", "note-report", $options, true);
+	}
+	
+	public function getAnnotations($project, $view, $state)
+	{
+		$session  = YSSSession::sharedSession();
+		$options = array('key'            => 'project/'.$project.'/'.$view.'/'.$state, 
+		                 'include_docs'   => true);
 		
-		$options = array('startkey' => array('project/'.$project_id), 
-		                 'endkey'   => array('project/'.$project_id, new stdClass()));
-		
-		echo $database->formatList("project/view-aggregate", "view-report", $options, true);
+		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		echo $database->formatList("project/annotation-renderer", "annotations-report", $options, true);
 	}
 	
 	public function updateView($project_id, $view_id)
@@ -153,12 +168,19 @@ class YSSServiceViews extends AMServiceContract
 		echo json_encode($response);
 	}
 	
-	public function deleteView($id)
+	public function deleteAnnotation()
 	{
 		/*
 			TODO Finish delete project logic.  Do we just mark as unused? Do we cascade down all of the associated tasks/comments/attachments/views?
 			just need to decide the best course of action.  Probably will be to delete everything, since it takes up resources to keep it around.
 		*/
+	}
+	
+	public function generateReport()
+	{
+		$session  = YSSSession::sharedSession();
+		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		echo $database->formatList("project/view-aggregate", "view-report", null, true);
 	}
 	
 	public function verifyAuthorization()
@@ -174,6 +196,6 @@ class YSSServiceViews extends AMServiceContract
 }
 
 $manager  = new AMServiceManager();
-$manager->bindContract(new YSSServiceViews());
+$manager->bindContract(new YSSServiceAnnotations());
 $manager->start();
 ?>
