@@ -45,45 +45,64 @@ class YSSServiceAnnotations extends AMServiceContract
 		}
 	}
 	
-	public function getTasks($project, $view, $state)
+	public function getTasks($project_id, $view_id, $state_id)
 	{
+		$project_id = YSSUtils::transform_to_id($project_id);
+		$view_id    = YSSUtils::transform_to_id($view_id);
+		$state_id   = YSSUtils::transform_to_id($state_id);
 		
 		$session  = YSSSession::sharedSession();
-		$options = array('key'            => 'project/'.$project.'/'.$view.'/'.$state, 
+		$options = array('key'            => 'project/'.$project_id.'/'.$view_id.'/'.$state_id, 
 		                 'include_docs'   => true);
 		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		// use the view not the list of you want JSON instead of HTML
 		echo $database->formatList("project/annotation-renderer", "task-report", $options, true);
 	}
 	
-	public function getNotes($project, $view, $state)
+	public function getNotes($project_id, $view_id, $state_id)
 	{
+		$project_id = YSSUtils::transform_to_id($project_id);
+		$view_id    = YSSUtils::transform_to_id($view_id);
+		$state_id   = YSSUtils::transform_to_id($state_id);
+		
 		$session  = YSSSession::sharedSession();
-		$options = array('key'            => 'project/'.$project.'/'.$view.'/'.$state, 
+		$options = array('key'            => 'project/'.$project_id.'/'.$view_id.'/'.$state_id, 
 		                 'include_docs'   => true);
 		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		// use the view not the list of you want JSON instead of HTML
 		echo $database->formatList("project/annotation-renderer", "note-report", $options, true);
 	}
 	
-	public function getAnnotations($project, $view, $state)
+	public function getAnnotations($project_id, $view_id, $state_id)
 	{
+		$project_id = YSSUtils::transform_to_id($project_id);
+		$view_id    = YSSUtils::transform_to_id($view_id);
+		$state_id   = YSSUtils::transform_to_id($state_id);
+		
 		$session  = YSSSession::sharedSession();
-		$options = array('key'            => 'project/'.$project.'/'.$view.'/'.$state, 
-		                 'include_docs'   => true);
+		$options  = array('key'            => 'project/'.$project_id.'/'.$view_id.'/'.$state_id, 
+		                  'include_docs'   => true);
 		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		// use the view not the list of you want JSON instead of HTML
 		echo $database->formatList("project/annotation-renderer", "annotations-report", $options, true);
 	}
 	
-	public function updateView($project_id, $view_id)
+	public function updateView($project_id, $view_id, $state_id)
 	{
+		$project_id = YSSUtils::transform_to_id($project_id);
+		$view_id    = YSSUtils::transform_to_id($view_id);
+		$state_id   = YSSUtils::transform_to_id($state_id);
+		
 		$response     = new stdClass();
 		$response->ok = false;
 		
 		$data               = $_POST;//json_decode(file_get_contents('php://input'), true);
-		$data['view_id']    = strtolower($view_id);
-		$data['project_id'] = strtolower($project_id);
+		$data['view_id']    = $view_id;
+		$data['project_id'] = $project_id;
+		$data['state_id']   = $state_id;
 		
 		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
 		$input   = AMForm::formWithContext($context);
@@ -91,9 +110,9 @@ class YSSServiceAnnotations extends AMServiceContract
 		
 		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
-		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
-		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
+		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('state_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid state id. Expecting minimum 2 lowercase characters."));
 		
 		if($data['_rev'])
 		{

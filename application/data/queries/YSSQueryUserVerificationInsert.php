@@ -3,8 +3,9 @@ class YSSQueryUserVerificationInsert extends AMQuery
 {
 	protected function initialize()
 	{
-		$date      = new DateTime("now", new DateTimeZone("UTC"));
-		$timestamp = $date->format(DateTime::ISO8601);
+		//$date      = new DateTime("now", new DateTimeZone("UTC"));
+		//$timestamp = $date->format(DateTime::ISO8601);
+		$timestamp = YSSApplication::timestamp_now();
 		
 		$token     = $this->dbh->real_escape_string($this->options['token']);
 		$domain    = $this->dbh->real_escape_string($this->options['domain']);

@@ -25,6 +25,12 @@ class YSSApplication
 		return 'en-US';
 	}
 	
+	public static function timestamp_now()
+	{
+		$date = new DateTime("now", new DateTimeZone("UTC"));
+		return $date->format(DateTime::ISO8601);
+	}
+	
 	public function startSession()
 	{
 		session_set_cookie_params(0, '/', '.'.YSSConfiguration::applicationDomain(), false);

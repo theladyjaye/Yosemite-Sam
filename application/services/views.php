@@ -67,8 +67,8 @@ class YSSServiceViews extends AMServiceContract
 		$response->ok = false;
 		
 		$data               = $_POST;//json_decode(file_get_contents('php://input'), true);
-		$data['view_id']    = strtolower($view_id);
-		$data['project_id'] = strtolower($project_id);
+		$data['view_id']    = YSSUtils::transform_to_id($view_id);
+		$data['project_id'] = YSSUtils::transform_to_id($project_id);
 		
 		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
 		$input   = AMForm::formWithContext($context);
@@ -76,8 +76,8 @@ class YSSServiceViews extends AMServiceContract
 		
 		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
-		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z][a-z0-9-_]+$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
 		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
 		
 		if($data['_rev'])

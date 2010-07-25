@@ -3,6 +3,8 @@ class YSSCouchObject
 {
 	public $_id;
 	public $_rev;
+	public $created_by;
+	public $created_at;
 	protected $type;
 	
 	protected function database()
