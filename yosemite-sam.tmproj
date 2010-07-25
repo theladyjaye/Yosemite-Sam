@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>resources/css/skin.less</string>
+	<string>application/system/name-me.txt</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -18,17 +18,103 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>227</integer>
+	<integer>277</integer>
 	<key>metaData</key>
 	<dict>
+		<key>application/data/domain/lists/annotation-renderer.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>application/data/domain/lists/project-aggregate-render.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>9</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>application/data/domain/lists/view-aggregate-render.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>41</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>application/data/domain/lists/view-aggregate.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>application/data/domain/templates/project.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>5</integer>
+				<key>line</key>
+				<integer>23</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+		</dict>
 		<key>application/data/domain/templates/views.html</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>12</integer>
+				<integer>7</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -49,6 +135,106 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>application/services/annotations.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>4</integer>
+		</dict>
+		<key>application/services/projects.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>62</integer>
+				<key>line</key>
+				<integer>124</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>106</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>55</integer>
+				<key>line</key>
+				<integer>124</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>62</integer>
+				<key>line</key>
+				<integer>124</integer>
+			</dict>
+		</dict>
+		<key>application/services/views.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>59</integer>
+				<key>line</key>
+				<integer>60</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>41</integer>
+		</dict>
+		<key>application/system/config.ini</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>20</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>application/system/name-me.txt</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>19</integer>
+		</dict>
+		<key>application/system/vhost.conf</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>12</integer>
+				<key>line</key>
+				<integer>15</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>application/templates/body-projects.php</key>
 		<dict>
 			<key>caret</key>
@@ -63,14 +249,86 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>application/templates/body-settings.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>application/templates/body-views.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>48</integer>
+				<key>line</key>
+				<integer>3</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>application/templates/header.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>16</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>application/templates/ui/YSSUI.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>34</integer>
+				<integer>38</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>9</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>71</integer>
+				<key>line</key>
+				<integer>38</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>37</integer>
+				<key>line</key>
+				<integer>38</integer>
+			</dict>
+		</dict>
+		<key>editor.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>10</integer>
+				<key>line</key>
+				<integer>18</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -96,28 +354,58 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>40</integer>
+				<integer>5</integer>
 				<key>line</key>
-				<integer>15</integer>
+				<integer>16</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>10</integer>
+				<key>line</key>
+				<integer>18</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>5</integer>
+				<key>line</key>
+				<integer>16</integer>
+			</dict>
 		</dict>
 		<key>resources/css/skin.less</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>71</integer>
+				<integer>54</integer>
 				<key>line</key>
-				<integer>9</integer>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>resources/js/src/jquery-addons/jquery.phui.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>15</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>48</integer>
 		</dict>
 		<key>resources/js/src/yss/api.js</key>
 		<dict>
@@ -138,14 +426,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>21</integer>
+				<integer>17</integer>
 				<key>line</key>
-				<integer>102</integer>
+				<integer>24</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>74</integer>
+			<integer>3</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>6</integer>
+				<key>line</key>
+				<integer>24</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>17</integer>
+				<key>line</key>
+				<integer>24</integer>
+			</dict>
 		</dict>
 		<key>resources/js/src/yss/forms.js</key>
 		<dict>
@@ -180,9 +484,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>9</integer>
+				<integer>19</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>7</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -203,48 +507,104 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>views.php</key>
+		<key>resources/js/src/yss/notes.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>68</integer>
 				<key>line</key>
-				<integer>14</integer>
+				<integer>93</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>71</integer>
+		</dict>
+		<key>resources/js/src/yss/progressbar.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>4</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>~projects.php</key>
+		<key>resources/json/transitions.json</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>60</integer>
+				<integer>16</integer>
+				<key>line</key>
+				<integer>97</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>63</integer>
+		</dict>
+		<key>settings.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>75</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>44</integer>
+		</dict>
+		<key>view-detail.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>108</integer>
 				<key>line</key>
 				<integer>60</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>47</integer>
+		</dict>
+		<key>views.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>64</integer>
+				<key>line</key>
+				<integer>138</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>25</integer>
+			<integer>121</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>29</integer>
+				<integer>130</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>60</integer>
+				<integer>64</integer>
 				<key>line</key>
-				<integer>60</integer>
+				<integer>138</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -252,22 +612,43 @@
 	<array>
 		<string>resources/css/skin.less</string>
 		<string>resources/js/src/yss/deeplink.js</string>
+		<string>settings.php</string>
+		<string>application/templates/body-settings.php</string>
+		<string>resources/js/src/yss/notes.js</string>
+		<string>application/templates/header.php</string>
+		<string>resources/json/transitions.json</string>
 		<string>resources/js/src/yss/main.js</string>
 		<string>resources/js/src/yss/modal.js</string>
+		<string>resources/js/src/yss/progressbar.js</string>
+		<string>application/system/name-me.txt</string>
 		<string>views.php</string>
+		<string>view-detail.php</string>
 		<string>projects.php</string>
+		<string>application/templates/body-views.php</string>
+		<string>editor.php</string>
+		<string>application/services/views.php</string>
+		<string>application/data/domain/lists/annotation-renderer.js</string>
+		<string>application/data/domain/lists/project-aggregate-render.js</string>
+		<string>application/data/domain/lists/view-aggregate-render.js</string>
+		<string>application/services/annotations.php</string>
+		<string>application/system/config.ini</string>
+		<string>application/system/vhost.conf</string>
+		<string>application/data/domain/views/view-report/map.js</string>
+		<string>application/data/domain/lists/view-aggregate.js</string>
+		<string>application/services/projects.php</string>
 		<string>resources/js/src/yss/forms.js</string>
 		<string>resources/js/src/yss/api.js</string>
 		<string>resources/js/src/yss/forms.validation.js</string>
 		<string>application/templates/body-projects.php</string>
 		<string>application/templates/ui/YSSUI.php</string>
-		<string>~projects.php</string>
 		<string>index.php</string>
+		<string>resources/js/src/jquery-addons/jquery.phui.js</string>
 		<string>application/data/domain/templates/views.html</string>
+		<string>application/data/domain/templates/project.html</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{337, 138}, {989, 729}}</string>
+	<string>{{529, 182}, {989, 729}}</string>
 </dict>
 </plist>

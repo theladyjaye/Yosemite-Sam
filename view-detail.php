@@ -14,7 +14,7 @@
 			<div class="body-content">
 				<ul id="view-detail">
 					<li class="detail">
-						<a href="/#/lucy/logout/default">
+						<a href="/#/lucy/logout/default/edit">
 							<img class="img-preview" src="/resources/img/fpo-comp-preview.jpg" alt="" />
 						</a>
 						<h2>Logout</h2>		
@@ -35,6 +35,15 @@
 							</div>	
 							<p><span class="col">Completed:</span><span class="tasks-completed col">{{completed}}</span></p>
 							<p><span class="col">Total:</span><span class="tasks-total col">{{total}}</span></p>
+						</div>
+						<div class="module module-attachments">
+							<h3>Attachments</h3>
+							<ol>
+								<li>wireframe</li>
+								<li>functional spec</li>
+								<li>technical spec</li>
+								<li>documentation</li>
+							</ol>
 						</div>
 						<div class="module module-tasks">
 							<h3>Tasks</h3>

@@ -6,7 +6,7 @@
 		{			
 			if(isDirectAccess())
 			{
-				document.location.href = "/";
+				redirect();
 			}
 						
 			ns.deeplink.projects();
@@ -63,6 +63,11 @@
 		return document.location.pathname.indexOf(".php") != -1;
 	}
 	
+	function redirect()
+	{
+		document.location.href = "/";
+	}	
+	
 	function setupjQueryAddress()
 	{
 		$('.dp').address();
@@ -86,10 +91,14 @@
 	
 	function transition(pathnames)	
 	{
-		var href, transitionKey, callback = function() {};
+		var href, 
+			transitionKey, 
+			callback = function() {};
+		
 		switch(pathnames.length)
 		{
-			case 1: // /ollie				
+			case 1: 	
+				// /settings
 				if(pathnames[0].toLowerCase() == "settings")
 				{
 					href = "/settings.php";
@@ -99,6 +108,7 @@
 						ns.forms.main();
 					};
 				}
+				// /ollie
 				else
 				{
 					$("#project-list .dp[href=#/" + pathnames[0].toLowerCase() + "]").click();				
@@ -111,7 +121,8 @@
 					};
 				}
 				break;
-			case 2: // /ollie/default
+			case 2: // /ollie/logout
+				// redirect to default (first) state
 				href = "/view-detail.php";
 				transitionKey = "viewdetail";
 				callback = function() {
@@ -120,11 +131,23 @@
 					ns.forms.main();
 				}
 				break;
-			case 3: // /ollie/default/adlkjfiej234
-				href = "/editor.php";
-				transitionKey = "editor";
+			case 3: // /ollie/logout/default
+				href = "/view-detail.php";
+				transitionKey = "viewdetail";
 				callback = function() {
-					ns.notes.main();
+					ns.progressbar.main();
+					ns.modal.main();
+					ns.forms.main();
+				}
+				break;
+			case 4: // /ollie/logout/default/edit
+				if(pathnames[3].toLowerCase() == "edit")
+				{
+					href = "/editor.php";
+					transitionKey = "editor";
+					callback = function() {
+						ns.notes.main();
+					}
 				}
 				break;
 			default:// /
@@ -137,11 +160,18 @@
 				};
 		}
 		
-		$("#body").trigger("transitionOut", [function() {
-			$("#body").trigger("transitionIn", [href, function() {
-			callback();	
-			$.phui.transitions[transitionKey].transitionIn();
-		}])}]);
+		if(href)
+		{
+			$("#body").trigger("transitionOut", [function() {
+				$("#body").trigger("transitionIn", [href, function() {
+				callback();	
+				$.phui.transitions[transitionKey].transitionIn();
+			}])}]);
+		}
+		else
+		{
+			redirect();
+		}
 	}
 	
 })($.phui.yss);

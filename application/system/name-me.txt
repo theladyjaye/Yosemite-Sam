@@ -60,7 +60,7 @@ http://freethesaurus.net/s.php?q=cartography
 scale - sqle
 globe 
 atlas - maplas? what?! 
-projection - projekts (http://www.projekt.com/ HAHAHAHAHAHAHAHA - the good news is I found the magazine subscription I MUST have http://www.projekt.com/projekt/product.asp?sku=Got00030)
+projection - projekts (http://www.projekt.com/ HAHAHAHAHAHAHAHA - the good news is I found the magazine subscription I MUST have http://www.projekt.com/projekt/product.asp?sku=Got00030) [Phil: Glamour Lush Hats! Bones & Brass! I'm in!]
 the proj-ma-hal
 
 
@@ -73,7 +73,7 @@ Ferdinand Magellan
 Vasco de Gama 
 Sir Francis Drake 
 Sir Walter Raleigh 
-Hernando Cortes 
+Hernando Cortes
 John Cabot
 Samuel de Champlain
 Marco Polo
@@ -92,3 +92,15 @@ okumen
 cartr
 karter
 survey
+
+[Phil]
+jacque [could be an issue: http://www.urbandictionary.com/define.php?term=jacque]
+jacques
+conquest
+strait
+voyage
+compass
+carte
+port
+pangea
+[/Phil]
