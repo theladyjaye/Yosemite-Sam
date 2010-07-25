@@ -4,7 +4,7 @@ class ProjectsController extends YSSController
 	protected $requiresAuthorization  = false;
 	protected $requiresPermission     = false;
 	
-	public    $data					  = array();
+	public    $data					  = "";
 	
 	protected function initialize()
 	{ 
@@ -23,7 +23,7 @@ class ProjectsController extends YSSController
 
 	private function get_data()
 	{
-		return json_decode(file_get_contents("http://yss.com/api/projects"));
+		return file_get_contents("http://yss.com/api/projects");
 	}
 }
 ?>

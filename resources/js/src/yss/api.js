@@ -18,7 +18,7 @@
 					async: false, /* ugh */
 					success: function(data) {
 						if($.isFunction(successCallback)) {
-							successCallback(data);
+							successCallback($.parseJSON(data));
 						}			
 					}
 				});	

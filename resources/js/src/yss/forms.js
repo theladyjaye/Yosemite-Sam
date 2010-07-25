@@ -26,7 +26,7 @@
 				});
 
 				if(ns.forms.add_project($this)) {
-					ns.api("project/" + id, params, "PUT", function(data) {
+					ns.api.request("/project/" + id, params, "PUT", function(data) {
 						if(data.ok)
 						{
 		//					$this.parents("modal").find(".modal-close").click();
@@ -55,7 +55,7 @@
 			var label = $frm.find("input[name=label]").val();
 	//		 	description = $frm.find("textarea[name=description]").val();
 
-			return ns.validation.regexp.label.test(label);		
+			return ns.forms.validation.regexp.label.test(label);		
 		},
 		utils:
 		{

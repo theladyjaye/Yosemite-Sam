@@ -4,7 +4,7 @@
 	{
 		main: function() 
 		{
-			Cufon.replace('.font-replace', { fontFamily: 'Vegur', hover: true });
+			Cufon.replace('.font-replace', { fontFamily: 'Vegur', hover: true });			
 			callMains(this);
 		}		
 	};

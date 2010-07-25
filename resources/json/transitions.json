@@ -1,0 +1,102 @@
+{
+	"projects": {
+		"transitionIn": {
+			"order": [".body-content"],
+			"props": {
+				"top": 0,
+				"opacity": 1
+			},
+			"duration": 800,
+			"delay": 0
+		},
+		"transitionOut": {
+			"order": [".body-content"],
+			"props": {
+				"top": "-10px",
+				"opacity": 0
+			},
+			"duration": 800,
+			"delay": 0
+		}
+	},
+	"views": {
+		"transitionIn": {
+			"order": [".body-content"],
+			"props": {
+				"top": 0,
+				"opacity": 1
+			},
+			"duration": 800,
+			"delay": 0
+		},
+		"transitionOut": {
+			"order": [".body-content"],
+			"props": {
+				"top": "-10px",
+				"opacity": 0
+			},
+			"duration": 800,
+			"delay": 0
+		}
+	},	
+	"viewdetail": {
+		"transitionIn": {
+			"order": [".body-content"],
+			"props": {
+				"top": 0,
+				"opacity": 1
+			},
+			"duration": 800,
+			"delay": 0
+		},
+		"transitionOut": {
+			"order": [".body-content"],
+			"props": {
+				"top": "-10px",
+				"opacity": 0
+			},
+			"duration": 800,
+			"delay": 0
+		}
+	},
+	"editor": {
+		"transitionIn": {
+			"order": [".body-content"],
+			"props": {
+				"top": 0,
+				"opacity": 1
+			},
+			"duration": 800,
+			"delay": 0
+		},
+		"transitionOut": {
+			"order": [".body-content"],
+			"props": {
+				"top": "-10px",
+				"opacity": 0
+			},
+			"duration": 800,
+			"delay": 0
+		}
+	},
+	"settings": {
+		"transitionIn": {
+			"order": [".body-content"],
+			"props": {
+				"top": 0,
+				"opacity": 1
+			},
+			"duration": 800,
+			"delay": 0
+		},
+		"transitionOut": {
+			"order": [".body-content"],
+			"props": {
+				"top": "-10px",
+				"opacity": 0
+			},
+			"duration": 800,
+			"delay": 0
+		}
+	}
+}

@@ -50,8 +50,6 @@ body.view-editor{background:#c9c9c9;}
 #view-table-list .edit{color:#247dc8;position:relative;left:780px;text-transform:capitalize;}
 #view-table-list .item-details{color:#111;font-size:14px;font-weight:bold;position:absolute;top:23px;left:270px;display:none;}
 #view-table-list .expanded .item-details,#view-table-list .over .item-details{display:block;}
-.progress-bar{position:absolute;top:10px;left:430px;width:280px;height:26px;background:#f8f8f8;}
-.progress-value{color:#272727;font-size:20px;position:absolute;top:8px;left:290px;width:60px;}
 #view-table-list .btn{top:14px;}
 #view-table-list .delete{color:#9f2106;position:relative;left:810px;}
 #view-table-list .item-detail{color:#272727;display:none;font-size:14px;}

@@ -24,17 +24,17 @@ class YSSUI
 		echo YSSUI::btn($url, $classes . " frm-btn-submit", $label, "icon-add-small.png");
 	}	
 		
-	public static function BTN_ADD_USER($url="#", $classes="", $label="Add User") 
+	public static function BTN_ADD_USER($url="", $classes="", $label="Add User") 
 	{
 		echo YSSUI::btn($url, $classes . " add btn-modal modal-view-add-user", $label, "icon-add.png");
 	}
 	
-	public static function BTN_EDIT($url="#", $classes="", $label="Edit") 
+	public static function BTN_EDIT($url="", $classes="", $label="Edit") 
 	{
 		echo YSSUI::btn($url, $classes . " edit", $label, "icon-edit.png");
 	}
 	
-	public static function BTN_DELETE($url="#", $classes="", $label="Delete") 
+	public static function BTN_DELETE($url="", $classes="", $label="Delete") 
 	{
 		echo YSSUI::btn($url, $classes . " delete btn-modal modal-view-delete", $label, "icon-delete.png");
 	}

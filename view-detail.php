@@ -12,7 +12,57 @@
 	<div id="container">
 		<div id="body">
 			<div class="body-content">
-				<a href="#/lucy/logout">logout view</a>
+				<ul id="view-detail">
+					<li class="detail">
+						<a href="/#/lucy/logout/default">
+							<img class="img-preview" src="/resources/img/fpo-comp-preview.jpg" alt="" />
+						</a>
+						<h2>Logout</h2>		
+						<div class="description">
+							<p>lorem ipsum...</p>
+						</div>
+					</li>
+					<li class="modules">
+						<div class="module module-created">
+							<p class="author">Uploaded by bross</p>
+							<p class="created_at">7/16/2010 at 4:30pm</p>
+						</div>
+						<div class="module module-progress">
+							<div class="progress-bar">																						
+								<div class="progress-value">
+									<span class="value">34</span>
+								</div>
+							</div>	
+							<p><span class="col">Completed:</span><span class="tasks-completed col">{{completed}}</span></p>
+							<p><span class="col">Total:</span><span class="tasks-total col">{{total}}</span></p>
+						</div>
+						<div class="module module-tasks">
+							<h3>Tasks</h3>
+							<ol>
+								<li>header</li>
+								<li>footer</li>
+								<li>nav</li>
+								<li>logo</li>
+							</ol>
+						</div>
+						<div class="module module-notes">
+							<h3>Notes</h3>
+							<ol>
+								<li>make logo bigger</li>
+								<li>increase font size</li>
+								<li>make it pop</li>
+								<li>more color</li>
+							</ol>
+						</div>
+						<div class="module module-states">
+							<h3>States</h3>
+							<ol>
+								<li>Default</li>
+								<li>Log in</li>
+							</ol>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<?php 

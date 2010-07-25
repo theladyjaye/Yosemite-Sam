@@ -11,24 +11,24 @@ function(head, req)
 	{
 		var type  = row.value.type;
 		
-		if(type == "project")
+		if(type == "view")
 		{
 			if(current)
 			{
-				send(mustache.to_html(ddoc.templates.project, current)+"\n");
-			}
-			
+				send(mustache.to_html(ddoc.templates.view, current)+"\n");
+			}			
+				
 			current           = row.value;
 			current.tasks     = {completed:0, total:0};
-			current.views     = 0;
-			current.path	  = current.label.toLowerCase();
+			current.states    = [];
+			
 		}
 		else
 		{
 			switch(type)
 			{
-				case "view":
-					current.views++;
+				case "state":
+					current.states.push(row.value);
 					break;
 				
 				case "task":
@@ -38,4 +38,7 @@ function(head, req)
 			}
 		}
 	}
+	
+	//result.push(current);
+	//send(JSON.stringify(result));
 }

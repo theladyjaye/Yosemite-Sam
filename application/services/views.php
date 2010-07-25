@@ -154,7 +154,7 @@ class YSSServiceViews extends AMServiceContract
 	{
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		echo $database->formatList("project/view-aggregate", "view-report", null, true);
+		echo $database->formatList("project/view-aggregate-render", "view-report", null, true);
 	}
 	
 	public function verifyAuthorization()

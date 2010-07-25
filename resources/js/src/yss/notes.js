@@ -81,7 +81,7 @@
 					});
 				}
 			}).draggable({
-				containment: [0, $("#view-body-editor").position().top, 1900, 800],
+				containment: [0, $("#view-body-editor").position().top + 50, 1900, 800],
 				handle: ".overlay"
 			}).click(function() {
 				$(".note").removeClass("active");
