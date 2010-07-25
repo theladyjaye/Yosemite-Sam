@@ -12,7 +12,9 @@
 	<div id="container">
 		<div id="body">
 			<div class="body-content">
-				<a class="project-title" href="/#">Lucy</a>
+				<div class="breadcrumbs">
+					<a class="project-title" href="/#">Projects</a>
+				</div>
 				<ul id="table-list">
 					<li>
 						<?php YSSUI::BTN_ADD_VIEW('#', 'btn-img');?>

@@ -129,6 +129,7 @@
 					ns.progressbar.main();
 					ns.modal.main();
 					ns.forms.main();
+					ns.editablefields.main();
 				}
 				break;
 			case 3: // /ollie/logout/default

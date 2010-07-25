@@ -19,8 +19,6 @@ body.view-editor{background:#c9c9c9;}
 #primary-nav .logout{padding-left:10px;}
 #company-header{position:relative;height:80px;width:100%;}
 .view-editor #company-header{background:#fff;z-index:101;}
-.breadcrumbs{position:absolute;left:20px;color:#bebebe;font-weight:bold;font-size:36px;letter-spacing:-2px;line-height:80px;}
-.breadcrumbs .company{color:#000;}
 #company-header .dd-change-view{position:absolute;top:35px;right:20px;width:160px;}
 #global-body{padding:20px;position:relative;min-height:600px;width:960px;margin:0 auto;-moz-box-shadow:0 1px 6px rgba(0, 0, 0, 0.5);-webkit-box-shadow:0 1px 6px rgba(0, 0, 0, 0.5);box-shadow:0 1px 6px rgba(0, 0, 0, 0.5);background:-webkit-gradient(linear, left bottom, left top, color-stop(0, #ffffff), color-stop(1, #f2f2f2));background:#f5f5f5;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
 .view-editor #global-body{width:100%;z-index:109;min-height:0;height:40px;border-bottom:1px solid rgba(0, 0, 0, 0.3);}

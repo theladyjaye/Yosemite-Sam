@@ -12,14 +12,18 @@
 	<div id="container">
 		<div id="body">
 			<div class="body-content">
+				<div class="breadcrumbs">
+					<a class="project-title" href="/#">Projects</a> &raquo; <a class="project-title" href="/#/lucy">Lucy</a>
+					<a href="#" class="delete btn-modal modal-view-delete">Delete</a>
+				</div>								
 				<ul id="view-detail">
 					<li class="detail">
 						<a href="/#/lucy/logout/default/edit">
 							<img class="img-preview" src="/resources/img/fpo-comp-preview.jpg" alt="" />
 						</a>
-						<h2>Logout</h2>		
-						<div class="description">
-							<p>lorem ipsum...</p>
+						<h2 class="editable" id="editable-label">Logout</h2>		
+						<div class="description editable-textarea" id="editable-description">
+							lorem ipsum<br />lorem ipsum lorem ipsum<br /><br />lorem ipsum<br /><a href="#">link</a>
 						</div>
 					</li>
 					<li class="modules">
@@ -31,6 +35,7 @@
 							<div class="progress-bar">																						
 								<div class="progress-value">
 									<span class="value">34</span>
+									<span class="percentage">%</span>
 								</div>
 							</div>	
 							<p><span class="col">Completed:</span><span class="tasks-completed col">{{completed}}</span></p>
@@ -39,10 +44,10 @@
 						<div class="module module-attachments">
 							<h3>Attachments</h3>
 							<ol>
-								<li>wireframe</li>
-								<li>functional spec</li>
-								<li>technical spec</li>
-								<li>documentation</li>
+								<li><a href="#">wireframe</a></li>
+								<li><a href="#">functional spec</a></li>
+								<li><a href="#">technical spec</a></li>
+								<li><a href="#">documentation</a></li>
 							</ol>
 						</div>
 						<div class="module module-tasks">
@@ -69,9 +74,6 @@
 								<li><a href="/#/lucy/logout/default">Default</a> <a href="#" class="delete btn-modal modal-view-delete">Delete</a></li>
 								<li><a href="/#/lucy/logout/login">Log in</a> <a href="#" class="delete btn-modal modal-view-delete">Delete</a></li>
 							</ol>
-						</div>
-						<div class="module module-delete">
-							<a href="#" class="delete btn-modal modal-view-delete">Delete</a>
 						</div>
 					</li>
 				</ul>
