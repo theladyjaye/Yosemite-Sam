@@ -11,8 +11,10 @@
 
 			$("#view-body-editor-image").delegate(".note .btn-save", "click", function(evt) {
 				// save to db
-				var $note = $(this).parents(".note");
-				console.log($note.find(".frm-note").serialize());
+				var $note = $(this).parents(".note"),
+					$frm_note = $note.find(".frm-note");
+				console.log($frm_note.serialize());				
+				$frm_note.fadeOut();				
 				return false;
 			}).delegate(".note .btn-cancel", "click", function(evt) {
 				$(this).parents(".note").fadeOut(function() {
@@ -86,12 +88,13 @@
 			}).click(function() {
 				$(".note").removeClass("active");
 				$(this).addClass("active");
-			})
+				$(this).find(".frm-note").fadeIn();
+			});
 
 			// drag initial size
 			$("#view-body-editor-image").mousemove(function(evt) {
 				var pos = note.position();
-				note.width(evt.pageX - pos.left).height(evt.pageY - pos.top - 50);
+				note.width(evt.pageX - pos.left - $("#view-body-editor-image").position().left).height(evt.pageY - pos.top - 50);
 				note.find(".frm-note").css({
 					"top": note.height() + 10
 				});
@@ -112,26 +115,33 @@
 				"class": "note-num",
 				"html": ns.notes.get_next_note_count(),
 				"click": function(evt) {
-					var $note = $(this).parents(".note");
+					var $note = $(this).parents(".note"),
+						$frm_note = $note.find(".frm-note");
 
 					if($note.hasClass("minimized"))
 					{
 						var data = $note.data("yss");
+						/*
 						$note.removeClass("minimized").animate({
 							"width": data.width,
 							"height": data.height
 						});
+						*/
+						$frm_note.fadeIn();
 					}
 					else
 					{
 						$note.data("yss", {
 							"width": $note.width(),
 							"height": $note.height()
-						}).addClass("minimized").animate({
+						}); /*.addClass("minimized").animate({
 							"width": 0,
 							"height": 0
-						})
+						});
+						*/
+						$frm_note.fadeOut();
 					}
+					return false;
 				}
 			}).appendTo(note);
 

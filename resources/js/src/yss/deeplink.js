@@ -165,6 +165,7 @@
 					ns.progressbar.main();
 					ns.modal.main();
 					ns.forms.main();
+					//ns.editablefields.main();
 				};
 		}
 		

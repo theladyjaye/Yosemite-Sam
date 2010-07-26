@@ -5,10 +5,6 @@ Phil:
 	[MAJOR] Sign in/up page
 	[MAJOR] Integrate services/back-end
 			 - CRUD
-	global::breadcrumbs
-	global::better button/link states
-	global::better animation
-	global::add gradients to background
 	global::change progress bar image
 	global::modals
 		- validation
@@ -16,12 +12,8 @@ Phil:
 	annotations
 		- color code by type
 		- save state		
- 	Task List
-		- sorting
 	Settings
 		- inline or modal edit/change user name, email, user level
-	"add attachment" modal 
-		- integrate multiple uploads
 	logo, favicon
 	
 	

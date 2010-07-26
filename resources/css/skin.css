@@ -52,7 +52,7 @@ a.project-title:hover{border-bottom:1px solid #ccc;}
 #view-detail .modules .border-arrow-right{width:0;height:0;border-right:20px solid transparent;border-top:10px solid #ddd;top:100%;left:0;position:absolute;}
 #view-detail .modules .module-progress{background:#efefef;margin-bottom:20px;position:relative;-moz-box-shadow:0 2px 3px rgba(0, 0, 0, 0.15);-webkit-box-shadow:0 2px 3px rgba(0, 0, 0, 0.15);box-shadow:0 2px 3px rgba(0, 0, 0, 0.15);}
 #view-detail .modules .module .progress-bar{width:378px;position:relative;}
-#view-detail .progress-bar .progress-value{position:absolute;top:38px;right:0;font:42px Georgia, Times New Roman, serif;letter-spacing:-1px;}
+#view-detail .progress-bar .progress-value{position:absolute;top:34px;right:0;font:42px Georgia, Times New Roman, serif;letter-spacing:-1px;}
 #view-detail .progress-bar .progress-value .value{font-size:48px;position:relative;left:6px;color:#e08c3b;}
 #view-detail .progress-bar .progress-value .percentage{position:relative;top:6px;color:#df842e;}
 #view-detail .module-progress p{margin-top:10px;float:left;clear:both;}
