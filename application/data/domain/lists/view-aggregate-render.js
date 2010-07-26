@@ -16,7 +16,7 @@ function(head, req)
 		{
 			if(current)
 			{
-				send(mustache.to_html(ddoc.templates.view, current)+"\n");
+				send(mustache.to_html(ddoc.templates.views, current)+"\n");
 			}
 				
 			current           = row.value;
