@@ -27,7 +27,7 @@ class YSSCouchObject
 		
 		if(!$this->_rev) // it's a new item
 		{
-			$this->cerated_by = $session->currentUser->username;
+			$this->created_by = $session->currentUser->username;
 			$this->created_at = YSSApplication::timestamp_now();
 		}
 		
