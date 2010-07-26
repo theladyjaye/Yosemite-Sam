@@ -3,7 +3,7 @@
 		<img src="/resources/img/fpo-comp-thumb.jpg" alt="" />
 	</a>
 	<a class="btn-delete delete btn-modal modal-view-delete" href="">Delete</a>						
-	<h2 class="">{{label}}</h2>
+	<h2 class="editable">{{label}}</h2>
 	{{#tasks}}
 	<p class="view-info">
 		{{views}} views
@@ -18,7 +18,7 @@
 		</p>					
 	</div>						
 	{{/tasks}}			
-	<div class="description">
-		<p>{{description}}</p>
+	<div class="description editable-textarea">
+		{{description}}
 	</div>
 </li>
