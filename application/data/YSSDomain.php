@@ -48,7 +48,7 @@ class YSSDomain
 					//$contents        = file_get_contents($path.'/'.$entry);
 					//$contents        = preg_replace('/\t/', '', $contents);
 					//$contents        = preg_replace('/\n|\r|\t/', '', $contents);
-				
+					echo 'key:', $key,"<br>contents:",$contents,"<hr>";
 					$context->{$key} = $contents;
 				}
 			}

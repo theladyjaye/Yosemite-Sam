@@ -33,6 +33,7 @@ class YSSCouchObject
 		
 		$database = $this->database();
 		$response = $database->put($this, $this->_id);
+		//print_r($response);
 		
 		if(isset($response['ok']))
 		{
