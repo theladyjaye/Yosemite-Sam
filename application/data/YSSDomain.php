@@ -58,6 +58,9 @@ class YSSDomain
 
 class YSSDomainMacroJson extends php_user_filter 
 {
+	private $bucket;
+	private $data;
+	private $macro_collection;
 	public function filter($in, $out, &$consumed, $closing)
 	{
 		$macro    = '// !json';
@@ -74,7 +77,6 @@ class YSSDomainMacroJson extends php_user_filter
 					// get rid of the macro part:
 					$segment1 = substr($bucket->data, 0, $position);
 					$segment2 = substr($bucket->data, $position+strlen($macro));
-					
 					
 					// $segment 2 will contain the path:
 					$path     = trim(substr($segment2, 0, strpos($segment2, "\n")));
@@ -116,9 +118,12 @@ class YSSDomainMacroJson extends php_user_filter
 				}
 			}
 			
+			
+			//$consumed += $bucket->datalen;
+			$consumed     = 0;
+			$this->data  .= $bucket->data;
 			$this->bucket = $bucket;
-			$consumed += $bucket->datalen;
-			stream_bucket_append($out, $bucket);
+			//stream_bucket_append($out, $bucket);
 		}
 		
 		if($closing)
@@ -133,14 +138,15 @@ class YSSDomainMacroJson extends php_user_filter
 				$segment2 = substr($this->bucket->data, strpos($this->bucket->data, '{') + 1);
 				
 				$this->bucket->data = $segment1.$insert.$segment2;
-				$consumed = strlen($this->bucket->data);
-				stream_bucket_append($out, $this->bucket);
 			}
 			else
 			{
-				$consumed = $this->bucket->datalen;
-				stream_bucket_append($out, $this->bucket);
+				$this->bucket->data  = $this->data;
 			}
+			
+			$consumed += strlen($this->bucket->data);
+			$this->bucket->datalen = $consumed;
+			stream_bucket_append($out, $this->bucket);
 			
 			return PSFS_PASS_ON;
 		}
@@ -151,21 +157,15 @@ class YSSDomainMacroJson extends php_user_filter
 	public function onClose()
 	{
 		$this->macro_collection = null;
-		if($this->stream_temp)
-			fclose($this->stream_temp);
+		$this->data             = null;
+		$this->bucket           = null;
 	}
-	
-	public function flush ($closing)
-	{
-		echo "flush!";
-	}
-	
 	
 	public function onCreate()
 	{
 		$this->macro_collection = array();
-		$this->stream_temp = null;
-		$this->bucket = null;
+		$this->data             = null;
+		$this->bucket           = null;
 		return true;
 	}
 }

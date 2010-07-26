@@ -9,6 +9,7 @@ function(head, req)
 	
 	while(row = getRow())
 	{
+		
 		var type  = row.value.type;
 		
 		if(type == "view")
@@ -16,7 +17,7 @@ function(head, req)
 			if(current)
 			{
 				send(mustache.to_html(ddoc.templates.view, current)+"\n");
-			}			
+			}
 				
 			current           = row.value;
 			current.tasks     = {completed:0, total:0};
@@ -38,7 +39,6 @@ function(head, req)
 			}
 		}
 	}
-	
 	//result.push(current);
 	//send(JSON.stringify(result));
 }
