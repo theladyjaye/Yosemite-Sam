@@ -1,9 +1,12 @@
 <?php
 class YSSTask extends YSSCouchObject
 {
+	const kStatusIncomplete = 0;
+	const kStatusComplete   = 1;
+	
 	public $label;
 	public $description;
-	public $complete;
+	public $status;
 	
 	protected $type = "task";
 	

@@ -50,7 +50,7 @@ class YSSCouchObject
 		
 		foreach($this as $key=>$value)
 		{
-			if($key != '_id' && $value != null)
+			if($key != '_id' && $value !== null)
 			{
 				$obj->{$key} = $value;
 			}

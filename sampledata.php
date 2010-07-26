@@ -68,22 +68,22 @@ $s3->_id         = "default";
 $t1 = new YSSTask();
 $t1->label = "Go for a walk";
 $t1->description = "lorem ipsum dolor sit amet";
-$t1->complete = false;
+$t1->status = YSSTask::kStatusIncomplete;
 
 $t2 = new YSSTask();
 $t2->label = "Go for a ride";
 $t2->description = "lorem ipsum dolor sit amet";
-$t2->complete = false;
+$t2->status = YSSTask::kStatusIncomplete;
 
 $t3 = new YSSTask();
 $t3->label = "Bark";
 $t3->description = "lorem ipsum dolor sit amet";
-$t3->complete = true;
+$t3->status = YSSTask::kStatusComplete;
 
 $t4 = new YSSTask();
 $t4->label = "Stare at birds";
 $t4->description = "lorem ipsum dolor sit amet";
-$t4->complete = false;
+$t4->status = YSSTask::kStatusIncomplete;
 
 
 $p1->addView($v1);
