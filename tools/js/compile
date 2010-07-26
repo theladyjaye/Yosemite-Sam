@@ -2,31 +2,6 @@
 
 # to run: sh compile
 
-#path where source js files are located
-#js_path=../../resources/js/src/
-#js files in order of dependencies
-#todo: grep resources/js/src/(\w|\d|\/|\.|-)*.js ../../application/templates/head.php
-#		then get substring
-#js_files=(
-#	cufon/cufon-yui.js 
-#	cufon/Vegur.font.js 
-#	jquery-addons/jquery.annotate.js 
-#	jquery-addons/jquery.easing.js 
-#	jquery-addons/jquery.countup.js 
-#	jquery-addons/jqModal.js 
-#	jquery-addons/jquery.jeditable.js 
-#	jquery-addons/jquery.phui.js 
-#	utils/json2.js
-#	yss/api.js
-#	yss/editable-fields.js
-#	yss/forms.js
-#	yss/modal.js
-#	yss/progressbar.js
-#	yss/table-list.js
-#	yss/task-list.js
-#	yss/main.js
-#)
-
 #head file
 head_file=../../application/templates/head.php
 
@@ -38,13 +13,6 @@ compiler=`pwd`/compiler.jar
 #search for resources/js/src/(\w\d-/.).js
 pattern="resources\/js\/src\/\(\w\|\d\|-\|/\|\.\)*.js"
 
-# change directory to where js files are located
-#cd $js_path
-
-#for file in *.js  ; do
-#loop through all elements in js_file array
-#for file in ${js_files[@]} ; do
-	
 #search in head.php for script src includes that match pattern
 #use matches to build command
 for file in `grep -o $pattern $head_file` ; do

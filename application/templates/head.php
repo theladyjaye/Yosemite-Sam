@@ -32,6 +32,7 @@ if(isset($_REQUEST['release']) && $_REQUEST['release']):?>
 	<script src="resources/js/src/yss/main.js"></script>
 	<script src="resources/js/src/yss/deeplink.js"></script>
 	<script src="resources/js/src/yss/api.js"></script>
+	<script src="resources/js/src/yss/modules.js"></script>
 	<script src="resources/js/src/yss/editable-fields.js"></script>
 	<script src="resources/js/src/yss/forms.js"></script>
 	<script src="resources/js/src/yss/forms.validation.js"></script>

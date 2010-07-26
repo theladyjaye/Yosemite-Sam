@@ -15,7 +15,8 @@
 				callback: function(value, settings) {
 					console.log(this, value, settings);
 				},
-				width: 520
+				width: 520,
+				height: 40
 			});
 
 			$(".editable-textarea").editable("save.php", {
@@ -39,6 +40,11 @@
 				width: 520,
 				height: 200
 			});
+			
+			$(".editable-textarea").delegate("a", "click", function() {
+				window.open($(this).attr("href"));
+				return false;
+			})
 		}
 	}	
 })($.phui.yss);
