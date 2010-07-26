@@ -87,6 +87,10 @@
                $.address.title([ns.deeplink.title].concat(names).join(' | '));
 			   transition(names);
            });
+
+		$("#body").delegate(".no-dp", "click", function() {
+			return false;
+		});
 	}
 	
 	function transition(pathnames)	
@@ -129,6 +133,7 @@
 					ns.progressbar.main();
 					ns.modal.main();
 					ns.forms.main();
+					ns.modules.main();
 					ns.editablefields.main();
 				}
 				break;
@@ -139,6 +144,8 @@
 					ns.progressbar.main();
 					ns.modal.main();
 					ns.forms.main();
+					ns.modules.main();
+					ns.editablefields.main();
 				}
 				break;
 			case 4: // /ollie/logout/default/edit
