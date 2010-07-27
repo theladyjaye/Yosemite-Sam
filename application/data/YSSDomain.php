@@ -15,7 +15,6 @@ class YSSDomain
 		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $domain);
 		$database->create_database();
-		
 		print_r($database->put($obj, '_design/project'));
 	}
 	
@@ -48,9 +47,7 @@ class YSSDomain
 					//$contents        = file_get_contents($path.'/'.$entry);
 					//$contents        = preg_replace('/\t/', '', $contents);
 					//$contents        = preg_replace('/\n|\r|\t/', '', $contents);
-					echo 'context: ', $context, '<br />';
-					echo 'key: ', $key, '<br />';
-					echo 'contents: ', $contents, '<br />';
+					
 					$context->{$key} = $contents;
 				}
 			}

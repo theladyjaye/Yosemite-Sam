@@ -16,3 +16,14 @@ Status of task
 	- assignee can acknowledge status of a task (open, closed, in progress)
 	- assignee can include estimation of time needed to complete task
 	- table view of estimation and shows tasks with no esimated time, as well as total time estimated for view/project
+
+Project Export/Import
+	- Uses can export(archive) and import projects.
+	- Deleting all information is not a threat as you can just save the data
+	- Deleting a project or a view cascades to it's children, if any.  
+	  In other words deleting a task would only delete that task
+	  Deleting a View, would delete all the states and tasks, etc
+	
+PDF Report generation
+	- each page is a view/state with its notes and tasks
+	- all annotations are mapped on the comp of the view and there is a legend explaining each annotation (task/note)
