@@ -268,6 +268,51 @@ class CouchDB
 		}
 	}
 	
+	public function bulk_update($documents, $json=false)
+	{
+		static $loaded = false;
+		
+		if(!$loaded)
+		{
+			require 'commands/CDBBulkUpdate.php';
+			$loaded = true;
+		}
+		
+		if($this->shouldPerformActionWithDatabase())
+		{
+			$json = null;
+
+			if(is_array($documents) || is_a($documents, 'stdClass'))
+			{
+				$json = couchdb_json_encode($documents);
+			}
+			else if(is_object($documents))
+			{
+				$json = $documents->__toString();
+			}
+			else if(is_string($documents))
+			{
+				$json = $documents;
+			}
+			
+			$connection = new CouchDBConnection($this->connectionOptions);
+			$response   = $connection->execute(new CDBBulkUpdate($this->connectionOptions['database'], $json));
+			
+			if($json)
+			{
+				return $response->data;
+			}
+			else
+			{
+				return $response->result;
+			}
+		}
+		else
+		{
+			$this->throw_no_database_exception();
+		}
+	}
+	
 	/**
 	 * Get an attachment of a given document with the given name
 	 * it will return the body of the attachment, without any HTTP headers

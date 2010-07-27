@@ -112,10 +112,26 @@ class YSSServiceProjects extends AMServiceContract
 	
 	public function deleteProject($id)
 	{
-		/*
-			TODO Finish delete project logic.  Do we just mark as unused? Do we cascade down all of the associated tasks/comments/attachments/views?
-			just need to decide the best course of action.  Probably will be to delete everything, since it takes up resources to keep it around.
-		*/
+		// deleting a project is a big deal, everything associated with it needs to go.
+		
+		$session  = YSSSession::sharedSession();
+		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		
+		$options = array('key'          => 'project/'.$id,
+		                 'include_docs' => true);
+		
+		$result        = $database->view("project/project-delete", $options, false);
+		$payload       = new stdClass();
+		$payload->docs = array();
+		
+		foreach($result as $document)
+		{
+			$document['_deleted'] = true;
+			$payload->docs[] = $document;
+		}
+		
+		$database->bulk_update($payload);
+		// may want to compact here.. depends on the load though, so compatcing is probably not the best idea ALL the time.
 	}
 	
 	public function generateReport()
