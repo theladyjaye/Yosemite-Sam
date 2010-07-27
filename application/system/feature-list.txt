@@ -27,3 +27,6 @@ Project Export/Import
 PDF Report generation
 	- each page is a view/state with its notes and tasks
 	- all annotations are mapped on the comp of the view and there is a legend explaining each annotation (task/note)
+
+Bug List to Excel or CSV for import to Mantis
+	- bug list == tasks
