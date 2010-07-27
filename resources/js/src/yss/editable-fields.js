@@ -4,7 +4,7 @@
 	{
 		main: function() 
 		{
-			$(".editable").editable( "save.php", {
+			$(".editable").editable(saveChanges, {
 		        indicator: "Saving...",
 		        tooltip: "Click to edit...",
 				onblur: "ignore",
@@ -13,13 +13,14 @@
 				name: 'new_value',				
 				submitdata: {record: $.address.path()},
 				callback: function(value, settings) {
-					console.log(this, value, settings);
+					//console.log(this, value, settings);
 				},
-				width: 520,
-				height: 40
+				cssclass: 'frm-editable',
+				width: 'none',
+				height: 'none'
 			});
 
-			$(".editable-textarea").editable("save.php", {
+			$(".editable-textarea").editable(saveChanges, {
 		        type: "textarea",
 		        tooltip: "Click to edit...",
 				onblur: "ignore",
@@ -37,14 +38,43 @@
 		        data: function(value, settings) {
 		        	return $.trim(value.replace(/<br[\s\/]?>/gi, "\n"));
 		        },
-				width: 520,
-				height: 200
+				cssclass: 'frm-editable',
+				width: 'none',
+				height: 'none'
+			});
+			
+			$(".editable-select").editable(saveChanges, {
+		        type: "select",
+				data: " {'Admin':'Admin','Editor':'Editor'}",
+				onblur: "ignore",
+				submit: 'Save',
+		      	cancel: 'Cancel',
+				name: 'new_value',
+				submitdata: function(value, settings) {
+					var textarea_val = $(this).find("textarea").val();
+					textarea_val = textarea_val.replace(new RegExp("\\n", "g"), "<br />");
+					return {new_value: textarea_val, record: $.address.path()};
+				},
+				callback: function(value, settings) {
+					console.log(this, value, settings);
+				},
+				cssclass: 'frm-editable',
+				width: 'none',
+				height: 'none'
 			});
 			
 			$(".editable-textarea").delegate("a", "click", function() {
 				window.open($(this).attr("href"));
 				return false;
-			})
+			});
 		}
-	}	
+	}
+	
+	function saveChanges(value, settings)
+	{		
+		ns.api.request(ns.utils.getItemPath($(this)), {label: value}, "POST", function(res) {
+			console.log('res: ', res);
+		});		
+	}
+		
 })($.phui.yss);

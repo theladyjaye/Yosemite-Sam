@@ -11,7 +11,7 @@ require 'application/data/YSSTask.php';
 
 $session  = YSSSession::sharedSession();
 $database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-$database->delete_database();
+//$database->delete_database();
 
 YSSDomain::create($session->currentUser->domain);
 

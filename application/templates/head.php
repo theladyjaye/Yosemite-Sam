@@ -39,6 +39,5 @@ if(isset($_REQUEST['release']) && $_REQUEST['release']):?>
 	<script src="resources/js/src/yss/modal.js"></script>
 	<script src="resources/js/src/yss/notes.js"></script>
 	<script src="resources/js/src/yss/progressbar.js"></script>
-	<script src="resources/js/src/yss/table-list.js"></script>
-	<script src="resources/js/src/yss/task-list.js"></script>
+	<script src="resources/js/src/yss/table-orientation.js"></script>
 <?endif;?>

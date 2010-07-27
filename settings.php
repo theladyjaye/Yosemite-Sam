@@ -19,28 +19,28 @@
 							"last-name" => "John",
 							"username"=> "jadams",
 							"email" => "jadams@usa.com",
-							"user-level" => "admin"					
+							"user-level" => "Admin"					
 						),
 						array(
 							"first-name" => "Abraham",
 							"last-name" => "Lincoln",
 							"username"=> "alincoln",
 							"email"=> "alincoln@usa.com",
-							"user-level"=> ""					
+							"user-level"=> "Editor"					
 						),
 						array(
 							"first-name" => "Jayson",
 							"last-name" => "Padding",
 							"username"=> "jsonp",
 							"email"=> "jsonp@gmail.com",
-							"user-level"=> ""					
+							"user-level"=> "Editor"					
 						),
 						array(
 							"first-name" => "Betsy",
 							"last-name" => "Ross",
 							"username"=> "bross",
 							"email"=> "bross@usa.com",
-							"user-level"=> "admin"					
+							"user-level"=> "Admin"					
 						)			
 					);
 					include("application/templates/body-settings.php"); 

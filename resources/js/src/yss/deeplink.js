@@ -27,8 +27,8 @@
 				//console.log('view complete');
 			});
 			
-			$("#body").bind("transitionIn", function(evt, page, callback) {
-				$(this).load(page + " #body .body-content", function(html) {
+			$("#body").bind("transitionIn", function(evt, page, params, callback) {
+				$(this).load(page + " #body .body-content", params, function(html) {
 					$("#body .body-content").css({"opacity": 0});
 					if($.isFunction(callback)) 
 					{
@@ -55,6 +55,18 @@
 
 				return false;
 			})
+		},
+		
+		parsePath: function(pathnames)
+		{
+			var obj = {};
+
+			if(pathnames.length > 0) obj.project = pathnames[0].toLowerCase();
+			if(pathnames.length > 1) obj.view = pathnames[1].toLowerCase();
+			if(pathnames.length > 2) obj.state = pathnames[2].toLowerCase();
+			if(pathnames.length > 3) obj.annotation = pathnames[3].toLowerCase();
+
+			return obj;
 		}
 	}
 	
@@ -97,8 +109,9 @@
 	{
 		var href, 
 			transitionKey, 
+			params = ns.deeplink.parsePath(pathnames),
 			callback = function() {};
-		
+
 		switch(pathnames.length)
 		{
 			case 1: 	
@@ -110,6 +123,7 @@
 					callback = function() {
 						ns.modal.main();
 						ns.forms.main();
+						ns.editablefields.main();
 					};
 				}
 				// /ollie
@@ -127,7 +141,7 @@
 				break;
 			case 2: // /ollie/logout
 				// redirect to default (first) state
-				href = "/view-detail.php";
+				href = "/view-detail.php";				
 				transitionKey = "viewdetail";
 				callback = function() {
 					ns.progressbar.main();
@@ -165,14 +179,15 @@
 					ns.progressbar.main();
 					ns.modal.main();
 					ns.forms.main();
-					//ns.editablefields.main();
+					ns.editablefields.main();
+					ns.tableorientation.main();
 				};
 		}
 		
 		if(href)
 		{
 			$("#body").trigger("transitionOut", [function() {
-				$("#body").trigger("transitionIn", [href, function() {
+				$("#body").trigger("transitionIn", [href, params, function() {
 				callback();	
 				$.phui.transitions[transitionKey].transitionIn();
 			}])}]);
@@ -181,6 +196,5 @@
 		{
 			redirect();
 		}
-	}
-	
+	}	
 })($.phui.yss);

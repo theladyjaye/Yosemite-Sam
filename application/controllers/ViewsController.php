@@ -1,14 +1,18 @@
 <?php
 class ViewsController extends YSSController
 {
-	protected $requiresAuthorization  = false;
-	protected $requiresPermission     = false;
-	
-	public    $data					  = array();
+	protected $requiresAuthorization  = false;	
+	public    $data					  = "";
 	
 	protected function initialize()
 	{ 
 		$this->data = $this->get_data();
+	/*	
+		if(empty($this->data))
+		{
+			
+		}
+	*/
 	}
 		
 	protected function verifyPermission()
@@ -18,22 +22,21 @@ class ViewsController extends YSSController
 	
 	protected function verifyPermissionFailed() 
 	{
-		header("Location:/dashboard");
+		header("Location:/");
 	}
 	
 	private function get_data()
 	{
-		if(isset($_REQUEST['project']))
+		if(isset($_POST['project']))
 		{
-			$project = $_REQUEST['project'];
+			$project = $_POST['project'];
 		}
 		else
 		{
 			$this->verifyPermissionFailed();
 		}
 		
-		return json_decode(file_get_contents("http://yss.com/api/project/$project/views"));
-	}
-	
+		return file_get_contents("http://yss.com/api/project/$project/views");
+	}	
 }
 ?>

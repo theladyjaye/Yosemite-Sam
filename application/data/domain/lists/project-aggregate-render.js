@@ -21,7 +21,7 @@ function(head, req)
 			current           = row.value;
 			current.tasks     = {completed:0, total:0};
 			current.views     = 0;
-			current.path	  = current.label.toLowerCase();
+			current.path	  = current._id.split("/").slice(1).join("/");
 		}
 		else
 		{

@@ -12,7 +12,11 @@
 	<? include("application/templates/header.php"); ?>
 	<div id="container">
 		<div id="body">
-			<div class="body-content">				
+			<div class="body-content">
+				<div class="orientation">
+					<a href="#" class="grid selected"><img src="/resources/img/icon-table-grid" alt="" /></a>
+					<a href="#" class="cascade"><img src="/resources/img/icon-table-cascade" alt="" /></a>
+				</div>				
 				<ul id="table-list" class="">
 					<li>
 						<?php YSSUI::BTN_ADD_PROJECT('#', 'btn-img');?>
@@ -45,9 +49,9 @@ MODAL_CONTENTS
 				<?php
 					$modal = array(
 						"params" => array(
-							"what" => "project",
-							"id" => ""
-						)			
+							"path" => ""
+						),
+						"footnote" => "Gasp! Are you sure? This will delete all views, states, and annotations in this project.  No undo."
 					);
 				?>
 				<?php include("application/templates/modal-delete.php"); ?>

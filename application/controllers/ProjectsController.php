@@ -1,9 +1,7 @@
 <?php
 class ProjectsController extends YSSController
 {
-	protected $requiresAuthorization  = false;
-	protected $requiresPermission     = false;
-	
+	protected $requiresAuthorization  = false;	
 	public    $data					  = "";
 	
 	protected function initialize()
@@ -18,7 +16,7 @@ class ProjectsController extends YSSController
 	
 	protected function verifyPermissionFailed() 
 	{
-		header("Location:/dashboard");
+		header("Location:/");
 	}
 
 	private function get_data()

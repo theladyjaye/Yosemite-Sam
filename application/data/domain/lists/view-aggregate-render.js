@@ -22,7 +22,7 @@ function(head, req)
 			current           = row.value;
 			current.tasks     = {completed:0, total:0};
 			current.states    = [];
-			
+			current.path	  = current._id.split("/").slice(1).join("/");			
 		}
 		else
 		{
@@ -39,6 +39,4 @@ function(head, req)
 			}
 		}
 	}
-	//result.push(current);
-	//send(JSON.stringify(result));
 }

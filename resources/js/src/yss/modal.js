@@ -16,6 +16,26 @@
 				return false;
 			});	
 
+			// delete modal
+			$(".btn-modal.modal-view-delete").click(function() {
+				var $this = $(this),
+					$li = $this.parents("li"),
+					label = $li.find("h2").text(),
+					path = ns.utils.getItemPath($this),
+					$modal = $(".modal-view-delete.jqmWindow");
+				
+				
+				$modal.find("input[name=path]").attr("value", path);
+				$modal.find(".modal-title .item-name").append(label);
+				$modal.find(".frm-delete-yes").click(function() {
+					ns.api.request(path, {}, "DELETE", function(res) {
+						$li.fadeOut(300, function() {
+							$(this).remove();
+						});
+					});
+				});
+			});
+
 			$(".modal").addClass("jqmWindow").jqm({
 				trigger: false,
 				closeClass: "modal-close"

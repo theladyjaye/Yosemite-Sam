@@ -1,6 +1,6 @@
 <?php
 	require 'application/system/YSSEnvironment.php';
-	//YSSPage::Controller('ViewsController.php');
+	YSSPage::Controller('ViewsController.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,6 +19,11 @@
 					<li>
 						<?php YSSUI::BTN_ADD_VIEW('#', 'btn-img');?>
 					</li>
+					<?=$page->data?>
+				<? /*
+					<li>
+						<?php YSSUI::BTN_ADD_VIEW('#', 'btn-img');?>
+					</li>
 					<?for($i = 0; $i < 5; $i++):?>
 					<li>
 						<a class="btn-img dp" href="#/lucy/logout">
@@ -26,7 +31,7 @@
 						</a>
 						<a class="btn-delete delete btn-modal modal-view-delete" href="">Delete</a>						
 						<h2 class="">{{label}}</h2>
-					<? /*	{{#tasks}} */ ?>
+					<? /*	{{#tasks}}  ?>
 						<p class="view-info">
 							{{views}} views
 						</p>
@@ -39,12 +44,13 @@
 								<span class="tasks-completed">{{completed}}</span>/<span class="tasks-total">{{total}}</span>
 							</p>					
 						</div>						
-					<? /*	{{/tasks}}	*/ ?>
+					<? /*	{{/tasks}}	 ?>
 						<div class="description">
 							<p>{{description}}</p>
 						</div>
 					</li>
 					<?endfor;?>
+					*/ ?>
 				</ul>
 				<?php
 					$modal = array(

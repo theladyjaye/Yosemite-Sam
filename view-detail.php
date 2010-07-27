@@ -18,7 +18,7 @@
 				</div>								
 				<ul id="view-detail">
 					<li class="detail">
-						<a href="/#/lucy/logout/default/edit" class="img-preview">
+						<a href="/#/lucy/logout/default/edit" class="img-preview dp">
 							<img src="/resources/img/fpo-comp-preview.jpg" alt="" />
 						</a>
 						<h2 class="editable" id="editable-label">Logout</h2>		
