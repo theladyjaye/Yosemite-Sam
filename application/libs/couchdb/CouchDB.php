@@ -268,6 +268,30 @@ class CouchDB
 		}
 	}
 	
+	public function copy($from_id, $to_id, $rev=null)
+	{
+		static $loaded = false;
+		
+		if(!$loaded)
+		{
+			require 'commands/CDBCopyDocument.php';
+			$loaded = true;
+		}
+		
+		
+		if($this->shouldPerformActionWithDatabase())
+		{
+			$from_id    = urlencode($from_id);
+			$connection = new CouchDBConnection($this->connectionOptions);
+			$response   = $connection->execute(new CDBCopyDocument($this->connectionOptions['database'], $from_id, $to_id, $rev));
+			return $response->result;
+		}
+		else
+		{
+			$this->throw_no_database_exception();
+		}
+	}
+	
 	public function bulk_update($documents, $json=false)
 	{
 		static $loaded = false;

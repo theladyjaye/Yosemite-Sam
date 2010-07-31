@@ -32,48 +32,53 @@
 require_once 'CouchDBCommand.php';
 
 /**
- * Get Server Version Command
+ * Copy Document
  *
  * @package Commands
  * @author Adam Venturella
  */
-class CDBBulkUpdate implements CouchDBCommand 
+class CDBCopyDocument implements CouchDBCommand 
 {
 	private $database;
-	private $json;
+	private $from_id;
+	private $to_id;
+	private $rev;
 	
 	/**
 	 * undocumented function
 	 *
-	 * @param string $database 
-	 * @param string $json 
+	 * @param string $database
+	 * @param string $from_id
+	 * @param string $to_id
+	 * @param string $rev
 	 * @author Adam Venturella
 	 */
-	public function __construct($database, $json)
+	public function __construct($database, $from_id, $to_id, $rev=null)
 	{
 		$this->database = $database;
-		$this->json     = $json;
+		$this->from_id  = $from_id;
+		$this->to_id    = $to_id;
+		$this->rev      = $rev;
 	}
 	
 	public function request()
 	{
-		$content_length = strlen($this->json);
+		$destination = $this->rev ? $this->to_id.'?rev='.$this->rev : $this->to_id;
 		
 		return <<<REQUEST
-POST /$this->database/_bulk_docs HTTP/1.0
+COPY /$this->database/$this->from_id HTTP/1.0
 Host: {host}
 Connection: Close
-Content-Length: $content_length
-Content-Type: application/json
+Destination: $destination
 {authorization}
 
-$this->json
+
 REQUEST;
 	}
 	
 	public function __toString()
 	{
-		return 'CDBBulkUpdate';
+		return 'CDBCopyDocument';
 	}
 }
 ?>
