@@ -15,7 +15,6 @@
 					data: JSON.stringify(data),
 					contentType: "application/json; charset=utf-8",
 					url: ns.api.uri + resource,
-					async: false, /* ugh */
 					success: function(data) {
 						if($.isFunction(successCallback)) {
 							successCallback($.parseJSON(data));
