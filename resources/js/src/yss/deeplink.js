@@ -34,7 +34,7 @@
 					{
 						callback();
 					}
-				});
+				}, "html");
 			}).bind("transitionOut", function(evt, callback) {
 				$("#body .body-content").animate({
 					"opacity": 0
