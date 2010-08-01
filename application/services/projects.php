@@ -137,7 +137,7 @@ class YSSServiceProjects extends AMServiceContract
 							$options = array('key'          => $project->_id,
 							                 'include_docs' => true);
 
-							$result        = $database->view("project/project-all", $options, false);
+							$result        = $database->view("project/project-forward", $options, false);
 							
 							$payload       = new stdClass();
 							$payload->docs = array();
@@ -246,7 +246,7 @@ class YSSServiceProjects extends AMServiceContract
 		$options = array('key'          => 'project/'.$id,
 		                 'include_docs' => true);
 		
-		$result        = $database->view("project/project-all", $options, false);
+		$result        = $database->view("project/project-forward", $options, false);
 		$payload       = new stdClass();
 		$payload->docs = array();
 		
