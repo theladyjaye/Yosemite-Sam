@@ -72,24 +72,22 @@ class YSSServiceProjects extends AMServiceContract
 	
 	private function createNewProject(&$input, &$response)
 	{
-		if($input->isValid)
+		$project = new YSSProject();
+		$project->label = $input->label;
+		$project->description = $input->description;
+		$project->_id = strtolower('project/'.$id);
+		
+		if($input->_rev)
+			$project->_rev = $input->_rev;
+		
+		
+		if($project->save())
 		{
-			$project = new YSSProject();
-			$project->label = $input->label;
-			$project->description = $input->description;
-			$project->_id = strtolower('project/'.$id);
-			
-			if($input->_rev)
-				$project->_rev = $input->_rev;
-			
-			
-			if($project->save())
-			{
-				$response->ok = true;
-			}
+			$response->ok = true;
 		}
 		else
 		{
+			$input->addValidator(new AMErrorValidator('error', 'Unable to create new project') );
 			$this->hydrateErrors($input, $response);
 		}
 	}
@@ -103,26 +101,26 @@ class YSSServiceProjects extends AMServiceContract
 		// 4) If performing a copy/delete first try wih the project, eg: project/{name}.  Do NOT start the full copy 
 		//    unless this commit succeeds
 		
-		if($input->isValid)
+		$project = YSSProject::projectWithId('project/'.$input->id);
+		
+		if($project)
 		{
-			$project = YSSProject::projectWithId('project/'.$input->id);
+			// update all applicable fields up to the label. Label gets special treatment
+			if($input->description)
+				$project->description = $input->description;
 			
-			if($project)
+			if($input->label)
 			{
-				if($input->description)
-					$project->description = $input->description;
+				$id = 'project/'.YSSUtils::transform_to_id($input->label);
 				
-				if($input->label)
+				if($id != $project->_id)
 				{
-					$id = 'project/'.YSSUtils::transform_to_id($input->label);
-					
-					if($id != $project->_id)
+					$project->label = $input->label;
+					if($project->save())
 					{
-						$project->label = $input->label;
-						$project->save();
-						
+						// does aproject already exist with the new id?
 						$targetProject = YSSProject::projectWithId($id);
-						
+					
 						if($targetProject != null)
 						{
 							$input->addValidator(new AMErrorValidator('label', 'Invalid label. Project label already exists'));
@@ -131,29 +129,31 @@ class YSSServiceProjects extends AMServiceContract
 						else
 						{
 							// we are good to go to copy/delete it all
+							$success  = true;
 							$session  = YSSSession::sharedSession();
 							$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-							
-							$options = array('key'          => $project->_id,
-							                 'include_docs' => true);
+						
+							$options  = array('key'          => $project->_id,
+							                  'include_docs' => true);
 
 							$result        = $database->view("project/project-forward", $options, false);
-							
+						
 							$payload       = new stdClass();
 							$payload->docs = array();
-							
-							$success = true;
+						
 							foreach($result as $document)
 							{
 								$copy_id = $id.substr($document['_id'], strlen($project->_id));
-								
-								$response = $database->copy($document['_id'], $copy_id);
-								
-								if(isset($response['error']))
+							
+								$result = $database->copy($document['_id'], $copy_id);
+							
+								if(isset($result['error']))
 								{
 									$success = false;
 									$input->addValidator(new AMErrorValidator('error', 'Copy operation failed, your original data is unchanged.'));
 									$parts = explode('/', $copy_id);
+									
+									// project_id
 									$this->deleteProject($parts[1]);
 									break;
 								}
@@ -163,40 +163,60 @@ class YSSServiceProjects extends AMServiceContract
 									$payload->docs[] = $document;
 								}
 							}
+							
 							if($success)
 							{
 								$database->bulk_update($payload);
-							
+						
 								// we may not want to compact here.
 								// Depending on how we charge people, disk space may be important
 								// since we just did a copy , with attachments, followed by a delete
 								// if we don't compact, their DB size will be increased by the copy operation
 								$database->compact();
+								$response->ok = true;
 							}
 							else
 							{
 								$this->hydrateErrors($input, $response);
 							}
 						}
+					else
+					{
+						$input->addValidator(new AMErrorValidator('error', 'Unable to update project') );
+						$this->hydrateErrors($input, $response);
 					}
 				}
 				else
 				{
 					if($project->save())
+					{
 						$response->ok = true;
+					}
+					else
+					{
+						$input->addValidator(new AMErrorValidator('error', 'Unable to update project') );
+						$this->hydrateErrors($input, $response);
+					}
 				}
 			}
 			else
 			{
-				$input->addValidator(new AMErrorValidator('id', 'Invalid project key') );
-				$this->hydrateErrors($input, $response);
+				if($project->save())
+				{
+					$response->ok = true;
+				}
+				else
+				{
+					$input->addValidator(new AMErrorValidator('error', 'Unable to update project') );
+					$this->hydrateErrors($input, $response);
+				}
 			}
 		}
 		else
 		{
+			$input->addValidator(new AMErrorValidator('id', 'Invalid project key') );
 			$this->hydrateErrors($input, $response);
 		}
-		
 	}
 	
 	private function hydrateErrors(&$input, &$response)
@@ -231,7 +251,15 @@ class YSSServiceProjects extends AMServiceContract
 		
 		// set our validators based on the type of command:
 		$isNew ? $this->applyPutValidators($input)          : $this->applyPostValidators($input);
-		$isNew ? $this->createNewProject($input, $response) : $this->updateExistingProject($input, $response);
+		
+		if($input->isValid)
+		{
+			$isNew ? $this->createNewProject($input, $response) : $this->updateExistingProject($input, $response);
+		}
+		else
+		{
+			$this->hydrateErrors($input, $response);
+		}
 		
 		echo json_encode($response);
 	}

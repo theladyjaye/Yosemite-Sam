@@ -8,6 +8,22 @@ class YSSView extends YSSCouchObject
 	
 	protected $type = "view";
 	
+	public static function viewWithId($id)
+	{
+		$object    = null;
+		$session   = YSSSession::sharedSession();
+		$database  = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+			
+		$response = $database->document($id);
+		
+		if(!isset($response['error']))
+		{
+			$object = YSSView::hydrateWithArray($response);
+		}
+		
+		return $object;
+	}
+	
 	public static function taskWithJson($jsonString)
 	{
 		return YSSView::hydrateWithArray(json_decode($jsonString, true));
