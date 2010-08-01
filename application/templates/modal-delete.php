@@ -10,6 +10,6 @@
 			<input type="hidden" name="<?=$key?>" value="<?=$value?>" />
 		<?endforeach;?>
 	</form>
-	<div class="footnote"><?=$modal["footnote"]?></div>
+	<div class="footnote"><? if(isset($modal["footnote"])) echo $modal["footnote"]?></div>
 </div>
 

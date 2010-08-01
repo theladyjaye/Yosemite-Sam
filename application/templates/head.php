@@ -18,7 +18,6 @@
 if(isset($_REQUEST['release']) && $_REQUEST['release']):?>
 	<script src="resources/js/script.min.js"></script>
 <?else:?>
-	<script src="resources/js/src/jquery.js"></script>
 	<script src="resources/js/src/cufon/cufon-yui.js"></script>
 	<script src="resources/js/src/cufon/Vegur.font.js"></script>
 	<script src="resources/js/src/jquery-addons/jquery.address.min.js"></script>

@@ -5,14 +5,13 @@ class ViewsController extends YSSController
 	public    $data					  = "";
 	
 	protected function initialize()
-	{ 
+	{
 		$this->data = $this->get_data();
-	/*	
+	
 		if(empty($this->data))
 		{
-			
+			$this->verifyPermissionFailed();
 		}
-	*/
 	}
 		
 	protected function verifyPermission()
@@ -24,7 +23,7 @@ class ViewsController extends YSSController
 	{
 		header("Location:/");
 	}
-	
+		
 	private function get_data()
 	{
 		if(isset($_POST['project']))

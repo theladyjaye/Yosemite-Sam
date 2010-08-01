@@ -179,7 +179,8 @@ class YSSServiceProjects extends AMServiceContract
 							{
 								$this->hydrateErrors($input, $response);
 							}
-						}
+					    }
+					}
 					else
 					{
 						$input->addValidator(new AMErrorValidator('error', 'Unable to update project') );
