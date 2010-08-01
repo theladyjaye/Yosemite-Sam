@@ -98,8 +98,8 @@ class YSSServiceProjects extends AMServiceContract
 		// 1) updates are optional to parts, eg: everything is not required for an update
 		// 2) if the label changes the _id has to change
 		// 3) before you go changing the _id, first commit all other changes, then do the COPY / DELETE
-		// 4) If performing a copy/delete first try wih the project, eg: project/{name}.  Do NOT start the full copy 
-		//    unless this commit succeeds
+		// 4) If performing a copy/delete first try to get a project with the same id, eg: project/{project}.  Do NOT start the full copy 
+		//    unless this response is null
 		
 		$project = YSSProject::projectWithId('project/'.$input->id);
 		
