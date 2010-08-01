@@ -115,44 +115,40 @@ class YSSServiceProjects extends AMServiceContract
 				
 				if($id != $project->_id)
 				{
-					$project->label = $input->label;
-					if($project->save())
-					{
-						// does aproject already exist with the new id?
-						$targetProject = YSSProject::projectWithId($id);
+					// does aproject already exist with the new id?
+					$targetProject = YSSProject::projectWithId($id);
 					
-						if($targetProject != null)
-						{
-							$input->addValidator(new AMErrorValidator('label', 'Invalid label. Project label already exists'));
-							$this->hydrateErrors($input, $response);
-						}
-						else
+					if($targetProject == null)
+					{
+						$project->label = $input->label;
+						
+						if($project->save())
 						{
 							// we are good to go to copy/delete it all
 							$success  = true;
 							$session  = YSSSession::sharedSession();
 							$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-						
+					
 							$options  = array('key'          => $project->_id,
 							                  'include_docs' => true);
 
 							$result        = $database->view("project/project-forward", $options, false);
-						
+					
 							$payload       = new stdClass();
 							$payload->docs = array();
-						
+					
 							foreach($result as $document)
 							{
 								$copy_id = $id.substr($document['_id'], strlen($project->_id));
-							
+						
 								$result = $database->copy($document['_id'], $copy_id);
-							
+						
 								if(isset($result['error']))
 								{
 									$success = false;
 									$input->addValidator(new AMErrorValidator('error', 'Copy operation failed, your original data is unchanged.'));
 									$parts = explode('/', $copy_id);
-									
+								
 									// project_id
 									$this->deleteProject($parts[1]);
 									break;
@@ -163,35 +159,44 @@ class YSSServiceProjects extends AMServiceContract
 									$payload->docs[] = $document;
 								}
 							}
-							
+						
 							if($success)
 							{
 								$database->bulk_update($payload);
-						
+					
 								// we may not want to compact here.
 								// Depending on how we charge people, disk space may be important
 								// since we just did a copy , with attachments, followed by a delete
 								// if we don't compact, their DB size will be increased by the copy operation
 								$database->compact();
 								$response->ok = true;
+								$response->id = $id;
 							}
 							else
 							{
 								$this->hydrateErrors($input, $response);
 							}
-					    }
+							
+						}
+						else
+						{
+							$input->addValidator(new AMErrorValidator('error', 'Unable to update project') );
+							$this->hydrateErrors($input, $response);
+						}
 					}
 					else
 					{
-						$input->addValidator(new AMErrorValidator('error', 'Unable to update project') );
+						$input->addValidator(new AMErrorValidator('label', 'Invalid label transform. Cannot transform label to id, id already exists'));
 						$this->hydrateErrors($input, $response);
 					}
 				}
+				// the label was submitted but it's the same as it was, we may still have other filed updates though, so we need to save.
 				else
 				{
 					if($project->save())
 					{
 						$response->ok = true;
+						$response->id = $project->_id;
 					}
 					else
 					{
@@ -202,9 +207,11 @@ class YSSServiceProjects extends AMServiceContract
 			}
 			else
 			{
+				// save with no label transform success:
 				if($project->save())
 				{
 					$response->ok = true;
+					$response->id = $project->_id;
 				}
 				else
 				{

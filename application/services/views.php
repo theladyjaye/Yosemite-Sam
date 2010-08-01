@@ -146,43 +146,39 @@ class YSSServiceViews extends AMServiceContract
 				
 				if($new_id != $view->_id)
 				{
-					$view->label = $input->label;
-					if($view->save())
-					{
-						// does a view already exist with the new id?
-						$targetView = YSSView::viewWithId($new_id);
+					// does a view already exist with the new id?
+					$targetView = YSSView::viewWithId($new_id);
 					
-						if($targetView != null)
-						{
-							$input->addValidator(new AMErrorValidator('label', 'Invalid label. View label already exists'));
-							$this->hydrateErrors($input, $response);
-						}
-						else
+					if($targetView == null)
+					{
+						$view->label = $input->label;
+						
+						if($view->save())
 						{
 							// we are good to go to copy/delete it all
 							$success  = true;
 							$session  = YSSSession::sharedSession();
 							$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-						
+					
 							$options  = array('key'          => $view->_id,
 							                  'include_docs' => true);
 
 							$result        = $database->view("project/view-forward", $options, false);
-						
+					
 							$payload       = new stdClass();
 							$payload->docs = array();
-							
+						
 							foreach($result as $document)
 							{
 								$copy_id = $new_id.substr($document['_id'], strlen($view->_id));
 								$result  = $database->copy($document['_id'], $copy_id);
-								
+							
 								if(isset($result['error']))
 								{
 									$success = false;
 									$input->addValidator(new AMErrorValidator('error', 'Copy operation failed, your original data is unchanged.'));
 									$parts = explode('/', $copy_id);
-									
+								
 									// project_id, view_id
 									$this->deleteView($parts[1], $parts[2]);
 									break;
@@ -193,36 +189,44 @@ class YSSServiceViews extends AMServiceContract
 									$payload->docs[] = $document;
 								}
 							}
-							
+						
 							if($success)
 							{
 								$database->bulk_update($payload);
-						
+					
 								// we may not want to compact here.
 								// Depending on how we charge people, disk space may be important
 								// since we just did a copy , with attachments, followed by a delete
 								// if we don't compact, their DB size will be increased by the copy operation
-								
+							
 								$database->compact();
 								$response->ok = true;
+								$response->id  = $new_id;
 							}
 							else
 							{
 								$this->hydrateErrors($input, $response);
 							}
 						}
+						else
+						{
+							$input->addValidator(new AMErrorValidator('error', 'Unable to update view') );
+							$this->hydrateErrors($input, $response);
+						}
 					}
 					else
 					{
-						$input->addValidator(new AMErrorValidator('error', 'Unable to update view') );
+						$input->addValidator(new AMErrorValidator('label', 'Invalid label transform. Cannot transform label to id, id already exists'));
 						$this->hydrateErrors($input, $response);
 					}
 				}
+				// the label was submitted but it's the same as it was, we may still have other filed updates though, so we need to save.
 				else
 				{
 					if($view->save())
 					{
 						$response->ok = true;
+						$response->id = $view->_id;
 					}
 					else
 					{
@@ -234,9 +238,11 @@ class YSSServiceViews extends AMServiceContract
 			}
 			else
 			{
+				// save with no label transform success:
 				if($view->save())
 				{
 					$response->ok = true;
+					$response->id = $view->_id;
 				}
 				else
 				{
