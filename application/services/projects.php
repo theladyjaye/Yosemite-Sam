@@ -94,7 +94,7 @@ class YSSServiceProjects extends AMServiceContract
 	
 	private function updateExistingProject(&$input, &$response)
 	{
-		// so we have some rules here... 
+		// so we have some rules here...
 		// 1) updates are optional to parts, eg: everything is not required for an update
 		// 2) if the label changes the _id has to change
 		// 3) before you go changing the _id, first commit all other changes, then do the COPY / DELETE
