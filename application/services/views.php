@@ -260,7 +260,7 @@ class YSSServiceViews extends AMServiceContract
 	
 	public function updateView($project_id, $view_id)
 	{
-		$isNew = $_SERVER['REQUEST_METHOD'] == 'PUT' ? true : false;
+		$isNew = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) &&  $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
 		
 		$response     = new stdClass();
 		$response->ok = false;
@@ -274,7 +274,8 @@ class YSSServiceViews extends AMServiceContract
 		
 		$this->applyViewValidators($input);
 		
-		$isNew ? $this->applyPutValidators($input)       : $this->applyPostValidators($input);
+		$isNew ? $this->applyPutValidators($input) : $this->applyPostValidators($input);
+
 		if($input->isValid)
 		{
 			$isNew ? $this->createNewView($input, $response) : $this->updateExistingView($input, $response);

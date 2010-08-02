@@ -102,7 +102,6 @@ class YSSServiceProjects extends AMServiceContract
 		//    unless this response is null
 		
 		$project = YSSProject::projectWithId('project/'.$input->id);
-		
 		if($project)
 		{
 			// update all applicable fields up to the label. Label gets special treatment
@@ -111,6 +110,7 @@ class YSSServiceProjects extends AMServiceContract
 			
 			if($input->label)
 			{
+				
 				$id = 'project/'.YSSUtils::transform_to_id($input->label);
 				
 				if($id != $project->_id)
@@ -259,7 +259,7 @@ class YSSServiceProjects extends AMServiceContract
 		
 		// set our validators based on the type of command:
 		$isNew ? $this->applyPutValidators($input)          : $this->applyPostValidators($input);
-		
+
 		if($input->isValid)
 		{
 			$isNew ? $this->createNewProject($input, $response) : $this->updateExistingProject($input, $response);
