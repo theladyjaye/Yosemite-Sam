@@ -14,6 +14,7 @@ require YSSApplication::basePath().'/application/libs/axismundi/services/AMServi
 
 require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
+require YSSApplication::basePath().'/application/data/YSSAttachment.php';
 require YSSApplication::basePath().'/application/data/YSSState.php';
 
 
@@ -103,8 +104,7 @@ class YSSServiceViews extends AMServiceContract
 				
 				$view->addState($state);
 				
-				$attachment = array('name'         => $input->attachment->name,
-				                    'path'         => $input->attachment->tmp_name);
+				$attachment = new YSSAttachment($input->attachment->name, $input->attachment->tmp_name);
 				
 				if($state->addAttachment($attachment))
 				{

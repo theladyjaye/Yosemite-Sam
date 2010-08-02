@@ -416,7 +416,7 @@ class CouchDB
 	 * @param array $attachment an array with the following keys:
 	 *              'name' required the name of the attachment to add to the database
 	 *              'path' required the path to the file whose contents will be added
-	 *              'content-type' optional the content type, eg: image/jpeg, image/png, text/plain
+	 *              'content_type' optional the content type, eg: image/jpeg, image/png, text/plain
 	 *               of the attachment. If this is not provided, a best guess will be made.
 	 *               the system will currently figure out gif, jpeg, and png. if it is not
 	 *               one of those then binary/octet-stream will be used unless the 'content-type'

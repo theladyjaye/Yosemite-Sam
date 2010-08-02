@@ -12,23 +12,14 @@ class YSSState extends YSSCouchObject
 		return YSSState::hydrateWithArray(json_decode($jsonString, true));
 	}
 	
-	public function addAttachment($attachment)
+	public function addAttachment(YSSAttachment $attachment)
 	{
 		$result = false;
-		
-		if(!isset($attachment['name']) ||
-		   !isset($attachment['path']))
+		if(!isset($attachment->label) ||
+		   !isset($attachment->path))
 		{
 			throw new Exception("Invalid attachment name or path");
-			//return $result;
 		}
-		
-		$fileinfo     = finfo_open(FILEINFO_MIME_TYPE);
-		$content_type = finfo_file($fileinfo, $attachment['path']);
-		finfo_close($fileinfo);
-			
-		$attachment['content_type'] = $content_type;
-		
 		
 		if(!$this->_rev)
 			$this->save();

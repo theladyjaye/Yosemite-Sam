@@ -7,6 +7,7 @@ require 'application/data/YSSProject.php';
 require 'application/data/YSSView.php';
 require 'application/data/YSSState.php';
 require 'application/data/YSSTask.php';
+require 'application/data/YSSAttachment.php';
 
 
 $session  = YSSSession::sharedSession();
@@ -94,9 +95,9 @@ $v1->addState($s1);
 $v2->addState($s2);
 $v3->addState($s3);
 
-$s1->addAttachment(array("name"=>"view", "path" => YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
-$s2->addAttachment(array("name"=>"view", "path" => YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
-$s3->addAttachment(array("name"=>"view", "path" => YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
+$s1->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
+$s2->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
+$s3->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
 
 $s1->addTask($t1);
 $s1->addTask($t2);
