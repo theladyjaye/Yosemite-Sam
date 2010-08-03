@@ -95,6 +95,7 @@ class YSSServiceAnnotations extends AMServiceContract
 		$project_id = YSSUtils::transform_to_id($project_id);
 		$view_id    = YSSUtils::transform_to_id($view_id);
 		$state_id   = YSSUtils::transform_to_id($state_id);
+		$isNew      = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
 		
 		$response     = new stdClass();
 		$response->ok = false;
@@ -161,10 +162,10 @@ class YSSServiceAnnotations extends AMServiceContract
 			}
 			else
 			{
-				$response->errors = array();
-				$error = new stdClass();
-				$error->key = 'project_id';
-				$error->message = "not_found";
+				$response->errors   = array();
+				$error              = new stdClass();
+				$error->key         = 'project_id';
+				$error->message     = "not_found";
 				$response->errors[] = $error;
 			}
 		}

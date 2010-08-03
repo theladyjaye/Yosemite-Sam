@@ -260,7 +260,7 @@ class YSSServiceViews extends AMServiceContract
 	
 	public function updateView($project_id, $view_id)
 	{
-		$isNew = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) &&  $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
+		$isNew = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
 		
 		$response     = new stdClass();
 		$response->ok = false;

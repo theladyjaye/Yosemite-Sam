@@ -245,12 +245,12 @@ class YSSServiceProjects extends AMServiceContract
 	
 	public function updateProject($id)
 	{
-		$isNew = $_SERVER['REQUEST_METHOD'] == 'PUT' ? true : false;
+		$isNew = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
 		
 		$response = new stdClass();
 		$response->ok = false;
 		
-		$data                    = json_decode(file_get_contents('php://input'), true);
+		$data                    = $_POST;//json_decode(file_get_contents('php://input'), true);
 		$data['id']              = strtolower($id);
 		$data['transform_label'] = YSSUtils::transform_to_id($data['label']);
 		
