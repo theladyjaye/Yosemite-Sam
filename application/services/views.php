@@ -30,10 +30,6 @@ class YSSServiceViews extends AMServiceContract
 				$this->addEndpoint("GET",    "/api/project/{project_id}/views",          "generateReport");
 				break;
 			
-			case "PUT":
-				$this->addEndpoint("PUT",    "/api/project/{project_id}/{view_id}",      "updateView");
-				break;
-			
 			case "POST":
 				$this->addEndpoint("POST",    "/api/project/{project_id}/{view_id}",     "updateView");
 				break;
@@ -260,6 +256,7 @@ class YSSServiceViews extends AMServiceContract
 	
 	public function updateView($project_id, $view_id)
 	{
+		
 		$isNew = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
 		
 		$response     = new stdClass();

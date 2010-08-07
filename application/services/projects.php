@@ -32,10 +32,6 @@ class YSSServiceProjects extends AMServiceContract
 				$this->addEndpoint("GET",    "/api/project/{id}",                                                  "getProject");
 				break;
 			
-			case "PUT":
-				$this->addEndpoint("PUT",    "/api/project/{id}",                                                  "updateProject");
-				break;
-			
 			case "POST":
 				$this->addEndpoint("POST",   "/api/project/{id}",                                                  "updateProject");
 				break;
@@ -75,7 +71,7 @@ class YSSServiceProjects extends AMServiceContract
 		$project = new YSSProject();
 		$project->label = $input->label;
 		$project->description = $input->description;
-		$project->_id = strtolower('project/'.$id);
+		$project->_id = strtolower('project/'.$input->id);
 		
 		if($input->_rev)
 			$project->_rev = $input->_rev;
@@ -92,7 +88,7 @@ class YSSServiceProjects extends AMServiceContract
 		}
 	}
 	
-	private function updateExistingProject(&$input, &$response)
+	private function updateExistingProject(&$project, &$input, &$response)
 	{
 		// so we have some rules here...
 		// 1) updates are optional to parts, eg: everything is not required for an update
@@ -101,7 +97,7 @@ class YSSServiceProjects extends AMServiceContract
 		// 4) If performing a copy/delete first try to get a project with the same id, eg: project/{project}.  Do NOT start the full copy 
 		//    unless this response is null
 		
-		$project = YSSProject::projectWithId('project/'.$input->id);
+		//$project = YSSProject::projectWithId('project/'.$input->id);
 		if($project)
 		{
 			// update all applicable fields up to the label. Label gets special treatment
@@ -245,7 +241,6 @@ class YSSServiceProjects extends AMServiceContract
 	
 	public function updateProject($id)
 	{
-		$isNew = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
 		
 		$response = new stdClass();
 		$response->ok = false;
@@ -256,13 +251,14 @@ class YSSServiceProjects extends AMServiceContract
 		
 		$context    = array(AMForm::kDataKey=>$data);
 		$input      = AMForm::formWithContext($context);
-		
-		// set our validators based on the type of command:
-		$isNew ? $this->applyPutValidators($input)          : $this->applyPostValidators($input);
-
 		if($input->isValid)
 		{
-			$isNew ? $this->createNewProject($input, $response) : $this->updateExistingProject($input, $response);
+			$project = YSSProject::projectWithId('project/'.$input->id);
+			$isNew   = $project == null ? true : false;
+			
+			// set our validators based on the type of command:
+			$isNew ? $this->applyPutValidators($input)          : $this->applyPostValidators($input);
+			$isNew ? $this->createNewProject($input, $response) : $this->updateExistingProject($project, $input, $response);
 		}
 		else
 		{
