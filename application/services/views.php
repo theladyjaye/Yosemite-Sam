@@ -58,7 +58,7 @@ class YSSServiceViews extends AMServiceContract
 		echo $database->formatList("project/view-aggregate-render", "view-report", $options, true);
 	}
 	
-	private function applyViewValidators(&$input)
+	private function applyBaseViewValidators(&$input)
 	{
 		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
 		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
@@ -120,7 +120,7 @@ class YSSServiceViews extends AMServiceContract
 		}
 	}
 	
-	private function updateExistingView(&$input, &$response)
+	private function updateExistingView(&$view, &$input, &$response)
 	{
 		// like projects, we have some rules here... 
 		// 1) updates are optional to parts, eg: everything is not required for an update
@@ -129,7 +129,7 @@ class YSSServiceViews extends AMServiceContract
 		// 4) If performing a copy/delete first try to get a view with the same id, eg: project/{project}/{view}.  Do NOT start the full copy 
 		//    unless this response is null
 		
-		$view = YSSView::viewWithId('project/'.$input->project_id.'/'.$input->view_id);
+		//$view = YSSView::viewWithId('project/'.$input->project_id.'/'.$input->view_id);
 		if($view)
 		{
 			// update all applicable fields up to the label. Label gets special treatment
@@ -269,13 +269,26 @@ class YSSServiceViews extends AMServiceContract
 		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
 		$input   = AMForm::formWithContext($context);
 		
-		$this->applyViewValidators($input);
+		$this->applyBaseViewValidators($input);
 		
-		$isNew ? $this->applyPutValidators($input) : $this->applyPostValidators($input);
-
 		if($input->isValid)
 		{
-			$isNew ? $this->createNewView($input, $response) : $this->updateExistingView($input, $response);
+			$view = YSSView::viewWithId('project/'.$input->project_id.'/'.$input->view_id);
+			$isNew = $view == null ? true : false;
+			
+			// set our validators based on the type of command:
+			// adding validators causes the forms needs validation 
+			// flag to be reset, so we can check for validation again
+			$isNew ? $this->applyPutValidators($input) : $this->applyPostValidators($input);
+			
+			if($input->isValid)
+			{
+				$isNew ? $this->createNewView($input, $response) : $this->updateExistingView($view, $input, $response);
+			}
+			else
+			{
+				$this->hydrateErrors($input, $response);
+			}
 		}
 		else
 		{

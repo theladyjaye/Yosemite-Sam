@@ -49,9 +49,13 @@ class YSSServiceProjects extends AMServiceContract
 		echo $database->document($id, true);
 	}
 	
-	private function applyPostValidators(&$input)
+	private function applyBaseProjectValidators(&$input)
 	{
 		$input->addValidator(new AMPatternValidator('id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id."));
+	}
+	
+	private function applyPostValidators(&$input)
+	{
 		$input->addValidator(new AMPatternValidator('label', AMValidator::kOptional, '/^[\w\d- ]{2,}$/', "Invalid label. Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		//$input->addValidator(new AMMatchValidator('id', 'transform_label', AMValidator::kRequired, "Invalid project id."));
@@ -60,7 +64,6 @@ class YSSServiceProjects extends AMServiceContract
 	
 	private function applyPutValidators(&$input)
 	{
-		$input->addValidator(new AMPatternValidator('id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id."));
 		$input->addValidator(new AMPatternValidator('label', AMValidator::kRequired, '/^[\w\d- ]{2,}$/', "Invalid label. Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMMatchValidator('id', 'transform_label', AMValidator::kRequired, "Invalid project id."));
@@ -251,14 +254,27 @@ class YSSServiceProjects extends AMServiceContract
 		
 		$context    = array(AMForm::kDataKey=>$data);
 		$input      = AMForm::formWithContext($context);
+		
+		$this->applyBaseProjectValidators($input);
+		
 		if($input->isValid)
 		{
 			$project = YSSProject::projectWithId('project/'.$input->id);
 			$isNew   = $project == null ? true : false;
 			
 			// set our validators based on the type of command:
+			// adding validators causes the forms needs validation 
+			// flag to be reset, so we can check for validation again
 			$isNew ? $this->applyPutValidators($input)          : $this->applyPostValidators($input);
-			$isNew ? $this->createNewProject($input, $response) : $this->updateExistingProject($project, $input, $response);
+			
+			if($input->isValid)
+			{
+				$isNew ? $this->createNewProject($input, $response) : $this->updateExistingProject($project, $input, $response);
+			}
+			else
+			{
+				$this->hydrateErrors($input, $response);
+			}
 		}
 		else
 		{
