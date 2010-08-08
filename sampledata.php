@@ -99,11 +99,17 @@ $a1->label   = "Lorem ipsum dolor sit amet";
 $a2          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
 $a2->label   = "Lorem ipsum dolor sit amet";
 
-$s1->addAttachment($a1);
-$p1->addAttachment($a2);
+$a3          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
+$a3->label   = "Lorem ipsum dolor sit amet";
 
-//$s2->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
-//$s3->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
+$a4          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
+$a4->label   = "Lorem ipsum dolor sit amet";
+
+
+$s1->addAttachment($a1);
+$s2->addAttachment($a2);
+$s3->addAttachment($a3);
+$p1->addAttachment($a4);
 
 $s1->addTask($t1);
 $s1->addTask($t2);

@@ -100,6 +100,9 @@ class YSSServiceViews extends AMServiceContract
 				
 				$view->addState($state);
 				
+				/*
+					TODO Attachments are TOTALLY different now, this is wrong, fix it!
+				*/
 				$attachment = new YSSAttachment($input->attachment->name, $input->attachment->tmp_name);
 				
 				if($state->addAttachment($attachment))
