@@ -90,8 +90,11 @@ class YSSAttachment extends YSSCouchObject
 		}
 		else
 		{
-			$fp = fopen($this->file, 'rb');
-			fpassthru($fp);
+			if(is_file($this->file))
+			{
+				$fp = fopen($this->file, 'rb');
+				fpassthru($fp);
+			}
 		}
 	}
 	
