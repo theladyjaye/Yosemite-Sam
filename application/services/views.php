@@ -12,6 +12,7 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFilesizeValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
+require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSAttachment.php';
@@ -100,10 +101,11 @@ class YSSServiceViews extends AMServiceContract
 				
 				$view->addState($state);
 				
-				/*
-					TODO Attachments are TOTALLY different now, this is wrong, fix it!
-				*/
-				$attachment = new YSSAttachment($input->attachment->name, $input->attachment->tmp_name);
+				
+				$session = YSSSession::sharedSession();
+				
+				$attachment = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
+				$attachment->label = $input->attachment->name;
 				
 				if($state->addAttachment($attachment))
 				{

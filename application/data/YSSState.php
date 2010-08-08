@@ -20,7 +20,7 @@ class YSSState extends YSSCouchObject
 		if(strpos($attachment->_id, $this->_id) !== 0)
 			$attachment->_id = $this->_id.'/attachment/'.YSSSecurity::generate_token();
 		
-		$attachment->save();
+		return $attachment->save();
 	}
 	
 	public function addTask(YSSTask $task)
@@ -31,7 +31,7 @@ class YSSState extends YSSCouchObject
 		if(strpos($task->_id, $this->_id) !== 0)
 			$task->_id = $this->_id.'/'.YSSSecurity::generate_token();
 		
-		$task->save();
+		return $task->save();
 	}
 	
 	private static function hydrateWithArray($array)

@@ -45,7 +45,7 @@ class YSSProject extends YSSCouchObject
 		if(strpos($attachment->_id, $this->_id) !== 0)
 			$attachment->_id = $this->_id.'/attachment/'.YSSSecurity::generate_token();
 		
-		$attachment->save();
+		return $attachment->save();
 	}
 	
 	

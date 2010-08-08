@@ -16,9 +16,9 @@ YSSDomain::create($session->currentUser->domain);
 
 // Projects
 $p1 = new YSSProject();
-$p1->label = "Lucy";
+$p1->label = "Lucy The Dog";
 $p1->description = "Project Lucy";
-$p1->_id = "project/lucy";                                                                                                                                                                                                                                                 
+$p1->_id = "project/lucy-the-dog";                                                                                                                                                                                                                                                 
                                                                                                                                                                                                                                                                            
 $p2 = new YSSProject();                                                                                                                                                                                                                                                    
 $p2->label = "Ollie";                                                                                                                                                                                                                                                       

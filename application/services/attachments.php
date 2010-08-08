@@ -40,14 +40,13 @@ class YSSServiceAttachments extends AMServiceContract
 	public function getAttachment($id)
 	{
 		
-		// may want to do some caching here so we are not hitting S3 ALL the time...
+		// may want to do some caching here so we are not hitting S3 ALL the time, if enabled.
 		
 		$session    = YSSSession::sharedSession();
 		$attachment = YSSAttachment::attachmentWithRemoteFileInDomain($id, $session->currentUser->domain);
 		header('Content-Type:'.$attachment->content_type);
 		header('Content-Length:'.$attachment->content_length);
 		$attachment->contents();
-		
 	}
 	
 	public function verifyAuthorization()

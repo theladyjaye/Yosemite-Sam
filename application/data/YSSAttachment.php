@@ -38,21 +38,24 @@ class YSSAttachment extends YSSCouchObject
 		}
 		else
 		{
-			$object->path   = YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($object->domain).'/'.$file;
-
 			$session  = YSSSession::sharedSession();
 			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-			$data     = $database->document(strtr($file, '-', '/'));
-
-			if($data)
+			
+			// view labels can be more than 1 word long, which means translating - => / is going to fail 
+			// with labels > 1 word. So we have to take a more measured approach:
+			$data     = $database->document($file);
+			
+			if(isset($data['error']))
 			{
-				$object->content_type   = $data['content_type'];
-				$object->content_length = $data['content_length'];
-				$object->file = $object->path;
+				$object = null;
 			}
 			else
 			{
-				$object = null;
+				$object->_id            = $data['_id'];
+				$object->path           = YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($object->domain).'/'.$object->uriId();
+				$object->content_type   = $data['content_type'];
+				$object->content_length = $data['content_length'];
+				$object->file           = $object->path;
 			}
 		}
 		
@@ -97,11 +100,19 @@ class YSSAttachment extends YSSCouchObject
 		}
 	}
 	
+	private function uriId()
+	{
+		return strtr($this->_id, '/', ':');
+		//return urlencode($this->_id);
+		//$id           = 
+	}
+	
 	public function save()
 	{ 
+		$ok           = false;
 		$isNew        = $this->_rev == null ? true : false;
-		$id           = YSSUtils::transform_to_id($this->_id);
-		$this->path   = 'http://yss.com/api/attachments/'.$id;
+		$id           = $this->uriId();
+		$this->path   = 'http://yss.com/api/attachments/'.urlencode($this->_id);
 		
 		$remote_path = AWS_S3_ENABLED ? YSSUtils::storage_path_for_domain($this->domain).'/'.$id : YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($this->domain).'/'.$id;
 		//$remote_path  = YSSUtils::storage_path_for_domain($this->domain).'/'.$id;
@@ -124,7 +135,11 @@ class YSSAttachment extends YSSCouchObject
 				else
 					copy($this->file, $remote_path);
 			}
+			
+			$ok = true;
 		}
+		
+		return $ok;
 	}
 	
 	// the couchdb lib expects "name", but YSS uses "label", so we will just help it along
