@@ -7,7 +7,7 @@ class YSSDomain
 		$database      = YSSDatabase::connection(YSSDatabase::kCouchDB, $domain);
 		$database->delete_database();
 		
-		//YSSApplication::remove_storage_for_domain($domain);
+		YSSApplication::remove_storage_for_domain($domain);
 	}
 	
 	public static function create($domain)
@@ -25,7 +25,7 @@ class YSSDomain
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $domain);
 		$database->create_database();
 		
-		//YSSApplication::create_storage_for_domain($domain);
+		YSSApplication::create_storage_for_domain($domain);
 		
 		print_r($database->put($obj, '_design/project'));
 	}

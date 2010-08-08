@@ -23,18 +23,55 @@ class YSSApplication
 	public static function remove_storage_for_domain($domain)
 	{
 		$storage_path = YSSUtils::storage_path_for_domain($domain);
-		$s3           = YSSDatabase::connection(YSSDatabase::kS3);
 		
-		$s3->cleanBucket($storage_path);
-		$s3->removeBucket($storage_path);
+		if(AWS_S3_ENABLED)
+		{
+			$s3           = YSSDatabase::connection(YSSDatabase::kS3);
+			$s3->cleanBucket($storage_path);
+			$s3->removeBucket($storage_path);
+		}
+		else
+		{
+			$location = YSSApplication::basePath().'/resources/attachments/'.$storage_path;
+
+			if(is_dir($location))
+			{
+				$dir = dir($location);
+				while(false !== ($entry = $dir->read()))
+				{
+					if($entry != '.' && $entry != '..')
+					{
+						if(is_file($location.'/'.$entry))
+						{
+							unlink($location.'/'.$entry);
+						}
+					}
+				}
+
+				$dir->close();
+
+				rmdir($location);
+			}
+		}
 	}
 	
 	public static function create_storage_for_domain($domain)
 	{
 		$storage_path = YSSUtils::storage_path_for_domain($domain);
-		$s3           = YSSDatabase::connection(YSSDatabase::kS3);
 		
-		$s3->createBucket($storage_path);
+		if(AWS_S3_ENABLED)
+		{
+			$s3           = YSSDatabase::connection(YSSDatabase::kS3);
+			$s3->createBucket($storage_path);
+		}
+		else
+		{
+			$location = YSSApplication::basePath().'/resources/attachments/'.$storage_path;
+			if(!is_dir($location))
+			{
+				mkdir($location, 0777, true);
+			}
+		}
 	}
 	
 	public static function current_language()

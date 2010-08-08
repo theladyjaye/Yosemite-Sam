@@ -1,4 +1,6 @@
 <?php
+define("AWS_S3_ENABLED", false);
+
 require "YSSApplication.php";
 require "YSSConfiguration.php";
 require "YSSDatabase.php";
