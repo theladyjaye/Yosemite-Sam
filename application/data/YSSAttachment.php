@@ -15,8 +15,7 @@ class YSSAttachment extends YSSCouchObject
 	
 	public static function attachmentWithRemoteFileInDomain($file, $domain)
 	{
-		$object   = new YSSAttachment();
-		
+		$object         = new YSSAttachment();
 		$object->domain = $domain;
 		
 		if(AWS_S3_ENABLED)
