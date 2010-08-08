@@ -15,6 +15,12 @@ function(head, req)
 		{
 			if(current)
 			{
+			    // no attachments
+			    if(!current.attachments.length)
+			    {
+			        current.attachments.push({content_type: "image/png", "path": "/resources/img/no-attachment.png"});
+			    }
+			    
 				send(mustache.to_html(ddoc.templates.project, current)+"\n");
 			}
 			
@@ -23,6 +29,9 @@ function(head, req)
 			current.views       = 0;
 			current.attachments = [];
 			current.path	    = current._id.split("/").slice(1).join("/");
+			
+			var created_date    = new Date(current.created_at.replace(/\+\d*/, ""));			
+			current.created_at  = (created_date.getMonth() + 1) + "/" + created_date.getDate() + "/" + created_date.getFullYear();
 		}
 		else
 		{

@@ -5,6 +5,7 @@
 		uri: "http://yss.com/api",
 		request: function(resource, data, method, successCallback)
 		{
+		    
 			if(resource)
 			{			
 				$.ajax({
@@ -12,7 +13,7 @@
 						xhr.setRequestHeader("X-HTTP-Method-Override", method || "GET");
 					},
 					type: "POST",
-					data: JSON.stringify(data),
+					data: "label=woof", 
 					contentType: "application/json; charset=utf-8",
 					url: ns.api.uri + resource,
 					success: function(data) {

@@ -1,6 +1,8 @@
 <li>
 	<a class="btn-img dp" href="#/{{path}}">
-		<img src="/resources/img/fpo-comp-thumb.jpg" alt="" />
+	  {{#attachments}}
+		<img src="{{path}}" alt="" />
+    {{/attachments}}
 	</a>
 	<a class="btn-delete delete btn-modal modal-view-delete" href="">Delete</a>						
 	<div class="detail">
@@ -18,7 +20,11 @@
 				<span class="tasks-completed">{{completed}}</span>/<span class="tasks-total">{{total}}</span>
 			</p>					
 		</div>						
-		{{/tasks}}			
+		{{/tasks}}
+		<div class="meta">
+		  <p>Created by <a href="#{{created_by}}" title="{{created_by}}">{{created_by}}</a></p>
+		  <p>{{created_at}}</p>
+		</div>			
 		<div class="description editable-textarea">
 			{{description}}
 		</div>
