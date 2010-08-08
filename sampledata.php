@@ -8,7 +8,8 @@ require 'application/data/YSSView.php';
 require 'application/data/YSSState.php';
 require 'application/data/YSSTask.php';
 require 'application/data/YSSAttachment.php';
-require 'Zend/Service/Amazon/S3.php';
+
+if(AWS_S3_ENABLED) require 'Zend/Service/Amazon/S3.php';
 
 $session  = YSSSession::sharedSession();
 YSSDomain::delete($session->currentUser->domain);

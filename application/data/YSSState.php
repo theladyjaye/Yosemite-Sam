@@ -7,9 +7,20 @@ class YSSState extends YSSCouchObject
 	
 	protected $type = "state";
 	
-	public static function taskWithJson($jsonString)
+	public static function stateWithId($id)
 	{
-		return YSSState::hydrateWithArray(json_decode($jsonString, true));
+		$object    = null;
+		$session   = YSSSession::sharedSession();
+		$database  = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+			
+		$response = $database->document($id);
+		
+		if(!isset($response['error']))
+		{
+			$object = YSSState::hydrateWithArray($response);
+		}
+		
+		return $object;
 	}
 	
 	public function addAttachment(YSSAttachment $attachment)

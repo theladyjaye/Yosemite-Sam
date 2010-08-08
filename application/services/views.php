@@ -18,6 +18,8 @@ require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSAttachment.php';
 require YSSApplication::basePath().'/application/data/YSSState.php';
 
+if(AWS_S3_ENABLED) require 'Zend/Service/Amazon/S3.php';
+
 
 class YSSServiceViews extends AMServiceContract
 {
@@ -101,7 +103,6 @@ class YSSServiceViews extends AMServiceContract
 				
 				$view->addState($state);
 				
-				
 				$session = YSSSession::sharedSession();
 				
 				$attachment = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
@@ -172,6 +173,10 @@ class YSSServiceViews extends AMServiceContract
 							foreach($result as $document)
 							{
 								$copy_id = $new_id.substr($document['_id'], strlen($view->_id));
+								
+								/*
+									TODO Need to handle the attachments!
+								*/
 								$result  = $database->copy($document['_id'], $copy_id);
 							
 								if(isset($result['error']))

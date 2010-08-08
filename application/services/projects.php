@@ -142,6 +142,9 @@ class YSSServiceProjects extends AMServiceContract
 							{
 								$copy_id = $id.substr($document['_id'], strlen($project->_id));
 						
+								/*
+									TODO Need to handle the attachments!
+								*/
 								$result = $database->copy($document['_id'], $copy_id);
 						
 								if(isset($result['error']))
