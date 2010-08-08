@@ -5,6 +5,7 @@ class YSSDatabase
 {
 	const kSql     = 1;
 	const kCouchDB = 2;
+	const kS3      = 3;
 	
 	public static function connection($type, $catalog=null)
 	{
@@ -17,7 +18,24 @@ class YSSDatabase
 			case YSSDatabase::kCouchDB:
 				return YSSDatabase::CouchDbDatabase($catalog);
 				break;
+				
+			case YSSDatabase::kS3:
+				return YSSDatabase::S3Database();
+				break;
 		}
+	}
+	
+	private function S3Database()
+	{
+		static $connection = null;
+		
+		if(!$connection)
+		{
+			$configuration = YSSConfiguration::standardConfiguration();
+			$connection    = new Zend_Service_Amazon_S3($configuration['s3']['key'], $configuration['s3']['secret']);
+		}
+		
+		return $connection;
 	}
 	
 	private static function SqlDatabase()

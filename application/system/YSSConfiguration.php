@@ -24,7 +24,8 @@ class YSSConfiguration
 			$currentUser->level     = $data['autologin']['level'];
 		}
 		
-		self::$data = $data[$data['application']['configuration']];
+		self::$data       = $data[$data['application']['configuration']];
+		self::$data['s3'] = $data['s3'];
 		
 		if($currentUser)
 			self::$data['currentUser'] = $currentUser;

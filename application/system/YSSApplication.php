@@ -20,6 +20,23 @@ class YSSApplication
 		return $path;
 	}
 	
+	public static function remove_storage_for_domain($domain)
+	{
+		$storage_path = YSSUtils::storage_path_for_domain($domain);
+		$s3           = YSSDatabase::connection(YSSDatabase::kS3);
+		
+		$s3->cleanBucket($storage_path);
+		$s3->removeBucket($storage_path);
+	}
+	
+	public static function create_storage_for_domain($domain)
+	{
+		$storage_path = YSSUtils::storage_path_for_domain($domain);
+		$s3           = YSSDatabase::connection(YSSDatabase::kS3);
+		
+		$s3->createBucket($storage_path);
+	}
+	
 	public static function current_language()
 	{
 		return 'en-US';

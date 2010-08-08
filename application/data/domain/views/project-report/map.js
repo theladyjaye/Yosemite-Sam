@@ -17,6 +17,15 @@ function(doc)
 		emit([project, 2], {type:"task", value:doc.complete ? 1 : 0})
 	}
 	
+	if (doc.type == "attachment")
+	{
+		// we only want project attachments, this would give us ALL attachments within a project
+		// eg: including state attachments, which we don't want here.
+		// so we apply a simple rule to omit those bad boys
+		if(doc._id.split('/').length == 4)
+			emit([project, 3], {type:"attachment", content_type:doc.content_type, path:doc.path})
+	}
+	
 	
 	
 }

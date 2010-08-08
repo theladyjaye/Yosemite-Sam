@@ -14,23 +14,13 @@ class YSSState extends YSSCouchObject
 	
 	public function addAttachment(YSSAttachment $attachment)
 	{
-		$result = false;
-		if(!isset($attachment->label) ||
-		   !isset($attachment->path))
-		{
-			throw new Exception("Invalid attachment name or path");
-		}
-		
 		if(!$this->_rev)
 			$this->save();
-			
-		$database = $this->database();
-		$response = $database->put_attachment($attachment, $this->_id, $this->_rev);
 		
-		if(isset($response['ok']) && $response['ok'] == true)
-			$result = true;
-			
-		return $result;
+		if(strpos($attachment->_id, $this->_id) !== 0)
+			$attachment->_id = $this->_id.'/attachment/'.YSSSecurity::generate_token();
+		
+		$attachment->save();
 	}
 	
 	public function addTask(YSSTask $task)

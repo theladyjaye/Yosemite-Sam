@@ -8,12 +8,10 @@ require 'application/data/YSSView.php';
 require 'application/data/YSSState.php';
 require 'application/data/YSSTask.php';
 require 'application/data/YSSAttachment.php';
-
+require 'Zend/Service/Amazon/S3.php';
 
 $session  = YSSSession::sharedSession();
-$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-$database->delete_database();
-
+YSSDomain::delete($session->currentUser->domain);
 YSSDomain::create($session->currentUser->domain);
 
 // Projects
@@ -95,9 +93,17 @@ $v1->addState($s1);
 $v2->addState($s2);
 $v3->addState($s3);
 
-$s1->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
-$s2->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
-$s3->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
+$a1          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
+$a1->label   = "Lorem ipsum dolor sit amet";
+
+$a2          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
+$a2->label   = "Lorem ipsum dolor sit amet";
+
+$s1->addAttachment($a1);
+$p1->addAttachment($a2);
+
+//$s2->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
+//$s3->addAttachment(YSSAttachment::attachmentWithLabelAndPath("view", YSSApplication::basePath().'/resources/img/fpo-comp.jpg'));
 
 $s1->addTask($t1);
 $s1->addTask($t2);

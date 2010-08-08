@@ -1,6 +1,15 @@
 <?php
+
 class YSSDomain
 {
+	public static function delete($domain)
+	{
+		$database      = YSSDatabase::connection(YSSDatabase::kCouchDB, $domain);
+		$database->delete_database();
+		
+		//YSSApplication::remove_storage_for_domain($domain);
+	}
+	
 	public static function create($domain)
 	{
 		if(!in_array("YSSDomainMacroJson", stream_get_filters()))
@@ -15,6 +24,9 @@ class YSSDomain
 		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $domain);
 		$database->create_database();
+		
+		//YSSApplication::create_storage_for_domain($domain);
+		
 		print_r($database->put($obj, '_design/project'));
 	}
 	

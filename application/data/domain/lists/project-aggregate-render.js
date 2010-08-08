@@ -18,15 +18,20 @@ function(head, req)
 				send(mustache.to_html(ddoc.templates.project, current)+"\n");
 			}
 			
-			current           = row.value;
-			current.tasks     = {completed:0, total:0};
-			current.views     = 0;
-			current.path	  = current._id.split("/").slice(1).join("/");
+			current             = row.value;
+			current.tasks       = {completed:0, total:0};
+			current.views       = 0;
+			current.attachments = [];
+			current.path	    = current._id.split("/").slice(1).join("/");
 		}
 		else
 		{
 			switch(type)
 			{
+				case "attachment":
+					current.attachments.push({content_type:row.value.content_type, path:row.value.path});
+					break;
+						
 				case "view":
 					current.views++;
 					break;

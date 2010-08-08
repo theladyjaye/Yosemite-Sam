@@ -3,6 +3,7 @@ class YSSProject extends YSSCouchObject
 {
 	public $label;
 	public $description;
+	public $attachments;
 	
 	protected $type = "project";
 	
@@ -34,6 +35,17 @@ class YSSProject extends YSSCouchObject
 			$view->_id = $this->_id.'/'.$view->_id;
 		
 		$view->save();
+	}
+	
+	public function addAttachment(YSSAttachment $attachment)
+	{
+		if(!$this->_rev)
+			$this->save();
+		
+		if(strpos($attachment->_id, $this->_id) !== 0)
+			$attachment->_id = $this->_id.'/attachment/'.YSSSecurity::generate_token();
+		
+		$attachment->save();
 	}
 	
 	
