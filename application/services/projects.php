@@ -316,8 +316,8 @@ class YSSServiceProjects extends AMServiceContract
 	{
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		//echo $database->formatList("project/project-aggregate-render", "project-report", null, true);
-		echo $database->formatList("project/project-aggregate", "project-report", null, true);
+		echo $database->formatList("project/project-aggregate-render", "project-report", null, true);
+		//echo $database->formatList("project/project-aggregate", "project-report", null, true);
 	}
 	
 	public function verifyAuthorization()

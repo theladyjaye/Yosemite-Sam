@@ -13,9 +13,9 @@
 
 
 <?
-	// if release=true then load in compressed javascript
+	// if release configuration then load in compressed javascript
 	// else load src js
-if(isset($_REQUEST['release']) && $_REQUEST['release']):?>
+if("release" == YSSConfiguration::applicationConfiguration()):?>
 	<script src="resources/js/script.min.js"></script>
 <?else:?>
 	<script src="resources/js/src/cufon/cufon-yui.js"></script>
