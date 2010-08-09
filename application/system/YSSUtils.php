@@ -10,6 +10,15 @@ class YSSUtils
 		return $result;
 	}
 	
+	public static function transform_to_attachment_id($value)
+	{
+		$result = strtolower($value);
+		$result = strtr($result, array(" " => "-",
+		                               "_" => "-",
+		                               "/" => ":"));
+		return $result;
+	}
+	
 	public static function storage_path_for_domain($domain)
 	{
 		$configuration = YSSConfiguration::standardConfiguration();

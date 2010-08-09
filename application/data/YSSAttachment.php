@@ -52,7 +52,7 @@ class YSSAttachment extends YSSCouchObject
 			else
 			{
 				$object->_id            = $data['_id'];
-				$object->path           = YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($object->domain).'/'.$object->uriId();
+				$object->path           = YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($object->domain).'/'.YSSUtils::transform_to_attachment_id($object->_id);
 				$object->content_type   = $data['content_type'];
 				$object->content_length = $data['content_length'];
 				$object->file           = $object->path;
@@ -75,6 +75,27 @@ class YSSAttachment extends YSSCouchObject
 		finfo_close($fileinfo);
 		
 		return $object;
+	}
+	
+	public static function deleteAttachmentWithIdInDomain($id, $domain)
+	{
+		$storage_path = YSSUtils::storage_path_for_domain($domain);
+		$id           = YSSUtils::transform_to_attachment_id($id);
+
+		if(AWS_S3_ENABLED)
+		{
+			$s3 = YSSDatabase::connection(YSSDatabase::kS3);
+			$s3->removeObject($storage_path.'/'.$id);
+		}
+		else
+		{
+			$location = YSSApplication::basePath().'/resources/attachments/'.$storage_path;
+			if(is_dir($location))
+			{
+				if(is_file($location.'/'.$id))
+					unlink($location.'/'.$id);
+			}
+		}
 	}
 	
 	public function contents()
@@ -100,18 +121,11 @@ class YSSAttachment extends YSSCouchObject
 		}
 	}
 	
-	private function uriId()
-	{
-		return strtr($this->_id, '/', ':');
-		//return urlencode($this->_id);
-		//$id           = 
-	}
-	
 	public function save()
 	{ 
 		$ok           = false;
 		$isNew        = $this->_rev == null ? true : false;
-		$id           = $this->uriId();
+		$id           = YSSUtils::transform_to_attachment_id($this->_id);
 		$this->path   = 'http://yss.com/api/attachments/'.urlencode($this->_id);
 		
 		$remote_path = AWS_S3_ENABLED ? YSSUtils::storage_path_for_domain($this->domain).'/'.$id : YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($this->domain).'/'.$id;

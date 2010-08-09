@@ -20,7 +20,11 @@ require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSTask.php';
 
-require 'Zend/Service/Amazon/S3.php';
+// this could potentially just be located in the delete method, since this service doesn't do anything with
+// attachments until it needs to delete em.
+require YSSApplication::basePath().'/application/data/YSSAttachment.php';
+if(AWS_S3_ENABLED) require 'Zend/Service/Amazon/S3.php';
+
 
 
 class YSSServiceProjects extends YSSService
@@ -310,6 +314,9 @@ class YSSServiceProjects extends YSSService
 		
 		foreach($result as $document)
 		{
+			if($document['type'] == 'attachment')
+				YSSAttachment::deleteAttachmentWithIdInDomain($document['_id'], $session->currentUser->domain);
+			
 			$document['_deleted'] = true;
 			$payload->docs[] = $document;
 		}

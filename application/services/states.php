@@ -335,6 +335,9 @@ class YSSServiceStates extends YSSService
 		
 		foreach($result as $document)
 		{
+			if($document['type'] == 'attachment')
+				YSSAttachment::deleteAttachmentWithIdInDomain($document['_id'], $session->currentUser->domain);
+				
 			$document['_deleted'] = true;
 			$payload->docs[] = $document;
 		}
