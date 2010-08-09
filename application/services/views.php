@@ -14,6 +14,7 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
+require YSSApplication::basePath().'/application/system/YSSService.php';
 require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
@@ -23,7 +24,7 @@ require YSSApplication::basePath().'/application/data/YSSState.php';
 if(AWS_S3_ENABLED) require 'Zend/Service/Amazon/S3.php';
 
 
-class YSSServiceViews extends AMServiceContract
+class YSSServiceViews extends YSSService
 {
 	protected $requiresAuthorization = true;
 	
@@ -349,22 +350,6 @@ class YSSServiceViews extends AMServiceContract
 		
 		$response->ok = true;
 		echo json_encode($response);
-	}
-	
-	/*
-		TODO verifyAuthorization needs to exist in a YSSService base abstract class
-		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
-		then extend AMServiceContract
-	*/
-	public function verifyAuthorization()
-	{
-		$result  = false;
-		$session = YSSSession::sharedSession();
-		
-		if($session->currentUser)
-			$result = true;
-		
-		return $result;
 	}
 }
 

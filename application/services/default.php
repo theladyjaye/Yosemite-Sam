@@ -12,11 +12,9 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFilesizeValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
-require YSSApplication::basePath().'/application/data/YSSProject.php';
-require YSSApplication::basePath().'/application/data/YSSView.php';
-require YSSApplication::basePath().'/application/data/YSSState.php';
+require YSSApplication::basePath().'/application/system/YSSService.php';
 
-class YSSServiceDefault extends AMServiceContract
+class YSSServiceDefault extends YSSService
 {
 	protected $requiresAuthorization = true;
 	

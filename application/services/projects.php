@@ -11,9 +11,11 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
+
 require YSSApplication::basePath().'/application/data/YSSCompany.php';
 require YSSApplication::basePath().'/application/data/YSSUser.php';
 require YSSApplication::basePath().'/application/data/YSSDomain.php';
+require YSSApplication::basePath().'/application/system/YSSService.php';
 require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSTask.php';
@@ -21,7 +23,7 @@ require YSSApplication::basePath().'/application/data/YSSTask.php';
 require 'Zend/Service/Amazon/S3.php';
 
 
-class YSSServiceProjects extends AMServiceContract
+class YSSServiceProjects extends YSSService
 {
 	protected $requiresAuthorization = true;
 	
@@ -327,23 +329,6 @@ class YSSServiceProjects extends AMServiceContract
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		echo $database->formatList("project/project-aggregate-render", "project-report", null, true);
 		//echo $database->formatList("project/project-aggregate", "project-report", null, true);
-	}
-	
-	/*
-		TODO verifyAuthorization needs to exist in a YSSService base abstract class
-		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
-		then extend AMServiceContract
-	*/
-	
-	public function verifyAuthorization()
-	{
-		$result  = false;
-		$session = YSSSession::sharedSession();
-		
-		if($session->currentUser)
-			$result = true;
-		
-		return $result;
 	}
 }
 

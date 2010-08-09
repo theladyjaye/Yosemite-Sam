@@ -12,12 +12,13 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFilesizeValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
+require YSSApplication::basePath().'/application/system/YSSService.php';
 require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSState.php';
 
 
-class YSSServiceAnnotations extends AMServiceContract
+class YSSServiceAnnotations extends YSSService
 {
 	protected $requiresAuthorization = true;
 	
@@ -207,23 +208,6 @@ class YSSServiceAnnotations extends AMServiceContract
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		echo $database->formatList("project/view-aggregate", "view-report", null, true);
-	}
-	
-	/*
-		TODO verifyAuthorization needs to exist in a YSSService base abstract class
-		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
-		then extend AMServiceContract
-	*/
-	
-	public function verifyAuthorization()
-	{
-		$result  = false;
-		$session = YSSSession::sharedSession();
-		
-		if($session->currentUser)
-			$result = true;
-		
-		return $result;
 	}
 }
 

@@ -13,6 +13,7 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFileValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
+require YSSApplication::basePath().'/application/system/YSSService.php';
 require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSState.php';
@@ -22,7 +23,7 @@ require YSSApplication::basePath().'/application/data/YSSAttachment.php';
 if(AWS_S3_ENABLED) require 'Zend/Service/Amazon/S3.php';
 
 
-class YSSServiceStates extends AMServiceContract
+class YSSServiceStates extends YSSService
 {
 	protected $requiresAuthorization = true;
 	
@@ -73,6 +74,8 @@ class YSSServiceStates extends AMServiceContract
 	{
 		$input->addValidator(new AMInputValidator('label', AMValidator::kOptional, 2, null, "Invalid label.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMFileValidator('attachment', AMValidator::kOptional, "Invalid attachment. None provided."));
+		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
 	}
 	
 	private function applyPutValidators(&$input)
@@ -340,23 +343,6 @@ class YSSServiceStates extends AMServiceContract
 		
 		$response->ok = true;
 		echo json_encode($response);
-	}
-	
-	/*
-		TODO verifyAuthorization needs to exist in a YSSService base abstract class
-		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
-		then extend AMServiceContract
-	*/
-	
-	public function verifyAuthorization()
-	{
-		$result  = false;
-		$session = YSSSession::sharedSession();
-		
-		if($session->currentUser)
-			$result = true;
-		
-		return $result;
 	}
 }
 

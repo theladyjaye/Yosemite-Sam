@@ -17,13 +17,13 @@ require YSSApplication::basePath().'/application/data/YSSDomain.php';
 require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSTask.php';
-
+require YSSApplication::basePath().'/application/system/YSSService.php';
 require YSSApplication::basePath().'/application/data/YSSAttachment.php';
 
 require 'Zend/Service/Amazon/S3.php';
 
 
-class YSSServiceAttachments extends AMServiceContract
+class YSSServiceAttachments extends YSSService
 {
 	protected $requiresAuthorization = true;
 	
@@ -47,23 +47,6 @@ class YSSServiceAttachments extends AMServiceContract
 		header('Content-Type:'.$attachment->content_type);
 		header('Content-Length:'.$attachment->content_length);
 		$attachment->contents();
-	}
-	
-	/*
-		TODO verifyAuthorization needs to exist in a YSSService base abstract class
-		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
-		then extend AMServiceContract
-	*/
-	
-	public function verifyAuthorization()
-	{
-		$result  = false;
-		$session = YSSSession::sharedSession();
-		
-		if($session->currentUser)
-			$result = true;
-		
-		return $result;
 	}
 }
 
