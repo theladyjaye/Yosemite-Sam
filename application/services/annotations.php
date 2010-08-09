@@ -194,6 +194,12 @@ class YSSServiceAnnotations extends AMServiceContract
 			TODO Finish delete project logic.  Do we just mark as unused? Do we cascade down all of the associated tasks/comments/attachments/views?
 			just need to decide the best course of action.  Probably will be to delete everything, since it takes up resources to keep it around.
 		*/
+		
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$response->ok = true;
+		echo json_encode($response);
 	}
 	
 	public function generateReport()
@@ -202,6 +208,12 @@ class YSSServiceAnnotations extends AMServiceContract
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		echo $database->formatList("project/view-aggregate", "view-report", null, true);
 	}
+	
+	/*
+		TODO verifyAuthorization needs to exist in a YSSService base abstract class
+		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
+		then extend AMServiceContract
+	*/
 	
 	public function verifyAuthorization()
 	{

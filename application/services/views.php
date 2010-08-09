@@ -10,6 +10,8 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMMatchValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFilesizeValidator.php';
+require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFileValidator.php';
+
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
 require YSSApplication::basePath().'/application/system/YSSSecurity.php';
@@ -77,6 +79,7 @@ class YSSServiceViews extends AMServiceContract
 	{
 		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid label.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMFileValidator('attachment', AMValidator::kRequired, "Invalid attachment. None provided."));
 		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
 	}
 	
@@ -323,6 +326,9 @@ class YSSServiceViews extends AMServiceContract
 	
 	public function deleteView($project_id, $view_id)
 	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		
@@ -340,8 +346,16 @@ class YSSServiceViews extends AMServiceContract
 		}
 		
 		$database->bulk_update($payload);
+		
+		$response->ok = true;
+		echo json_encode($response);
 	}
 	
+	/*
+		TODO verifyAuthorization needs to exist in a YSSService base abstract class
+		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
+		then extend AMServiceContract
+	*/
 	public function verifyAuthorization()
 	{
 		$result  = false;

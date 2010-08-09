@@ -10,14 +10,11 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMMatchValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFilesizeValidator.php';
+require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFileValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
-require YSSApplication::basePath().'/application/data/YSSCompany.php';
-require YSSApplication::basePath().'/application/data/YSSUser.php';
-require YSSApplication::basePath().'/application/data/YSSDomain.php';
-require YSSApplication::basePath().'/application/data/YSSProject.php';
+require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
-require YSSApplication::basePath().'/application/data/YSSTask.php';
 require YSSApplication::basePath().'/application/data/YSSState.php';
 
 require YSSApplication::basePath().'/application/data/YSSAttachment.php';
@@ -82,51 +79,42 @@ class YSSServiceStates extends AMServiceContract
 	{
 		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid label.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMFileValidator('attachment', AMValidator::kRequired, "Invalid attachment. None provided."));
 		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
+		$input->addValidator(new AMMatchValidator('state_id', 'transform_label', AMValidator::kRequired, "Invalid state id."));
 	}
 	
 	private function createNewState(&$input, &$response)
 	{
-		$project = YSSProject::projectWithId($input->project_id);
+		$view = YSSView::viewWithId('project/'.$input->project_id.'/'.$input->view_id);
 		
-		if($project)
+		if($view)
 		{
-			$view              = new YSSView();
-			$view->label       = $input->label;
-			$view->description = $input->description;
-			$view->_id         = $project->_id.'/'.$input->view_id;
+			$state              = new YSSState();
+			$state->label       = $input->label;
+			$state->description = $input->description;
+			$state->_id         = $view->_id.'/'.YSSUtils::transform_to_id($input->label);
+
+			$view->addState($state);
 			
-			if($input->_rev)
-				$view->_rev = $input->_rev;
-		
-			if($view->save())
+			$session = YSSSession::sharedSession();
+			
+			$attachment = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
+			$attachment->label = $input->attachment->name;
+			
+			if($state->addAttachment($attachment))
 			{
-				$state              = new YSSState();
-				$state->label       = YSSState::kDefault;
-				$state->description = YSSState::kDefault;
-				$state->_id         = $view->_id.'/'.YSSState::kDefault;
-				
-				$view->addState($state);
-				
-				$session = YSSSession::sharedSession();
-				
-				$attachment = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
-				$attachment->label = $input->attachment->name;
-				
-				if($state->addAttachment($attachment))
-				{
-					$response->ok = true;
-				}
-				else
-				{
-					$input->addValidator(new AMErrorValidator('state', 'error'));
-					$this->hydrateErrors($input, $response);
-				}
+				$response->ok = true;
+			}
+			else
+			{
+				$input->addValidator(new AMErrorValidator('state', 'error'));
+				$this->hydrateErrors($input, $response);
 			}
 		}
 		else
 		{
-			$input->addValidator(new AMErrorValidator('project_id', 'not found'));
+			$input->addValidator(new AMErrorValidator('view_id', 'not found'));
 			$this->hydrateErrors($input, $response);
 		}
 	}
@@ -140,44 +128,43 @@ class YSSServiceStates extends AMServiceContract
 		// 4) If performing a copy/delete first try to get a view with the same id, eg: project/{project}/{view}.  Do NOT start the full copy 
 		//    unless this response is null
 		
-		//$view = YSSView::viewWithId('project/'.$input->project_id.'/'.$input->view_id);
 		if($state)
 		{
 			// update all applicable fields up to the label. Label gets special treatment
 			if($input->description)
-				$view->description = $input->description;
+				$state->description = $input->description;
 			
 			if($input->label)
 			{
-				$new_id = 'project/'.$input->project_id.'/'.YSSUtils::transform_to_id($input->label);
+				$new_id = 'project/'.$input->project_id.'/'.$input->view_id.'/'.YSSUtils::transform_to_id($input->label);
 				
-				if($new_id != $view->_id)
+				if($new_id != $state->_id)
 				{
 					// does a view already exist with the new id?
-					$targetView = YSSView::viewWithId($new_id);
+					$targetState = YSSState::stateWithId($new_id);
 					
-					if($targetView == null)
+					if($targetState == null)
 					{
-						$view->label = $input->label;
+						$state->label = $input->label;
 						
-						if($view->save())
+						if($state->save())
 						{
 							// we are good to go to copy/delete it all
 							$success  = true;
 							$session  = YSSSession::sharedSession();
 							$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 					
-							$options  = array('key'          => $view->_id,
+							$options  = array('key'          => $state->_id,
 							                  'include_docs' => true);
 
-							$result        = $database->view("project/view-forward", $options, false);
+							$result        = $database->view("project/state-forward", $options, false);
 					
 							$payload       = new stdClass();
 							$payload->docs = array();
 						
 							foreach($result as $document)
 							{
-								$copy_id = $new_id.substr($document['_id'], strlen($view->_id));
+								$copy_id = $new_id.substr($document['_id'], strlen($state->_id));
 								
 								/*
 									TODO Need to handle the attachments!
@@ -190,8 +177,8 @@ class YSSServiceStates extends AMServiceContract
 									$input->addValidator(new AMErrorValidator('error', 'Copy operation failed, your original data is unchanged.'));
 									$parts = explode('/', $copy_id);
 								
-									// project_id, view_id
-									$this->deleteView($parts[1], $parts[2]);
+									// project_id, view_id, state_id
+									$this->deleteState($parts[1], $parts[2], $parts[3]);
 									break;
 								}
 								else
@@ -221,7 +208,7 @@ class YSSServiceStates extends AMServiceContract
 						}
 						else
 						{
-							$input->addValidator(new AMErrorValidator('error', 'Unable to update view') );
+							$input->addValidator(new AMErrorValidator('error', 'Unable to update state') );
 							$this->hydrateErrors($input, $response);
 						}
 					}
@@ -234,14 +221,14 @@ class YSSServiceStates extends AMServiceContract
 				// the label was submitted but it's the same as it was, we may still have other filed updates though, so we need to save.
 				else
 				{
-					if($view->save())
+					if($state->save())
 					{
 						$response->ok = true;
-						$response->id = $view->_id;
+						$response->id = $state->_id;
 					}
 					else
 					{
-						$input->addValidator(new AMErrorValidator('error', 'Unable to update view') );
+						$input->addValidator(new AMErrorValidator('error', 'Unable to update state') );
 						$this->hydrateErrors($input, $response);
 					}
 				}
@@ -250,21 +237,21 @@ class YSSServiceStates extends AMServiceContract
 			else
 			{
 				// save with no label transform success:
-				if($view->save())
+				if($state->save())
 				{
 					$response->ok = true;
-					$response->id = $view->_id;
+					$response->id = $state->_id;
 				}
 				else
 				{
-					$input->addValidator(new AMErrorValidator('error', 'Unable to update view') );
+					$input->addValidator(new AMErrorValidator('error', 'Unable to update state') );
 					$this->hydrateErrors($input, $response);
 				}
 			}
 		}
 		else
 		{
-			$input->addValidator(new AMErrorValidator('id', 'Invalid view key') );
+			$input->addValidator(new AMErrorValidator('id', 'Invalid state key') );
 			$this->hydrateErrors($input, $response);
 		}
 	}
@@ -275,9 +262,10 @@ class YSSServiceStates extends AMServiceContract
 		$response->ok = false;
 		
 		$data               = $_POST;//json_decode(file_get_contents('php://input'), true);
-		$data['project_id'] = YSSUtils::transform_to_id($project_id);
-		$data['view_id']    = YSSUtils::transform_to_id($view_id);
-		$data['state_id']   = YSSUtils::transform_to_id($state_id);
+		$data['project_id']      = YSSUtils::transform_to_id($project_id);
+		$data['view_id']         = YSSUtils::transform_to_id($view_id);
+		$data['state_id']        = YSSUtils::transform_to_id($state_id);
+		$data['transform_label'] = YSSUtils::transform_to_id($data['label']);
 		
 		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
 		$input   = AMForm::formWithContext($context);
@@ -329,6 +317,9 @@ class YSSServiceStates extends AMServiceContract
 	
 	public function deleteState($project_id, $view_id, $state_id)
 	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		
@@ -346,7 +337,16 @@ class YSSServiceStates extends AMServiceContract
 		}
 		
 		$database->bulk_update($payload);
+		
+		$response->ok = true;
+		echo json_encode($response);
 	}
+	
+	/*
+		TODO verifyAuthorization needs to exist in a YSSService base abstract class
+		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
+		then extend AMServiceContract
+	*/
 	
 	public function verifyAuthorization()
 	{

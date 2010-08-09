@@ -291,6 +291,9 @@ class YSSServiceProjects extends AMServiceContract
 	
 	public function deleteProject($id)
 	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
 		// deleting a project is a big deal, everything associated with it needs to go.
 		
 		$session  = YSSSession::sharedSession();
@@ -313,6 +316,9 @@ class YSSServiceProjects extends AMServiceContract
 		
 		// may want to compact here.. depends on the load though, so compatcing is probably not the best idea ALL the time.
 		$database->compact();
+		
+		$response->ok = true;
+		echo json_encode($response);
 	}
 	
 	public function generateReport()
@@ -322,6 +328,12 @@ class YSSServiceProjects extends AMServiceContract
 		echo $database->formatList("project/project-aggregate-render", "project-report", null, true);
 		//echo $database->formatList("project/project-aggregate", "project-report", null, true);
 	}
+	
+	/*
+		TODO verifyAuthorization needs to exist in a YSSService base abstract class
+		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
+		then extend AMServiceContract
+	*/
 	
 	public function verifyAuthorization()
 	{

@@ -49,6 +49,12 @@ class YSSServiceAttachments extends AMServiceContract
 		$attachment->contents();
 	}
 	
+	/*
+		TODO verifyAuthorization needs to exist in a YSSService base abstract class
+		this class then should extend YSSService instead of AMServiceContract.  YSSService will 
+		then extend AMServiceContract
+	*/
+	
 	public function verifyAuthorization()
 	{
 		$result  = false;
