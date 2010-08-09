@@ -1,0 +1,24 @@
+<li>
+	<a class="btn-img dp" href="#/{{path}}">
+		<img src="/resources/img/fpo-comp-thumb.jpg" alt="" />
+	</a>
+	<a class="btn-delete delete btn-modal modal-view-delete" href="">Delete</a>
+	<h2 class="editable">{{label}}</h2>
+	{{#tasks}}
+	<p class="view-info">
+	
+	</p>
+	<div class="progress-bar">
+		<div class="progress-value">
+			<span class="value"></span>
+			<span class="percentage-sign">%</span>
+		</div>
+		<p class="task-info">
+			<span class="tasks-completed">{{completed}}</span>/<span class="tasks-total">{{total}}</span>
+		</p>					
+	</div>						
+	{{/tasks}}			
+	<div class="description editable-textarea">
+		{{description}}
+	</div>
+</li>

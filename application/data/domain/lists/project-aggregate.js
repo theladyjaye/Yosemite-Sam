@@ -38,5 +38,6 @@ function(head, req)
 		}
 	}
 	
+	result.push(current);
 	send(JSON.stringify(result));
 }

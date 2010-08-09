@@ -52,4 +52,6 @@ function(head, req)
 			}
 		}
 	}
+	
+	send(mustache.to_html(ddoc.templates.project, current)+"\n");
 }

@@ -16,22 +16,17 @@ function(head, req)
 		{
 			if(current)
 			{
-				send(mustache.to_html(ddoc.templates.views, current)+"\n");
+				send(mustache.to_html(ddoc.templates.states, current)+"\n");
 			}
 				
 			current           = row.value;
 			current.tasks     = {completed:0, total:0};
-			current.states    = [];
 			current.path	  = current._id.split("/").slice(1).join("/");
 		}
 		else
 		{
 			switch(type)
 			{
-				case "state":
-					current.states.push(row.value);
-					break;
-				
 				case "task":
 					current.tasks.total++;
 					current.tasks.completed += row.value.value;
@@ -39,4 +34,6 @@ function(head, req)
 			}
 		}
 	}
+	
+	send(mustache.to_html(ddoc.templates.states, current)+"\n");
 }

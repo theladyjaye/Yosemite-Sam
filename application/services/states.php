@@ -56,8 +56,8 @@ class YSSServiceStates extends AMServiceContract
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		
-		$options = array('startkey' => array('project/'.$project_id), 
-		                 'endkey'   => array('project/'.$project_id, new stdClass()));
+		$options = array('startkey' => array('project/'.$project_id.'/'.$view_id), 
+		                 'endkey'   => array('project/'.$project_id.'/'.$view_id, new stdClass()));
 		
 		echo $database->formatList("project/state-aggregate-render", "state-report", $options, true);
 	}

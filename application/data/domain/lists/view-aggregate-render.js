@@ -39,4 +39,6 @@ function(head, req)
 			}
 		}
 	}
+	
+	send(mustache.to_html(ddoc.templates.views, current)+"\n");
 }
