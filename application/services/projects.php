@@ -9,6 +9,8 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMEmailValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMMatchValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
+require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFileValidator.php';
+require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFilesizeValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
 
@@ -20,8 +22,7 @@ require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSTask.php';
 
-// this could potentially just be located in the delete method, since this service doesn't do anything with
-// attachments until it needs to delete em.
+
 require YSSApplication::basePath().'/application/data/YSSAttachment.php';
 if(AWS_S3_ENABLED) require 'Zend/Service/Amazon/S3.php';
 
@@ -42,10 +43,12 @@ class YSSServiceProjects extends YSSService
 			
 			case "POST":
 				$this->addEndpoint("POST",   "/api/project/{id}",                                                  "updateProject");
+				$this->addEndpoint("POST",   "/api/project/{id}/attachment/{attachment_id}",                       "updateAttachment");
 				break;
 			
 			case "DELETE":
 				$this->addEndpoint("DELETE", "/api/project/{id}",                                                  "deleteProject");
+				$this->addEndpoint("DELETE", "/api/project/{id}/attachment/{attachment_id}",                       "deleteAttachment");
 				break;
 		}
 	}
@@ -75,6 +78,27 @@ class YSSServiceProjects extends YSSService
 		$input->addValidator(new AMPatternValidator('label', AMValidator::kRequired, '/^[\w\d- ]{2,}$/', "Invalid label. Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMMatchValidator('id', 'transform_label', AMValidator::kRequired, "Invalid project id."));
+	}
+	
+	private function applyBaseProjectAttachmentValidators(&$input)
+	{
+		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('attachment_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
+	}
+	
+	private function applyAttachmentPutValidators(&$input)
+	{
+		$input->addValidator(new AMPatternValidator('label', AMValidator::kRequired, '/^[\w\d- ]{2,}$/', "Invalid label. Expecting minimum 2 characters."));
+		$input->addValidator(new AMFileValidator('attachment', AMValidator::kRequired, "Invalid attachment. None provided."));
+		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
+		$input->addValidator(new AMMatchValidator('attachment_id', 'transform_label', AMValidator::kRequired, "Invalid attachment id."));
+	}
+	
+	private function applyAttachmentPostValidators(&$input)
+	{
+		$input->addValidator(new AMPatternValidator('label', AMValidator::kOptional, '/^[\w\d- ]{2,}$/', "Invalid label. Expecting minimum 2 characters."));
+		$input->addValidator(new AMFileValidator('attachment', AMValidator::kOptional, "Invalid attachment. None provided."));
+		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
 	}
 	
 	private function createNewProject(&$input, &$response)
@@ -253,6 +277,83 @@ class YSSServiceProjects extends YSSService
 		}
 	}
 	
+	public function updateAttachment($project_id, $attachment_id)
+	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$session               = YSSSession::sharedSession();
+		
+		$data                  = $_POST;
+		$data['project_id']    = YSSUtils::transform_to_id($project_id);
+		$data['attachment_id'] = YSSUtils::transform_to_id($attachment_id);
+		if(isset($data['label'])) $data['transform_label'] = YSSUtils::transform_to_id($data['label']);
+		
+		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
+		$input   = AMForm::formWithContext($context);
+		
+		$this->applyBaseProjectAttachmentValidators($input);
+		
+		if($input->isValid)
+		{
+			$attachment = YSSAttachment::attachmentWithIdInDomain('project/'.$input->project_id.'/attachment/'.$input->attachment_id, $session->currentUser->domain);
+			$isNew      = $attachment == null ? true : false;
+			
+			$isNew ? $this->applyAttachmentPutValidators($input) : $this->applyAttachmentPostValidators($input);
+			
+			if($input->isValid)
+			{
+				$isNew ? $this->createNewProjectAttachment($input, $response) : $this->updateExistingProjectAttachment($attachment, $input, $response);
+			}
+			else
+			{
+				$this->hydrateErrors($input, $response);
+			}
+		}
+		else
+		{
+			$this->hydrateErrors($input, $response);
+		}
+		
+		echo json_encode($response);
+	}
+	
+	private function createNewProjectAttachment(&$input, &$response)
+	{
+		$session = YSSSession::sharedSession();
+		$project = YSSProject::projectWithId($input->project_id);
+		
+		if($project)
+		{
+			$attachment        = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
+			$attachment->label = $input->label;
+			$attachment->_id   = $project->_id.'/attachment/'.$input->attachment_id;
+			
+			if($project->addAttachment($attachment))
+			{
+				$response->ok = true;
+			}
+			else
+			{
+				$input->addValidator(new AMErrorValidator('attachment', 'could not save attachment'));
+				$this->hydrateErrors($input, $response);
+			}
+		}
+		else
+		{
+			$input->addValidator(new AMErrorValidator('project_id', 'not found'));
+			$this->hydrateErrors($input, $response);
+		}
+	}
+	
+	private function updateExistingProjectAttachment(&$attachment, &$input, &$response)
+	{
+		/*
+			TODO Enable Updating Attachments
+		*/
+	}
+	
+	
 	public function updateProject($id)
 	{
 		
@@ -261,7 +362,7 @@ class YSSServiceProjects extends YSSService
 		
 		$data                    = $_POST;//json_decode(file_get_contents('php://input'), true);
 		$data['id']              = strtolower($id);
-		$data['transform_label'] = YSSUtils::transform_to_id($data['label']);
+		if(isset($data['label'])) $data['transform_label'] = YSSUtils::transform_to_id($data['label']);
 		
 		$context    = array(AMForm::kDataKey=>$data);
 		$input      = AMForm::formWithContext($context);
@@ -292,6 +393,26 @@ class YSSServiceProjects extends YSSService
 			$this->hydrateErrors($input, $response);
 		}
 		
+		echo json_encode($response);
+	}
+	
+	public function deleteAttachment($project_id, $attachment_id)
+	{
+		$session      = YSSSession::sharedSession();
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$attachment = YSSAttachment::attachmentWithIdInDomain('project/'.$project_id.'/attachment/'.$attachment_id, $session->currentUser->domain);
+		if($attachment)
+		{
+			$attachment->_deleted = true;
+			if($attachment->save())
+			{
+				YSSAttachment::deleteAttachmentWithIdInDomain($attachment->_id, $session->currentUser->domain);
+			}
+		}
+		
+		$response->ok = true;
 		echo json_encode($response);
 	}
 	

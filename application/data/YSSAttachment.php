@@ -13,6 +13,21 @@ class YSSAttachment extends YSSCouchObject
 	private $file;
 	private $remote = false;
 	
+	public static function attachmentWithIdInDomain($id, $domain)
+	{
+		$object    = null;
+		$database  = YSSDatabase::connection(YSSDatabase::kCouchDB, $domain);
+			
+		$response = $database->document($id);
+		
+		if(!isset($response['error']))
+		{
+			$object = YSSAttachment::hydrateWithArray($response);
+		}
+		
+		return $object;
+	}
+	
 	public static function attachmentWithRemoteFileInDomain($file, $domain)
 	{
 		$object         = new YSSAttachment();
@@ -132,7 +147,9 @@ class YSSAttachment extends YSSCouchObject
 		//$remote_path  = YSSUtils::storage_path_for_domain($this->domain).'/'.$id;
 		//$remote_path = YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($this->domain).'/'.$id;
 		
-		if(parent::save() && $isNew)
+		$status = parent::save();
+		
+		if($isNew && $status)
 		{
 			if(AWS_S3_ENABLED)
 			{
@@ -150,6 +167,10 @@ class YSSAttachment extends YSSCouchObject
 					copy($this->file, $remote_path);
 			}
 			
+			$ok = true;
+		}
+		else if($status)
+		{
 			$ok = true;
 		}
 		
@@ -173,6 +194,17 @@ class YSSAttachment extends YSSCouchObject
 			return isset($this->label);
 		else
 			return isset($this->{$key});
+	}
+	
+	private static function hydrateWithArray($array)
+	{
+		$object  = new YSSAttachment();
+		foreach($array as $key=>$value)
+		{
+			$object->{$key} = $value;
+		}
+		
+		return $object;
 	}
 
 }

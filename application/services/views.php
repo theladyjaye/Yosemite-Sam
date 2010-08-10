@@ -109,8 +109,9 @@ class YSSServiceViews extends YSSService
 				
 				$session = YSSSession::sharedSession();
 				
-				$attachment = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
-				$attachment->label = $input->attachment->name;
+				$attachment        = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
+				$attachment->label = 'view';
+				$attachment->_id   = $state->_id.'/attachment/'.YSSUtils::transform_to_id($attachment->label);
 				
 				if($state->addAttachment($attachment))
 				{
