@@ -108,7 +108,7 @@ $a3->_id     = $s3->_id.'/attachment/view';
 
 $a4          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
 $a4->label   = "Lorem ipsum dolor sit amet";
-$a4->_id     = $p1->_id.'/attachment/view';
+$a4->_id     = $p1->_id.'/attachment/technical-spec';
 
 
 $s1->addAttachment($a1);

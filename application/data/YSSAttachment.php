@@ -92,6 +92,28 @@ class YSSAttachment extends YSSCouchObject
 		return $object;
 	}
 	
+	public static function copyAttachmentWithIdToIdInDomain($from_id, $to_id, $domain)
+	{
+		$storage_path = YSSUtils::storage_path_for_domain($domain);
+		$from_id      = YSSUtils::transform_to_attachment_id($from_id);
+		$to_id        = YSSUtils::transform_to_attachment_id($to_id);
+		
+		if(AWS_S3_ENABLED)
+		{
+			$s3 = YSSDatabase::connection(YSSDatabase::kS3);
+			$s3->removeObject($storage_path.'/'.$id);
+		}
+		else
+		{
+			$location = YSSApplication::basePath().'/resources/attachments/'.$storage_path;
+			if(is_dir($location))
+			{
+				if(is_file($location.'/'.$id))
+					unlink($location.'/'.$id);
+			}
+		}
+	}
+	
 	public static function deleteAttachmentWithIdInDomain($id, $domain)
 	{
 		$storage_path = YSSUtils::storage_path_for_domain($domain);
