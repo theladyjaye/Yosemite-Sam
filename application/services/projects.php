@@ -348,15 +348,13 @@ class YSSServiceProjects extends YSSService
 	
 	private function updateExistingProjectAttachment(&$attachment, &$input, &$response)
 	{
-		/*
-			TODO Enable Updating Attachments
-		*/
 		if($attachment)
 		{
 			if($input->label && $input->label != $attachment->_id)
 			{
 				$session           = YSSSession::sharedSession();
 				$database          = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+				$original_id       = $attachment->_id;
 				$attachment->label = $input->label;
 				$copy_id           = substr($attachment->_id, 0, strrpos($attachment->_id, '/'));
 				$copy_id           = $copy_id.'/'.YSSUtils::transform_to_id($input->label);
@@ -365,9 +363,12 @@ class YSSServiceProjects extends YSSService
 				{
 					if($database->copy($attachment->_id, $copy_id))
 					{
-						$database->delete($attachment->_id, $attachment->_rev);
-						//YSSAttachment::copyAttachmentWithIdToIdInDomain($attachment->_id, $copy_id, $session->currentUser->domain);
-						YSSAttachment::deleteAttachmentWithIdInDomain($attachment->_id, $session->currentUser->domain);
+						$database->delete($original_id, $attachment->_rev);
+						YSSAttachment::copyAttachmentWithIdToIdInDomain($original_id, $copy_id, $session->currentUser->domain);
+						YSSAttachment::deleteAttachmentWithIdInDomain($original_id, $session->currentUser->domain);
+						
+						$response->ok = true;
+						$response->id = $copy_id;
 					}
 					else
 					{

@@ -197,6 +197,8 @@ class CouchDB
 		
 		if($this->shouldPerformActionWithDatabase())
 		{
+			$id = urlencode($id);
+			
 			if(!$revision)
 			{
 				$revision = $this->_revisionForDocument($id);

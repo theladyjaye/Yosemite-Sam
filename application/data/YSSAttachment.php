@@ -88,7 +88,6 @@ class YSSAttachment extends YSSCouchObject
 		$object->content_type   = finfo_file($fileinfo, $file);
 		
 		finfo_close($fileinfo);
-		
 		return $object;
 	}
 	
@@ -101,7 +100,7 @@ class YSSAttachment extends YSSCouchObject
 		if(AWS_S3_ENABLED)
 		{
 			$s3 = YSSDatabase::connection(YSSDatabase::kS3);
-			$s3->removeObject($storage_path.'/'.$id);
+			$s3->copyObject($storage_path.'/'.$from_id, $storage_path.'/'.$to_id);
 		}
 		else
 		{
@@ -109,7 +108,7 @@ class YSSAttachment extends YSSCouchObject
 			if(is_dir($location))
 			{
 				if(is_file($location.'/'.$id))
-					unlink($location.'/'.$id);
+					copy($location.'/'.$from_id, $location.'/'.$to_id);
 			}
 		}
 	}
@@ -176,10 +175,12 @@ class YSSAttachment extends YSSCouchObject
 			if(AWS_S3_ENABLED)
 			{
 				$s3      = YSSDatabase::connection(YSSDatabase::kS3);
+				$meta    = array(Zend_Service_Amazon_S3::S3_CONTENT_TYPE_HEADER => $this->content_type,
+		                         Zend_Service_Amazon_S3::S3_ACL_HEADER => Zend_Service_Amazon_S3::S3_ACL_PRIVATE);
+				
 				$s3->putFile($this->file,
-				             $remote_path,
-				               array(Zend_Service_Amazon_S3::S3_CONTENT_TYPE_HEADER => $this->content_type,
-					                 Zend_Service_Amazon_S3::S3_ACL_HEADER => Zend_Service_Amazon_S3::S3_ACL_PRIVATE));
+					         $remote_path,
+				             $meta);
 			}
 			else
 			{

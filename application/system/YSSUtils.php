@@ -15,7 +15,7 @@ class YSSUtils
 		$result = strtolower($value);
 		$result = strtr($result, array(" " => "-",
 		                               "_" => "-",
-		                               "/" => ":"));
+		                               "/" => "."));
 		return $result;
 	}
 	

@@ -27,13 +27,14 @@ class YSSDatabase
 	
 	private function S3Database()
 	{
-		static $connection = null;
+		//static $connection = null;
 		
-		if(!$connection)
-		{
+		//if(!$connection)
+		//{
 			$configuration = YSSConfiguration::standardConfiguration();
+			Zend_Service_Amazon_S3::setKeys($configuration['s3']['key'], $configuration['s3']['secret']);
 			$connection    = new Zend_Service_Amazon_S3($configuration['s3']['key'], $configuration['s3']['secret']);
-		}
+		//}
 		
 		return $connection;
 	}

@@ -64,6 +64,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
     const S3_ACL_AUTH_READ = 'authenticated-read';
 
     const S3_REQUESTPAY_HEADER = 'x-amz-request-payer';
+    const S3_COPY_HEADER = 'x-amz-copy-source';
     const S3_ACL_HEADER = 'x-amz-acl';
     const S3_CONTENT_TYPE_HEADER = 'Content-Type';
 
@@ -165,6 +166,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
             $data = null;
         }
         $response = $this->_makeRequest('PUT', $bucket, null, array(), $data);
+
         return ($response->getStatus() == 200);
     }
 
@@ -384,7 +386,28 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
 
         return $response;
     }
+	
+	/**
+	 * Copy an object by a PHP string to a PHP string
+	 *
+	 * @param  string $from_object Absolute object name eg: /bucket/object
+	 * @param  string $to_object Relative object name eg:/bucket
+	 * @return boolean
+	 */
+	public function copyObject($from_object, $to_object)
+	{
+	    $from_object = $this->_fixupObjectName($from_object);
+		$to_object = $this->_fixupObjectName($to_object);
 
+	    $response = $this->_makeRequest('PUT', $to_object, null, array(self::S3_COPY_HEADER => $from_object));
+
+	    if ($response->getStatus() == 200) {
+	        return true;
+	    }
+
+	    return false;
+	}
+    
     /**
      * Upload an object by a PHP string
      *
@@ -555,10 +578,11 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
         $client->setAuth(false);
         // Work around buglet in HTTP client - it doesn't clean headers
         // Remove when ZHC is fixed
-        $client->setHeaders(array('Content-MD5' => null,
-                                  'Expect'      => null,
-                                  'Range'       => null,
-                                  'x-amz-acl'   => null));
+        $client->setHeaders(array('Content-MD5'       => null,
+                                  'Expect'            => null,
+                                  'Range'             => null,
+                                  'x-amz-acl'         => null,
+                                  'x-amz-copy-source' => null));
 
         $client->setHeaders($headers);
 
