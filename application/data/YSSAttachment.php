@@ -13,6 +13,11 @@ class YSSAttachment extends YSSCouchObject
 	private $file;
 	private $remote = false;
 	
+	public static function attachmentEndpointWithId($id)
+	{
+		return 'http://yss.com/api/attachments/'.urlencode($id);
+	}
+	
 	public static function attachmentWithIdInDomain($id, $domain)
 	{
 		$object    = null;
@@ -79,16 +84,36 @@ class YSSAttachment extends YSSCouchObject
 	
 	public static function attachmentWithLocalFileInDomain($file, $domain)
 	{
-		$object                 = new YSSAttachment();
-		$object->file           = $file;
-		$object->domain         = $domain;
-		$object->content_length = filesize($file);
+		$object = new YSSAttachment();
+		$object->setFile($file);
 		
-		$fileinfo               = finfo_open(FILEINFO_MIME_TYPE);
-		$object->content_type   = finfo_file($fileinfo, $file);
-		
-		finfo_close($fileinfo);
+		$object->domain = $domain;
 		return $object;
+	}
+	
+	public static function saveAttachmentInDomain(YSSAttachment $attachment, $domain)
+	{
+		$file        = $attachment->file;
+		$id          = YSSUtils::transform_to_attachment_id($attachment->_id);
+		$remote_path = AWS_S3_ENABLED ? YSSUtils::storage_path_for_domain($domain).'/'.$id : YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($domain).'/'.$id;
+		
+		if(AWS_S3_ENABLED)
+		{
+			$s3      = YSSDatabase::connection(YSSDatabase::kS3);
+			$meta    = array(Zend_Service_Amazon_S3::S3_CONTENT_TYPE_HEADER => $attachment->content_type,
+	                         Zend_Service_Amazon_S3::S3_ACL_HEADER => Zend_Service_Amazon_S3::S3_ACL_PRIVATE);
+			
+			$s3->putFile($file,
+				         $remote_path,
+			             $meta);
+		}
+		else
+		{
+			if(is_uploaded_file($file))
+				move_uploaded_file($file, $remote_path);
+			else
+				copy($file, $remote_path);
+		}
 	}
 	
 	public static function copyAttachmentWithIdToIdInDomain($from_id, $to_id, $domain)
@@ -134,6 +159,16 @@ class YSSAttachment extends YSSCouchObject
 		}
 	}
 	
+	public function setFile($file)
+	{
+		$this->file           = $file;
+		$this->content_length = filesize($file);
+		$fileinfo             = finfo_open(FILEINFO_MIME_TYPE);
+		$this->content_type   = finfo_file($fileinfo, $file);
+		
+		finfo_close($fileinfo);
+	}
+	
 	public function contents()
 	{
 		if($this->remote && AWS_S3_ENABLED)
@@ -161,35 +196,15 @@ class YSSAttachment extends YSSCouchObject
 	{ 
 		$ok           = false;
 		$isNew        = $this->_rev == null ? true : false;
-		$id           = YSSUtils::transform_to_attachment_id($this->_id);
-		$this->path   = 'http://yss.com/api/attachments/'.urlencode($this->_id);
 		
-		$remote_path = AWS_S3_ENABLED ? YSSUtils::storage_path_for_domain($this->domain).'/'.$id : YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($this->domain).'/'.$id;
-		//$remote_path  = YSSUtils::storage_path_for_domain($this->domain).'/'.$id;
-		//$remote_path = YSSApplication::basePath().'/resources/attachments/'.YSSUtils::storage_path_for_domain($this->domain).'/'.$id;
+		if($isNew)
+			$this->path   = YSSAttachment::attachmentEndpointWithId($this->_id);
 		
 		$status = parent::save();
 		
 		if($isNew && $status)
 		{
-			if(AWS_S3_ENABLED)
-			{
-				$s3      = YSSDatabase::connection(YSSDatabase::kS3);
-				$meta    = array(Zend_Service_Amazon_S3::S3_CONTENT_TYPE_HEADER => $this->content_type,
-		                         Zend_Service_Amazon_S3::S3_ACL_HEADER => Zend_Service_Amazon_S3::S3_ACL_PRIVATE);
-				
-				$s3->putFile($this->file,
-					         $remote_path,
-				             $meta);
-			}
-			else
-			{
-				if(is_uploaded_file($this->file))
-					move_uploaded_file($this->file, $remote_path);
-				else
-					copy($this->file, $remote_path);
-			}
-			
+			YSSAttachment::saveAttachmentInDomain($this, $this->domain);
 			$ok = true;
 		}
 		else if($status)

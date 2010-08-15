@@ -350,20 +350,43 @@ class YSSServiceProjects extends YSSService
 	{
 		if($attachment)
 		{
+			$session           = YSSSession::sharedSession();
+			$needsSave         = false;
+			
+			// user is giving us new data for a current attachment.  eg: overwrite old
+			if($input->attachment->tmp_name)
+			{
+				$attachment->setFile($input->attachment->tmp_name);
+				YSSAttachment::saveAttachmentInDomain($attachment, $session->currentUser->domain);
+				
+				$needsSave = true;
+				
+				$response->ok = true;
+				$response->id = $attachment->_id;
+			}
+			
 			if($input->label && $input->label != $attachment->_id)
 			{
-				$session           = YSSSession::sharedSession();
+				//reset status
+				$response->ok      = false;
+				$response->id      = null;
+				
 				$database          = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 				$original_id       = $attachment->_id;
-				$attachment->label = $input->label;
+				
 				$copy_id           = substr($attachment->_id, 0, strrpos($attachment->_id, '/'));
 				$copy_id           = $copy_id.'/'.YSSUtils::transform_to_id($input->label);
 				
+				$attachment->label = $input->label;
+				$attachment->path  = YSSAttachment::attachmentEndpointWithId($copy_id);
+				
 				if($attachment->save())
 				{
+					$needsSave = false;
 					if($database->copy($attachment->_id, $copy_id))
 					{
 						$database->delete($original_id, $attachment->_rev);
+						
 						YSSAttachment::copyAttachmentWithIdToIdInDomain($original_id, $copy_id, $session->currentUser->domain);
 						YSSAttachment::deleteAttachmentWithIdInDomain($original_id, $session->currentUser->domain);
 						
@@ -382,11 +405,8 @@ class YSSServiceProjects extends YSSService
 					$this->hydrateErrors($input, $response);
 				}
 			}
-			else
-			{
-				$input->addValidator(new AMErrorValidator('error', 'Invalid attachment') );
-				$this->hydrateErrors($input, $response);
-			}
+			
+			if($needsSave) $attachment->save();
 		}
 	}
 	
