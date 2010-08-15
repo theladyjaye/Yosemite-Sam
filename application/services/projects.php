@@ -157,6 +157,7 @@ class YSSServiceProjects extends YSSService
 						{
 							// we are good to go to copy/delete it all
 							$success  = true;
+							$result   = null;
 							$session  = YSSSession::sharedSession();
 							$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 					
@@ -171,12 +172,30 @@ class YSSServiceProjects extends YSSService
 							foreach($result as $document)
 							{
 								$copy_id = $id.substr($document['_id'], strlen($project->_id));
+								
+								if($document['type'] == 'attachment')
+								{
+									$attachment       = YSSAttachment::attachmentWithArray($document);
+									$attachment->path = YSSAttachment::attachmentEndpointWithId($copy_id);
+									$attachment->_id  = $copy_id;
+									
+									YSSAttachment::copyAttachmentWithIdToIdInDomain($document['_id'], $copy_id, $session->currentUser->domain);
+									YSSAttachment::deleteAttachmentWithIdInDomain($document['_id'], $session->currentUser->domain);
+									
+									// TODO probbaly want to add some better error handling/rollback logic around here.
+									
+									$result = $database->copy($document['_id'], $copy_id);
+									$attachment->_rev = $result['rev'];
+									
+									// include the new attachment ( we changed the path property above so we need to update)
+									$payload->docs[] = $attachment;
+								}
+								else
+								{
+									$result = $database->copy($document['_id'], $copy_id);
+								}
 						
-								/*
-									TODO Need to handle the attachments!
-								*/
-								$result = $database->copy($document['_id'], $copy_id);
-						
+								
 								if(isset($result['error']))
 								{
 									$success = false;

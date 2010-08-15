@@ -18,6 +18,11 @@ class YSSAttachment extends YSSCouchObject
 		return 'http://yss.com/api/attachments/'.urlencode($id);
 	}
 	
+	public static function attachmentWithArray($array)
+	{
+		return self::hydrateWithArray($array);
+	}
+	
 	public static function attachmentWithIdInDomain($id, $domain)
 	{
 		$object    = null;
@@ -132,7 +137,7 @@ class YSSAttachment extends YSSCouchObject
 			$location = YSSApplication::basePath().'/resources/attachments/'.$storage_path;
 			if(is_dir($location))
 			{
-				if(is_file($location.'/'.$id))
+				if(is_file($location.'/'.$from_id))
 					copy($location.'/'.$from_id, $location.'/'.$to_id);
 			}
 		}
@@ -197,7 +202,7 @@ class YSSAttachment extends YSSCouchObject
 		$ok           = false;
 		$isNew        = $this->_rev == null ? true : false;
 		
-		if($isNew)
+		if($isNew && !$this->path)
 			$this->path   = YSSAttachment::attachmentEndpointWithId($this->_id);
 		
 		$status = parent::save();
