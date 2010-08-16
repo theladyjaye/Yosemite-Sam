@@ -30,3 +30,9 @@ PDF Report generation
 
 Bug List to Excel or CSV for import to Mantis
 	- bug list == tasks
+
+MultiView "Wall"
+	- Can select multiple views/states to go into annotation mode
+	- Simulates having multiple comps printed out on a wall
+	- Comps are scaled to fit multiple views in the browser window in a grid layout
+	- Can CRUD annotations for each view.
