@@ -237,18 +237,23 @@ class YSSServiceAnnotations extends YSSService
 		
 		$this->applyBaseAnnotationValidators($input);
 		
-		
 		if($input->isValid)
 		{
-			// annotations can be of type task or note
-			// so get the array first, and then hydrate an object accordingly.
-			$raw_annotation;
-			
 			$this->applyPostValidators();
 			
 			if($input->isValid)
 			{
+				$session  = YSSSession::sharedSession();
+				$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 				
+				// annotations can be of type task or note
+				// so get the array first, and then hydrate an object accordingly.
+				$raw_annotation = $database->document('project/'.$project_id.'/'.$view_id.'/'.$state_id.'/'.$annotation_id);
+				
+				if($raw_annotation && !isset($raw_annotation['error']))
+				{
+					//determine if it's a task or a note and hydrate an object accordingly;
+				}
 			}
 		}
 		
