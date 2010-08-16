@@ -1,18 +1,21 @@
 <?php
-class YSSTask extends YSSCouchObject
+class YSSTask extends YSSAnnotation
 {
 	const kStatusIncomplete = 0;
 	const kStatusComplete   = 1;
 	
-	public $label;
-	public $description;
-	public $status;
+	public $assigned_to;
+	public $status = YSSTask::kStatusIncomplete;
+	public $group;
+	public $priority;
+	public $estimate;
 	
 	protected $type = "task";
 	
-	// Task Is's should be generated from the following:
+	// Task Id's should be generated from the following:
 	// YSSSecurity::generate_token($salt) = this->_id;
 	// see YSSState::addTask;
+	
 	public static function taskWithJson($jsonString)
 	{
 		return YSSTask::hydrateWithArray(json_decode($jsonString, true));

@@ -34,15 +34,15 @@ class YSSState extends YSSCouchObject
 		return $attachment->save();
 	}
 	
-	public function addTask(YSSTask $task)
+	public function addAnnotation(YSSAnnotation $annotation)
 	{
 		if(!$this->_rev)
 			$this->save();
 		
-		if(strpos($task->_id, $this->_id) !== 0)
-			$task->_id = $this->_id.'/'.YSSSecurity::generate_token();
+		if(strpos($annotation->_id, $this->_id) !== 0)
+			$annotation->_id = $this->_id.'/'.YSSSecurity::generate_token();
 		
-		return $task->save();
+		return $annotation->save();
 	}
 	
 	private static function hydrateWithArray($array)

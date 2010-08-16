@@ -6,16 +6,17 @@ require YSSApplication::basePath().'/application/libs/axismundi/display/AMDispla
 require YSSApplication::basePath().'/application/libs/axismundi/forms/AMForm.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMPatternValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMInputValidator.php';
-require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMEmailValidator.php';
-require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMMatchValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
-require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFilesizeValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
 require YSSApplication::basePath().'/application/system/YSSService.php';
-require YSSApplication::basePath().'/application/data/YSSProject.php';
-require YSSApplication::basePath().'/application/data/YSSView.php';
+require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/data/YSSState.php';
+require YSSApplication::basePath().'/application/data/YSSAnnotation.php';
+require YSSApplication::basePath().'/application/data/YSSTask.php';
+require YSSApplication::basePath().'/application/data/YSSNote.php';
+
+
 
 
 class YSSServiceAnnotations extends YSSService
@@ -100,6 +101,7 @@ class YSSServiceAnnotations extends YSSService
 		$input->addValidator(new AMPatternValidator('annotation_id', AMValidator::kRequired, '/^[a-z0-9]{32}$/', "Invalid annotation id."));
 		$input->addValidator(new AMInputValidator('label', AMValidator::kOptional, 2, null, "Invalid label.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMPatternValidator('context', AMValidator::kOptional, '/^[\w\d -]+$/', "Invalid context"));
 	}
 	
 	private function applyPutValidators(&$input)
@@ -108,6 +110,17 @@ class YSSServiceAnnotations extends YSSService
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMPatternValidator('x', AMValidator::kRequired, '/^[\d]+$/', "Invalid x coordinate"));
 		$input->addValidator(new AMPatternValidator('y', AMValidator::kRequired, '/^[\d]+$/', "Invalid x coordinate"));
+		$input->addValidator(new AMPatternValidator('type', AMValidator::kRequired, '/^task|note$/', "Invalid annotation type. Expecting task or note"));
+		$input->addValidator(new AMPatternValidator('context', AMValidator::kOptional, '/^[\w\d -]+$/', "Invalid context"));
+	}
+	
+	private function applyPutTaskValidators(&$input)
+	{
+		$input->addValidator(new AMPatternValidator('assigned_to', AMValidator::kOptional, '/^[\w\d -]{2,}$/', "Invalid asignee"));
+		$input->addValidator(new AMPatternValidator('status', AMValidator::kOptional, '/^[01]$/', "Invalid status.  Expecting 0 or 1"));
+		$input->addValidator(new AMPatternValidator('priority', AMValidator::kOptional, '/^[0-9]$/', "Invalid priority.  Expecting 0-9"));
+		//$input->addValidator(new AMPatternValidator('group', AMValidator::kOptional, '/^[01]$/', "Invalid status.  Expecting 0 or 1"));
+		//$input->addValidator(new AMPatternValidator('estimate', AMValidator::kOptional, '/^[0-9]$/', "Invalid priority.  Expecting 0-9"));
 	}
 	
 	public function createAnnotation($project_id, $view_id, $state_id)
@@ -131,8 +144,76 @@ class YSSServiceAnnotations extends YSSService
 		
 		if($input->isValid)
 		{
-			$this->applyPutValidators($input);
+			$state = YSSState::stateWithId('project/'.$project_id.'/'.$view_id.'/'.$state_id);
+			
+			if($state)
+			{
+				$this->applyPutValidators($input);
+				
+				if($input->isValid)
+				{
+					$annotation = null;
+				
+					if($input->type == 'task') 
+					{
+						$this->applyPutTaskValidators($input);
+					
+						if(!$input->isValid)
+						{
+							$input->addValidator(new AMErrorValidator('error', 'Invalid Task') );
+							$this->hydrateErrors($input, $response);
+							echo json_encode($response);
+							exit;
+						}
+					
+						$annotation = new YSSTask();
+						
+						if($input->status)
+							$annotation->status = $input->status;
+							
+						if($input->assigned_to)
+							$annotation->assigned_to = $input->assigned_to;
+								
+						if($input->priority)
+							$annotation->priority = $input->priority;
+					}
+				
+					if(!$annotation) $annotation = new YSSNote();
+				
+					if($input->context)
+						$annotation->context = $input->context;
+						
+					
+					$annotation->label = $input->label;
+					$annotation->description = $input->description;
+					$annotation->x = $input->x;
+					$annotation->y = $input->y;
+					
+					if($state->addAnnotation($annotation))
+					{
+						$response->ok = true;
+						$response->id = $annotation->_id;
+					}
+					else
+					{
+						$input->addValidator(new AMErrorValidator('error', 'Unable to save annotation') );
+						$this->hydrateErrors($input, $response);
+					}
+				}
+				else
+				{
+					$input->addValidator(new AMErrorValidator('error', 'Unable to save annotation') );
+					$this->hydrateErrors($input, $response);
+				}
+			}
+			else
+			{
+				$input->addValidator(new AMErrorValidator('error', 'Invalid state') );
+				$this->hydrateErrors($input, $response);
+			}
 		}
+		
+		echo json_encode($response);
 	}
 	
 	
@@ -145,9 +226,7 @@ class YSSServiceAnnotations extends YSSService
 		$view_id    = YSSUtils::transform_to_id($view_id);
 		$state_id   = YSSUtils::transform_to_id($state_id);
 		
-		$isNew      = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
-		
-		$data                  = $_POST;//json_decode(file_get_contents('php://input'), true);
+		$data                  = $_POST;
 		$data['view_id']       = $view_id;
 		$data['project_id']    = $project_id;
 		$data['state_id']      = $state_id;
@@ -184,13 +263,6 @@ class YSSServiceAnnotations extends YSSService
 		
 		$response->ok = true;
 		echo json_encode($response);
-	}
-	
-	public function generateReport()
-	{
-		$session  = YSSSession::sharedSession();
-		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		echo $database->formatList("project/view-aggregate", "view-report", null, true);
 	}
 }
 

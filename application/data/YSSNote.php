@@ -1,8 +1,6 @@
 <?php
-class YSSNote extends YSSCouchObject
+class YSSNote extends YSSAnnotation
 {
-	public $label;
-	public $description;
 	protected $type = "note";
 	
 	public static function projectWithJson($jsonString)

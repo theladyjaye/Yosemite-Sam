@@ -6,6 +6,7 @@ require 'application/data/YSSCouchObject.php';
 require 'application/data/YSSProject.php';
 require 'application/data/YSSView.php';
 require 'application/data/YSSState.php';
+require 'application/data/YSSAnnotation.php';
 require 'application/data/YSSTask.php';
 require 'application/data/YSSAttachment.php';
 
@@ -117,10 +118,10 @@ $s2->addAttachment($a2);
 $s3->addAttachment($a3);
 $p1->addAttachment($a4);
 
-$s1->addTask($t1);
-$s1->addTask($t2);
-$s1->addTask($t3);
-$s3->addTask($t4);
+$s1->addAnnotation($t1);
+$s1->addAnnotation($t2);
+$s1->addAnnotation($t3);
+$s3->addAnnotation($t4);
 
 $p3->save();
 ?>
