@@ -165,10 +165,10 @@ class YSSServiceProjects extends YSSService
 							                  'include_docs' => true);
 
 							$result        = $database->view("project/project-forward", $options, false);
-					
+							
 							$payload       = new stdClass();
 							$payload->docs = array();
-					
+							
 							foreach($result as $document)
 							{
 								$copy_id = $id.substr($document['_id'], strlen($project->_id));
@@ -187,7 +187,7 @@ class YSSServiceProjects extends YSSService
 									$result = $database->copy($document['_id'], $copy_id);
 									$attachment->_rev = $result['rev'];
 									
-									// include the new attachment ( we changed the path property above so we need to update)
+									// include the new attachment in the batch update ( we changed the path property above so we need to update)
 									$payload->docs[] = $attachment;
 								}
 								else

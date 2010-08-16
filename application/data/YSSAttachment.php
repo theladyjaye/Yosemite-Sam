@@ -66,8 +66,6 @@ class YSSAttachment extends YSSCouchObject
 			$session  = YSSSession::sharedSession();
 			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 			
-			// view labels can be more than 1 word long, which means translating - => / is going to fail 
-			// with labels > 1 word. So we have to take a more measured approach:
 			$data     = $database->document($file);
 			
 			if(isset($data['error']))

@@ -110,7 +110,7 @@ class YSSServiceViews extends YSSService
 				$session = YSSSession::sharedSession();
 				
 				$attachment        = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
-				$attachment->label = 'view';
+				$attachment->label = 'representation';
 				$attachment->_id   = $state->_id.'/attachment/'.YSSUtils::transform_to_id($attachment->label);
 				
 				if($state->addAttachment($attachment))
@@ -193,7 +193,7 @@ class YSSServiceViews extends YSSService
 									$result = $database->copy($document['_id'], $copy_id);
 									$attachment->_rev = $result['rev'];
 									
-									// include the new attachment ( we changed the path property above so we need to update)
+									// include the new attachment in the batch update ( we changed the path property above so we need to update)
 									$payload->docs[] = $attachment;
 								}
 								else

@@ -103,7 +103,8 @@ class YSSServiceStates extends YSSService
 			$session = YSSSession::sharedSession();
 			
 			$attachment = YSSAttachment::attachmentWithLocalFileInDomain($input->attachment->tmp_name, $session->currentUser->domain);
-			$attachment->label = $input->attachment->name;
+			$attachment->_id = $state->_id.'/attachment/representation';
+			$attachment->label = 'representation';
 			
 			if($state->addAttachment($attachment))
 			{
@@ -136,6 +137,12 @@ class YSSServiceStates extends YSSService
 			// update all applicable fields up to the label. Label gets special treatment
 			if($input->description)
 				$state->description = $input->description;
+				
+			
+			if($input->attachment->tmp_name)
+			{
+				$this->updateStateRepresenation($state, $input, $response);
+			}
 			
 			if($input->label)
 			{
@@ -183,7 +190,7 @@ class YSSServiceStates extends YSSService
 									$result = $database->copy($document['_id'], $copy_id);
 									$attachment->_rev = $result['rev'];
 									
-									// include the new attachment ( we changed the path property above so we need to update)
+									// include the new attachment in the batch update ( we changed the path property above so we need to update)
 									$payload->docs[] = $attachment;
 								}
 								else
@@ -276,12 +283,54 @@ class YSSServiceStates extends YSSService
 		}
 	}
 	
+	private function updateStateRepresenation(&$state, &$input, &$response)
+	{
+		$session    = YSSSession::sharedSession();
+		$attachment = YSSAttachment::attachmentWithIdInDomain($state->_id.'/attachment/representation', $session->currentUser->domain);
+		
+		if($attachment)
+		{
+			// user is giving us new data for a current attachment.  eg: overwrite old
+			if($input->attachment->tmp_name)
+			{
+				$attachment->setFile($input->attachment->tmp_name);
+				if($attachment->save())
+				{
+					YSSAttachment::saveAttachmentInDomain($attachment, $session->currentUser->domain);
+				}
+				else
+				{
+					$response->ok = false;
+					$input->addValidator(new AMErrorValidator('attachment', 'Error saving attachment') );
+					$this->hydrateErrors($input, $response);
+					echo json_encode($response);
+					exit;
+				}
+			}
+		}
+		else
+		{
+			// Something has gone very wrong.
+			// There should never be a state without an attachment representation
+			// if we have an orphan this is a problem, terminate any operation at this point
+			// thought: if there is no attachment should we just make a new one?
+			// my hesitation there is we end up with a situation were we have a ton of orphaned
+			// attachments if the error goes un checked.
+			
+			$response->ok = false;
+			$input->addValidator(new AMErrorValidator('attachment', 'No state representation found, please contact support.') );
+			$this->hydrateErrors($input, $response);
+			echo json_encode($response);
+			exit;
+		}
+	}
+	
 	public function updateState($project_id, $view_id, $state_id)
 	{
 		$response     = new stdClass();
 		$response->ok = false;
 		
-		$data               = $_POST;//json_decode(file_get_contents('php://input'), true);
+		$data                    = $_POST;//json_decode(file_get_contents('php://input'), true);
 		$data['project_id']      = YSSUtils::transform_to_id($project_id);
 		$data['view_id']         = YSSUtils::transform_to_id($view_id);
 		$data['state_id']        = YSSUtils::transform_to_id($state_id);

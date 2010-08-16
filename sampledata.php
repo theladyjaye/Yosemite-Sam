@@ -96,15 +96,15 @@ $v3->addState($s3);
 
 $a1          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
 $a1->label   = "Lorem ipsum dolor sit amet";
-$a1->_id     = $s1->_id.'/attachment/view';
+$a1->_id     = $s1->_id.'/attachment/representation';
 
 $a2          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
 $a2->label   = "Lorem ipsum dolor sit amet";
-$a2->_id     = $s2->_id.'/attachment/view';
+$a2->_id     = $s2->_id.'/attachment/representation';
 
 $a3          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
 $a3->label   = "Lorem ipsum dolor sit amet";
-$a3->_id     = $s3->_id.'/attachment/view';
+$a3->_id     = $s3->_id.'/attachment/representation';
 
 
 $a4          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/img/fpo-comp-thumb.jpg', $session->currentUser->domain);
