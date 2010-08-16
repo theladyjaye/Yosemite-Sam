@@ -31,13 +31,9 @@ class YSSServiceAnnotations extends YSSService
 				$this->addEndpoint("GET",    "/api/project/{project_id}/{view_id}/{state_id}/notes",               "getNotes");
 				$this->addEndpoint("GET",    "/api/project/{project_id}/{view_id}/{state_id}/annotations",         "getAnnotations");
 				break;
-			
-			case "PUT":
-				$this->addEndpoint("PUT",    "/api/project/{project_id}/{view_id}/{state_id}",      "updateView");
-				break;
-			
+				
 			case "POST":
-				$this->addEndpoint("POST",    "/api/project/{project_id}/{view_id}/{state_id}",     "updateView");
+				$this->addEndpoint("POST",    "/api/project/{project_id}/{view_id}/{state_id}/{annotation_id}", "updateView");
 				break;
 			
 			case "DELETE":
