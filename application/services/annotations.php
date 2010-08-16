@@ -33,7 +33,8 @@ class YSSServiceAnnotations extends YSSService
 				break;
 				
 			case "POST":
-				$this->addEndpoint("POST",    "/api/project/{project_id}/{view_id}/{state_id}/{annotation_id}", "updateView");
+				$this->addEndpoint("POST",    "/api/project/{project_id}/{view_id}/{state_id}/annotations",     "createAnnotation");
+				$this->addEndpoint("POST",    "/api/project/{project_id}/{view_id}/{state_id}/{annotation_id}", "updateAnnotation");
 				break;
 			
 			case "DELETE":
@@ -87,98 +88,84 @@ class YSSServiceAnnotations extends YSSService
 		echo $database->formatList("project/annotation-renderer", "annotations-report", $options, true);
 	}
 	
-	public function updateView($project_id, $view_id, $state_id)
+	private function applyBaseAnnotationValidators(&$input)
 	{
-		$project_id = YSSUtils::transform_to_id($project_id);
-		$view_id    = YSSUtils::transform_to_id($view_id);
-		$state_id   = YSSUtils::transform_to_id($state_id);
-		$isNew      = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
-		
+		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('state_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid state id. Expecting minimum 2 lowercase characters."));
+	}
+	
+	private function applyPostValidators(&$input)
+	{
+		$input->addValidator(new AMPatternValidator('annotation_id', AMValidator::kRequired, '/^[a-z0-9]{32}$/', "Invalid annotation id."));
+		$input->addValidator(new AMInputValidator('label', AMValidator::kOptional, 2, null, "Invalid label.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+	}
+	
+	private function applyPutValidators(&$input)
+	{
+		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		$input->addValidator(new AMPatternValidator('x', AMValidator::kRequired, '/^[\d]+$/', "Invalid x coordinate"));
+		$input->addValidator(new AMPatternValidator('y', AMValidator::kRequired, '/^[\d]+$/', "Invalid x coordinate"));
+	}
+	
+	public function createAnnotation($project_id, $view_id, $state_id)
+	{
 		$response     = new stdClass();
 		$response->ok = false;
 		
-		$data               = $_POST;//json_decode(file_get_contents('php://input'), true);
-		$data['view_id']    = $view_id;
-		$data['project_id'] = $project_id;
-		$data['state_id']   = $state_id;
+		$project_id = YSSUtils::transform_to_id($project_id);
+		$view_id    = YSSUtils::transform_to_id($view_id);
+		$state_id   = YSSUtils::transform_to_id($state_id);
+		
+		$data                  = $_POST;
+		$data['view_id']       = $view_id;
+		$data['project_id']    = $project_id;
+		$data['state_id']      = $state_id;
 		
 		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
 		$input   = AMForm::formWithContext($context);
 		
-		
-		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
-		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
-		$input->addValidator(new AMPatternValidator('state_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid state id. Expecting minimum 2 lowercase characters."));
-		
-		if($data['_rev'])
-		{
-			$input->addValidator(new AMPatternValidator('_rev', AMValidator::kRequired, '/^[\d]+-[a-z0-9]{32}+$/', "Invalid _rev."));
-		}
+		$this->applyBaseAnnotationValidators($input);
 		
 		if($input->isValid)
 		{
-			$project = YSSProject::projectWithId($input->project_id);
-			
-			if($project)
-			{
-				$view              = new YSSView();
-				$view->label       = $input->label;
-				$view->description = $input->description;
-				$view->_id         = $project->_id.'/'.$input->view_id;
-				
-				if($input->_rev)
-					$view->_rev = $input->_rev;
-			
-				if($view->save())
-				{
-					$state              = new YSSState();
-					$state->label       = YSSState::kDefault;
-					$state->description = YSSState::kDefault;
-					$state->_id         = $view->_id.'/'.YSSState::kDefault;
-					
-					$view->addState($state);
-					
-					$attachment = array('name'         => $input->attachment->name,
-					                    'path'         => $input->attachment->tmp_name);
-					
-					if($state->addAttachment($attachment))
-					{
-						$response->ok = true;
-					}
-					else
-					{
-						$response->errors = array();
-						$error = new stdClass();
-						$error->key = 'state';
-						$error->message = 'error';
-						$response->errors[] = $error;
-					}
-				}
-			}
-			else
-			{
-				$response->errors   = array();
-				$error              = new stdClass();
-				$error->key         = 'project_id';
-				$error->message     = "not_found";
-				$response->errors[] = $error;
-			}
+			$this->applyPutValidators($input);
 		}
-		else
+	}
+	
+	
+	public function updateAnnotation($project_id, $view_id, $state_id, $annotation_id)
+	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$project_id = YSSUtils::transform_to_id($project_id);
+		$view_id    = YSSUtils::transform_to_id($view_id);
+		$state_id   = YSSUtils::transform_to_id($state_id);
+		
+		$isNew      = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT' ? true : false;
+		
+		$data                  = $_POST;//json_decode(file_get_contents('php://input'), true);
+		$data['view_id']       = $view_id;
+		$data['project_id']    = $project_id;
+		$data['state_id']      = $state_id;
+		$data['annotation_id'] = $annotation_id;
+		
+		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
+		$input   = AMForm::formWithContext($context);
+		
+		$this->applyBaseAnnotationValidators($input);
+		
+		
+		if($input->isValid)
 		{
-			$response->errors = array();
+			$this->applyPostValidators();
 			
-			foreach($input->validators as $validator)
+			if($input->isValid)
 			{
-				if(!$validator->isValid)
-				{
-					$error = new stdClass();
-					$error->key = $validator->key;
-					$error->message = $validator->message;
-					$response->errors[] = $error;
-				}
+				
 			}
 		}
 		
