@@ -240,6 +240,10 @@ class YSSServiceAnnotations extends YSSService
 		
 		if($input->isValid)
 		{
+			// annotations can be of type task or note
+			// so get the array first, and then hydrate an object accordingly.
+			$raw_annotation;
+			
 			$this->applyPostValidators();
 			
 			if($input->isValid)
@@ -251,17 +255,61 @@ class YSSServiceAnnotations extends YSSService
 		echo json_encode($response);
 	}
 	
-	public function deleteAnnotation()
+	public function deleteAnnotation($project_id, $view_id, $state_id, $annotation_id)
 	{
-		/*
-			TODO Finish delete project logic.  Do we just mark as unused? Do we cascade down all of the associated tasks/comments/attachments/views?
-			just need to decide the best course of action.  Probably will be to delete everything, since it takes up resources to keep it around.
-		*/
-		
 		$response     = new stdClass();
 		$response->ok = false;
 		
-		$response->ok = true;
+		$project_id = YSSUtils::transform_to_id($project_id);
+		$view_id    = YSSUtils::transform_to_id($view_id);
+		$state_id   = YSSUtils::transform_to_id($state_id);
+		
+		$data                  = array();
+		$data['view_id']       = $view_id;
+		$data['project_id']    = $project_id;
+		$data['state_id']      = $state_id;
+		$data['annotation_id'] = $annotation_id;
+		
+		$context = array(AMForm::kDataKey=>$data);
+		$input   = AMForm::formWithContext($context);
+		
+		$this->applyBaseAnnotationValidators($input);
+		$input->addValidator(new AMPatternValidator('annotation_id', AMValidator::kRequired, '/^[a-z0-9]{32}$/', "Invalid annotation id."));
+		
+		if($input->isValid)
+		{
+			$session  = YSSSession::sharedSession();
+			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		
+			$annotation = $database->document('project/'.$project_id.'/'.$view_id.'/'.$state_id.'/'.$annotation_id);
+		
+			if($annotation && !isset($annotation['error']))
+			{
+				$result = $database->delete($annotation['_id'], $annotation['_rev']);
+			
+				if(isset($result['error']))
+				{
+					$input->addValidator(new AMErrorValidator('error', 'Unable to delete annotation') );
+					$this->hydrateErrors($input, $response);
+				}
+				else
+				{
+					$response->ok = true;
+					$response->id = $annotation['_id'];
+				}
+			}
+			else
+			{
+				$input->addValidator(new AMErrorValidator('error', 'Invalid annotation') );
+				$this->hydrateErrors($input, $response);
+			}
+		}
+		else
+		{
+			$input->addValidator(new AMErrorValidator('error', 'Invalid annotation') );
+			$this->hydrateErrors($input, $response);
+		}
+		
 		echo json_encode($response);
 	}
 }
