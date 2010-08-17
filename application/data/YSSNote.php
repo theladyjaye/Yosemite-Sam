@@ -3,7 +3,12 @@ class YSSNote extends YSSAnnotation
 {
 	protected $type = "note";
 	
-	public static function projectWithJson($jsonString)
+	public static function noteWithArray($array)
+	{
+		return YSSNote::hydrateWithArray($array);
+	}
+	
+	public static function noteWithJson($jsonString)
 	{
 		return YSSNote::hydrateWithArray(json_decode($jsonString, true));
 	}

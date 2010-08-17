@@ -16,6 +16,11 @@ class YSSTask extends YSSAnnotation
 	// YSSSecurity::generate_token($salt) = this->_id;
 	// see YSSState::addTask;
 	
+	public static function taskWithArray($array)
+	{
+		return YSSTask::hydrateWithArray($array);
+	}
+	
 	public static function taskWithJson($jsonString)
 	{
 		return YSSTask::hydrateWithArray(json_decode($jsonString, true));

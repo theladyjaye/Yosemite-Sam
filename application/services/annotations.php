@@ -102,6 +102,8 @@ class YSSServiceAnnotations extends YSSService
 		$input->addValidator(new AMInputValidator('label', AMValidator::kOptional, 2, null, "Invalid label.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMPatternValidator('context', AMValidator::kOptional, '/^[\w\d -]+$/', "Invalid context"));
+		$input->addValidator(new AMPatternValidator('x', AMValidator::kOptional, '/^[\d]+$/', "Invalid x coordinate"));
+		$input->addValidator(new AMPatternValidator('y', AMValidator::kOptional, '/^[\d]+$/', "Invalid x coordinate"));
 	}
 	
 	private function applyPutValidators(&$input)
@@ -115,6 +117,15 @@ class YSSServiceAnnotations extends YSSService
 	}
 	
 	private function applyPutTaskValidators(&$input)
+	{
+		$input->addValidator(new AMPatternValidator('assigned_to', AMValidator::kOptional, '/^[\w\d -]{2,}$/', "Invalid asignee"));
+		$input->addValidator(new AMPatternValidator('status', AMValidator::kOptional, '/^[01]$/', "Invalid status.  Expecting 0 or 1"));
+		$input->addValidator(new AMPatternValidator('priority', AMValidator::kOptional, '/^[0-9]$/', "Invalid priority.  Expecting 0-9"));
+		//$input->addValidator(new AMPatternValidator('group', AMValidator::kOptional, '/^[01]$/', "Invalid status.  Expecting 0 or 1"));
+		//$input->addValidator(new AMPatternValidator('estimate', AMValidator::kOptional, '/^[0-9]$/', "Invalid priority.  Expecting 0-9"));
+	}
+	
+	private function applyPostTaskValidators(&$input)
 	{
 		$input->addValidator(new AMPatternValidator('assigned_to', AMValidator::kOptional, '/^[\w\d -]{2,}$/', "Invalid asignee"));
 		$input->addValidator(new AMPatternValidator('status', AMValidator::kOptional, '/^[01]$/', "Invalid status.  Expecting 0 or 1"));
@@ -137,7 +148,7 @@ class YSSServiceAnnotations extends YSSService
 		$data['project_id']    = $project_id;
 		$data['state_id']      = $state_id;
 		
-		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
+		$context = array(AMForm::kDataKey=>$data);
 		$input   = AMForm::formWithContext($context);
 		
 		$this->applyBaseAnnotationValidators($input);
@@ -232,14 +243,14 @@ class YSSServiceAnnotations extends YSSService
 		$data['state_id']      = $state_id;
 		$data['annotation_id'] = $annotation_id;
 		
-		$context = array(AMForm::kDataKey=>$data, AMForm::kFilesKey=>$_FILES);
+		$context = array(AMForm::kDataKey=>$data);
 		$input   = AMForm::formWithContext($context);
 		
 		$this->applyBaseAnnotationValidators($input);
 		
 		if($input->isValid)
 		{
-			$this->applyPostValidators();
+			$this->applyPostValidators($input);
 			
 			if($input->isValid)
 			{
@@ -252,12 +263,120 @@ class YSSServiceAnnotations extends YSSService
 				
 				if($raw_annotation && !isset($raw_annotation['error']))
 				{
-					//determine if it's a task or a note and hydrate an object accordingly;
+					$type       = $raw_annotation['type'];
+					switch($type)
+					{
+						case 'task':
+							$this->updateTask($raw_annotation, $input, $response);
+							break;
+						
+						case 'note':
+							$this->updateNote($raw_annotation, $input, $response);
+							break;
+					}
 				}
 			}
 		}
 		
 		echo json_encode($response);
+	}
+	
+	private function updateTask(&$array, &$input, &$response)
+	{
+		$this->applyPostTaskValidators($input);
+		
+		if($input->isValid)
+		{
+			$dirty = false;
+			$annotation       = YSSTask::taskWithArray($array);
+			$initial_checksum = md5($annotation->__toString());
+			$final_checksum   = null;
+			
+			$this->updateBaseAnnotation($annotation, $input, $response);
+			
+			if($input->assigned_to && $annotation->assigned_to != $input->assigned_to)
+				$annotation->assigned_to = $input->assigned_to;
+		
+			if($input->status && $annotation->status != $input->status)
+				$annotation->status = $input->status;
+			
+			if($input->priority && $annotation->priority != $input->priority)
+				$annotation->priority = $input->priority;
+			
+			
+			$final_checksum = md5($annotation->__toString());
+			
+			// dirty?
+			if($initial_checksum != $final_checksum)
+			{
+				if($annotation->save())
+				{
+					$response->ok = true;
+					$response->id = $annotation->_id;
+				}
+				else
+				{
+					$input->addValidator(new AMErrorValidator('error', 'Could not save task') );
+					$this->hydrateErrors($input, $response);
+				}
+			}
+			else
+			{
+				$response->ok = true;
+				$response->id = $annotation->_id;
+			}
+		}
+	}
+	
+	private function updateNote(&$array, &$input, &$response)
+	{
+		$annotation = YSSNote::noteWithArray($array);
+		
+		$initial_checksum = md5($annotation->__toString());
+		$final_checksum   = null;
+		
+		$this->updateBaseAnnotation($annotation, $input, $response);
+		
+		$final_checksum = md5($annotation->__toString());
+		
+		// dirty?
+		if($initial_checksum != $final_checksum)
+		{
+			if($annotation->save())
+			{
+				$response->ok = true;
+				$response->id = $annotation->_id;
+			}
+			else
+			{
+				$input->addValidator(new AMErrorValidator('error', 'Could not save note') );
+				$this->hydrateErrors($input, $response);
+			}
+		}
+		else
+		{
+			$response->ok = true;
+			$response->id = $annotation->_id;
+		}
+	}
+	
+	private function updateBaseAnnotation(&$annotation, &$input, &$response)
+	{
+		
+		if($input->label && $annotation->label != $input->label)
+			$annotation->label = $input->label;
+		
+		if($input->description && $annotation->description != $input->description)
+			$annotation->description = $input->description;
+			
+		if($input->context && $annotation->context != $input->context)
+			$annotation->context = $input->context;
+		
+		if($input->x && $annotation->x != $input->x)
+			$annotation->x = $input->x;
+		
+		if($input->y && $annotation->y != $input->y)
+			$annotation->y = $input->y;
 	}
 	
 	public function deleteAnnotation($project_id, $view_id, $state_id, $annotation_id)
