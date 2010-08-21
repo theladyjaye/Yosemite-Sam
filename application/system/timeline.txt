@@ -1,36 +1,46 @@
 Timeline
 ===================
 
--- August 15 --
-[AV]      Models and API Finished (Projects/Views/States/Notes/Tasks)
-[AV PT]   Finalize list of possible names - Pick top 5 
-[PT]      Sign up/Log in Page Complete
-
 -- August 22 --
-[AV PT]   Project Name is decided
-[PT]      Branding and skinning starts
-[PT]      Projects/Views/States/Notes/Tasks Services integrated in UI
-[AV PT]   User Levels and their visibility is determined and integrated in UI
+[PT]      UI/Serivce Integration Continues
+[AV]   	  STARTING:  Task Group Logic, Estimates, Priority, and Status to Task API
+
 
 -- September 5 --
-[AV]      Add Estimates, Priority, and Status to Task API 
-[AV]      Commenting API Service for Views/States/Notes/Tasks
-[PT]      Branding and skinning completed (all UI elements)
-[AV PT]   Alpha - Place Project itself inside application and start testing
+[AV]      COMPLETED: Task Group Logic, Estimates, Priority, and Status to Task API
+[PT]      COMPLETED: UI finished for all logged in pages and all services integrated to date
+
+[AV]      STARTING:  Commenting API Service for Views/States/Notes/Tasks
+[PT]	  STARTING:  "The Wall", integrating task group logic, estimates, priority, and task status 
+
+[AV PT]   ** MILESTONE: Alpha ** - Place Project itself inside application and start testing
+
 
 -- September 12 --
-[PT]      Estimates, Priority, and Status to Task integrated in UI
-[PT]      Commenting Service Integrated
-[AV PT]   PDF Report Generation Started
+[AV]	  COMPLETED: Commenting API for Views/States/Notes/Tasks
+[PT]      COMPLETED: Task Groups, Estimates, Priority, and Status to Task integrated in UI
+
+[AV PT]	  STARTING:  PDF Report Generation
+[PT]      STARTING:  Commenting Service Integration
+[PT]	  STARTING:  Non-logged in pages (homepage, tour, buzz, contact, video?)
+
 
 -- September 19 --
-[AV PT]   Project Export/Import to custom zip file
-[PT]      Project Export/Import integrated in UI
+[PT]	  COMPLETED: "The Wall"
+[PT]	  COMPLETED: Commenting API Service Integration
+
+[AV PT]   STARTING:  Project Export/Import to custom zip file
+
 
 -- September 26 --
-[PT]      PDF Report Generation Completed and accessible in UI
-[AV PT]   Beta
-[PT]      Landing Page Complete with information/features/video about Project
+[AV PT]	  COMPLETED: Project Export/Import to custom zip file
+[AV PT]   COMPLETED: PDF Report Generation Completed and accessible in UI
+[PT]	  COMPLETED: Non-logged in pages
+
+[AV PT]	  STARTING:  QA
+
+[AV PT]   ** MILESTONE: Beta **
+
 
 -- October 3 --
 [AV PT]   Launch
