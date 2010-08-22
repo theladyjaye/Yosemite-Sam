@@ -4,6 +4,8 @@
 <head>
 	<meta charset="utf-8" />
 	<title>peeq</title>
+	<link rel="shortcut icon" href="" />
+	<link rel="apple-touch-icon" href="" />
 	<link rel="stylesheet" href="resources/css/style.css" />
 </head>
 <body>

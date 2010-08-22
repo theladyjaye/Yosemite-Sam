@@ -5,3 +5,48 @@ RedirectMatch 404 ^/resources/attachments(/?|/.*)$
 #	Deny from all
 #	Satisfy All
 #</FilesMatch>
+
+# Disable ETags
+Header unset ETag  
+FileETag None
+
+# Cache files
+ExpiresActive On
+ExpiresDefault A0
+
+<FilesMatch "\.(gif|jpg|jpeg|png|swf|template)$">
+# 2 weeks
+ExpiresDefault A1209600
+Header append Cache-Control "public"
+</FilesMatch>
+
+<FilesMatch "\.(xml|txt|html)$">
+# 2 hours
+ExpiresDefault A7200
+Header append Cache-Control "proxy-revalidate"
+</FilesMatch>
+
+<FilesMatch "\.(js|css)$">
+# 3 days
+ExpiresDefault A259200
+Header append Cache-Control "proxy-revalidate"
+</FilesMatch>
+
+# Secure .htaccess file
+<Files .htaccess>  
+	Order Allow,Deny  
+	Deny from all  
+</Files>
+
+# gzip
+<ifmodule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+</ifmodule>
+
+
+# Suppress PHP Erros
+#php_flag display_startup_errors off  
+#php_flag display_errors off  
+#php_flag html_errors off  
+#php_value docref_root 0  
+#php_value docref_ext 0
