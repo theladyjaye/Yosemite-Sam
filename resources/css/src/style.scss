@@ -1,0 +1,162 @@
+@import "reset";
+@import "config";
+@import "helper";
+
+// BASE
+body {font: 14px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif; color: $color_dark_gray; background: #FCFCFB; overflow-x: hidden;}
+    a {text-decoration: none; @include transition(all, 0.15s, ease-out);}
+    a:active {position: relative; top: 1px;}
+	ul {list-style: none;}
+	hr {clear: both;}
+	hr.thick {border-width: 6px; border-color: #000;}
+#main {position: relative; margin: 0 auto; width: $wrap_width; padding-bottom: 20px; opacity: 0;}
+// END BASE 
+
+// BG
+#bg {background: url('../imgs/bg-vignette-top-left.png') top left no-repeat, url('../imgs/bg-vignette-top-right.png') top right no-repeat, url('../imgs/bg-vignette-bottom-left.png') bottom left no-repeat, url('../imgs/bg-vignette-bottom-right.png') bottom right no-repeat, url('../imgs/bg-vignette-top.png') top center repeat-x, url('../imgs/bg-vignette-bottom.png') bottom center repeat-x, url('../imgs/bg-vignette-left.png') left center repeat-y, url('../imgs/bg-vignette-right.png') right center repeat-y; @include backgroundsize(465px, 130px); bottom: 0; left: 0; position: fixed; right: 0; top: 0; z-index: -1; min-height: 800px;}
+    #bg img {position: absolute; left: 50%; margin-left: -600px;}
+// END BG
+
+// HEADER
+header {position: relative; width: 100%; background: #20211f; height: $header_height; @include boxshadow(#000, 1px, 0, 5px);}
+    header .peeq {line-height: $header_height + 10; margin-left: 20px; position: relative; width: 81px; height: 60px; display: block; float: left; letter-spacing: -1.8px; font-size: 40px;}
+    header section {float: right; height: $header_height; margin-right: 20px;}
+        header h1 {float: left; display: inline; color: $color_light_white; font-size: 24px; line-height: $header_height; font-weight: normal;}
+        header h1.username {font-style: italic; letter-spacing: -0.8px;}
+            header h1 a {color: $color_light_yellow; @include transition(color, 0.15s, ease-out);
+                    &:hover {color: $color_light_pink;}
+                }
+        header nav {float: left; display: inline; margin-left: 30px; height: $header_height;}
+            header nav li {float: left; display: inline; font-size: 18px; font-weight: bold; line-height: $header_height;}
+            header nav a {color: $color_light_white; padding: 5px 10px;
+                    &:hover {@include corner(5px); background: $color_light_blue;}
+                }        
+            header nav .logout a {color: $color_light_gray;
+                    &:hover {color: #fff;};
+                }
+// END HEADER
+
+// COLUMNS
+#main .column {margin-top: $column_gap * 2;}
+
+.column {float: left; display: inline; width: $column_width; margin-right: $column_gap;}
+.column.sidebar {width: $sidebar_width; margin-right: 0;}
+.column.wide {width: $wrap_width;}
+.column nav {height: 40px; float: left; width: 100%;}
+.column .column-body {float: left; clear: both; background: #fff; @include corner(); @include boxshadow(rgba(0, 0, 0, 0.2), 0, 0, 1px); width: 100%; margin-top: 2px; padding: 25px 0;}
+	.column .column-body li {width: 580px; height: 140px; margin: 0 auto; padding: 25px 0; border-bottom: 1px solid rgba(32, 33, 31, 0.1); border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff; padding-bottom: 25px;
+			&:hover {@include lineargradient(#fcfcfc, #f8faf3); @include corner(); border: 1px solid rgba(32, 33, 31, 0.2);}
+			&:last-child {border-color: #fff}
+			&:hover:last-child {border: 1px solid rgba(32, 33, 31, 0.2);}
+		}
+	
+	.column-item-left {width: 170px; height: 100%; border-right: 1px solid rgba(32, 33, 31, 0.1); margin: 0 auto; float: left; display: inline; text-align: center;}
+	.column-item-right {border-left: 1px solid #fff; height: 100%; padding: 0 20px; float: left; width: 365px; position: relative; z-index: 3;}
+
+	// column none
+	.column.none .column-body {height: 386px;}
+		.column.none p {padding: 25px 0; margin: 0 auto; width: 580px; font-size: 24px; font-style: italic;}
+		.column.none p a:hover {color: $color_light_pink;}
+	// end column none
+
+	.column-item-right h3 {font-size: 48px; color: $color_dark_gray; font-weight: normal; letter-spacing: -2px;}
+	.column-item-right .meta {font-size: 14px;}
+	.column-item-right .author {color: $color_light_gray;
+			&:hover {color: $color_light_blue;}
+		}
+	
+	.column-item-right .excerpt {margin-top: 5px; line-height: 18px;}
+	.column-item-right .stats {position: absolute; right: 0; top: 9px; padding: 4px 8px; width: 65px; @include corner(); background: #f2f2f2;}
+		.column-item-right .stats p {text-align: right;}
+
+
+	// SIDEBAR
+	.sidebar .column-body {padding: 25px 0;}
+		.sidebar .column-body-inner {width: 290px; margin: 0 auto}
+			.sidebar .company-logo {height: 138px; width: 290px; background: $color_off_white; display: table-cell; text-align: center; vertical-align: middle;}
+				.sidebar .company-logo * {vertical-align: middle;}
+				.sidebar .company-logo span {display: inline-block; height: 100%; width: 1px;}
+			
+			.sidebar .company-meta {}
+				.sidebar .company-meta .domain {color: #000; font-size: 18px;}
+				.sidebar .company-meta .timestamp {}
+			
+				.sidebar dl {font-size: 18px; margin-bottom: 10px; float: left; line-height: 28px;}
+					.sidebar dt {width: 140px; clear: left; float: left; display: inline;}
+					.sidebar dd {float: left}
+	// END SIDEBAR
+	
+
+// END COLUMNS
+
+// PIE CHART 
+.pie-chart {position: relative; z-index: 2; top: -30px; left: -15px;}
+.pie-chart .table {display: none;}
+// END PIE CHART
+
+// FOOTER
+footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; position: relative; width: 100%; padding-bottom: 20px; margin-top: 60px; opacity: 0;}
+	footer p {float: left;}
+	footer nav {float: right;}
+		footer nav li {float: left; display: inline; margin-left: 5px}
+			footer nav a {color: $color_dark_gray;}
+// END FOOTER
+
+
+// UTILITIES
+.peeq {color: $color_light_pink;}
+.complete {color: $color_light_pink;}
+.incomplete {color: $color_light_blue;}
+.wrap {width: $wrap_width; margin: 0 auto;}
+.timestamp {color: #aaa; font-style: italic;}
+.left {float: left;}
+.right {float: right;}
+.clearboth {clear: both;}
+
+.btn {height: 25px; display: block; @include lineargradient(#494949, #20211f); @include boxshadow(rgba(0, 0, 0, 0.6), 0, 0, 1px); @include corner(3px); padding: 5px 10px; color: #fff; text-transform: uppercase; font-weight: bold; font-size: 15px; line-height: 25px;
+		&:hover {@include lineargradient(#555, #20211f); @include boxshadow(rgba(0, 0, 0, 0.8), 0, 0, 1px);};
+	}
+
+.btn.btn-delete {@include lineargradient(#e91616, #af0808);
+		&:hover {@include lineargradient(#ff0000, #af0808);}
+	}
+
+.btn.btn-back:before {content: '\AB'; color: $color_light_yellow; padding-right: 4px}
+.btn.btn-add:before {content: '+'; color: $color_light_yellow; padding-right: 4px}
+// END UTILITIES
+
+// ICONS
+.icon {background: url('../imgs/sprite-icons.png') no-repeat; width: 15px; height: 17px; float: left; display: block;}
+.icon.icon-view {background-position: 0 3px}
+.icon.icon-task {background-position: -19px 0}
+.icon.icon-note {background-position: -37px 0}
+.icon.icon-state {background-position: -54px 0}
+.icon.icon-state-large {background-position: -72px 0; width: 20px; height: 20px;}
+.icon.icon-success {background-position: -108px 0}
+.icon.icon-error {background-position: -126px 0}
+.icon.icon-trash {background-position: 0 -18px;}
+.icon.icon-pencil {background-position: -18px -18px;}
+.icon.icon-add {background-position: -36px -18px;}
+.icon.icon-pdf {background-position: 0 -36px; width: 17px; height: 20px;}
+.icon.icon-pdf-off {background-position: 0 -72px; width: 17px; height: 20px;}
+.icon.icon-jpg {background-position: -19px -36px; width: 17px; height: 20px;}
+.icon.icon-jpg-off {background-position: -19px -72px; width: 17px; height: 20px;}
+.icon.icon-xml {background-position: -37px -36px; width: 17px; height: 20px;}
+.icon.icon-xml-off {background-position: -37px -72px; width: 17px; height: 20px;}
+.icon.icon-css {background-position: -54px -36px; width: 17px; height: 20px;}
+.icon.icon-css-off {background-position: -54px -72px; width: 17px; height: 20px;}
+.icon.icon-doc {background-position: -72px -36px; width: 17px; height: 20px;}
+.icon.icon-doc-off {background-position: -72px -72px; width: 17px; height: 20px;}
+.icon.icon-js {background-position: -90px -36px; width: 17px; height: 20px;}
+.icon.icon-js-off {background-position: -90px -72px; width: 17px; height: 20px;}
+.icon.icon-html {background-position: -108px -36px; width: 17px; height: 20px;}
+.icon.icon-html-off {background-position: -108px -72px; width: 17px; height: 20px;}
+.icon.icon-php {background-position: -126px -36px; width: 17px; height: 20px;}
+.icon.icon-php-off {background-position: -126px -72px; width: 17px; height: 20px;}
+
+// END ICONS
+
+
+
+
+

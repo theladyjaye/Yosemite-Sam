@@ -1,0 +1,59 @@
+@mixin boxshadow($color:#000, $x:0, $y:0, $size:2px, $inset:false) 
+{
+    $full: $x $y $size $color;
+    @if $inset == 'inset' 
+    {
+        $full: $full $inset;
+    }
+    -moz-box-shadow:    $full;
+    -webkit-box-shadow: $full;
+    box-shadow:         $full;
+}
+
+@mixin lineargradient($color1, $color2)
+{
+    background:       $color1;
+    @if $color2
+    {
+        background-image: -webkit-gradient(linear, left top, left bottom, from($color1), to($color2));
+        background-image: -moz-linear-gradient(top, $color1, $color2);
+    }
+}
+
+@mixin radialgradient($color1, $color2, $anchor:left)
+{
+	background: $color1;
+	background-image: -moz-radial-gradient($anchor 45deg, circle closest-corner, $color1 10%, $color2 100%); 
+	background-image: -webkit-gradient(radial, $anchor center, 10, $anchor center, 150, from($color1), to($color2));
+}
+
+@mixin corner($radius:5px)
+{
+    -wekit-border-radius:   $radius;
+    -moz-border-radius:     $radius;
+    -o-border-radius:       $radius;
+    -ms-border-radius:      $radius;
+    -khtml-border-radius:   $radius;
+    border-radius:          $radius;
+}
+
+@mixin transition($prop:all, $secs:.15s, $easing:ease-in-out)
+{
+    -webkit-transition: $prop $secs $easing;
+    -moz-transition:    $prop $secs $easing; 
+    -o-transition:      $prop $secs $easing;
+    transition:         $prop $secs $easing;
+}
+
+@mixin backgroundsize($width, $height)
+{
+    $full: $width $width;
+    @if $height
+    {
+        $full: $width $height;
+    }
+    
+    -moz-background-size:	 	$full;
+    -o-background-size:			$full;
+	-webkit-background-size: 	$full;
+}

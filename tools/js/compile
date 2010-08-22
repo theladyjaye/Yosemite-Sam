@@ -2,25 +2,25 @@
 
 # to run: sh compile
 
-#head file
-head_file=../../application/templates/head.php
+#index file
+index_file=../../index.php
 
 #js compressed output file
-js_output_file=script.min.js
+js_output_file=../../resources/js/script.min.js
 # js compiler (currently closeure)
 compiler=`pwd`/compiler.jar
 
 #search for resources/js/src/(\w\d-/.).js
 pattern="resources\/js\/src\/\(\w\|\d\|-\|/\|\.\)*.js"
 
-#search in head.php for script src includes that match pattern
+#search in index.php for script src includes that match pattern
 #use matches to build command
-for file in `grep -o $pattern $head_file` ; do
+for file in `grep -o $pattern $index_file` ; do
 	scripts="$scripts --js=../../$file"
 done
 
 #build java command to compile scripts using closure compiler
-cmd="java -jar $compiler $scripts --js_output_file=../$js_output_file"
+cmd="java -jar $compiler $scripts --js_output_file=$js_output_file"
 #for debugging
 #echo $cmd
 
