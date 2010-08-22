@@ -49,13 +49,33 @@ class YSSServiceGroups extends YSSService
 		}
 	}
 	
-	public function getTasksInGroup($id)
+	public function getTasksInGroup($project_id, $group_id)
 	{
+		echo "getTasksInGroup: ", $project_id, "in group: ", $group_id;exit;
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		echo $database->document($id, true);
 	}
 	
+	public function createGroup($project_id)
+	{
+		echo "createGroup: ", $project_id;exit;
+	}
+	
+	public function updateGroup($project_id, $group_id)
+	{
+		echo "updateGroup: ", $project_id, "in group: ",$group_id ;exit;
+	}
+	
+	public function deleteGroup($project_id, $group_id)
+	{
+		echo "deleteGroup: ", $project_id, "in group: ",$group_id ;exit;
+	}
+	
+	public function deleteTask($project_id, $group_id)
+	{
+		echo "createGroup: ", $project_id, "in group: ",$group_id ;exit;
+	}
 	
 	private function applyBaseStateValidators(&$input)
 	{
@@ -360,22 +380,6 @@ class YSSServiceGroups extends YSSService
 		}
 		
 		echo json_encode($response);
-	}
-	
-	private function hydrateErrors(&$input, &$response)
-	{
-		$response->errors = array();
-		
-		foreach($input->validators as $validator)
-		{
-			if(!$validator->isValid)
-			{
-				$error = new stdClass();
-				$error->key = $validator->key;
-				$error->message = $validator->message;
-				$response->errors[] = $error;
-			}
-		}
 	}
 	
 	public function deleteState($project_id, $view_id, $state_id)

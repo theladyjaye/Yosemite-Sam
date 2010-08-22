@@ -327,22 +327,6 @@ class YSSServiceViews extends YSSService
 		echo json_encode($response);
 	}
 	
-	private function hydrateErrors(&$input, &$response)
-	{
-		$response->errors = array();
-		
-		foreach($input->validators as $validator)
-		{
-			if(!$validator->isValid)
-			{
-				$error = new stdClass();
-				$error->key = $validator->key;
-				$error->message = $validator->message;
-				$response->errors[] = $error;
-			}
-		}
-	}
-	
 	public function deleteView($project_id, $view_id)
 	{
 		$response     = new stdClass();
