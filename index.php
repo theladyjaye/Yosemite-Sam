@@ -30,6 +30,9 @@
 			
 		</article>
 	</div>
+	<div id="network-connectivity">
+		<p class="icon icon-offline" title="You are offline"></p>
+	</div>
 	<footer>
 		<section class="wrap">
 			<p>Copyright &copy; 2010 <a href="/" class="peeq">peeq</a>. All rights reserved.</p>
@@ -53,6 +56,7 @@
 	<script src="resources/js/src/jquery/plugins/jquery.tmpl.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.render_template.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.transition.js"></script>
+	<script src="resources/js/src/jquery/plugins/jquery.polling.js"></script>
 	<script src="resources/js/src/sammy/sammy.min.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.cache.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.json.js"></script>

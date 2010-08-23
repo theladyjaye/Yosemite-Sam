@@ -73,7 +73,7 @@ header {position: relative; width: 100%; background: #20211f; height: $header_he
 	// SIDEBAR
 	.sidebar .column-body {padding: 25px 0;}
 		.sidebar .column-body-inner {width: 290px; margin: 0 auto}
-			.sidebar .company-logo {height: 138px; width: 290px; background: $color_off_white; display: table-cell; text-align: center; vertical-align: middle;}
+			.sidebar .company-logo {height: 138px; width: 290px; background: $color_light_white; display: table-cell; text-align: center; vertical-align: middle;}
 				.sidebar .company-logo * {vertical-align: middle;}
 				.sidebar .company-logo span {display: inline-block; height: 100%; width: 1px;}
 			
@@ -102,6 +102,10 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 			footer nav a {color: $color_dark_gray;}
 // END FOOTER
 
+// NETWORK CONNECTIVITY
+#network-connectivity {position: fixed; bottom: -33px; right: 10px; width: 30px; height: 30px; background: $color_light_white; border-top: 1px solid #fff; border-right: 1px solid #fff; color: $color_dark_red; text-align: center; line-height: 30px; @include corner(); @include boxshadow(rgba(0, 0, 0, 0.3), 0, 0, 2px);}
+	#network-connectivity p {text-indent: -9999px; margin: 6px 0 0 5px;}
+// END NETWORK CONNECTIVITY
 
 // UTILITIES
 .peeq {color: $color_light_pink;}
@@ -117,8 +121,8 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 		&:hover {@include lineargradient(#555, #20211f); @include boxshadow(rgba(0, 0, 0, 0.8), 0, 0, 1px);};
 	}
 
-.btn.btn-delete {@include lineargradient(#e91616, #af0808);
-		&:hover {@include lineargradient(#ff0000, #af0808);}
+.btn.btn-delete {@include lineargradient($color_light_red, $color_dark_red);
+		&:hover {@include lineargradient(#ff0000, $color_dark_red);}
 	}
 
 .btn.btn-back:before {content: '\AB'; color: $color_light_yellow; padding-right: 4px}
@@ -137,6 +141,7 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 .icon.icon-trash {background-position: 0 -18px;}
 .icon.icon-pencil {background-position: -18px -18px;}
 .icon.icon-add {background-position: -36px -18px;}
+.icon.icon-offline {background-position: -54px -18px; width: 19px; height: 18px;}
 .icon.icon-pdf {background-position: 0 -36px; width: 17px; height: 20px;}
 .icon.icon-pdf-off {background-position: 0 -72px; width: 17px; height: 20px;}
 .icon.icon-jpg {background-position: -19px -36px; width: 17px; height: 20px;}

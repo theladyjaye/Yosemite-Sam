@@ -15,12 +15,13 @@ function peeq()
 			// projects
 			this.get("", function(context) {			
 				peeq.api.request("/projects", {}, "get", function(data) {
-					var data = data || {};
-					
+					var data = data || {},
+						storage_key = "blitz.projects";
+
 					// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
-					if(!navigator.onLine)
+					if(!peeq.is_online)
 					{
-						data = context.session('blitz.projects', function() {
+						data = context.session(storage_key, function() {
 							return {};
 						});					
 					}
@@ -39,7 +40,7 @@ function peeq()
 					});	
 			
 					// store data
-					context.session('blitz.projects', data);					
+					context.session(storage_key, data);					
 				});		
 			})
 			// views
@@ -76,8 +77,33 @@ function peeq()
 		
 	};	
 	
+	// checking every 500ms for network connection
+	var poll_network_connectivity = function() 
+	{
+		$.polling(500, function(check_again) {
+			if(this.is_online != navigator.onLine)
+			{
+				this.is_online = navigator.onLine;
+				if(navigator.onLine) // online => hide #network-connectivity
+				{
+					$("#network-connectivity:visible").animate({
+						"bottom": "-30px"
+					}, 200, "easeOutBack");
+				}
+				else // offline => show #network-connectivity
+				{
+					$("#network-connectivity").animate({
+						"bottom": "-3px"
+					}, 200, "easeOutBack");
+				}
+			}
+			check_again();
+		});
+	}
 	
-	// PUBLIC --------------------------------	
+	// PUBLIC --------------------------------
+	this.is_online = navigator.onLine;
+		
 	this.main = function() 
 	{
 		// setup routes
@@ -87,6 +113,9 @@ function peeq()
 		
 		// transition in footer
 		transition_in_footer();
+		
+		// setup polling for online/offline connectivity
+		poll_network_connectivity();
 	};
 	
 	this.onload = function()
