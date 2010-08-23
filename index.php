@@ -1,3 +1,4 @@
+<?php require 'application/system/YSSEnvironment.php'; ?>
 <!DOCTYPE HTML>
 <? //<html manifest="peeq.cache">?>
 <html>
@@ -40,8 +41,9 @@
 			</nav>
 		</section>
 	</footer>
+	<?if("release" == YSSConfiguration::applicationConfiguration()):?>
 	<script src="resources/js/script.min.js"></script>
-	<? /*
+	<?else:?>
 	<script src="resources/js/src/raphael/raphael.js"></script>
 	<script src="resources/js/src/jquery/jquery.js"></script>
 	<script src="resources/js/src/raphael/plugins/raphael.piechart.js"></script>
@@ -55,8 +57,11 @@
 	<script src="resources/js/src/sammy/plugins/sammy.cache.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.json.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.storage.js"></script>
-	<script src="resources/js/src/peeq/peeq.main.js"></script>
-	*/ ?>
+	<script src="resources/js/src/peeq/peeq.class.js"></script>
+	<script src="resources/js/src/peeq/peeq.api.js"></script>
+	<script src="resources/js/src/peeq/peeq.utils.js"></script>
+	<script src="resources/js/src/peeq/main.js"></script>
+	<?endif;?>
 </body>
 </html>
 

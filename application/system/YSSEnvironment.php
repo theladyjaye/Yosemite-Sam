@@ -12,8 +12,6 @@ require "YSSUtils.php";
 require YSSApplication::basePath().'/application/data/YSSCurrentUser.php';
 require YSSApplication::basePath().'/application/data/YSSUserLevel.php';
 
-require YSSApplication::basePath().'/application/templates/ui/YSSUI.php';
-
 /*
 	TODO Before production needs to set the Zend Framework path in the ini manually so we don't need this call:
 */

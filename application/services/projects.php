@@ -19,6 +19,7 @@ require YSSApplication::basePath().'/application/data/YSSUser.php';
 require YSSApplication::basePath().'/application/data/YSSDomain.php';
 require YSSApplication::basePath().'/application/system/YSSService.php';
 require YSSApplication::basePath().'/application/data/YSSProject.php';
+require YSSApplication::basePath().'/application/data/YSSAnnotation.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSTask.php';
 
@@ -515,8 +516,8 @@ class YSSServiceProjects extends YSSService
 	{
 		$session  = YSSSession::sharedSession();
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		echo $database->formatList("project/project-aggregate-render", "project-report", null, true);
-		//echo $database->formatList("project/project-aggregate", "project-report", null, true);
+		//echo $database->formatList("project/project-aggregate-render", "project-report", null, true);
+		echo $database->formatList("project/project-aggregate", "project-report", null, true);
 	}
 }
 

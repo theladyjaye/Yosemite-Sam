@@ -54,7 +54,7 @@ header {position: relative; width: 100%; background: #20211f; height: $header_he
 	.column-item-right {border-left: 1px solid #fff; height: 100%; padding: 0 20px; float: left; width: 365px; position: relative; z-index: 3;}
 
 	// column none
-	.column.none .column-body {height: 386px;}
+	.column.none .column-body {height: 361px;}
 		.column.none p {padding: 25px 0; margin: 0 auto; width: 580px; font-size: 24px; font-style: italic;}
 		.column.none p a:hover {color: $color_light_pink;}
 	// end column none

@@ -1,127 +1,48 @@
 <section class="wrap projects">
 	<div class="column">
 		<nav>
-			<!--
-			<a class="btn btn-back left" href="#">
-				Back to Projects
-			</a>
-			-->
 			<a class="btn right btn-add" href="#">
-				Add Project
+				Add Projects
 			</a>
-			<!--
-			<a class="btn right btn-add" href="#">
-				Add View
-			</a>						
-			<a class="btn right" href="#">
-				<span class="icon-annotate"></span>							
-				Annotate
-			</a>
-			-->
 		</nav>
-		<section class="column-body">
-		<!--	<p>You have 0 projects.  Don’t be a wallflower.  Join the craze.  <a href="#" class="incomplete">Create a new project now</a>. -->
-		
+		<section class="column-body">		
 			<ul>
+				{{each items}}
 				<li>
 					<div class="column-item-left">
-						<div id="pie-chart-1" class="pie-chart">										
+						<div id="pie-chart-${peeq.utils.template.index($value, items)}" class="pie-chart">										
 							<table>
 							    <tr>
 					                <th>Incomplete</th>
-					                <td>25%</td>
+					                <td>${peeq.utils.template.percentage(tasks.total - tasks.completed, tasks.total)}%</td>
 					            </tr>
 					            <tr>
 					                <th>Complete</th>
-					                <td>75%</td>
+					                <td>${peeq.utils.template.percentage(tasks.completed, tasks.total)}%</td>
 					            </tr>
 							</table>								
 						</div>
 																
 					</div>
 					<div class="column-item-right">
-						<h3>Lucy</h3>
+						<h3>${peeq.utils.template.truncate(label, 14)}</h3>
 						<div class="meta">
-							<a class="author" href="#">Gruffi</a>
-							<span class="timestamp">Created 14 days ago</span>
+							<a class="author" href="#">${created_by}</a>
+							<span class="timestamp">Created ${peeq.utils.template.elapsed_time(created_at)}</span>
 							<div class="excerpt">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at lacus in lorem vestibulum pharetra id non purus. Nunc aliquet congue nisl, a hendrerit metus posuere.... </p>
+								<p>${peeq.utils.template.truncate(description, 185)}</p>
 							</div>
 						</div>
 						<div class="stats">
 							<span class="icon icon-view"></span>
 							<p>
-								<span class="incomplete">14/</span><span class="complete">30</span>
+								<span class="{{if tasks.completed > 0 && tasks.completed == tasks.total}} complete {{else}}incomplete{{/if}}">${views}</span>
 							</p>
 						</div>
 					</div>
-				</li>	
-				<li>
-					<div class="column-item-left">
-						<div id="pie-chart-2" class="pie-chart">										
-							<table>
-							    <tr>
-					                <th>Incomplete</th>
-					                <td>40%</td>
-					            </tr>
-					            <tr>
-					                <th>Complete</th>
-					                <td>60%</td>
-					            </tr>
-							</table>								
-						</div>																
-					</div>
-					<div class="column-item-right">
-						<h3>Lucy</h3>
-						<div class="meta">
-							<a class="author" href="#">Gruffi</a>
-							<span class="timestamp">Created 14 days ago</span>
-							<div class="excerpt">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at lacus in lorem vestibulum pharetra id non purus. Nunc aliquet congue nisl, a hendrerit metus posuere.... </p>
-							</div>
-						</div>
-						<div class="stats">
-							<span class="icon icon-view"></span>
-							<p>
-								<span class="incomplete">14/</span><span class="complete">30</span>
-							</p>
-						</div>
-					</div>
-				</li>	
-				<li>
-					<div class="column-item-left">
-						<div id="pie-chart-3" class="pie-chart">										
-							<table>
-							    <tr>
-					                <th>Complete</th>
-					                <td>100%</td>
-					            </tr>
-					            <tr>
-					                <th>Incomplete</th>
-					                <td>0%</td>
-					            </tr>
-							</table>								
-						</div>																
-					</div>
-					<div class="column-item-right">
-						<h3>Lucy</h3>
-						<div class="meta">
-							<a class="author" href="#">Gruffi</a>
-							<span class="timestamp">Created 14 days ago</span>
-							<div class="excerpt">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at lacus in lorem vestibulum pharetra id non purus. Nunc aliquet congue nisl, a hendrerit metus posuere.... </p>
-							</div>
-						</div>
-						<div class="stats">
-							<span class="icon icon-view"></span>
-							<p>
-								<span class="incomplete">14/</span><span class="complete">30</span>
-							</p>
-						</div>
-					</div>
-				</li>				
-			</ul>	
-						
+				</li>
+				{{/each}}								
+			</ul>							
 		</section>
 	</div>
 	<div class="column sidebar">
@@ -143,9 +64,9 @@
 					<hr />
 					<dl>
 						<dt class="incomplete">Projects</dt>
-						<dd class="incomplete">3</dd>
+						<dd class="incomplete">${items.length}</dd>
 						<dt class="complete">Completed</dt>
-						<dd class="complete">1</dd>
+						<dd class="complete">${peeq.utils.template.get_completed_projects_count(items)}</dd>
 					</dl>
 					<hr />
 					<dl>
