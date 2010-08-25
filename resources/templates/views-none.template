@@ -1,0 +1,44 @@
+<section class="wrap views">
+	<div class="column none">
+		<nav>
+			<a class="btn right btn-add" href="#">
+				Add Project
+			</a>
+		</nav>
+		<section class="column-body">
+			<p>You have 0 views.  Get started!  <a href="#" class="incomplete">Create a new view</a>.			
+		</section>
+	</div>
+	<div class="column sidebar">
+		<nav>
+			<a class="btn btn-delete right" href="#">
+				Delete
+			</a>
+		</nav>
+		<section class="column-body">
+			<div class="column-body-inner">
+				<div class="company-logo">
+					<span></span>
+					<img src="resources/imgs/fpo-company.jpg" alt="" />
+				</div>
+				<hr class="thick" />
+				<div class="company-meta">
+					<p class="domain">blitz.peeq.com</p>
+					<p class="timestamp">Created 2 months ago</p>
+					<hr />
+					<dl>
+						<dt class="incomplete">Projects</dt>
+						<dd class="incomplete">0</dd>
+						<dt class="complete">Completed</dt>
+						<dd class="complete">0</dd>
+					</dl>
+					<hr />
+					<dl>
+						<dt>Users</dt>
+						<dd>16</dd>
+					</dl>
+				</div>
+			</div>
+		</section>
+	</div>
+</section>

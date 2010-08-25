@@ -1,4 +1,4 @@
-Raphael.fn.piechart = function (cx, cy, r, values, labels, stroke, stroke_width, duration) {
+Raphael.fn.piechart = function (cx, cy, r, values, labels, stroke, stroke_width, duration, show_labels, is_hoverable) {
     var paper = this,
         rad = Math.PI / 180,
         chart = this.set();
@@ -17,25 +17,33 @@ Raphael.fn.piechart = function (cx, cy, r, values, labels, stroke, stroke_width,
 				  
 						
         var process = function (j) {
-            var value = values[j],
+            var txt,
+				value = values[j],
                 angleplus = 360 * value / total,
                 popangle = angle + (angleplus / 2),					
                 ms = duration,
                 delta = 30,
-                p = sector(cx, cy, r, angle, angle + angleplus, {gradient: "90-" + colors[j][1] + "-" + colors[j][0], stroke: stroke, "stroke-width": stroke_width}),
-                txt = paper.text(cx + (r + delta - 8) * Math.cos(-popangle * rad), cy + (r + delta - 5) * Math.sin(-popangle * rad), values[j] + "%").attr({fill: "#000", stroke: "none", opacity: 0, "font-family": 'Calibri, Lucida Sans, Helvetica, Arial', "font-size": "16px", "font-weight": "bold"});
+                p = sector(cx, cy, r, angle, angle + angleplus, {gradient: "90-" + colors[j][1] + "-" + colors[j][0], stroke: stroke, "stroke-width": stroke_width});
 
-            p.mouseover(function () {
-                p.animate({scale: [1.1, 1.1, cx, cy]}, ms, "backOut");
-                txt.animate({opacity: 1}, ms, "backOut");
-            }).mouseout(function () {
-                p.animate({scale: [1, 1, cx, cy]}, ms, "backOut");
-                txt.animate({opacity: 0}, ms);
-            });
+			if(show_labels)
+			{
+               	txt = paper.text(cx + (r + delta - 8) * Math.cos(-popangle * rad), cy + (r + delta - 5) * Math.sin(-popangle * rad), values[j] + "%").attr({fill: "#000", stroke: "none", opacity: 0, "font-family": 'Calibri, Lucida Sans, Helvetica, Arial', "font-size": "16px", "font-weight": "bold"});
+			}
+
+			if(is_hoverable)
+			{
+	            p.mouseover(function () {
+	                p.animate({scale: [1.1, 1.1, cx, cy]}, ms, "backOut");
+	                if(txt) txt.animate({opacity: 1}, ms, "backOut");
+	            }).mouseout(function () {
+	                p.animate({scale: [1, 1, cx, cy]}, ms, "backOut");
+	                if(txt) txt.animate({opacity: 0}, ms);
+	            });
+			}
 			
             angle += angleplus;
             chart.push(p);
-            chart.push(txt);
+            if(txt) chart.push(txt);
             start += .1;
         };
     for (var i = 0, ii = values.length; i < ii; i++) {

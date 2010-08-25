@@ -61,7 +61,8 @@ class YSSServiceViews extends YSSService
 		$options = array('startkey' => array('project/'.$project_id), 
 		                 'endkey'   => array('project/'.$project_id, new stdClass()));
 		
-		echo $database->formatList("project/view-aggregate-render", "view-report", $options, true);
+//		echo $database->formatList("project/view-aggregate-render", "view-report", $options, true);
+		echo $database->formatList("project/view-aggregate", "view-report", $options, true);
 	}
 	
 	private function applyBaseViewValidators(&$input)

@@ -11,29 +11,41 @@
             name: 'my-template',            // name of template and name of file name
             path: 'resources/templates/',   // path to templates
             ext: '.template',               // template extensions
-            data: {}                        // data to render in template
+            data: {},                       // data to render in template
+			complete: null					// on complete handler
         };
 
         if (settings) $.extend(config, settings);
 
         this.each(function(i) {
-            var elt = this;
-            
+           var elt = this;
+            			
             // template exists
-            if($.template[config.name])
-            {
-                // render template with data
+           if($.template[config.name])
+           {
+				// render template with data
                 $.tmpl(config.name, config.data).appendTo(elt);
-            }
-            // template is not cached, load it
-            else
-            {
+
+				if($.isFunction(config.complete))
+				{
+					config.complete();
+				}
+           }
+           // template is not cached, load it
+           else
+           {
                 // load template
                 $.get(config.path + config.name + config.ext, function(template) {
-                     // put template into cache
-                     $.template(config.name, template); 
-                     // render template with data
-                     $.tmpl(config.name, config.data).appendTo(elt);
+                    // put template into cache
+                    $.template(config.name, template); 
+										
+                    // render template with data
+                    $.tmpl(config.name, config.data).appendTo(elt);
+
+					if($.isFunction(config.complete))
+					{
+						config.complete();
+					}
                 });
             }
         });

@@ -47,9 +47,9 @@ peeq.prototype.utils =
 			created.setHours(created_at.substr(11, 2));
 			created.setMinutes(created_at.substr(14, 2));
 			created.setSeconds(created_at.substr(17, 2));			
-			
+
 			now.setHours(now.getHours() - 1);
-			var age_in_seconds = (created.getTime() - now.getTime()) / 1000;
+			var age_in_seconds = (now.getTime() - created.getTime()) / 1000;
 
 			var s = function(n) { 
 				return n == 1 ? '' : 's' 
@@ -104,6 +104,23 @@ peeq.prototype.utils =
 					completed++;
 				}
 			}
+			
+			return completed;
+		},
+		sanitize_id: function(id)
+		{			
+			return "#/" + id.split("/").slice(1).join("/");
+		},
+		completed_views: function(views)
+		{
+			var completed = 0;
+			for(var i = 0, len = views.length; i < len; i++)
+			{
+				if(views[i].tasks.total > 0 && views[i].tasks.completed >= views[i].tasks.total)
+				{
+					completed++;
+				}
+			}			
 			
 			return completed;
 		}

@@ -56,7 +56,8 @@ class YSSServiceAnnotations extends YSSService
 		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		// use the view not the list of you want JSON instead of HTML
-		echo $database->formatList("project/annotation-renderer", "task-report", $options, true);
+//		echo $database->formatList("project/annotation-renderer", "task-report", $options, true);
+		echo $database->formatList("project/annotation-aggregate", "task-report", $options, true);
 	}
 	
 	public function getNotes($project_id, $view_id, $state_id)
@@ -71,7 +72,8 @@ class YSSServiceAnnotations extends YSSService
 		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		// use the view not the list of you want JSON instead of HTML
-		echo $database->formatList("project/annotation-renderer", "note-report", $options, true);
+//		echo $database->formatList("project/annotation-renderer", "note-report", $options, true);
+		echo $database->formatList("project/annotation-aggregate", "note-report", $options, true);
 	}
 	
 	public function getAnnotations($project_id, $view_id, $state_id)
@@ -86,6 +88,7 @@ class YSSServiceAnnotations extends YSSService
 		
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		// use the view not the list of you want JSON instead of HTML
+//		echo $database->formatList("project/annotation-renderer", "annotations-report", $options, true);
 		echo $database->formatList("project/annotation-renderer", "annotations-report", $options, true);
 	}
 	

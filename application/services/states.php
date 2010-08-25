@@ -60,7 +60,8 @@ class YSSServiceStates extends YSSService
 		$options = array('startkey' => array('project/'.$project_id.'/'.$view_id), 
 		                 'endkey'   => array('project/'.$project_id.'/'.$view_id, new stdClass()));
 		
-		echo $database->formatList("project/state-aggregate-render", "state-report", $options, true);
+//		echo $database->formatList("project/state-aggregate-render", "state-report", $options, true);
+		echo $database->formatList("project/state-aggregate", "state-report", $options, true);
 	}
 	
 	private function applyBaseStateValidators(&$input)

@@ -7,10 +7,10 @@
 		</nav>
 		<section class="column-body">		
 			<ul>
-				{{each items}}
+				{{each projects}}
 				<li>
 					<div class="column-item-left">
-						<div id="pie-chart-${peeq.utils.template.index($value, items)}" class="pie-chart">										
+						<div id="pie-chart-${peeq.utils.template.index($value, projects)}" class="pie-chart">										
 							<table>
 							    <tr>
 					                <th>Incomplete</th>
@@ -21,11 +21,10 @@
 					                <td>${peeq.utils.template.percentage(tasks.completed, tasks.total)}%</td>
 					            </tr>
 							</table>								
-						</div>
-																
+						</div>																
 					</div>
 					<div class="column-item-right">
-						<h3>${peeq.utils.template.truncate(label, 14)}</h3>
+						<a href="${peeq.utils.template.sanitize_id(_id)}" class="title">${peeq.utils.template.truncate(label, 14)}</a>
 						<div class="meta">
 							<a class="author" href="#">${created_by}</a>
 							<span class="timestamp">Created ${peeq.utils.template.elapsed_time(created_at)}</span>
@@ -34,9 +33,9 @@
 							</div>
 						</div>
 						<div class="stats">
-							<span class="icon icon-view"></span>
-							<p>
-								<span class="{{if tasks.completed > 0 && tasks.completed == tasks.total}} complete {{else}}incomplete{{/if}}">${views}</span>
+							<p>															
+								<span class="icon icon-view ir">Views</span>	
+								<span class="count {{if tasks.completed > 0 && tasks.completed == tasks.total}} complete {{else}}incomplete{{/if}}">${views}</span>
 							</p>
 						</div>
 					</div>
@@ -47,9 +46,11 @@
 	</div>
 	<div class="column sidebar">
 		<nav>
+			<!--
 			<a class="btn btn-delete right" href="#">
 				Delete
 			</a>
+			-->
 		</nav>
 		<section class="column-body">
 			<div class="column-body-inner">
@@ -64,9 +65,9 @@
 					<hr />
 					<dl>
 						<dt class="incomplete">Projects</dt>
-						<dd class="incomplete">${items.length}</dd>
+						<dd class="incomplete">${projects.length}</dd>
 						<dt class="complete">Completed</dt>
-						<dd class="complete">${peeq.utils.template.get_completed_projects_count(items)}</dd>
+						<dd class="complete">${peeq.utils.template.get_completed_projects_count(projects)}</dd>
 					</dl>
 					<hr />
 					<dl>

@@ -27,7 +27,7 @@
                 if($.isFunction(config.load))
                 {
                     config.load(this, config.load_params);
-                    
+
                     // transition in
                     $this.animate(config.transition_in_props, config.transition_in_speed, config.transition_in_easing, function() {
                         $this.trigger("transition_in_complete");

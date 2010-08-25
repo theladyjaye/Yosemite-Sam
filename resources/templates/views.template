@@ -1,1 +1,128 @@
-views
+<section class="wrap views">
+	<div class="column">
+		<nav>
+			<a class="btn btn-back left" href="">
+				Back to Projects
+			</a>
+			<a class="btn right btn-add" href="#">
+				Add View
+			</a>						
+		</nav>
+		<section class="column-body">		
+			<ul>				
+				{{each views}}
+				<li>
+					<div class="column-item-left">
+						<div class="thumb">
+						<!-- <div class="thumb no-thumb"> -->
+ 							<a href="${peeq.utils.template.sanitize_id(_id)}"><img src="/resources/imgs/fpo-thumb-view.jpg" alt="" /></a>
+							<!--<div class="message">
+								<h4>No Image</h4>
+								<p><a href="#">Upload</a> one now.</p>
+							</div>-->
+						</div>
+						<div class="tasks">
+							<span class="icon icon-task ir">Tasks</span>
+							<span class="incomplete">${tasks.total - tasks.completed}/</span><span class="complete">${tasks.total}</span>
+						</div>
+						<div id="pie-chart-${peeq.utils.template.index($value, views)}" class="pie-chart">										
+							<p class="percentage">{{if tasks.total > 0}} ${peeq.utils.template.percentage(tasks.completed, tasks.total)}{{else}}0{{/if}}%</p>
+							<table>
+							    <tr>
+					                <th>Incomplete</th>
+					                <td>${peeq.utils.template.percentage(tasks.total - tasks.completed, tasks.total)}%</td>
+					            </tr>
+					            <tr>
+					                <th>Complete</th>
+					                <td>${peeq.utils.template.percentage(tasks.completed, tasks.total)}%</td>
+					            </tr>
+							</table>								
+						</div>																
+					</div>
+					<div class="column-item-right">
+						<a href="${peeq.utils.template.sanitize_id(_id)}" class="title">${label}</a>
+						<div class="meta">
+							<a class="author" href="#">${created_by}</a>
+							<span class="timestamp">Created ${peeq.utils.template.elapsed_time(created_at)}</span>
+							<div class="excerpt">
+								<p>${peeq.utils.template.truncate(description, 185)}</p>
+							</div>
+						</div>
+						<div class="stats">
+							<p>															
+								<span class="icon icon-note ir">Notes</span>	
+								<span class="count">5</span>
+							</p>							
+							<p>
+								<span class="icon icon-state ir">States</span>
+								<span class="count">${states.length}</span>
+							</p>
+						</div>
+					</div>
+				</li>
+				{{/each}}							
+			</ul>							
+		</section>
+	</div>
+	<div class="column sidebar">
+		<nav>
+			<a class="btn btn-delete right" href="#">
+				Delete
+			</a>
+		</nav>
+		<section class="column-body">
+			<div class="column-body-inner">
+				<h2>${project.label}</h2>
+				<div class="meta">
+					<a class="author" href="#">${project.created_by}</a>
+					<span class="timestamp">Created ${peeq.utils.template.elapsed_time(project.created_at)}</span>
+				</div>
+				<hr class="thick" />
+				<div class="project-meta">
+					<div id="pie-chart-project" class="pie-chart">										
+						<dl>
+							<dt class="incomplete">Views</dt>
+							<dd class="incomplete">${project.views}</dd>
+							<dt class="complete">Completed</dt>
+							<dd class="complete">${peeq.utils.template.completed_views(views)}</dd>
+						</dl>
+						<p class="percentage">${peeq.utils.template.percentage(peeq.utils.template.completed_views(views), project.views)}%</p>
+						<table>
+						    <tr>
+				                <th>Incomplete</th>
+				                <td>${peeq.utils.template.percentage(project.views - peeq.utils.template.completed_views(views), project.views)}%</td>
+				            </tr>
+				            <tr>
+				                <th>Complete</th>
+				                <td>${peeq.utils.template.percentage(peeq.utils.template.completed_views(views), project.views)}%</td>
+				            </tr>
+						</table>								
+					</div>
+					<hr />
+					<p class="desc">${project.description}</p>					
+					<hr />
+					<div class="auxillary-list">
+						<h6>
+							<span class="icon icon-paperclip"></span>
+							Attachments
+						</h6>
+						<a href="#" class="icon icon-add btn-add ir">Add</a>
+						{{if project.attachments.length > 0}}
+						<ul>
+							{{each project.attachments}}
+							<li>
+								<span class="icon icon-pdf"></span>
+								<a href="${path}" class="title">${content_type}</a>
+								<a href="#" class="icon icon-trash btn-delete ir">Delete</a>
+							</li>
+							{{/each}}							
+						</ul>		
+						{{else}}
+						<p>You have no attachments.  <a href="#">Add one</a>.</p>
+						{{/if}}						
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</section>

@@ -3,15 +3,19 @@
 <? //<html manifest="peeq.cache">?>
 <html>
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
 	<title>peeq</title>
+	<meta name="description" content="about peeq">
+	<meta name="author" content="peeq">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
 	<link rel="shortcut icon" href="" />
 	<link rel="apple-touch-icon" href="" />
-	<link rel="stylesheet" href="resources/css/style.css" />
+	<link rel="stylesheet" href="resources/css/style.css?v=1">
 </head>
 <body>
 	<div id="bg">
-		<img src="resources/imgs/bg-default.png" alt="" />
+		<img src="resources/imgs/bg-views.png" alt="" />
+		<img id="bg-default" src="resources/imgs/bg-default.png" alt="" />
 	</div>
 	<div id="container">
 		<header>
@@ -44,6 +48,9 @@
 			</nav>
 		</section>
 	</footer>
+	
+	<?php include('application/templates/tracking.php');?>
+	
 	<?if("release" == YSSConfiguration::applicationConfiguration()):?>
 	<script src="resources/js/script.min.js"></script>
 	<?else:?>
@@ -55,7 +62,7 @@
 	<script src="resources/js/src/jquery/plugins/jquery.easing.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.tmpl.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.render_template.js"></script>
-	<script src="resources/js/src/jquery/plugins/jquery.transition.js"></script>
+<!--	<script src="resources/js/src/jquery/plugins/jquery.transition.js"></script> -->
 	<script src="resources/js/src/jquery/plugins/jquery.polling.js"></script>
 	<script src="resources/js/src/sammy/sammy.min.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.cache.js"></script>

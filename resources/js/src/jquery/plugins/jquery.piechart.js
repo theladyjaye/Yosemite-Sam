@@ -11,8 +11,12 @@
 			stroke_width: 2,
 			complete_text: "COMPLETE!",
 			complete_label: "complete",
+			complete_class: "complete",
 			incomplete_label: "incomplete",
 			duration: 400,
+			show_labels: true,
+			is_hoverable: true
+						 
 		};
 
 		if (settings) $.extend(config, settings);
@@ -39,6 +43,7 @@
 					if(label.toLowerCase() == config.complete_label.toLowerCase() && val >= 100)
 					{
 						is_complete = true;
+						$this.addClass("complete");
 					}
 					
 					if(label.toLowerCase() == config.incomplete_label.toLowerCase() && val >= 100)
@@ -61,22 +66,24 @@
 				
 				pie.push(circle);
 				
-				if(is_complete)
+				if(is_complete && config.show_labels)
 				{
 					var	complete = paper.text(config.xpos, config.ypos, config.complete_text).attr({fill: "#fff", stroke: "none", "font-family": 'Calibri, Lucida Sans, Helvetica, Arial', "font-size": "16px", "font-weight": "bold"});
 					pie.push(complete);
 				}			
 				
-				pie.mouseover(function () {
-	                pie.animate({scale: [1.1, 1.1, config.xpos, config.ypos]}, config.duration, "backOut");
-	            }).mouseout(function () {
-	                pie.animate({scale: [1, 1, config.xpos, config.ypos]}, config.duration, "backOut");
-				});
-				
+				if(config.is_hoverable)
+				{
+					pie.mouseover(function () {
+		                pie.animate({scale: [1.1, 1.1, config.xpos, config.ypos]}, config.duration, "backOut");
+		            }).mouseout(function () {
+		                pie.animate({scale: [1, 1, config.xpos, config.ypos]}, config.duration, "backOut");
+					});
+				}
 			}
 			else			
 			{
-		    	Raphael($this.attr("id"), config.width, config.height).piechart(config.xpos, config.ypos, config.radius, values, labels, config.stroke_color, config.stroke_width, config.duration);
+		    	Raphael($this.attr("id"), config.width, config.height).piechart(config.xpos, config.ypos, config.radius, values, labels, config.stroke_color, config.stroke_width, config.duration, config.show_labels, config.is_hoverable);
 			}
 	   });
 		

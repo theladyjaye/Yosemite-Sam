@@ -44,7 +44,7 @@ peeq.prototype.api =
 		{	
 		    var handler = api_path + resource;
 
-               // if POSTing
+            // if POSTing
 		    if(method && method.toUpperCase() == "POST")
 		    {
 		        var $frm = createForm(handler, data);
