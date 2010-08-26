@@ -1,0 +1,91 @@
+@import "style.scss";
+
+.column-body li {height: 140px; border-bottom: 1px solid rgba(32, 33, 31, 0.1); border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff; padding: 25px 0;
+	&:hover {@include lineargradient(#fcfcfc, #f8faf3); @include corner(); border: 1px solid rgba(32, 33, 31, 0.2);}
+	&:last-child {border-color: #fff}
+	&:hover:last-child {border: 1px solid rgba(32, 33, 31, 0.2);}
+}
+
+	// column none
+	.column.none .column-body {height: 361px;}
+		.column.none p {padding: 25px 0; margin: 0 auto; width: 580px; font-size: 24px; font-style: italic;}
+		.column.none p a:hover {color: $color_light_pink;}
+	// end column none
+
+	.column-item-right a.title {font-size: 48px; color: $color_dark_gray; font-weight: normal; letter-spacing: -2px;
+			&:hover {color: $color_light_pink;}
+		}
+	.meta {font-size: 14px;}
+	.author {color: $color_light_gray;
+			&:hover {color: $color_light_blue;}
+		}
+	
+	.column-item-right .excerpt {margin-top: 5px; line-height: 18px;}
+	.column-item-right .stats {position: absolute; right: 0; top: 9px; padding: 4px 8px; @include corner(); background: #f2f2f2;}
+		.column-item-right .stats p {float: left; clear: both; margin: 2px 0;}
+		.column-item-right .stats span {margin: 0 2px;}
+		.column-item-right .stats .count {float: left; height: 17px; line-height: 17px;}
+		
+
+
+	// VIEWS SPECIFIC
+	.views .column-item-left .thumb {margin-top: 6px; width: 143px; height: 108px; position: relative; left: 15px;}
+		.views .column-item-left .thumb a:hover img {border: 2px solid $color_light_pink; margin: -2px 0 0 -2px;}
+	.views .column-item-left .thumb.no-thumb {@include lineargradient(#eee, #ececec); @include boxshadow(rgba(0, 0, 0, 0.2), 0, 0, 2px); color: $color_dark_gray; @include corner();}
+		.views .column-item-left .thumb .message {float: left; width: 100%; text-align: center; margin-top: 28px; font-size: 14px;}
+			.views .column-item-left .thumb .message h4 {font-size: 18px; font-weight: bold;}
+			.views .column-item-left .thumb .message a {color: $color_light_blue;
+				&:hover {color: $color_light_pink;}
+			}
+		
+		.views .column-item-left .thumb img {@include boxshadow(rgba(0, 0, 0, 0.3), 0, 0, 1px);}
+	.views .column-item-left .tasks {float: left; display: inline; position: relative; top: 6px; left: 15px;}
+	.views .column-item-left .tasks .icon {margin-right: 5px;}
+	
+	.views .sidebar h2 {font-size: 36px; font-weight: normal; letter-spacing: -1px;}
+	.views .sidebar .pie-chart dl {position: absolute; left: 165px; top: 60px; width: 135px;}
+		.views .sidebar .pie-chart dt {width: 120px;}
+	.views #pie-chart-project {float: none; left: -5px; top: -30px; margin-bottom: -55px;}
+		.views #pie-chart-project .percentage {float: none; left: 25px; position: relative; top: -17px; width: 110px; text-align: center; font-size: 18px; }
+	
+	// END VIEWS SPECIFIC
+	
+	// SIDEBAR
+			.sidebar .company-logo {height: 138px; width: 290px; background: $color_light_white; display: table-cell; text-align: center; vertical-align: middle;}
+				.sidebar .company-logo * {vertical-align: middle;}
+				.sidebar .company-logo span {display: inline-block; height: 100%; width: 1px;}
+			
+			.sidebar .company-meta {}
+				.sidebar .company-meta .domain {color: #000; font-size: 18px;}
+				.sidebar .company-meta .timestamp {}
+			
+				.sidebar dl {font-size: 18px; margin-bottom: 10px; float: left; line-height: 28px;}
+					.sidebar dt {width: 140px; clear: left; float: left; display: inline;}
+					.sidebar dd {float: left}
+	// END SIDEBAR
+	
+	// AUXILLARY-LIST
+	.auxillary-list {position: relative;}
+		.auxillary-list h6 {font-weight: bold; font-size: 18px; margin-left: 3px; text-indent: 3px;}
+		.auxillary-list .btn-add {position: absolute; right: 0; top: 3px;}
+		.auxillary-list p {margin-top: 10px;}
+		.auxillary-list ul {margin-top: 15px;}
+			.auxillary-list li {width: 284px; height: 21px; position: relative; margin: 0; padding: 2px 3px; font-size: 16px; line-height: 21px; cursor: pointer; @include transition(all, 0.15s, ease-out);
+					&:hover {background: $color_light_pink; border-color: $color_light_pink;}
+					&:hover:last-child {border-color: $color_light_pink}
+					&:hover a {color: #000;}
+				}
+				.auxillary-list li .title {color: $color_light_gray; position: relative; top: 1px; left: 3px;}
+				.auxillary-list li .btn-delete {position: absolute; right: 0; top: 3px;}
+	// END AUXILLARY-LIST
+
+// END COLUMNS
+
+// PIE CHART 
+.pie-chart {position: relative; z-index: 2; top: -30px; left: -15px}
+.pie-chart .table {display: none;}
+
+.views .pie-chart {float: right; top: 5px; left: -12px;}
+.views .pie-chart .percentage {position: absolute; left: -45px; top: 2px; font-weight: bold; color: $color_light_blue; width: 40px; text-align: right;}
+.views .pie-chart.complete .percentage {color: $color_light_pink;}
+// END PIE CHART

@@ -10,7 +10,7 @@
 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
 	<link rel="shortcut icon" href="" />
 	<link rel="apple-touch-icon" href="" />
-	<link rel="stylesheet" href="resources/css/style.css?v=1">
+	<link rel="stylesheet" href="resources/css/logged-in.css?v=1">
 </head>
 <body>
 	<div id="bg">

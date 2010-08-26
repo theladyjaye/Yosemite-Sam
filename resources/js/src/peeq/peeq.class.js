@@ -82,7 +82,7 @@ function peeq()
 						}
 		
 						var template = (data.length) ? "views" : "views-none";			
-						console.log(project_data);
+						//console.log(project_data);
 						$("#main").stop(false, true).animate({
 							"opacity": 0
 						}, 300, "linear", function() {
@@ -130,7 +130,7 @@ function peeq()
 			// view-detail
 			.get("#/:project/:view", function(context) {
 				console.log(this.params['project'], this.params['view']);
-			});
+			});			
 		});
 	};
 	
@@ -175,9 +175,12 @@ function peeq()
 			"opacity": 0
 		}, 400);
 		
-		$("#bg img[src$=" + id + ".png]").animate({
-			"opacity": 1
-		}, 400);
+		if(id)
+		{
+			$("#bg img[src$=" + id + ".png]").animate({
+				"opacity": 1
+			}, 400);
+		}
 	}
 	
 	
