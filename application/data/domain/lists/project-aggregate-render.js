@@ -38,7 +38,7 @@ function(head, req)
 			switch(type)
 			{
 				case "attachment":
-					current.attachments.push({content_type:row.value.content_type, path:row.value.path});
+					current.attachments.push({"content_type":row.value.content_type, "path":row.value.path, "label":row.value.label});
 					break;
 						
 				case "view":
