@@ -39,7 +39,7 @@ function(head, req)
 					break;
 				
 				case "note":
-					current.notes.total++;
+					current.notes++;
 					break;
 			}
 		}
