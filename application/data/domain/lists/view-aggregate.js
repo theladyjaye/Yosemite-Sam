@@ -15,6 +15,7 @@ function(head, req)
 				
 			current           = row.value;
 			current.tasks     = {completed:0, total:0};
+			current.notes     = 0;
 			current.states    = [];
 			
 		}
@@ -29,6 +30,10 @@ function(head, req)
 				case "task":
 					current.tasks.total++;
 					current.tasks.completed += row.value.value;
+					break;
+				
+				case "note":
+					current.notes.total++;
 					break;
 			}
 		}
