@@ -71,7 +71,7 @@ function peeq()
 					// get views of project
 					peeq.api.request("/project/" + context.params["project"] + "/views", {}, "get", function(data) {			
 						var data = data || {},							
-							storage_key = "blitz." + context.params["project"] + "-views";
+							storage_key = "blitz." + context.params["project"] + ".views";
 						
 						// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
 						if(!peeq.is_online)
@@ -127,9 +127,77 @@ function peeq()
 					context.redirect("");
 				}		
 			})
-			// view-detail
-			.get("#/:project/:view", function(context) {
-				console.log(this.params['project'], this.params['view']);
+			// states
+			.get("#/:project/:view/:state", function(context) {
+				// get view data from local storage
+				var local_storage_view = context.session("blitz." + context.params["project"] + ".views"),
+					len = local_storage_view.length,
+					view_data
+					
+				for(var i = 0; i < len; i++)
+				{
+					if(local_storage_view[i]["_id"] == "project/" + context.params["project"] + "/" + context.params["view"])
+					{
+						view_data = local_storage_view[i];
+						break;
+					}
+				}
+				
+				if(view_data)
+				{
+					// get states of project
+					peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/states", {}, "get", function(data) {			
+						var data = data || {},							
+							storage_key = "blitz." + context.params["project"] + "-" + context.params["view"] + "-states";
+					
+						// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
+						if(!peeq.is_online)
+						{						
+							data = context.session(storage_key, function() {
+								return {};
+							});					
+						}
+	
+						var template = "states";		
+			
+						$("#main").stop(false, true).animate({
+							"opacity": 0
+						}, 300, "linear", function() {
+							change_bg("states");
+							$(this).html("").render_template({
+								"name": template,
+								"data": {"view": view_data,
+										 "state": data[0]},
+								"complete": function() {							
+									$("#pie-chart-project").piechart({
+										radius: 60,
+										xpos: 80,
+										ypos: 90,
+										width: 155,
+										height: 170
+									});
+						
+									$("#main").animate({
+										"opacity": 1
+									});
+									
+									// get annotations
+									peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"] + "/annotations", {}, "get", function(annotations) {
+										$("#table-annotations-container").html("").render_template({
+											"name": "states.table-annotations",
+											"data": {"annotations" : annotations},
+											"complete": function() {
+												console.log('annotations loaded.');												
+											}
+										});
+									});
+								}
+							});
+						});
+						// store data
+						context.session(storage_key, data);
+					});
+				}
 			});			
 		});
 	};
@@ -194,6 +262,21 @@ function peeq()
 				//sammy.redirect("");
 			});
 			return false;
+		});
+		
+		// expander
+		$("#main").delegate(".expander", "click", function() {
+			var $this = $(this),
+				$column = $this.parents(".column");
+			
+			if($column.hasClass("wide"))
+			{
+				$column.removeClass("wide").next(".column").show();
+			}
+			else
+			{
+				$column.addClass("wide").next(".column").hide();
+			}
 		});
 	}
 	

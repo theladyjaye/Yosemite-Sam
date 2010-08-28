@@ -13,14 +13,18 @@ function(head, req)
 			if(current)
 				result.push(current)
 				
-			current           = row.value;
-			current.tasks     = {completed:0, total:0};
-			
+			current           	= row.value;
+			current.tasks     	= {completed:0, total:0};
+			current.attachments = [];
 		}
 		else
 		{
 			switch(type)
 			{
+				case "attachment":
+					current.attachments.push({"content_type":row.value.content_type, "path":row.value.path, "label":row.value.label});
+					break;
+				
 				case "task":
 					current.tasks.total++;
 					current.tasks.completed += row.value.value;

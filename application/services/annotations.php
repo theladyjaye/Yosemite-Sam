@@ -89,7 +89,7 @@ class YSSServiceAnnotations extends YSSService
 		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
 		// use the view not the list of you want JSON instead of HTML
 //		echo $database->formatList("project/annotation-renderer", "annotations-report", $options, true);
-		echo $database->formatList("project/annotation-renderer", "annotations-report", $options, true);
+		echo $database->formatList("project/annotation-aggregate", "annotations-report", $options, true);
 	}
 	
 	private function applyBaseAnnotationValidators(&$input)

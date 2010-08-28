@@ -4,6 +4,7 @@ class YSSState extends YSSCouchObject
 	const kDefault = 'default';
 	public $label;
 	public $description;
+	public $attachments;
 	
 	protected $type = "state";
 	
@@ -24,13 +25,13 @@ class YSSState extends YSSCouchObject
 	}
 	
 	public function addAttachment(YSSAttachment $attachment)
-	{
+	{			
 		if(!$this->_rev)
 			$this->save();
 		
 		if(strpos($attachment->_id, $this->_id) !== 0)
 			$attachment->_id = $this->_id.'/attachment/'.YSSSecurity::generate_token();
-		
+				
 		return $attachment->save();
 	}
 	

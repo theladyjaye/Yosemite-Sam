@@ -44,11 +44,11 @@ header {position: relative; width: 100%; background: #20211f; height: $header_he
 // COLUMNS
 #main .column {margin-top: $column_gap * 2;}
 
-.column {float: left; display: inline; width: $column_width; margin-right: $column_gap;}
+.column {float: left; display: inline; width: $column_width; margin-right: $column_gap; position: relative;}
 .column.sidebar {width: $sidebar_width; margin-right: 0;}
 .column.wide {width: $wrap_width;}
 .column nav {height: 40px; float: left; width: 100%;}
-.column .column-body {float: left; clear: both; background: #fff; @include corner(); @include boxshadow(rgba(0, 0, 0, 0.2), 0, 0, 1px); width: 100%; margin-top: 2px; padding: 25px 0;}
+.column .column-body {float: left; clear: both; background: #fff; @include corner(); @include boxshadow(rgba(0, 0, 0, 0.2), 0, 0, 1px); width: 100%; margin-top: 2px; padding: 25px 0; position: relative;}
 	.column-body li {width: 580px; margin: 0 auto;}	
 	.column-item-left {width: 170px; height: 100%; border-right: 1px solid rgba(32, 33, 31, 0.1); margin: 0 auto; float: left; display: inline; text-align: center;}
 	.column-item-right {border-left: 1px solid #fff; height: 100%; padding: 0 20px; float: left; width: 365px; position: relative; z-index: 3;}
@@ -92,6 +92,7 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 
 .btn.btn-back:before {content: '\AB'; color: $color_light_yellow; padding-right: 4px}
 .btn.btn-add:before {content: '+'; color: $color_light_yellow; padding-right: 4px}
+.btn.btn-annotate span {position: relative; top: 5px; margin-right: 3px;}
 // END UTILITIES
 
 // ICONS

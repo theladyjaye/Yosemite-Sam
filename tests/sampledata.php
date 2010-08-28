@@ -72,6 +72,8 @@ $t1->label = "Implement API endpoints";
 $t1->description = "lorem ipsum dolor sit amet";
 $t1->context = "server";
 $t1->status = YSSTask::kStatusIncomplete;
+$t1->x = 300;
+$t1->y = 434;
 
 $t2 = new YSSTask();
 $t2->label = "Handle filesystem IO for attachments";
@@ -290,13 +292,7 @@ $n20->description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, s
 $n20->context = "general";
 
 
-$p1->addView($v1);
-$p1->addView($v2);
-$p2->addView($v3);
 
-$v1->addState($s1);
-$v2->addState($s2);
-$v3->addState($s3);
 
 $a1          = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/tests/resources/img/980x1200_brown.png', $session->currentUser->domain);
 $a1->label   = "Lorem ipsum dolor sit amet";
@@ -325,6 +321,15 @@ $s2->addAttachment($a2);
 $s3->addAttachment($a3);
 $p1->addAttachment($a4);
 $p1->addAttachment($a5);
+
+$p1->addView($v1);
+$p1->addView($v2);
+$p2->addView($v3);
+
+$v1->addState($s1);
+$v2->addState($s2);
+$v3->addState($s3);
+
 
 // Add Tasks
 $s1->addAnnotation($t1);
@@ -371,8 +376,6 @@ $s3->addAnnotation($n17);
 $s3->addAnnotation($n18);
 $s3->addAnnotation($n19);
 $s3->addAnnotation($n20);
-
-
 
 
 $p3->save();

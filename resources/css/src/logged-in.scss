@@ -42,13 +42,36 @@
 	.views .column-item-left .tasks {float: left; display: inline; position: relative; top: 6px; left: 15px;}
 	.views .column-item-left .tasks .icon {margin-right: 5px;}
 	
-	.views .sidebar h2 {font-size: 36px; font-weight: normal; letter-spacing: -1px;}
-	.views .sidebar .pie-chart dl {position: absolute; left: 165px; top: 60px; width: 135px;}
-		.views .sidebar .pie-chart dt {width: 120px;}
-	.views #pie-chart-project {float: none; left: -5px; top: -30px; margin-bottom: -55px;}
-		.views #pie-chart-project .percentage {float: none; left: 25px; position: relative; top: -17px; width: 110px; text-align: center; font-size: 18px; }
+	.detail.sidebar h2 {font-size: 36px; font-weight: normal; letter-spacing: -1px;}
+	.detail.sidebar .pie-chart dl {position: absolute; left: 160px; top: 60px; width: 135px;}
+		.detail.sidebar .pie-chart dt {width: 105px;}
+	.detail #pie-chart-project {float: none; left: -5px; top: -30px; margin-bottom: -55px;}
+		.detail #pie-chart-project .percentage {float: none; left: 25px; position: relative; top: -17px; width: 110px; text-align: center; font-size: 18px; }
 	
 	// END VIEWS SPECIFIC
+	
+	// STATES SPECIFIC
+	.annotate-preview-container {width: 100%;}
+		.annotate-preview-container figure {margin: 0 auto; width: 500px; height: 350px; overflow: hidden;}
+		
+	.states .table-annotations {width: 580px; margin: 0 auto;}
+	.states .wide .table-annotations {width: 900px;}
+		.states .table-annotations th {font-weight: normal;}
+		.states .table-annotations .table-column-icon {width: 50px;}
+		.states .table-annotations .table-column-title {width: 330px;}
+		.states .wide .table-annotations .table-column-title {width: 450px;}
+		.states .table-annotations .table-column-creator {width: 100px; display: none;}
+		.states .wide .table-annotations .table-column-creator {display: table-cell;}		
+		.states .table-annotations .table-column-status {width: 120px;}
+		.states .table-annotations .table-column-timestamp {width: 100px; display: none;}
+		.states .wide .table-annotations .table-column-timestamp {display: table-cell;}
+		.states .table-annotations .table-column-type {width: 60px}
+	// END STATES SPECIFIC
+	
+	.expander {position: absolute; top: 0; right: -16px; border-left: 1px solid rgba(0, 0, 0, 0.1); width: 6px; height: 100%; cursor: e-resize;
+		&:hover {border-color: rgba(0, 0, 0, 0.2);}
+		.wide & {cursor: w-resize;}
+		}
 	
 	// SIDEBAR
 			.sidebar .company-logo {height: 138px; width: 290px; background: $color_light_white; display: table-cell; text-align: center; vertical-align: middle;}
@@ -61,24 +84,32 @@
 			
 				.sidebar dl {font-size: 18px; margin-bottom: 10px; float: left; line-height: 28px;}
 					.sidebar dt {width: 140px; clear: left; float: left; display: inline;}
-					.sidebar dd {float: left}
+					.sidebar dd {float: right}
 	// END SIDEBAR
 	
-	// AUXILLARY-LIST
-	.auxillary-list {position: relative;}
-		.auxillary-list h6 {font-weight: bold; font-size: 18px; margin-left: 3px; text-indent: 3px;}
-		.auxillary-list .btn-add {position: absolute; right: 0; top: 3px;}
-		.auxillary-list p {margin-top: 10px;}
-		.auxillary-list ul {margin-top: 15px;}
-			.auxillary-list li {width: 284px; height: 21px; position: relative; margin: 0; padding: 2px 3px; font-size: 16px; line-height: 21px; cursor: pointer; @include transition(all, 0.15s, ease-out);
-					&:hover {background: $color_light_pink; border-color: $color_light_pink;}
-					&:hover:last-child {border-color: $color_light_pink}
-					&:hover a {color: #000;}
-				}
-				.auxillary-list li .title {color: $color_light_gray; position: relative; top: 1px; left: 3px;}
-				.auxillary-list li .btn-delete {position: absolute; right: 0; top: 3px;}
-	// END AUXILLARY-LIST
-
+	// TABLE SORTABLE
+	.table-sortable {width: 100%;}
+		.table-sortable thead {height: 30px;}
+		.table-sortable tr {display: inline-table;}
+		.table-sortable tbody tr {height: 21px; padding: 2px 3px; font-size: 16px; line-height: 21px; cursor: pointer; @include transition(all, 0.15s, ease-out); @include corner(); display: block; width: 100%; background: $color_light_white;
+				&:hover,
+				&:nth-child(even):hover {background: $color_light_pink; border-color: $color_light_pink; color: #000;}
+				&:hover:last-child {border-color: $color_light_pink}
+				&:hover a {color: #000;}			
+				&:nth-child(even) {background: #fff}
+				&.none:hover {background: $color_light_white; border: none;}
+			}
+			.table-sortable th {text-align: left; font-weight: bold; font-size: 18px;}
+			.table-sortable td {font-size: 12px; vertical-align: middle;}	
+			.table-sortable .table-column-icon {width: 25px; vertical-align: middle; padding-left: 2px;}
+			.table-sortable thead .table-column-title {font-size: 18px; padding-left: 3px;}
+			.table-sortable .table-column-title {width: 250px; font-size: 16px; padding-top: 2px;}
+			.table-sortable tbody .table-column-title a {color: $color_light_gray;}
+			.table-sortable thead .table-column-right {vertical-align: middle;}
+			.table-sortable tbody .table-column-right a {margin-left: -4px;}
+			.table-sortable .table-column-right a {float: right;}
+	// END TABLE SORTABLE
+	
 // END COLUMNS
 
 // PIE CHART 

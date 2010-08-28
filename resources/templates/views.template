@@ -15,7 +15,7 @@
 					<div class="column-item-left">
 						<div class="thumb">
 						<!-- <div class="thumb no-thumb"> -->
- 							<a href="${peeq.utils.template.sanitize_id(_id)}"><img src="/resources/imgs/fpo-thumb-view.jpg" alt="" /></a>
+ 							<a href="${peeq.utils.template.sanitize_id(states[0]._id)}"><img src="/resources/imgs/fpo-thumb-view.jpg" alt="" /></a>
 							<!--<div class="message">
 								<h4>No Image</h4>
 								<p><a href="#">Upload</a> one now.</p>
@@ -40,7 +40,7 @@
 						</div>																
 					</div>
 					<div class="column-item-right">
-						<a href="${peeq.utils.template.sanitize_id(_id)}" class="title">${label}</a>
+						<a href="${peeq.utils.template.sanitize_id(states[0]._id)}" class="title">${label}</a>
 						<div class="meta">
 							<a class="author" href="#">${created_by}</a>
 							<span class="timestamp">Created ${peeq.utils.template.elapsed_time(created_at)}</span>
@@ -51,7 +51,7 @@
 						<div class="stats">
 							<p>															
 								<span class="icon icon-note ir">Notes</span>	
-								<span class="count">5</span>
+								<span class="count">${notes}</span>
 							</p>							
 							<p>
 								<span class="icon icon-state ir">States</span>
@@ -64,7 +64,7 @@
 			</ul>							
 		</section>
 	</div>
-	<div class="column sidebar">
+	<div class="column sidebar detail">
 		<nav>
 			<a class="btn btn-delete right" href="#">
 				Delete
@@ -101,26 +101,30 @@
 					<hr />
 					<p class="desc">${project.description}</p>					
 					<hr />
-					<div class="auxillary-list">
-						<h6>
-							<span class="icon icon-paperclip"></span>
-							Attachments
-						</h6>
-						<a href="#" class="icon icon-add btn-add ir">Add</a>
+					<table class="table-sortable">
+						<thead>
+							<tr>
+								<th class="table-column-icon"><span class="icon icon-paperclip"></span></th>
+								<th class="table-column-title">Attachments</th>
+								<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir">Add</a>
+							</tr>
+						</thead>
+						<tbody>
 						{{if project.attachments.length > 0}}
-						<ul>
 							{{each project.attachments}}
-							<li>
-								<span class="icon icon-pdf"></span>
-								<a href="${path}" class="title">${content_type}</a>
-								<a href="#" class="icon icon-trash btn-delete ir">Delete</a>
-							</li>
-							{{/each}}							
-						</ul>		
+								<tr>
+									<td class="table-column-icon"><span class="icon ${peeq.utils.template.icon_from_content_type(content_type)}"></span></td>
+									<td class="table-column-title"><a href="${path}" class="title">${label}</a></td>
+									<td class="table-column-right"><a href="#" class="icon icon-trash btn-delete ir">Delete</a></td>
+								</tr>
+							{{/each}}														
 						{{else}}
-						<p>You have no attachments.  <a href="#">Add one</a>.</p>
-						{{/if}}						
-					</div>
+							<tr class="none">
+								<td colspan="3">You have no attachments. <a href="#">Add one</a>.</td>
+							</tr>
+						{{/if}}
+						</tbody>
+					</table>	
 				</div>
 			</div>
 		</section>

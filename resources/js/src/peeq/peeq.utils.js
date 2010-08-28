@@ -123,6 +123,23 @@ peeq.prototype.utils =
 			}			
 			
 			return completed;
+		},
+		icon_from_content_type: function(content_type)
+		{
+			var icon = "icon-view";
+			switch(content_type)
+			{
+				case "application/pdf": icon = "icon-pdf"; break;
+				/*case "application/zip": "icon-zip" break; */
+				case "image/gif": icon = "icon-gif"; break;
+				case "image/jpeg": icon = "icon-jpg"; break;
+				case "image/png": icon = "icon-png"; break;
+				case "text/html": icon = "icon-html"; break;
+				case "text/javascript": icon = "icon-js"; break; 
+				case "text/xml": icon = "icon-xml"; break;				
+			}
+			
+			return icon;
 		}
 	}
 };

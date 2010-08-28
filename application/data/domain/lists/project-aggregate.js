@@ -13,10 +13,10 @@ function(head, req)
 			if(current)
 				result.push(current)
 				
-				current             = row.value;
-				current.tasks       = {completed:0, total:0};
-				current.views       = 0;
-				current.attachments = [];
+			current             = row.value;
+			current.tasks       = {completed:0, total:0};
+			current.views       = 0;
+			current.attachments = [];
 		}
 		else
 		{
