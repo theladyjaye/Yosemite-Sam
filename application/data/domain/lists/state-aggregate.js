@@ -15,19 +15,20 @@ function(head, req)
 				
 			current           	= row.value;
 			current.tasks     	= {completed:0, total:0};
-			current.attachments = [];
 		}
 		else
 		{
+			var doc = row.value;
+			
 			switch(type)
 			{
 				case "attachment":
-					current.attachments.push({"content_type":row.value.content_type, "path":row.value.path, "label":row.value.label});
+					current.attachment = {"content_type":doc.content_type, "path":doc.path};
 					break;
 				
 				case "task":
 					current.tasks.total++;
-					current.tasks.completed += row.value.value;
+					current.tasks.completed += doc.value;
 					break;
 			}
 		}

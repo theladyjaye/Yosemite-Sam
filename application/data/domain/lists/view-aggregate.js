@@ -49,7 +49,7 @@ function(head, req)
 					//	state.attachments = [];
 					//state.attachments.push(doc);
 					
-					state.attachment = doc;
+					state.attachment = {"content_type":doc.content_type, "path":doc.path};
 					break;
 			}
 		}

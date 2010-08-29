@@ -3,7 +3,8 @@ function(doc)
 	// !json enums.TaskStatus
 	
 	if(doc.type == "state" ||
-	   doc.type == "task")
+	   doc.type == "task" ||
+	   doc.type == "attachment")
 	{
 		var state  = doc._id.split("/").slice(0, 4).join("/");
 		var view   = state.split("/").slice(0, 3).join("/");
@@ -12,7 +13,6 @@ function(doc)
 		{
 			emit([view, state, 0], doc);
 		}
-		
 		
 		if (doc.type == "task")
 		{
@@ -29,6 +29,11 @@ function(doc)
 			}
 			
 			emit([view, state, 1], {"type":"task", "value":taskValue})
+		}
+		
+		if (doc.type == "attachment" && doc._id.split('/').pop() == "representation")
+		{
+			emit([view, state, 2], {"type":"attachment", "_id": doc._id, "content_type":doc.content_type, "path":doc.path})
 		}
 	}
 }
