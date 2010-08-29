@@ -124,13 +124,22 @@ class YSSServiceGroups extends YSSService
 				
 				if($task)
 				{
-					/*
-						TODO TEST THIS!
-					*/
+					
 					$group        = YSSTaskGroup::groupWithProject($project);
 					$group->label = $input->label;
 					$group->addTask($task);
-					$group->save();
+					
+					if($group->save())
+					{
+						
+						$response->ok = true;
+						$response->id = $group->_id;
+					}
+					else
+					{
+						$input->addValidator(new AMErrorValidator('error', 'Unable to save task group') );
+						$this->hydrateErrors($input, $response);
+					}
 				}
 				else
 				{
@@ -169,7 +178,7 @@ class YSSServiceGroups extends YSSService
 	
 	public function deleteTask($project_id, $group_id)
 	{
-		echo "createGroup: ", $project_id, "in group: ",$group_id ;exit;
+		echo "deleteTaskFromGroup: ", $project_id, "in group: ",$group_id ;exit;
 	}
 	
 	private function applyBaseGroupValidators(&$input)
@@ -193,6 +202,7 @@ class YSSServiceGroups extends YSSService
 	{
 		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id."));
 		$input->addValidator(new AMPatternValidator('task_id', AMValidator::kRequired, '/^project\/[a-z\d-]{2,}\/[a-z\d-]{2,}\/[a-z\d-]{2,}\/[a-fA-F0-9]{32}$/', "Invalid task id, expecting full id."));
+		$input->addValidator(new AMPatternValidator('label', AMValidator::kRequired, '/^[\w\d- \']{2,}$/', "Invalid label. Expecting minimum 2 characters letters, numbers, - or '."));
 	}
 	
 	private function createNewState(&$input, &$response)

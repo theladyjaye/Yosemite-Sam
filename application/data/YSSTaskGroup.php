@@ -2,7 +2,7 @@
 class YSSTaskGroup extends YSSCouchObject
 {
 	public $label;
-	public $children;
+	public $tasks;
 	protected $type = "taskGroup";
 	
 	private $project;
@@ -66,18 +66,18 @@ class YSSTaskGroup extends YSSCouchObject
 		$task->group = $this->_id;
 		$task->save();
 			
-		if($this->children == null)
-			$this->children = array();
+		if($this->tasks == null)
+			$this->tasks = array();
 		
-		array_push($this->children, $task->_id);
+		array_push($this->tasks, $task->_id);
 	}
 	
-	public function removeTask(YSSTask $task);
+	public function removeTask(YSSTask $task)
 	{	
-		$index = array_search($task->_id, $this->children);
+		$index = array_search($task->_id, $this->tasks);
 		
 		if($index !== false)
-			array_splice($this->children, $index, 1);
+			array_splice($this->tasks, $index, 1);
 	}
 	
 	private static function hydrateWithArray($array)
