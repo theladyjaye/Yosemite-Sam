@@ -13,14 +13,18 @@
 				{{each views}}
 				<li>
 					<div class="column-item-left">
+						{{if states.length && states[0].attachment && states[0].attachment.path}}
 						<div class="thumb">
-						<!-- <div class="thumb no-thumb"> -->
- 							<a href="${peeq.utils.template.sanitize_id(states[0]._id)}"><img src="/resources/imgs/fpo-thumb-view.jpg" alt="" /></a>
-							<!--<div class="message">
+ 							<a href="${peeq.utils.template.sanitize_id(states[0]._id)}"><img src="${states[0].attachment.path}" alt="" /></a>
+						</div>
+						{{else}}
+						<div class="thumb no-thumb"> 							
+							<div class="message">
 								<h4>No Image</h4>
 								<p><a href="#">Upload</a> one now.</p>
-							</div>-->
+							</div>
 						</div>
+						{{/if}}
 						<div class="tasks">
 							<span class="icon icon-task ir">Tasks</span>
 							<span class="incomplete">${tasks.total - tasks.completed}/</span><span class="complete">${tasks.total}</span>
@@ -40,7 +44,7 @@
 						</div>																
 					</div>
 					<div class="column-item-right">
-						<a href="${peeq.utils.template.sanitize_id(states[0]._id)}" class="title">${label}</a>
+						<a href="${peeq.utils.template.sanitize_id(states[0]._id)}" class="title">${peeq.utils.template.truncate(label, 15)}</a>
 						<div class="meta">
 							<a class="author" href="#">${created_by}</a>
 							<span class="timestamp">Created ${peeq.utils.template.elapsed_time(created_at)}</span>
@@ -52,11 +56,13 @@
 							<p>															
 								<span class="icon icon-note ir">Notes</span>	
 								<span class="count">${notes}</span>
-							</p>							
+							</p>	
+							{{if states.length > 1}}						
 							<p>
 								<span class="icon icon-state ir">States</span>
 								<span class="count">${states.length}</span>
 							</p>
+							{{/if}}
 						</div>
 					</div>
 				</li>

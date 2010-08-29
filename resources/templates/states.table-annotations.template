@@ -1,18 +1,18 @@
 <table class="table-sortable table-annotations">
 	<thead>
 		<tr>
-			<th class="table-column-icon">Type</th>
-			<th class="table-column-title">Title</th>
-			<th class="table-column-creator">Creator</th>
-			<th class="table-column-status">Status</th>
-			<th class="table-column-timestamp">Timestamp</th>
-			<th class="table-column-type">Type</th>
+			<th class="table-column-icon icon icon-sort">Type</th>
+			<th class="table-column-title icon icon-sort">Title</th>
+			<th class="table-column-creator icon icon-sort">Creator</th>
+			<th class="table-column-status icon icon-sort">Status</th>
+			<th class="table-column-timestamp icon icon-sort">Timestamp</th>
+			<th class="table-column-type icon icon-sort">Type</th>
 			<th class="table-column-right"></th>
 		</tr>
 	</thead>
 	<tbody>
 		{{each annotations}}
-		<tr>
+		<tr class="annotation-item annotation-id-${peeq.utils.template.annotations.sanitize_id(_id)}">
 			<td class="table-column-icon"><span class="icon icon-jpg ir">jpg</span></td>
 			<td class="table-column-title">${label}</td>
 			<td class="table-column-creator">${created_by}</td>

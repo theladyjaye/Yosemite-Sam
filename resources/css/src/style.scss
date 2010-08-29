@@ -4,7 +4,7 @@
 
 // BASE
 html {overflow-y: scroll;}
-body {font: 14px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif; color: $color_dark_gray; background: #FCFCFB; overflow-x: hidden;}
+body {font: 14px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif; color: $color_dark_gray; background: #FCFCFB; /*overflow-x: hidden;*/}
     a {text-decoration: none; @include transition(all, 0.15s, ease-out); color: $color_light_blue;}
     a:active {position: relative; top: 1px;}
 	a:hover {color: $color_light_pink;}
@@ -21,8 +21,9 @@ body {font: 14px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif; color: 
 // END BG
 
 // HEADER
-header {position: relative; width: 100%; background: #20211f; height: $header_height; @include boxshadow(#000, 1px, 0, 5px);}
+header {position: relative; width: 100%; background: #20211f; height: $header_height; @include boxshadow(#000, -5px, 0, 5px);}
     header .peeq {line-height: $header_height + 10; margin-left: 20px; position: relative; width: 81px; height: 60px; display: block; float: left; letter-spacing: -1.8px; font-size: 40px;}
+	header .btn-back {display: none;}
     header section {float: right; height: $header_height; margin-right: 20px;}
         header h1 {float: left; display: inline; color: $color_light_white; font-size: 24px; line-height: $header_height; font-weight: normal;}
         header h1.username {font-style: italic; letter-spacing: -0.8px;}
@@ -109,6 +110,9 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 .icon.icon-add {background-position: -36px -18px;}
 .icon.icon-offline {background-position: -54px -18px; width: 19px; height: 18px;}
 .icon.icon-paperclip {background-position: -108px -18px; width: 18px; height: 18px;}
+.icon.icon-sort {background-position: -126px -18px; width: 8px; height: 16px;}
+.icon.icon-sort-asc {background-position: -126px -18px; width: 8px; height: 6px;}
+.icon.icon-sort-desc {background-position: -126px -24px; width: 8px; height: 6px;}
 .icon.icon-pdf {background-position: 0 -36px; width: 17px; height: 20px;}
 .icon.icon-pdf-off {background-position: 0 -72px; width: 17px; height: 20px;}
 .icon.icon-jpg {background-position: -19px -36px; width: 17px; height: 20px;}
@@ -125,9 +129,13 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 .icon.icon-html-off {background-position: -108px -72px; width: 17px; height: 20px;}
 .icon.icon-php {background-position: -126px -36px; width: 17px; height: 20px;}
 .icon.icon-php-off {background-position: -126px -72px; width: 17px; height: 20px;}
-
+.icon.icon-marker-incomplete {background-position: 0 -108px;}
+.icon.icon-marker.on {background-position: -18px -108px;}
+.icon.icon-marker-complete {background-position: -36px -108px;}
 // END ICONS
 
+@import "jqmodal";
+@import "forms";
 
 // MEDIA QUERIES for responsive design
 // source: http://html5boilerplate.com/

@@ -1,15 +1,25 @@
 form {}
-	.column-body form li {float: left; clear: both; margin: 5px 0; width: 400px; position: relative;}
-	.column-body form li li {clear: none; width: 190px;}
+	form li {float: left; clear: both; margin: 5px 0; width: 400px; position: relative;}
+	.column-body form li li,
+	form li li {clear: none; width: 190px;}
 		form .field-domain div,
-		.field input {position: relative; z-index: 2; background: transparent; @include boxshadow(rgba(0, 0, 1, 0.2), 0, 0, 3px, inset); @include corner(); font-size: 28px; color: $color_dark_gray; width: 351px; height: 38px; float: left; padding: 5px; letter-spacing: -1px; border: 1px solid rgba(0, 0, 0, 0.1); outline: none; @include transition(all, 0.15s, ease-out)}
+		.field input,
+		.field textarea {position: relative; z-index: 2; background: transparent; @include boxshadow(rgba(0, 0, 1, 0.2), 0, 0, 3px, inset); @include corner(); font-size: 28px; color: $color_dark_gray; width: 351px; height: 38px; float: left; padding: 5px; letter-spacing: -1px; border: 1px solid rgba(0, 0, 0, 0.1); outline: none; @include transition(all, 0.15s, ease-out)}
+		.field textarea {height: 200px; font: 18px "Calibri","Lucida Sans",Helvetica,Arial,sans-serif;}
+		
 		form .field-domain div {margin-bottom: 30px;}
 		#frm-sign-in input {width: 275px;}		
+		
+			// highlight field on focus
 			form .field-domain div.focus,
-			.field input:focus {border-color: $color_light_blue;}			
+			.field input:focus,
+			.field textarea:focus {border-color: $color_light_blue;}			
+			
+			// highlight label on focus
 			form .field-domain input:focus + span,
 			form .field-domain input:focus + span + p > label, 
-			.field input:focus + label {opacity: 1; color: $color_dark_gray;}		
+			.field input:focus + label,
+			.field textarea:focus + label {opacity: 1; color: $color_dark_gray;}		
 		form .field-domain input {border: 0; outline: none; font-size: 28px; color: $color_dark_gray; width: 240px; height: 38px; letter-spacing: -1px; text-align: right;}
 		form .field-domain p {position: absolute; top: 50px; left: 0;}
 		ul ul .field input {width: 160px; float: left; display: inline; margin-right: 20px;}
@@ -17,6 +27,7 @@ form {}
 		#frm-sign-in label {color: #000;}
 		form .domain,	
 		form .hint {position: absolute; top: 22px; left: 8px; font-size: 20px; letter-spacing: -1px; color: #aaa; opacity: 0.45; z-index: 1;}		
+		form textarea + label + .hint {top: 8px;}
 		form .domain {float: right; margin: -55px 10px 0 0; position: relative; font-size: 28px}
 		form .icon-success {position: relative; top: 9px; left: 5px; display: none;}
 		form .icon-error {position: relative; top: 9px; left: 5px; color: $color_light_pink; font-style: italic; padding-left: 18px; display: none;}

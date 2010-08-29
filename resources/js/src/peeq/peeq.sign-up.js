@@ -3,32 +3,7 @@ function peeq()
 	// PRIVATE -------------------------------
 	var register_events = function()
 	{
-		// input field focus/blur/key toggle
-		$("input").focus(function() {
-			var $this = $(this);
-			if($this.val() == "")
-			{
-				$this.parent().find(".hint").animate({
-					"opacity": 0.2
-				}, 250);
-			}
-		}).blur(function() {
-			var $this = $(this);
-			if($this.val() == "")
-			{
-				$this.parent().find(".hint").animate({
-					"opacity": 0.5
-				}, 250);
-			}
-		}).keyup(function() {	
-			var $this = $(this);			
-			if($this.val() != "")
-			{
-				$this.parent().find(".hint").animate({
-					"opacity": 0
-				}, 250);
-			}
-		});
+		$("input").toggle_form_field();
 		
 		// subdomain key input
 		$("input[name=domain]").focus(function() {

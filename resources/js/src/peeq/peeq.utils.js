@@ -129,17 +129,70 @@ peeq.prototype.utils =
 			var icon = "icon-view";
 			switch(content_type)
 			{
-				case "application/pdf": icon = "icon-pdf"; break;
-				/*case "application/zip": "icon-zip" break; */
-				case "image/gif": icon = "icon-gif"; break;
-				case "image/jpeg": icon = "icon-jpg"; break;
-				case "image/png": icon = "icon-png"; break;
-				case "text/html": icon = "icon-html"; break;
-				case "text/javascript": icon = "icon-js"; break; 
-				case "text/xml": icon = "icon-xml"; break;				
+				case "application/pdf": 
+					icon = "icon-pdf"; 
+					break;
+				/*case "application/zip": 
+					icon = 'icon-zip";
+					break; */
+				case "image/gif": 
+					icon = "icon-gif"; 
+					break;
+				case "image/jpeg": 
+					icon = "icon-jpg"; 
+					break;
+				case "image/png": 
+					icon = "icon-png"; 
+					break;
+				case "text/html": 
+					icon = "icon-html"; 
+					break;
+				case "text/javascript": 
+					icon = "icon-js"; 
+					break; 
+				case "text/xml": 
+					icon = "icon-xml"; 
+					break;				
 			}
 			
 			return icon;
+		},
+		get_annotation_marker_class: function(annotation)
+		{ 
+			var icon = "icon-marker-incomplete";
+			switch(annotation.type)
+			{
+				case "note": 
+					icon = "icon-note";
+					break;
+				case "task":
+					icon += " icon-marker";
+					if(annotation.status == 1)
+					{
+						icon += " icon-marker-complete";
+					}
+					break;
+			}
+			
+			return icon;
+		},
+		annotations: 
+		{
+			sanitize_id: function(id)
+			{
+				return id.split("/").slice(-1);
+			},
+			get_id_from_elt: function($elt)
+			{
+				return $elt.attr("class").match(/annotation-id-(\w|\d)*/)[0];
+			}
+		},
+		states:
+		{
+			get_id_from_elt: function($elt)
+			{
+				return $elt.attr("class").match(/state-id-(\w|\d|-)*/)[0];
+			}
 		}
 	}
 };

@@ -1,8 +1,8 @@
 <section class="wrap projects">
 	<div class="column">
 		<nav>
-			<a class="btn right btn-add" href="#">
-				Add Projects
+			<a class="btn right btn-add btn-modal modal-view-add-project" href="#">
+				Add Project
 			</a>
 		</nav>
 		<section class="column-body">		
@@ -78,4 +78,29 @@
 			</div>
 		</section>
 	</div>
+</section>
+
+<section class="modal modal-view-add-project">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-sign-up" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="label" />
+					<label for="label">Project Name</label>
+					<span class="hint">What's my name?</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<textarea name="desc"></textarea>
+					<label for="lastname">Description</label>
+					<span class="hint">About this project...</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add left clearboth">Add Project</a>
+		</form>
+	</section>
 </section>

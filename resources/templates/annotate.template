@@ -1,0 +1,7 @@
+<section class="annotate">
+	<div class="annotate-preview-container">
+		<div id="representation">
+			<img src="${attachment.path}" alt="">
+		</div>
+	</div>
+</section>
