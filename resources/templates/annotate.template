@@ -1,7 +1,7 @@
 <section class="annotate">
 	<div class="annotate-preview-container">
 		<div id="representation">
-			<img src="/resources/imgs/fpo-comp.jpg" alt="">
+			<img src="${attachment.path}" alt="">
 		</div>
 	</div>
 </section>

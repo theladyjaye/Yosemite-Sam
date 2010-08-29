@@ -191,7 +191,7 @@ peeq.prototype.utils =
 		{
 			get_id_from_elt: function($elt)
 			{
-				return $elt.attr("class").match(/state-id-(\w|\d)*/)[0];
+				return $elt.attr("class").match(/state-id-(\w|\d|-)*/)[0];
 			}
 		}
 	}

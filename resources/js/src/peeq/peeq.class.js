@@ -268,6 +268,17 @@ function peeq()
 			this.bind("annotate", function(event, context) {
 				// get states of project
 				peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/states", {}, "get", function(data) {					
+					
+					// get state representation
+					for(var i = 0, len = data.length; i < len; i++)
+					{
+						if(data[i]._id == "project/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"])
+						{
+							data = data[i];
+							break;
+						}
+					}
+									
 					// preview
 					$("#main").stop(false, true).animate({
 						"opacity": 0
@@ -275,18 +286,17 @@ function peeq()
 						change_bg("annotate");
 						$(this).html("").render_template({
 							"name": "annotate",
+							"data": data,
 							"complete": function() {
 								$("body").attr("id", "annotate");
 								
-								// size representation
-								
+								// size representation								
 								var representation_image = new Image(),
 									$representation = $("#representation"),
 									$representation_image = $representation.find("img");
 									
 								representation_image.src = $representation_image.attr("src");
 								$representation.width(representation_image.width).height(representation_image.height);
-								
 								
 								// back to details button
 								$("header .btn-back").attr("href", "#/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"]);
