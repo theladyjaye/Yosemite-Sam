@@ -30,6 +30,9 @@ class YSSServiceAttachments extends YSSService
 	
 	public function registerServiceEndpoints($method)
 	{
+		/*
+			TODO need to add a way to download attachments.  Content-Disposition etc...
+		*/
 		switch($method)
 		{
 			case "GET":

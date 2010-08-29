@@ -16,6 +16,7 @@ require YSSApplication::basePath().'/application/libs/axismundi/services/AMServi
 require YSSApplication::basePath().'/application/system/YSSService.php';
 require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/data/YSSAnnotation.php';
+require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSTask.php';
 require YSSApplication::basePath().'/application/data/YSSTaskGroup.php';
 
@@ -57,14 +58,108 @@ class YSSServiceGroups extends YSSService
 		echo $database->document($id, true);
 	}
 	
-	public function createGroup($project_id)
-	{
-		echo "createGroup: ", $project_id;exit;
-	}
-	
 	public function updateGroup($project_id, $group_id)
 	{
-		echo "updateGroup: ", $project_id, "in group: ",$group_id ;exit;
+		$response = new stdClass();
+		$response->ok = false;
+	
+		$data                    = $_POST;//json_decode(file_get_contents('php://input'), true);
+		$data['project_id']      = strtolower($project_id);
+		$data['group_id']        = strtolower($group_id);
+	
+		if(isset($data['label'])) $data['transform_label'] = YSSUtils::transform_to_id($data['label']);
+		
+		$context    = array(AMForm::kDataKey=>$data);
+		$input      = AMForm::formWithContext($context);
+		
+		$this->applyBaseGroupValidators($input);
+		
+		if($input->isValid)
+		{
+			$project = YSSProject::projectWithId('project/'.$input->project_id);
+			$isNew   = $project == null ? true : false;
+			
+			// set our validators based on the type of command:
+			// adding validators causes the forms needs validation 
+			// flag to be reset, so we can check for validation again
+			$isNew ? $this->applyPutValidators($input) : $this->applyPostValidators($input);
+			
+			if($input->isValid)
+			{
+				$isNew ? $this->createNewGroup($input, $response) : $this->updateExistingGroup($project, $input, $response);
+			}
+			else
+			{
+				$this->hydrateErrors($input, $response);
+			}
+		}
+		else
+		{
+			$this->hydrateErrors($input, $response);
+		}
+		
+		echo json_encode($response);
+	}
+	
+	public function createGroup($project_id)
+	{
+		$response = new stdClass();
+		$response->ok = false;
+		
+		$data                    = $_POST;//json_decode(file_get_contents('php://input'), true);
+		$data['project_id']      = strtolower($project_id);
+		
+		$context    = array(AMForm::kDataKey=>$data);
+		$input      = AMForm::formWithContext($context);
+		
+		$this->applyPutValidators($input);
+		if($input->isValid)
+		{
+			// does the group exist?
+			$project = YSSProject::projectWithId('project/'.$input->project_id);
+
+			if($project)
+			{
+				$task = YSSTask::taskWithId($input->task_id);
+				
+				if($task)
+				{
+					/*
+						TODO TEST THIS!
+					*/
+					$group        = YSSTaskGroup::groupWithProject($project);
+					$group->label = $input->label;
+					$group->addTask($task);
+					$group->save();
+				}
+				else
+				{
+					$input->addValidator(new AMErrorValidator('task', 'Task does not exist') );
+					$this->hydrateErrors($input, $response);
+				}
+			}
+			else
+			{
+				$input->addValidator(new AMErrorValidator('error', 'Project does not exist') );
+				$this->hydrateErrors($input, $response);
+			}
+		}
+		else
+		{
+			$input->addValidator(new AMErrorValidator('project_id', 'Invalid project id') );
+			$this->hydrateErrors($input, $response);
+		}
+		
+		echo json_encode($response);
+	}
+	
+	public function updateExistingGroup(&$input, &$response)
+	{
+		// requires 
+		// task id
+		// label
+		
+		echo "createGroup: ", $project_id;exit;
 	}
 	
 	public function deleteGroup($project_id, $group_id)
@@ -77,28 +172,27 @@ class YSSServiceGroups extends YSSService
 		echo "createGroup: ", $project_id, "in group: ",$group_id ;exit;
 	}
 	
-	private function applyBaseStateValidators(&$input)
+	private function applyBaseGroupValidators(&$input)
 	{
-		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id. Expecting minimum 2 lowercase characters."));
-		$input->addValidator(new AMPatternValidator('view_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
-		$input->addValidator(new AMPatternValidator('state_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid view id. Expecting minimum 2 lowercase characters."));
+		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id."));
+		$input->addValidator(new AMPatternValidator('group_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid group id."));
+		
+		if(isset($input->transform_label))
+			$input->addValidator(new AMMatchValidator('group_id', 'transform_label', AMValidator::kRequired, "group label and group id do not match."));
 	}
 	
 	private function applyPostValidators(&$input)
 	{
-		$input->addValidator(new AMInputValidator('label', AMValidator::kOptional, 2, null, "Invalid label.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMFileValidator('attachment', AMValidator::kOptional, "Invalid attachment. None provided."));
-		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
+		//$input->addValidator(new AMInputValidator('label', AMValidator::kOptional, 2, null, "Invalid label.  Expecting minimum 2 characters."));
+		//$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
+		//$input->addValidator(new AMFileValidator('attachment', AMValidator::kOptional, "Invalid attachment. None provided."));
+		//$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
 	}
 	
 	private function applyPutValidators(&$input)
 	{
-		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid label.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMFileValidator('attachment', AMValidator::kRequired, "Invalid attachment. None provided."));
-		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
-		$input->addValidator(new AMMatchValidator('state_id', 'transform_label', AMValidator::kRequired, "Invalid state id."));
+		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id."));
+		$input->addValidator(new AMPatternValidator('task_id', AMValidator::kRequired, '/^project\/[a-z\d-]{2,}\/[a-z\d-]{2,}\/[a-z\d-]{2,}\/[a-fA-F0-9]{32}$/', "Invalid task id, expecting full id."));
 	}
 	
 	private function createNewState(&$input, &$response)

@@ -16,6 +16,26 @@ class YSSTask extends YSSAnnotation
 	// YSSSecurity::generate_token($salt) = this->_id;
 	// see YSSState::addTask;
 	
+	public static function taskWithId($id)
+	{
+		$object    = null;
+		$session   = YSSSession::sharedSession();
+		$database  = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		
+		if(strpos($id, 'project/') !== 0)
+			throw new Exception("invalid task id, requires full uri");
+			
+		$response = $database->document($id);
+		
+		if(!isset($response['error']))
+		{
+			$object = YSSTask::hydrateWithArray($response);
+		}
+		
+		return $object;
+	}
+	
+	
 	public static function taskWithArray($array)
 	{
 		return YSSTask::hydrateWithArray($array);

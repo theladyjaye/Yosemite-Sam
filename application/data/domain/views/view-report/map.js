@@ -5,7 +5,8 @@ function(doc)
 	if(doc.type == "view"  ||
 	   doc.type == "state" ||
 	   doc.type == "task"  ||
-	   doc.type == "note")
+	   doc.type == "note"  ||
+	   doc.type == "attachment")
 	{
 		var view    = doc._id.split("/").slice(0, 3).join("/");
 		var project = view.split("/").slice(0, 2).join("/");
@@ -40,6 +41,11 @@ function(doc)
 		if (doc.type == "note")
 		{
 			emit([project, view, 3], {"type":"note"})
+		}
+		
+		if (doc.type == "attachment" && doc._id.split('/').pop() == "representation")
+		{
+			emit([project, view, 4], {"type":"attachment", "_id": doc._id, "content_type":doc.content_type, "path":doc.path})
 		}
 	}
 }
