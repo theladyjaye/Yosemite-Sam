@@ -13,7 +13,6 @@ function peeq()
             this.use(Sammy.Session);
 
 			// ROUTES
-
 			// projects
 			this.get("", function(context) {			
 				peeq.api.request("/projects", {}, "get", function(data) {
@@ -38,6 +37,8 @@ function peeq()
 							"data": {"projects": data},
 							"complete": function() {
 								$(".pie-chart").piechart();
+								$("body").attr("id", "");
+								setup_modals();
 								$("#main").animate({
 									"opacity": 1
 								});
@@ -111,6 +112,7 @@ function peeq()
 										height: 170
 									});
 							
+									$("body").attr("id", "");
 									$("#main").animate({
 										"opacity": 1
 									});
@@ -126,6 +128,10 @@ function peeq()
 				{
 					context.redirect("");
 				}		
+			})
+			.get("#/:project/:view", function(context) {
+				// redirect to project
+				this.redirect("");
 			})
 			// states
 			.get("#/:project/:view/:state", function(context) {
@@ -177,28 +183,131 @@ function peeq()
 										height: 170
 									});
 						
+									$("body").attr("id", "");
 									$("#main").animate({
 										"opacity": 1
 									});
 									
+									// change states
+									$("#table-states tbody").delegate("tr", "click", function() {
+										var state_id = peeq.utils.template.states.get_id_from_elt($(this)).replace("state-id-", "");
+										document.location.href = "#/" + context.params["project"] + "/" + context.params["view"] + "/" + state_id;
+									});
+									
 									// get annotations
 									peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"] + "/annotations", {}, "get", function(annotations) {
-										$("#table-annotations-container").html("").render_template({
-											"name": "states.table-annotations",
-											"data": {"annotations" : annotations},
-											"complete": function() {
-												console.log('annotations loaded.');												
-											}
-										});
+										
+										if(annotations.length)
+										{										
+											// table
+											$("#table-annotations-container").html("").render_template({
+												"name": "states.table-annotations",
+												"data": {"annotations" : annotations},
+												"complete": function() {
+													$("#table-annotations-container").find(".table-sortable").tablesorter({
+														"cssAsc": "icon-sort-asc",
+														"cssDesc": "icon-sort-desc"
+													});
+													
+													// clicking on tr fire annotation in preview's click event (deeplinking into annotation)
+													$("#table-annotations-container").delegate(".annotation-item", "click", function() {
+														var annotation_id = peeq.utils.template.annotations.get_id_from_elt($(this));
+														$(".annotate-preview-container ." + annotation_id).click();
+													});
+												}
+											});
+										
+											// preview
+											$("#annotate-preview").render_template({
+												"name": "states.annotations",
+												"data": annotations,
+												"complete": function() {
+													$("#main").delegate(".annotation-item", "mouseover", function() {
+														var annotation_id = peeq.utils.template.annotations.get_id_from_elt($(this));
+														$("." + annotation_id).addClass("on")
+													}).delegate(".annotation-item", "mouseout", function() {
+														$(".annotation-item.on").removeClass("on");
+													}).delegate(".annotation-item", "click", function() {
+														if($(this).attr("href"))
+														{
+															document.location.href = $(this).attr("href");
+														}
+													})
+												}
+											});	
+										}
+										// no annotations
+										else
+										{
+											$("#table-annotations-container").html("").render_template({	
+												"name": "states.table-annotations-none"
+											});
+											
+											$(".expander").hide();
+										}								
 									});
 								}
 							});
 						});
 						// store data
 						context.session(storage_key, data);
-					});
+					})
 				}
-			});			
+			})
+			// annotate
+			.get("#/:project/:view/:state/annotate", function(context) {
+				this.trigger("annotate", context);
+			})
+			// annotate w/ deeplinking
+			.get("#/:project/:view/:state/annotate::id", function(context) {
+				this.trigger("annotate", context);
+			});
+			
+			// annotate event
+			// handles annotate view and deeplinking to an annotation in annotate view
+			this.bind("annotate", function(event, context) {
+				// get states of project
+				peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/states", {}, "get", function(data) {					
+					// preview
+					$("#main").stop(false, true).animate({
+						"opacity": 0
+					}, 300, "linear", function() {
+						change_bg("annotate");
+						$(this).html("").render_template({
+							"name": "annotate",
+							"complete": function() {
+								$("body").attr("id", "annotate");
+								
+								// size representation
+								
+								var representation_image = new Image(),
+									$representation = $("#representation"),
+									$representation_image = $representation.find("img");
+									
+								representation_image.src = $representation_image.attr("src");
+								$representation.width(representation_image.width).height(representation_image.height);
+								
+								
+								// back to details button
+								$("header .btn-back").attr("href", "#/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"]);
+								
+								peeq.annotate.main();
+								
+								
+								$("#main").animate({
+									"opacity": 1
+								});
+								
+								// deeplinking to annotation
+								if(context.params["id"])
+								{
+									console.log(context.params["id"]);
+								}
+							}
+						});
+					});
+				});
+			});
 		});
 	};
 	
@@ -266,19 +375,52 @@ function peeq()
 		
 		// expander
 		$("#main").delegate(".expander", "click", function() {
-			var $this = $(this),
-				$column = $this.parents(".column");
-			
-			if($column.hasClass("wide"))
-			{
-				$column.removeClass("wide").next(".column").show();
-			}
-			else
-			{
-				$column.addClass("wide").next(".column").hide();
+			$(this).parents(".column").toggleClass("wide");
+		});
+	};
+	
+	// setup modals
+	var setup_modals = function() 
+	{
+		$(".modal").addClass("jqmWindow").jqm({
+			trigger: false,
+			closeClass: "btn-modal-close",
+			onShow: function(hash) {
+				hash.w.css({
+					"top": "-1000px",
+					"display": "block",
+					"opacity": 0
+				}).animate({
+					"top": "17%",
+					"opacity": 1
+				}, 300, "easeOutQuad");
+				
+				$("input").toggle_form_field();
+				$("textarea").toggle_form_field();
+			},
+			onHide: function(hash) {
+				hash.w.animate({
+					"top": "-1000px",
+					"opacity": 0
+				}, 150, "easeOutQuad");
+				
+				hash.o.fadeOut();
 			}
 		});
-	}
+		
+		$(".btn-modal").click(function() {
+			$(".modal"+ get_modal_view(this)).jqmShow();
+			return false;
+		});
+		
+		function get_modal_view(btn) 
+		{
+			var regExp = /modal-view-(\w|\d|-)*/,
+				class_names = $(btn)[0].className,
+				matches = class_names.match(regExp);
+			return (matches.length) ? "." + matches[0] : "";
+		}
+	};
 	
 	// PUBLIC --------------------------------
 	this.is_online = navigator.onLine;

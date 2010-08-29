@@ -1,22 +1,15 @@
 <section class="wrap states">
 	<div class="column">
 		<nav>
-			<a class="btn btn-back left" href="">
-				Back to Lucy
+			<a class="btn btn-back left" href="#/${state._id.split("/").slice(1, -2).join("/")}">
+				Back to views
 			</a>
-			<a class="btn right btn-annotate" href="#">
+			<a class="btn right btn-annotate" href="${document.location.href}/annotate">
 				<span class="icon icon-pencil"></span>
 				Annotate
 			</a>						
 		</nav>
-		<section class="column-body">		
-			<div class="annotate-preview-container">
-				<figure>
-					<img src="/resources/imgs/fpo-thumb-state.jpg" alt="" />
-				</figure>
-				<!-- <a href="#">Annotation</a> -->
-			</div>
-			
+		<section class="column-body">					
 			<div id="table-annotations-container"></div>
 			<div class="expander"></div>
 		</section>
@@ -29,53 +22,63 @@
 		</nav>
 		<section class="column-body">
 			<div class="column-body-inner">
-				<h2>${state.label}</h2>
-				<div class="meta">
-					<a class="author" href="#">${state.created_by}</a>
-					<span class="timestamp">Created ${peeq.utils.template.elapsed_time(state.created_at)}</span>
+				<div class="annotate-preview-container">
+					<figure>
+						<a href="${document.location.href}/annotate"><img src="${state.attachment.path}" alt="" /></a>
+						<div id="annotate-preview"></div>
+					</figure>
 				</div>
-				<hr class="thick" />
-				<div class="project-meta">
-					<div id="pie-chart-project" class="pie-chart">										
-						<dl>
-							<dt class="incomplete">Tasks</dt>
-							<dd class="incomplete">${state.tasks.total}</dd>
-							<dt class="complete">Completed</dt>
-							<dd class="complete">${state.tasks.completed}</dd>
-						</dl>
-						<p class="percentage">${peeq.utils.template.percentage(state.tasks.completed, state.tasks.total)}%</p>
-						<table>
-						    <tr>
-				                <th>Incomplete</th>
-				                <td>${peeq.utils.template.percentage(state.tasks.total - state.tasks.completed, state.tasks.total)}%</td>
-				            </tr>
-				            <tr>
-				                <th>Complete</th>
-				                <td>${peeq.utils.template.percentage(state.tasks.completed, state.tasks.total)}%</td>
-				            </tr>
-						</table>								
+				<div class="state-details">
+					<a class="btn-update-image right" href="#">Update image</a>
+					<hr />
+					<h2>${state.label}</h2>
+					<div class="meta">
+						<a class="author" href="#">${state.created_by}</a>
+						<span class="timestamp">Created ${peeq.utils.template.elapsed_time(state.created_at)}</span>
 					</div>
-					<hr />
-					<p class="desc">${state.description}</p>					
-					<hr />
-					<table class="table-sortable">
-						<thead>
-							<tr>
-								<th class="table-column-icon"><span class="icon icon-state-large"></span></th>
-								<th class="table-column-title">States</th>
-								<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir">Add</a>
-							</tr>
-						</thead>
-						<tbody>
-							{{each view.states}}
+					<hr class="thick" />
+					<div class="project-meta">
+						<div id="pie-chart-project" class="pie-chart">										
+							<dl>
+								<dt class="incomplete">Tasks</dt>
+								<dd class="incomplete">${state.tasks.total}</dd>
+								<dt class="complete">Completed</dt>
+								<dd class="complete">${state.tasks.completed}</dd>
+							</dl>
+							<p class="percentage">${peeq.utils.template.percentage(state.tasks.completed, state.tasks.total)}%</p>
+							<table>
+							    <tr>
+					                <th>Incomplete</th>
+					                <td>${peeq.utils.template.percentage(state.tasks.total - state.tasks.completed, state.tasks.total)}%</td>
+					            </tr>
+					            <tr>
+					                <th>Complete</th>
+					                <td>${peeq.utils.template.percentage(state.tasks.completed, state.tasks.total)}%</td>
+					            </tr>
+							</table>								
+						</div>
+						<hr />
+						<p class="desc">${state.description}</p>					
+						<hr />
+						<table id="table-states" class="table-sortable">
+							<thead>
 								<tr>
-									<td class="table-column-icon"><span class="icon icon-jpg"></span></td>
-									<td class="table-column-title"><a href="#" class="title">${label}</a></td>
-									<td class="table-column-right"><a href="#" class="icon icon-trash btn-delete ir">Delete</a></td>
-								</tr>											
-							{{/each}}
-						</tbody>
-					</table>	
+									<th class="table-column-icon"><span class="icon icon-state-large"></span></th>
+									<th class="table-column-title">States</th>
+									<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir">Add</a>
+								</tr>
+							</thead>
+							<tbody>
+								{{each view.states}}
+									<tr class="state-id-${_id.split("/").slice(-1)}">
+										<td class="table-column-icon"><span class="icon icon-jpg"></span></td>
+										<td class="table-column-title">${label}</td>
+										<td class="table-column-right"><a href="#" class="icon icon-trash btn-delete ir">Delete</a></td>
+									</tr>											
+								{{/each}}
+							</tbody>
+						</table>	
+					</div>
 				</div>
 			</div>
 		</section>

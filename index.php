@@ -20,6 +20,7 @@
 	<div id="container">
 		<header>
 			<a class="peeq" href="/"><img src="resources/imgs/peeq.png" alt="peeq" /></a>
+			<a class="btn btn-back" href="#">Back to Details</a>
 			<section>
 				<h1 class="username">G'day <a href="#">Gruffi</a></h1>
 				<nav>
@@ -56,21 +57,24 @@
 	<?else:?>
 	<script src="resources/js/src/raphael/raphael.js"></script>
 	<script src="resources/js/src/jquery/jquery.js"></script>
+	<script src="resources/js/src/jquery/jquery-ui.custom.min.js"></script>
 	<script src="resources/js/src/raphael/plugins/raphael.piechart.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.piechart.js"></script>
 	<script src="resources/js/src/jquery/plugins/jqModal.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.easing.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.tmpl.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.render_template.js"></script>
-<!--	<script src="resources/js/src/jquery/plugins/jquery.transition.js"></script> -->
 	<script src="resources/js/src/jquery/plugins/jquery.polling.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.tablesorter.min.js"></script>
+	<script src="resources/js/src/jquery/plugins/jquery.toggle_form_field.js"></script>
+	<script src="resources/js/src/jquery/plugins/jquery.annotate.js"></script>
 	<script src="resources/js/src/sammy/sammy.min.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.cache.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.json.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.storage.js"></script>
 	<script src="resources/js/src/peeq/peeq.class.js"></script>
 	<script src="resources/js/src/peeq/peeq.api.js"></script>
+	<script src="resources/js/src/peeq/peeq.annotate.js"></script>
 	<script src="resources/js/src/peeq/peeq.utils.js"></script>
 	<script src="resources/js/src/peeq/main.js"></script>
 	<?endif;?>

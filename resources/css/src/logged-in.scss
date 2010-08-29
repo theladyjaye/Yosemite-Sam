@@ -38,7 +38,7 @@
 				&:hover {color: $color_light_pink;}
 			}
 		
-		.views .column-item-left .thumb img {@include boxshadow(rgba(0, 0, 0, 0.3), 0, 0, 1px);}
+		.views .column-item-left .thumb img {@include boxshadow(rgba(0, 0, 0, 0.3), 0, 0, 1px); width: 143px; height: 108px;}
 	.views .column-item-left .tasks {float: left; display: inline; position: relative; top: 6px; left: 15px;}
 	.views .column-item-left .tasks .icon {margin-right: 5px;}
 	
@@ -51,22 +51,46 @@
 	// END VIEWS SPECIFIC
 	
 	// STATES SPECIFIC
-	.annotate-preview-container {width: 100%;}
-		.annotate-preview-container figure {margin: 0 auto; width: 500px; height: 350px; overflow: hidden;}
-		
-	.states .table-annotations {width: 580px; margin: 0 auto;}
-	.states .wide .table-annotations {width: 900px;}
-		.states .table-annotations th {font-weight: normal;}
-		.states .table-annotations .table-column-icon {width: 50px;}
-		.states .table-annotations .table-column-title {width: 330px;}
-		.states .wide .table-annotations .table-column-title {width: 450px;}
-		.states .table-annotations .table-column-creator {width: 100px; display: none;}
-		.states .wide .table-annotations .table-column-creator {display: table-cell;}		
-		.states .table-annotations .table-column-status {width: 120px;}
-		.states .table-annotations .table-column-timestamp {width: 100px; display: none;}
-		.states .wide .table-annotations .table-column-timestamp {display: table-cell;}
-		.states .table-annotations .table-column-type {width: 60px}
+	.annotate-preview-container {width: 100%; position: relative}
+		.annotate-preview-container figure {margin: 0 auto; width: 290px; height: 203px; overflow: hidden;
+				a:active {position: absolute;}				
+			}
+			.annotate-preview-container figure img {position: absolute; width: 290px; height: 203px; @include boxshadow(rgba(0, 0, 0, 0.8), 0, 0, 2px)}				
+		#annotate-preview {position: absolute; margin: -15px 0 0 -4px; width: 290px; height: 203px; overflow: hidden;}
+			#annotate-preview a {position: absolute;
+				&.icon-note {opacity: 0.8;
+						&.on,
+						&:hover {opacity: 1}
+					}
+				}
+	.state-details .btn-update-image {margin: 5px 0;}
+			
+	.states #table-annotations-container {}	
+		.states #table-annotations-container .none {font-size: 24px;}
+		.states .table-annotations {width: 580px; margin: 0 auto;}
+		.states .wide .table-annotations {width: 900px;}
+			.states .table-annotations th {font-weight: normal; line-height: 10px; margin-top: 10px; text-indent: 10px;}
+			.states .table-annotations .table-column-icon {width: 50px;}
+			.states .table-annotations .table-column-title {width: 330px;}
+			.states .wide .table-annotations .table-column-title {width: 450px;}
+			.states .table-annotations .table-column-creator {width: 100px; display: none;}
+			.states .wide .table-annotations .table-column-creator {display: table-cell;}		
+			.states .table-annotations .table-column-status {width: 120px;}
+			.states .table-annotations .table-column-timestamp {width: 100px; display: none;}
+			.states .wide .table-annotations .table-column-timestamp {display: table-cell;}
+			.states .table-annotations .table-column-type {width: 60px}
 	// END STATES SPECIFIC
+	
+	
+	// ANNOTATE SPECIFIC
+	#annotate header {position: fixed; z-index: 3;}
+		#annotate header .btn-back {position: absolute; left: 50%; top: 13px; margin-left: -80px; display: block;
+				&:active {top: 14px;}
+			}
+	#annotate #main {width: 100%; z-index: 2; top: $header_height;}
+		#annotate #representation {@include boxshadow(rgba(0, 0, 0, 0.5), 0, 3px, 6px); padding: 0 5px 5px;}
+			#annotate #representation img {position: relative; width: 100%; height: 100%}
+	// END ANNOTATE SPECIFIC
 	
 	.expander {position: absolute; top: 0; right: -16px; border-left: 1px solid rgba(0, 0, 0, 0.1); width: 6px; height: 100%; cursor: e-resize;
 		&:hover {border-color: rgba(0, 0, 0, 0.2);}
@@ -74,6 +98,13 @@
 		}
 	
 	// SIDEBAR
+	.wide + .sidebar {position: fixed; right: 0; top: 100px;
+			& {opacity: 0.8;}
+			& .annotate-preview-container {margin-bottom: 0}
+			& nav,
+			& .btn-delete, 
+			& .state-details {display: none;}
+		}
 			.sidebar .company-logo {height: 138px; width: 290px; background: $color_light_white; display: table-cell; text-align: center; vertical-align: middle;}
 				.sidebar .company-logo * {vertical-align: middle;}
 				.sidebar .company-logo span {display: inline-block; height: 100%; width: 1px;}
@@ -92,9 +123,11 @@
 		.table-sortable thead {height: 30px;}
 		.table-sortable tr {display: inline-table;}
 		.table-sortable tbody tr {height: 21px; padding: 2px 3px; font-size: 16px; line-height: 21px; cursor: pointer; @include transition(all, 0.15s, ease-out); @include corner(); display: block; width: 100%; background: $color_light_white;
+				&.on,
 				&:hover,
 				&:nth-child(even):hover {background: $color_light_pink; border-color: $color_light_pink; color: #000;}
 				&:hover:last-child {border-color: $color_light_pink}
+				&.on a,
 				&:hover a {color: #000;}			
 				&:nth-child(even) {background: #fff}
 				&.none:hover {background: $color_light_white; border: none;}
@@ -103,7 +136,7 @@
 			.table-sortable td {font-size: 12px; vertical-align: middle;}	
 			.table-sortable .table-column-icon {width: 25px; vertical-align: middle; padding-left: 2px;}
 			.table-sortable thead .table-column-title {font-size: 18px; padding-left: 3px;}
-			.table-sortable .table-column-title {width: 250px; font-size: 16px; padding-top: 2px;}
+			.table-sortable .table-column-title {width: 250px; font-size: 15px; line-height: 24px;}
 			.table-sortable tbody .table-column-title a {color: $color_light_gray;}
 			.table-sortable thead .table-column-right {vertical-align: middle;}
 			.table-sortable tbody .table-column-right a {margin-left: -4px;}
@@ -111,6 +144,52 @@
 	// END TABLE SORTABLE
 	
 // END COLUMNS
+
+// ANNOTATION
+.note {width: 20px; height: 20px; background: rgba(255, 255, 255, 0.3); margin-left: 2px; -moz-border-image: url(../img/note-border.png) 5 5 5 5 stretch; -webkit-border-image: url(../img/note-border.png) 5 5 5 5 stretch; border: 5px solid #ff7b09; @include corner()}
+
+.note.active {-moz-border-image: url(../img/note-border-active.png) 5 5 5 5 stretch; -webkit-border-image: url(../img/note-border-active.png) 5 5 5 5 stretch;}
+
+/** -- minimized note view -- **/
+/*#view-body-editor .minimized.note {width: 0 !important; height: 0 !important;}*/
+
+.minimized.note .ui-resizable-handle,
+.minimized.note .border,		
+.minimized.note .overlay,		
+.minimized.note form {display: none;}
+	
+.note .note-num {position: absolute; top: -13px; left: -13px; background: #272727; border: 1px solid rgba(255, 255, 255, 0.5); width: 20px; height: 20px; line-height: 20px; text-align: center; color: #ccc; @include corner(); font-size: 12px; cursor: pointer; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); }
+.note .border {position: absolute; top: -1px; left: -1px; border: 1px solid rgba(0, 0, 0, 0.4);@include corner(); width: 100%; height: 100%;}
+.note .overlay {position: absolute; top: 0; left: 0;@include corner(); width: 100%; height: 100%; cursor: move;}
+.note .frm-note {position: absolute; top: 30px; width: 330px; height: 200px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; @include boxshadow();}
+
+.note form {width: 100%; position: relative; float: left;}			
+	.note form p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
+	.note form textarea {float: left; position: relative; width: 318px; @include corner(3px); border: 1px solid #000; height: 100px; padding: 5px; resize: none;}
+	.note form label {width: 72px; font-weight: bold; position: relative; top: 4px; float: left;}
+	.note form select {width: 170px; position: relative; float: left; margin-left: 10px;}
+	.note form .btn-close-task {position: relative; float: left; margin-left: 20px; top: 4px;}
+	.note form .group-cta {position: relative; top: 15px; width: 327px;}
+	.note form .btn-save {position: relative; float: left;}
+	.note form .btn-cancel {position: relative; float: left; margin-left: 20px;}
+	.note form .btn-delete {position: relative; float: right;}
+
+/* Resizable
+----------------------------------*/
+.ui-resizable { position: relative;}
+.ui-resizable-handle { position: absolute;font-size: 0.1px;z-index: 99999; display: block;}
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+.ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0; }
+.ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0; }
+.ui-resizable-e { cursor: e-resize; width: 7px; right: -5px; top: 0; height: 100%; }
+.ui-resizable-w { cursor: w-resize; width: 7px; left: -5px; top: 0; height: 100%; }
+.ui-resizable-se { cursor: se-resize; width: 12px; height: 12px; right: 1px; bottom: 1px; }
+.ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+.ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+.ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}
+
+// END ANNOTATION
+
 
 // PIE CHART 
 .pie-chart {position: relative; z-index: 2; top: -30px; left: -15px}
