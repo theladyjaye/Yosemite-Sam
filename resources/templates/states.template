@@ -16,8 +16,8 @@
 	</div>
 	<div class="column sidebar detail">
 		<nav>
-			<a class="btn btn-delete right" href="#">
-				Delete
+			<a class="btn btn-delete right btn-modal modal-view-delete-view" href="#">
+				Delete View
 			</a>
 		</nav>
 		<section class="column-body">
@@ -31,7 +31,7 @@
 				<div class="state-details">
 					<a class="btn-update-image right" href="#">Update image</a>
 					<hr />
-					<h2>${state.label}</h2>
+					<h2 class="editable">${view.label}</h2>
 					<div class="meta">
 						<a class="author" href="#">${state.created_by}</a>
 						<span class="timestamp">Created ${peeq.utils.template.elapsed_time(state.created_at)}</span>
@@ -58,22 +58,22 @@
 							</table>								
 						</div>
 						<hr />
-						<p class="desc">${state.description}</p>					
+						<p class="desc editable-textarea">${view.description}</p>					
 						<hr />
 						<table id="table-states" class="table-sortable">
 							<thead>
 								<tr>
 									<th class="table-column-icon"><span class="icon icon-state-large"></span></th>
 									<th class="table-column-title">States</th>
-									<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir">Add</a>
+									<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir btn-modal modal-view-add-state">Add</a>
 								</tr>
 							</thead>
 							<tbody>
 								{{each view.states}}
-									<tr class="state-id-${_id.split("/").slice(-1)}">
+									<tr {{if state._id == _id}}class="current"{{/if}}>
 										<td class="table-column-icon"><span class="icon icon-jpg"></span></td>
 										<td class="table-column-title">${label}</td>
-										<td class="table-column-right"><a href="#" class="icon icon-trash btn-delete ir">Delete</a></td>
+										<td class="table-column-right">{{if view.states.length > 1}}<a href="#${_id.split("/").slice(-1)}" class="icon icon-trash btn-delete ir">Delete</a>{{/if}}</td>
 									</tr>											
 								{{/each}}
 							</tbody>
@@ -83,4 +83,58 @@
 			</div>
 		</section>
 	</div>
+</section>
+
+<section class="modal modal-view-delete-view">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-view-delete" action="" method="post">	
+			<input type="hidden" name="label" value="${view.label}" />		
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything in ${view.label}.</a>
+			<a href="#" class="btn btn-modal-close left">Cancel</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-add-state">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-state-add" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="label" />
+					<label for="label">State Name</label>
+					<span class="hint">What's my name?</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="file" name="attachment" />
+					<label for="label">Representation</label>
+					<span class="hint">jpg of state</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<textarea name="description"></textarea>
+					<label for="description">Description</label>
+					<span class="hint">About this state...</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Add State</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-delete-state">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-state-delete" action="" method="post">	
+			<input type="hidden" name="id" value="" />		
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete</a>
+			<a href="#" class="btn btn-modal-close left">Cancel</a>
+		</form>
+	</section>
 </section>

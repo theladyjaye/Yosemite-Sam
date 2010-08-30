@@ -1,9 +1,9 @@
 @import "style.scss";
 
 .column-body li {height: 140px; border-bottom: 1px solid rgba(32, 33, 31, 0.1); border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff; padding: 25px 0;
-	&:hover {@include lineargradient(#fcfcfc, #f8faf3); @include corner(); border: 1px solid rgba(32, 33, 31, 0.2);}
+//	&:hover {@include lineargradient(#fcfcfc, #f8faf3); @include corner(); border: 1px solid rgba(32, 33, 31, 0.2);}
 	&:last-child {border-color: #fff}
-	&:hover:last-child {border: 1px solid rgba(32, 33, 31, 0.2);}
+//	&:hover:last-child {border: 1px solid rgba(32, 33, 31, 0.2);}
 }
 
 	// column none
@@ -42,7 +42,7 @@
 	.views .column-item-left .tasks {float: left; display: inline; position: relative; top: 6px; left: 15px;}
 	.views .column-item-left .tasks .icon {margin-right: 5px;}
 	
-	.detail.sidebar h2 {font-size: 36px; font-weight: normal; letter-spacing: -1px;}
+	.detail.sidebar h2 {font-size: 36px; font-weight: normal; letter-spacing: -1px}
 	.detail.sidebar .pie-chart dl {position: absolute; left: 160px; top: 60px; width: 135px;}
 		.detail.sidebar .pie-chart dt {width: 105px;}
 	.detail #pie-chart-project {float: none; left: -5px; top: -30px; margin-bottom: -55px;}
@@ -121,7 +121,7 @@
 	// TABLE SORTABLE
 	.table-sortable {width: 100%;}
 		.table-sortable thead {height: 30px;}
-		.table-sortable tr {display: inline-table;}
+		.table-sortable tr {display: inline-table}
 		.table-sortable tbody tr {height: 21px; padding: 2px 3px; font-size: 16px; line-height: 21px; cursor: pointer; @include transition(all, 0.15s, ease-out); @include corner(); display: block; width: 100%; background: $color_light_white;
 				&.on,
 				&:hover,
@@ -131,6 +131,13 @@
 				&:hover a {color: #000;}			
 				&:nth-child(even) {background: #fff}
 				&.none:hover {background: $color_light_white; border: none;}
+				&.current,
+				&.current:hover {background: $color_light_blue; color: $color_light_white; cursor: default;}
+				&.none:hover {background: $color_light_white; color: $color_dark_gray; cursor: default;
+					a {color: $color_light_blue;
+						&:hover {color: $color_light_pink;}
+					}
+				}				
 			}
 			.table-sortable th {text-align: left; font-weight: bold; font-size: 18px;}
 			.table-sortable td {font-size: 12px; vertical-align: middle;}	
@@ -145,34 +152,48 @@
 	
 // END COLUMNS
 
-// ANNOTATION
-.note {width: 20px; height: 20px; background: rgba(255, 255, 255, 0.3); margin-left: 2px; -moz-border-image: url(../img/note-border.png) 5 5 5 5 stretch; -webkit-border-image: url(../img/note-border.png) 5 5 5 5 stretch; border: 5px solid #ff7b09; @include corner()}
+// EDITABLE FIELDS
+.editable-textarea .frm-editable,
+.editable .frm-editable {margin-bottom: 40px;}
+	.editable input {width: 100%; font-size: 24px;}	
+	.editable-textarea textarea {width: 100%; height: 200px;}
+	
+	.editable-textarea button,
+	.editable button {border: 0 none; font-size: 12px; margin-top: 5px; padding: 5px 10px; outline: none; height: 30px; font: bold 15px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif; letter-spacing: 0; cursor: pointer;}
+	.editable-textarea button[type=submit],
+	.editable button[type=submit] {float: left; display: inline; margin-right: 10px;}
+	.editable-textarea button[type=cancel],
+	.editable button[type=cancel] {float: left; display: inline}
+// END EDITABLE FIELDS
 
-.note.active {-moz-border-image: url(../img/note-border-active.png) 5 5 5 5 stretch; -webkit-border-image: url(../img/note-border-active.png) 5 5 5 5 stretch;}
+// ANNOTATION
+.annotation {width: 20px; height: 20px; background: rgba(255, 255, 255, 0.3); margin-left: 2px; @include borderimage('../imgs/annotation-border.png'); border: 5px solid #ff7b09; @include corner()}
+
+.annotation.active {@include borderimage('../imgs/annotation-border-active.png');}
 
 /** -- minimized note view -- **/
-/*#view-body-editor .minimized.note {width: 0 !important; height: 0 !important;}*/
+/*#view-body-editor .minimized.annotation {width: 0 !important; height: 0 !important;}*/
 
-.minimized.note .ui-resizable-handle,
-.minimized.note .border,		
-.minimized.note .overlay,		
-.minimized.note form {display: none;}
+.minimized.annotation .ui-resizable-handle,
+.minimized.annotation .border,		
+.minimized.annotation .overlay,		
+.minimized.annotation form {display: none;}
 	
-.note .note-num {position: absolute; top: -13px; left: -13px; background: #272727; border: 1px solid rgba(255, 255, 255, 0.5); width: 20px; height: 20px; line-height: 20px; text-align: center; color: #ccc; @include corner(); font-size: 12px; cursor: pointer; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); }
-.note .border {position: absolute; top: -1px; left: -1px; border: 1px solid rgba(0, 0, 0, 0.4);@include corner(); width: 100%; height: 100%;}
-.note .overlay {position: absolute; top: 0; left: 0;@include corner(); width: 100%; height: 100%; cursor: move;}
-.note .frm-note {position: absolute; top: 30px; width: 330px; height: 200px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; @include boxshadow();}
+.annotation .annotation-num {position: absolute; top: -17px; left: -18px; background: #272727; width: 21px; height: 20px; line-height: 20px; text-align: center; color: #fff; @include corner(15px); padding: 4px; font-size: 14px; font-weight: bold; cursor: pointer; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); }
+.annotation .border {position: absolute; top: -1px; left: -1px; border: 1px solid rgba(0, 0, 0, 0.4);@include corner(); width: 100%; height: 100%;}
+.annotation .overlay {position: absolute; top: 0; left: 0;@include corner(); width: 100%; height: 100%; cursor: move;}
+.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; height: 250px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; @include boxshadow();}
 
-.note form {width: 100%; position: relative; float: left;}			
-	.note form p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
-	.note form textarea {float: left; position: relative; width: 318px; @include corner(3px); border: 1px solid #000; height: 100px; padding: 5px; resize: none;}
-	.note form label {width: 72px; font-weight: bold; position: relative; top: 4px; float: left;}
-	.note form select {width: 170px; position: relative; float: left; margin-left: 10px;}
-	.note form .btn-close-task {position: relative; float: left; margin-left: 20px; top: 4px;}
-	.note form .group-cta {position: relative; top: 15px; width: 327px;}
-	.note form .btn-save {position: relative; float: left;}
-	.note form .btn-cancel {position: relative; float: left; margin-left: 20px;}
-	.note form .btn-delete {position: relative; float: right;}
+.annotation form {width: 100%; position: relative; float: left;}			
+	.annotation form p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
+	.annotation form textarea {float: left; position: relative; width: 390px; @include corner(3px); border: 1px solid #000; height: 100px; padding: 5px; resize: none; font: 14px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif;}
+	.annotation form label {width: 90px; font-weight: bold; position: relative; top: 4px; float: left;}
+	.annotation form select {width: 180px; position: relative; float: left; margin-left: 10px; top: 11px; outline: none;}
+	.annotation form .btn-close-task {position: relative; float: right; margin-left: 20px; top: 4px;}
+	.annotation form .group-cta {position: relative; top: 15px; width: 100%;}
+	.annotation form .btn-save {position: relative; float: left;}
+	.annotation form .btn-cancel {position: relative; float: left; margin-left: 20px;}
+	.annotation form .btn-delete {position: relative; float: right;}
 
 /* Resizable
 ----------------------------------*/

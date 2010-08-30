@@ -1,44 +1,91 @@
 <section class="wrap views">
 	<div class="column none">
 		<nav>
-			<a class="btn right btn-add" href="#">
-				Add Project
+			<a class="btn btn-back left" href="">
+				Back to Projects
 			</a>
+			<a class="btn right btn-add" href="#">
+				Add View
+			</a>						
 		</nav>
 		<section class="column-body">
 			<p>You have 0 views.  Get started!  <a href="#" class="incomplete">Create a new view</a>.			
 		</section>
 	</div>
-	<div class="column sidebar">
+	<div class="column sidebar detail">
 		<nav>
-			<a class="btn btn-delete right" href="#">
+			<a class="btn btn-delete btn-modal modal-view-delete-project right" href="#">
 				Delete
 			</a>
 		</nav>
 		<section class="column-body">
 			<div class="column-body-inner">
-				<div class="company-logo">
-					<span></span>
-					<img src="resources/imgs/fpo-company.jpg" alt="" />
+				<h2>${project.label}</h2>
+				<div class="meta">
+					<a class="author" href="#">${project.created_by}</a>
+					<span class="timestamp">Created ${peeq.utils.template.elapsed_time(project.created_at)}</span>
 				</div>
 				<hr class="thick" />
-				<div class="company-meta">
-					<p class="domain">blitz.peeq.com</p>
-					<p class="timestamp">Created 2 months ago</p>
+				<div class="project-meta">
+					<div id="pie-chart-project" class="pie-chart">										
+						<dl>
+							<dt class="incomplete">Views</dt>
+							<dd class="incomplete">0</dd>
+							<dt class="complete">Completed</dt>
+							<dd class="complete">0</dd>
+						</dl>
+						<p class="percentage">0%</p>
+						<table>
+						    <tr>
+				                <th>Incomplete</th>
+				                <td>100%</td>
+				            </tr>
+				            <tr>
+				                <th>Complete</th>
+				                <td>100%</td>
+				            </tr>
+						</table>								
+					</div>
 					<hr />
-					<dl>
-						<dt class="incomplete">Projects</dt>
-						<dd class="incomplete">0</dd>
-						<dt class="complete">Completed</dt>
-						<dd class="complete">0</dd>
-					</dl>
+					<p class="desc">${project.description}</p>					
 					<hr />
-					<dl>
-						<dt>Users</dt>
-						<dd>16</dd>
-					</dl>
+					<table class="table-sortable">
+						<thead>
+							<tr>
+								<th class="table-column-icon"><span class="icon icon-paperclip"></span></th>
+								<th class="table-column-title">Attachments</th>
+								<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir">Add</a>
+							</tr>
+						</thead>
+						<tbody>
+						{{if project.attachments.length > 0}}
+							{{each project.attachments}}
+								<tr>
+									<td class="table-column-icon"><span class="icon ${peeq.utils.template.icon_from_content_type(content_type)}"></span></td>
+									<td class="table-column-title"><a href="${path}" class="title">${label}</a></td>
+									<td class="table-column-right"><a href="#" class="icon icon-trash btn-delete ir">Delete</a></td>
+								</tr>
+							{{/each}}														
+						{{else}}
+							<tr class="none">
+								<td colspan="3">You have no attachments. <a href="#">Add one</a>.</td>
+							</tr>
+						{{/if}}
+						</tbody>
+					</table>	
 				</div>
 			</div>
 		</section>
 	</div>
+</section>
+
+<section class="modal modal-view-delete-project">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-project-delete" action="" method="post">	
+			<input type="hidden" name="label" value="${project.label}" />		
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything in ${project.label}.</a>
+			<a href="#" class="btn btn-modal-close left">Cancel</a>
+		</form>
+	</section>
 </section>

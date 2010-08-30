@@ -23,7 +23,7 @@ function(doc)
 		// eg: including state attachments, which we don't want here.
 		// so we apply a simple rule to omit those bad boys
 		if(doc._id.split('/').length == 4)
-			emit([project, 3], {type:"attachment", "content_type":doc.content_type, "label":doc.label, "path":doc.path})
+			emit([project, 3], {type:"attachment", "content_type":doc.content_type, "label":doc.label, "path":doc.path, "_id":doc._id.split("/").slice(-1)})
 	}
 	
 	

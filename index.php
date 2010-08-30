@@ -68,12 +68,15 @@
 	<script src="resources/js/src/jquery/plugins/jquery.tablesorter.min.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.toggle_form_field.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.annotate.js"></script>
+	<script src="resources/js/src/jquery/plugins/jquery.jeditable.js"></script>
 	<script src="resources/js/src/sammy/sammy.min.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.cache.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.json.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.storage.js"></script>
 	<script src="resources/js/src/peeq/peeq.class.js"></script>
 	<script src="resources/js/src/peeq/peeq.api.js"></script>
+	<script src="resources/js/src/peeq/peeq.forms.logged-in.js"></script>
+	<script src="resources/js/src/peeq/peeq.editable.js"></script>
 	<script src="resources/js/src/peeq/peeq.annotate.js"></script>
 	<script src="resources/js/src/peeq/peeq.utils.js"></script>
 	<script src="resources/js/src/peeq/main.js"></script>

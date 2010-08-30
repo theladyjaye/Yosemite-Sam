@@ -6,7 +6,7 @@ peeq.prototype.api =
 			callback(data);
 		}
 	},
-	createForm: function(action, params, successCallback)
+	createForm: function(action, $original_form, successCallback)
 	{
 	    var id = "frm-ajax-on-demand";
 	    
@@ -20,34 +20,36 @@ peeq.prototype.api =
 	        enctype: "multipart/form-data"	        
 	    });
 	    
-	    var $field;
-		    
-	    for(var i in params)
-	    {
-
-	        $("<input>", {
+	    $original_form.find("input").each(function() {
+			$("<input />", {
 	            type: "hidden",	
-	            name: i,
-	            val: params[i]
+	            name: $(this).attr("name"),
+	            val: $(this).val()
 	        }).appendTo($frm);
-	    }
-
+		}).end().find("textarea").each(function() {
+			$("<textarea />", {	            
+	            name: $(this).attr("name"),
+	            html: $(this).val()
+	        }).appendTo($frm);
+		});
+				
 	    $frm.appendTo("body");
 	    
 	    return $frm;
 	},
-	request: function(resource, data, method, successCallback)
+	request: function(resource, data, method, successCallback, isUpload)
 	{
-		var api_path = "http://yss.com/api";
+		var api_path = "http://yss.com/api",
+			isUpload = isUpload || false;
 		
 		if(resource)
 		{	
 		    var handler = api_path + resource;
 
-            // if POSTing
-		    if(method && method.toUpperCase() == "POST")
+            // if uploading file
+		    if(isUpload)
 		    {
-		        var $frm = createForm(handler, data);
+		        var $frm = peeq.api.createForm(handler, data);
 		        $frm.submit(function() {
 		           $.post(handler, $frm.serialize(), function(data) {
 		               $frm.remove();
@@ -57,7 +59,12 @@ peeq.prototype.api =
 		        }).submit();			       
 		    }
 		    else
-		    {		     
+		    {		    
+				if(method == "PUT")
+				{
+					method = "POST";
+				}
+			 			
    				$.ajax({
    					beforeSend: function(xhr) {
    						xhr.setRequestHeader("X-HTTP-Method-Override", method || "GET");
@@ -65,10 +72,9 @@ peeq.prototype.api =
    					type: "POST",
    					data: data, 
 					dataType: "json",
-   					contentType: "application/json; charset=utf-8",
    					url: handler,
-   					success: function(data) {
-   						peeq.api.successCallbackHandler(successCallback, data);
+   					success: function(response) {
+   						peeq.api.successCallbackHandler(successCallback, response);
    					}
    				});	
    			}

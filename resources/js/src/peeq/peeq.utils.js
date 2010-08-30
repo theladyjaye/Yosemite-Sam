@@ -192,7 +192,21 @@ peeq.prototype.utils =
 			get_id_from_elt: function($elt)
 			{
 				return $elt.attr("class").match(/state-id-(\w|\d|-)*/)[0];
-			}
+			},
+			get_current: function(states, current_id)
+			{
+				var state = states[0];
+				for(var i = 0, len = states.length; i < len; i++)
+				{
+					if(states[i]._id == current_id)
+					{
+						state = states[i];
+						break;
+					}
+				}
+				
+				return state;
+			}			
 		}
 	}
 };

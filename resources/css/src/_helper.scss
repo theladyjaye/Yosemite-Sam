@@ -58,6 +58,11 @@
 	-webkit-background-size: 	$full;
 }
 
+@mixin borderimage($url, $offset_top:5, $offset_right:5, $offset_bottom:5, $offset_left: 5, $scaling:stretch)
+{
+	-moz-border-image: url($url) $offset_top $offset_right $offset_bottom $offset_left $scaling; 
+	-webkit-border-image: url($url) $offset_top $offset_right $offset_bottom $offset_left $scaling;
+}
 // NON-SEMANTIC HELPER CLASSES 
 // source: http://html5boilerplate.com/
 

@@ -4,9 +4,9 @@
 			<a class="btn btn-back left" href="">
 				Back to Projects
 			</a>
-			<a class="btn right btn-add" href="#">
+			<a class="btn right btn-add btn-modal modal-view-add-view" href="#">
 				Add View
-			</a>						
+			</a>					
 		</nav>
 		<section class="column-body">		
 			<ul>				
@@ -72,13 +72,13 @@
 	</div>
 	<div class="column sidebar detail">
 		<nav>
-			<a class="btn btn-delete right" href="#">
+			<a class="btn btn-delete btn-modal modal-view-delete-project right" href="#">
 				Delete
 			</a>
 		</nav>
 		<section class="column-body">
 			<div class="column-body-inner">
-				<h2>${project.label}</h2>
+				<h2 class="editable">${project.label}</h2>
 				<div class="meta">
 					<a class="author" href="#">${project.created_by}</a>
 					<span class="timestamp">Created ${peeq.utils.template.elapsed_time(project.created_at)}</span>
@@ -105,14 +105,14 @@
 						</table>								
 					</div>
 					<hr />
-					<p class="desc">${project.description}</p>					
+					<p class="desc editable-textarea">${project.description}</p>					
 					<hr />
-					<table class="table-sortable">
+					<table id="table-attachments" class="table-sortable">
 						<thead>
 							<tr>
 								<th class="table-column-icon"><span class="icon icon-paperclip"></span></th>
 								<th class="table-column-title">Attachments</th>
-								<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir">Add</a>
+								<th class="table-column-right"><a class="icon icon-add btn-add ir btn-modal modal-view-add-attachment" href="#">Add</a>
 							</tr>
 						</thead>
 						<tbody>
@@ -120,13 +120,13 @@
 							{{each project.attachments}}
 								<tr>
 									<td class="table-column-icon"><span class="icon ${peeq.utils.template.icon_from_content_type(content_type)}"></span></td>
-									<td class="table-column-title"><a href="${path}" class="title">${label}</a></td>
-									<td class="table-column-right"><a href="#" class="icon icon-trash btn-delete ir">Delete</a></td>
+									<td class="table-column-title">${label}</td>
+									<td class="table-column-right"><a href="#${_id}" class="icon icon-trash btn-delete btn-modal modal-view-delete-attachment ir">Delete</a></td>
 								</tr>
 							{{/each}}														
 						{{else}}
 							<tr class="none">
-								<td colspan="3">You have no attachments. <a href="#">Add one</a>.</td>
+								<td colspan="3">You have no attachments. <a class="btn-add btn-modal modal-view-add-attachment" href="#">Add one</a>.</td>
 							</tr>
 						{{/if}}
 						</tbody>
@@ -135,4 +135,83 @@
 			</div>
 		</section>
 	</div>
+</section>
+
+<section class="modal modal-view-add-view">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-view-add" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="label" />
+					<label for="label">View Name</label>
+					<span class="hint">What's my name?</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="file" name="attachment" />
+					<label for="label">Representation</label>
+					<span class="hint">jpg of view</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<textarea name="description"></textarea>
+					<label for="description">Description</label>
+					<span class="hint">About this view...</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Add View</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-add-attachment">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-attachment-add" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="label" />
+					<label for="label">Attachment Name</label>
+					<span class="hint">Call me..</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="file" name="attachment" />
+					<label for="label">Representation</label>
+					<span class="hint">browse for file...</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Add Attachment</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-delete-project">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-project-delete" action="" method="post">	
+			<input type="hidden" name="label" value="${project.label}" />		
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything in ${project.label}.</a>
+			<a href="#" class="btn btn-modal-close left">Cancel</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-delete-attachment">
+	<section>
+		<a class="btn btn-modal-close" href="#">Close</a>
+		<form id="frm-attachment-delete" action="" method="post">	
+			<input type="hidden" name="id" value="" />		
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete</a>
+			<a href="#" class="btn btn-modal-close left">Cancel</a>
+		</form>
+	</section>
 </section>

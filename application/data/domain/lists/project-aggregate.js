@@ -23,7 +23,7 @@ function(head, req)
 			switch(type)
 			{
 				case "attachment":
-					current.attachments.push({"content_type":row.value.content_type, "path":row.value.path, "label":row.value.label});
+					current.attachments.push({"content_type":row.value.content_type, "path":row.value.path, "label":row.value.label, "_id": row.value._id});
 					break;
 						
 				case "view":

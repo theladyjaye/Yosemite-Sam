@@ -41,7 +41,7 @@ function peeq()
 								setup_modals();
 								$("#main").animate({
 									"opacity": 1
-								});
+								});								
 							}
 						});
 					});
@@ -81,8 +81,8 @@ function peeq()
 								return {};
 							});					
 						}
-		
-						var template = (data.length) ? "views" : "views-none";			
+
+						var template = (data.length && data[0]) ? "views" : "views-none";			
 						//console.log(project_data);
 						$("#main").stop(false, true).animate({
 							"opacity": 0
@@ -92,7 +92,7 @@ function peeq()
 								"name": template,
 								"data": {"views": data,
 										 "project": project_data},
-								"complete": function() {
+								"complete": function() {									
 									// all pie charts in view except #pie-chart-project
 									$(".pie-chart:not(#pie-chart-project)").piechart({
 										radius: 10,
@@ -113,6 +113,15 @@ function peeq()
 									});
 							
 									$("body").attr("id", "");
+									
+									// download attachments
+									$("#table-attachments tbody").delegate("tr", "click", function() {
+										var attachment_id = $(this).find(".btn-delete").attr("href").substr(1);
+										document.location.href = "#/" + context.params["project"] + "/attachment/" + attachment_id;
+									});
+									
+									setup_modals();
+									peeq.editable.main();
 									$("#main").animate({
 										"opacity": 1
 									});
@@ -156,6 +165,8 @@ function peeq()
 						var data = data || {},							
 							storage_key = "blitz." + context.params["project"] + "-" + context.params["view"] + "-states";
 					
+						var current_state = peeq.utils.template.states.get_current(data, context.path.replace("#", "project"));
+										
 						// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
 						if(!peeq.is_online)
 						{						
@@ -163,9 +174,9 @@ function peeq()
 								return {};
 							});					
 						}
-	
+												
 						var template = "states";		
-			
+	
 						$("#main").stop(false, true).animate({
 							"opacity": 0
 						}, 300, "linear", function() {
@@ -173,7 +184,7 @@ function peeq()
 							$(this).html("").render_template({
 								"name": template,
 								"data": {"view": view_data,
-										 "state": data[0]},
+										 "state": current_state},
 								"complete": function() {							
 									$("#pie-chart-project").piechart({
 										radius: 60,
@@ -184,13 +195,15 @@ function peeq()
 									});
 						
 									$("body").attr("id", "");
+									setup_modals();
+									peeq.editable.main();
 									$("#main").animate({
 										"opacity": 1
 									});
 									
 									// change states
-									$("#table-states tbody").delegate("tr", "click", function() {
-										var state_id = peeq.utils.template.states.get_id_from_elt($(this)).replace("state-id-", "");
+									$("#table-states tbody").delegate("tr:not(.current)", "click", function() {
+										var state_id = $(this).find(".btn-delete").attr("href").substr(1);
 										document.location.href = "#/" + context.params["project"] + "/" + context.params["view"] + "/" + state_id;
 									});
 									
@@ -374,6 +387,7 @@ function peeq()
 	// registers modal, add, delete events
 	var register_events = function() 
 	{
+		/*
 		sammy.$element().delegate(".btn-delete", "click", function() {
 			var path = sammy.getLocation().split("/").slice("1");
 			peeq.api.request("/project/" + path, {}, "DELETE", function(msg) {
@@ -382,6 +396,10 @@ function peeq()
 			});
 			return false;
 		});
+		*/
+		
+		// forms
+		peeq.forms.main();
 		
 		// expander
 		$("#main").delegate(".expander", "click", function() {
@@ -416,10 +434,24 @@ function peeq()
 				
 				hash.o.fadeOut();
 			}
-		});
+		});	
 		
 		$(".btn-modal").click(function() {
 			$(".modal"+ get_modal_view(this)).jqmShow();
+			
+			// attachment delete modal link 
+			// state delete modal link
+			// => populate fields
+			if($(this).hasClass("modal-view-delete-attachment") || $(this).hasClass("modal-view-delete-state"))
+			{
+				var $this = $(this),
+					id = $this.attr("href").substr(1),
+					$frm = $this.hasClass("modal-view-delete-attachment") ? $("#frm-attachment-delete") :  $("#frm-state-delete");
+					
+				$frm.find("input[name=id]").val(id); // populate id
+				$frm.find(".btn-submit").append(" " + $this.parents("tr").find(".table-column-title").text()); // populate label
+			}
+			
 			return false;
 		});
 		
