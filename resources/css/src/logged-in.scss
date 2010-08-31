@@ -69,7 +69,7 @@
 		.states #table-annotations-container .none {font-size: 24px;}
 		.states .table-annotations {width: 580px; margin: 0 auto;}
 		.states .wide .table-annotations {width: 900px;}
-			.states .table-annotations th {font-weight: normal; line-height: 10px; margin-top: 10px; text-indent: 10px;}
+			.states .table-annotations th {font-weight: normal; line-height: 10px; margin-top: 10px; text-indent: 10px; cursor: pointer;}
 			.states .table-annotations .table-column-icon {width: 50px;}
 			.states .table-annotations .table-column-title {width: 330px;}
 			.states .wide .table-annotations .table-column-title {width: 450px;}
@@ -118,6 +118,23 @@
 					.sidebar dd {float: right}
 	// END SIDEBAR
 	
+	
+	// PAGINATION
+	.paginate {}
+		.paginate .page-navigation {text-align: right; float: right; margin: 10px 15px 0 0;}
+			.page-navigation a {margin: 0 2px; float: left;}
+			.page-navigation .active_page {color: $color_light_yellow;}
+	
+	// END PAGINGATION
+	
+	// SEARCH
+	.frm-search {float: left; width: 100%; margin: -10px 15px 15px; position: relative; z-index: 3;}
+		.frm-search .search {height: 20px; font-size: 16px; width: 180px}
+		.frm-search .hint {top: 9px; font-size: 16px;}
+		.matches {font-size: 20px; margin: 5px 0 0 10px; font-style: italic; float: left;}
+		.no-matches {display: none; font-size: 24px; font-style: italic; float: left; margin-top: 20px; padding: 0 20px;}
+	// END SEARCH
+	
 	// TABLE SORTABLE
 	.table-sortable {width: 100%;}
 		.table-sortable thead {height: 30px;}
@@ -139,7 +156,7 @@
 					}
 				}				
 			}
-			.table-sortable th {text-align: left; font-weight: bold; font-size: 18px;}
+			.table-sortable th {text-align: left; font-weight: bold; font-size: 18px}
 			.table-sortable td {font-size: 12px; vertical-align: middle;}	
 			.table-sortable .table-column-icon {width: 25px; vertical-align: middle; padding-left: 2px;}
 			.table-sortable thead .table-column-title {font-size: 18px; padding-left: 3px;}
@@ -155,8 +172,10 @@
 // EDITABLE FIELDS
 .editable-textarea .frm-editable,
 .editable .frm-editable {margin-bottom: 40px;}
-	.editable input {width: 100%; font-size: 24px;}	
-	.editable-textarea textarea {width: 100%; height: 200px;}
+	.editable input {width: 96%; font-size: 36px; letter-spacing: -1px;}	
+	.editable-textarea textarea {width: 96%; height: 200px; font-size: 14px; letter-spacing: 0;}
+	.editable input, 
+	.editable-textarea textarea {@include boxshadow(rgba(0, 0, 1, 0.2), 0, 0, 3px, inset); @include corner(); color: $color_dark_gray; padding: 5px; border: 1px solid rgba(0, 0, 0, 0.1); outline: none; @include transition(all, 0.15s, ease-out); font-family: "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif;;}
 	
 	.editable-textarea button,
 	.editable button {border: 0 none; font-size: 12px; margin-top: 5px; padding: 5px 10px; outline: none; height: 30px; font: bold 15px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif; letter-spacing: 0; cursor: pointer;}
@@ -182,11 +201,16 @@
 .annotation .annotation-num {position: absolute; top: -17px; left: -18px; background: #272727; width: 21px; height: 20px; line-height: 20px; text-align: center; color: #fff; @include corner(15px); padding: 4px; font-size: 14px; font-weight: bold; cursor: pointer; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); }
 .annotation .border {position: absolute; top: -1px; left: -1px; border: 1px solid rgba(0, 0, 0, 0.4);@include corner(); width: 100%; height: 100%;}
 .annotation .overlay {position: absolute; top: 0; left: 0;@include corner(); width: 100%; height: 100%; cursor: move;}
-.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; height: 250px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; @include boxshadow();}
-
-.annotation form {width: 100%; position: relative; float: left;}			
-	.annotation form p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
-	.annotation form textarea {float: left; position: relative; width: 390px; @include corner(3px); border: 1px solid #000; height: 100px; padding: 5px; resize: none; font: 14px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif;}
+.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; height: 360px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; @include boxshadow();}			
+	.annotation .frm-annotation p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
+	.annotation .btn-priority {float: right; width: 16px; text-align: center; font-size: 26px; line-height: 29px;
+			&.checked {@include lineargradient($color_light_red, $color_dark_red);}
+		}
+	
+	.annotation form input,
+	.annotation form textarea {background: #fff;}
+	.annotation form input {width: 300px;}
+	.annotation form textarea {float: left; position: relative; width: 390px; height: 100px; padding: 5px; resize: none; font: 18px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif;}
 	.annotation form label {width: 90px; font-weight: bold; position: relative; top: 4px; float: left;}
 	.annotation form select {width: 180px; position: relative; float: left; margin-left: 10px; top: 11px; outline: none;}
 	.annotation form .btn-close-task {position: relative; float: right; margin-left: 20px; top: 4px;}

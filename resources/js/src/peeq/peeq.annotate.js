@@ -5,8 +5,8 @@ peeq.prototype.annotate =
 		$("#representation").annotatableImage(peeq.annotate.ui_annotation, {
 			xPosition: "left",
 			yPosition: "top"
-		});
-
+		})
+		
 		$("#representation").delegate(".annotation .btn-save", "click", function(evt) {
 			// save to db
 			var $annotation = $(this).parents(".annotation"),
@@ -81,7 +81,7 @@ peeq.prototype.annotate =
 				});
 			}
 		}).draggable({
-			containment: [5, $("#representation").position().top + 60, 1900, 800],
+			containment: [5, $("#representation").position().top + 60, 1900, $("#representation").height() + 60],
 			handle: ".overlay"
 		}).click(function() {
 			$(".annotation").removeClass("active");
@@ -150,9 +150,24 @@ peeq.prototype.annotate =
 
 
 		var frm_content = $("<div />", {
-			"html": '<p><textarea name="description"></textarea></p><p><label for="type">Type</label><select class="dd-type" name="type"><option value="HTML">HTML</option><option value="Flash">Flash</option></select></p><p><label for="assigned_to">Assigned To</label><select class="dd-assigned-to" name="assigned_to"><option value="bross">bross</option><option value="alincoln">alincoln</option></select><a href="#" class="btn btn-close-task">Close task</a></p><p class="group-cta"><a href="#" class="btn btn-save">Save</a><a href="#" class="btn btn-cancel">Cancel</a><a href="#" class="btn btn-delete">Delete</a></p>'
+			"html": '<p class="field"><a href="#" class="btn btn-priority" title="Low Priority">!</a><input name="label"></input><label for="label">Title</label></p><p class="field"><textarea name="description"></textarea><label for="description">Description</label></p><p><label for="type">Type</label><select class="dd-type" name="type"><option value="HTML">HTML</option><option value="Flash">Flash</option></select></p><p><label for="assigned_to">Assigned To</label><select class="dd-assigned-to" name="assigned_to"><option value="bross">bross</option><option value="alincoln">alincoln</option></select><a href="#" class="btn btn-close-task">Close task</a></p><p class="group-cta"><a href="#" class="btn btn-save">Save</a><a href="#" class="btn btn-cancel">Cancel</a><a href="#" class="btn btn-delete">Delete</a></p>'
 		}).appendTo(frm);
 
+		frm.find(".btn-priority").click(function() {
+			var $this = $(this),
+				priority = "Low";
+				
+			$this.toggleClass("checked");
+			if($this.hasClass("checked"))
+			{
+				priority = "High";
+			}
+			
+			$this.attr("title", priority + " Priority");
+			return false;
+		});
+
+		
 		return annotation;
 	}
 };

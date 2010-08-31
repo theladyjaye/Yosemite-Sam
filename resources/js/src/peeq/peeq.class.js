@@ -39,6 +39,51 @@ function peeq()
 								$(".pie-chart").piechart();
 								$("body").attr("id", "");
 								setup_modals();
+								
+								/*
+								// pagination				
+								var items_per_page = 2;				
+								if($(".paginate li").length > items_per_page)
+								{
+									$(".paginate").pajinate({
+										num_page_links_to_display: 3,
+										items_per_page: items_per_page,
+										nav_panel_id: ".page-navigation",
+										nav_label_prev: "&lsaquo;",
+										nav_label_next: "&rsaquo;",
+										nav_label_first: "&laquo;",
+										nav_label_last: "&raquo;"							
+									});
+								}   
+								*/
+								
+								$(".search").philter({
+									query_over: ".paginate li",
+									query_by: ".title"
+								}).bind("complete.philter", function(evt, matches) {
+									if(matches > 0)
+									{
+										$(".no-matches").hide();
+										var txt_matches = matches > 1 ? "matches" : "match";
+										$(".matches").html('<span class="complete">' + matches + '</span> ' + txt_matches);
+									}
+									else if(matches == 0)
+									{
+										$(".no-matches").show();
+										$(".matches").text("");									
+									}
+									else
+									{
+										$(".no-matches").hide();
+										$(".matches").text("");	
+									}
+								}).parents("form").submit(function() {
+									return false;
+								});
+								
+								// move to separate function
+								$("input").toggle_form_field();
+								
 								$("#main").animate({
 									"opacity": 1
 								});								
@@ -114,11 +159,56 @@ function peeq()
 							
 									$("body").attr("id", "");
 									
+									/*
+									// pagination				
+									var items_per_page = 2;				
+									if($(".paginate li").length > items_per_page)
+									{
+										$(".paginate").pajinate({
+											num_page_links_to_display: 3,
+											items_per_page: items_per_page,
+											nav_panel_id: ".page-navigation",
+											nav_label_prev: "&lsaquo;",
+											nav_label_next: "&rsaquo;",
+											nav_label_first: "&laquo;",
+											nav_label_last: "&raquo;"							
+										});
+									}   
+									*/
+
+									$(".search").philter({
+										query_over: ".paginate li",
+										query_by: ".title"
+									}).bind("complete.philter", function(evt, matches) {
+										if(matches > 0)
+										{
+											$(".no-matches").hide();
+											var txt_matches = matches > 1 ? "matches" : "match";
+											$(".matches").html('<span class="complete">' + matches + '</span> ' + txt_matches);
+										}
+										else if(matches == 0)
+										{
+											$(".no-matches").show();
+											$(".matches").text("");									
+										}
+										else
+										{
+											$(".no-matches").hide();
+											$(".matches").text("");	
+										}
+									}).parents("form").submit(function() {
+										return false;
+									});
+									
+									// move to separate function
+									$("input").toggle_form_field();
+									
 									// download attachments
 									$("#table-attachments tbody").delegate("tr", "click", function() {
 										var attachment_id = $(this).find(".btn-delete").attr("href").substr(1);
 										document.location.href = "#/" + context.params["project"] + "/attachment/" + attachment_id;
 									});
+																		
 									
 									setup_modals();
 									peeq.editable.main();

@@ -44,7 +44,7 @@ peeq.prototype.editable =
 	save: function(data, callback) 
 	{
 		var ary_hash = document.location.hash.split("/"),
-			slice_end = ary_hash.length > 2 : ary_hash.length - 1 : 2,	/* > 2 in state page and editing view, else in project page editing project */
+			slice_end = ary_hash.length > 2 ? ary_hash.length - 1 : 2;	/* > 2 in state page and editing view, else in project page editing project */
 			resource = "/project/" + ary_hash.slice(1, slice_end).join("/");
 			
 		peeq.api.request(resource, data, "POST", function(response) {

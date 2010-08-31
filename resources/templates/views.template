@@ -8,8 +8,15 @@
 				Add View
 			</a>					
 		</nav>
-		<section class="column-body">		
-			<ul>				
+		<section class="column-body paginate">
+			<form action="" method="post" class="frm-search">
+				<p class="field">
+					<input type="text" class="search" />
+					<span class="hint">Start typing to filter...</span>
+					<span class="matches"></span>
+				</p>
+			</form>		
+			<ul class="content">				
 				{{each views}}
 				<li>
 					<div class="column-item-left">
@@ -67,7 +74,9 @@
 					</div>
 				</li>
 				{{/each}}							
-			</ul>							
+			</ul>		
+			<p class="no-matches"><span class="incomplete">0</span> matches in search.  Try removing a few letters.</p>
+			<div class="page-navigation"></div>					
 		</section>
 	</div>
 	<div class="column sidebar detail">
