@@ -21,7 +21,7 @@ peeq.prototype.editable =
 		});
 		
 		$(".editable-textarea").editable(function(value, settings) {
-			value = value.replace(new RegExp("\\n", "g"), "<br />");
+			value = peeq.utils.template.nl2br(value);
 			peeq.editable.save({"description": value}, function(response) {
 				console.log(response);
 			});
@@ -39,6 +39,8 @@ peeq.prototype.editable =
 			data: function(value, settings) {
 	        	return $.trim(value.replace(/<br[\s\/]?>/gi, "\n"));
 	        }			
+		}).each(function() {
+			$(this).html($(this).html().replace(/&lt;br \/&gt;/g, "<br />"));	
 		});
 	},
 	save: function(data, callback) 

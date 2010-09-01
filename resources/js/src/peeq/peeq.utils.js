@@ -185,6 +185,14 @@ peeq.prototype.utils =
 			get_id_from_elt: function($elt)
 			{
 				return $elt.attr("class").match(/annotation-id-(\w|\d)*/)[0];
+			},
+			get_priority: function(priority)
+			{
+				return priority > 0 ? "!" : "";
+			},
+			get_status: function(status)
+			{				
+				return status > 0 ? "complete" : "incomplete";
 			}
 		},
 		states:
@@ -207,6 +215,10 @@ peeq.prototype.utils =
 				
 				return state;
 			}			
+		},
+		nl2br: function(str)
+		{
+			return str.replace(new RegExp("\\n", "g"), "<br />")
 		}
 	}
 };

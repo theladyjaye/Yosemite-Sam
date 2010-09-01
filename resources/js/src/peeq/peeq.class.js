@@ -61,12 +61,13 @@ function peeq()
 									query_over: ".paginate li",
 									query_by: ".title"
 								}).bind("complete.philter", function(evt, matches) {
+									$(".paginate li.last").removeClass("last");
 									if(matches > 0)
 									{
 										$(".no-matches").hide();
 										var txt_matches = matches > 1 ? "matches" : "match";
 										$(".matches").html('<span class="complete">' + matches + '</span> ' + txt_matches);
-									}
+										$(".paginate li:visible:last").addClass("last");
 									else if(matches == 0)
 									{
 										$(".no-matches").show();
@@ -83,7 +84,9 @@ function peeq()
 								
 								// move to separate function
 								$("input").toggle_form_field();
-								
+								$(".excerpt").each(function() {
+									$(this).html($(this).html().replace(/&lt;br \/&gt;/g, "<br />"));	
+								});
 								$("#main").animate({
 									"opacity": 1
 								});								
@@ -151,9 +154,9 @@ function peeq()
 							
 									$("#pie-chart-project").piechart({
 										radius: 60,
-										xpos: 80,
+										xpos: 90,
 										ypos: 90,
-										width: 155,
+										width: 190,
 										height: 170
 									});
 							
@@ -180,11 +183,13 @@ function peeq()
 										query_over: ".paginate li",
 										query_by: ".title"
 									}).bind("complete.philter", function(evt, matches) {
+										$(".paginate li.last").removeClass("last");
 										if(matches > 0)
 										{
 											$(".no-matches").hide();
 											var txt_matches = matches > 1 ? "matches" : "match";
 											$(".matches").html('<span class="complete">' + matches + '</span> ' + txt_matches);
+											$(".paginate li:visible:last").addClass("last");
 										}
 										else if(matches == 0)
 										{
@@ -206,10 +211,9 @@ function peeq()
 									// download attachments
 									$("#table-attachments tbody").delegate("tr", "click", function() {
 										var attachment_id = $(this).find(".btn-delete").attr("href").substr(1);
-										document.location.href = "#/" + context.params["project"] + "/attachment/" + attachment_id;
+										document.location.href = "/api/attachments/project" + encodeURIComponent("/" + context.params["project"] + "/attachment/" + attachment_id);
 									});
-																		
-									
+																											
 									setup_modals();
 									peeq.editable.main();
 									$("#main").animate({
@@ -278,9 +282,9 @@ function peeq()
 								"complete": function() {							
 									$("#pie-chart-project").piechart({
 										radius: 60,
-										xpos: 80,
+										xpos: 90,
 										ypos: 90,
-										width: 155,
+										width: 190,
 										height: 170
 									});
 						

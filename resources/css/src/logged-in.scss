@@ -2,6 +2,7 @@
 
 .column-body li {height: 140px; border-bottom: 1px solid rgba(32, 33, 31, 0.1); border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff; padding: 25px 0;
 //	&:hover {@include lineargradient(#fcfcfc, #f8faf3); @include corner(); border: 1px solid rgba(32, 33, 31, 0.2);}
+	&.last,
 	&:last-child {border-color: #fff}
 //	&:hover:last-child {border: 1px solid rgba(32, 33, 31, 0.2);}
 }
@@ -20,7 +21,7 @@
 			&:hover {color: $color_light_blue;}
 		}
 	
-	.column-item-right .excerpt {margin-top: 5px; line-height: 18px;}
+	.column-item-right .excerpt {margin-top: 5px; line-height: 18px; height: 56px; overflow: hidden;}
 	.column-item-right .stats {position: absolute; right: 0; top: 9px; padding: 4px 8px; @include corner(); background: #f2f2f2;}
 		.column-item-right .stats p {float: left; clear: both; margin: 2px 0;}
 		.column-item-right .stats span {margin: 0 2px;}
@@ -43,10 +44,10 @@
 	.views .column-item-left .tasks .icon {margin-right: 5px;}
 	
 	.detail.sidebar h2 {font-size: 36px; font-weight: normal; letter-spacing: -1px}
-	.detail.sidebar .pie-chart dl {position: absolute; left: 160px; top: 60px; width: 135px;}
+	.detail.sidebar .pie-chart dl {position: absolute; left: 170px; top: 60px; width: 135px;}
 		.detail.sidebar .pie-chart dt {width: 105px;}
-	.detail #pie-chart-project {float: none; left: -5px; top: -30px; margin-bottom: -55px;}
-		.detail #pie-chart-project .percentage {float: none; left: 25px; position: relative; top: -17px; width: 110px; text-align: center; font-size: 18px; }
+	.detail #pie-chart-project {float: none; left: -20px; top: -30px; margin-bottom: -55px;}
+		.detail #pie-chart-project .percentage {float: none; left: 25px; position: relative; top: -17px; width: 115px; text-align: center; font-size: 18px; }
 	
 	// END VIEWS SPECIFIC
 	
@@ -70,7 +71,11 @@
 		.states .table-annotations {width: 580px; margin: 0 auto;}
 		.states .wide .table-annotations {width: 900px;}
 			.states .table-annotations th {font-weight: normal; line-height: 10px; margin-top: 10px; text-indent: 10px; cursor: pointer;}
-			.states .table-annotations .table-column-icon {width: 50px;}
+			.states .table-annotations td {padding-left: 5px;}
+			.states .table-annotations .table-column-priority {width: 30px; color: $color_dark_red; font-weight: bold;}
+			.states .table-annotations tbody .table-column-priority {font-size: 22px; font-weight: bold;}
+				.states .table-annotations tbody tr:hover .table-column-priority {color: #fff;}
+			.states .table-annotations .table-column-icon {width: 70px;}
 			.states .table-annotations .table-column-title {width: 330px;}
 			.states .wide .table-annotations .table-column-title {width: 450px;}
 			.states .table-annotations .table-column-creator {width: 100px; display: none;}
