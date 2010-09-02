@@ -148,7 +148,8 @@
 
 <section class="modal modal-view-add-view">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
+		<h2 class="add">Add View</h2>
+		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-view-add" action="" method="post">
 			<ul>
 				<li class="field">								
@@ -161,7 +162,6 @@
 				<li class="field">								
 					<input type="file" name="attachment" />
 					<label for="label">Representation</label>
-					<span class="hint">jpg of view</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
@@ -180,7 +180,8 @@
 
 <section class="modal modal-view-add-attachment">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
+		<h2 class="add">Add Attachment</h2>
+		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-attachment-add" action="" method="post">
 			<ul>
 				<li class="field">								
@@ -205,22 +206,26 @@
 
 <section class="modal modal-view-delete-project">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
+		<h2>Delete ${peeq.utils.template.truncate(project.label, 15)}</h2>
+		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-project-delete" action="" method="post">	
+			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong>${project.label}</strong>, all attachments, views, states, and annotations will be deleted as well. EVERYTHING! There is no undo.</p>  
 			<input type="hidden" name="label" value="${project.label}" />		
-			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything in ${project.label}.</a>
-			<a href="#" class="btn btn-modal-close left">Cancel</a>
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything.</a>
+			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
 		</form>
 	</section>
 </section>
 
 <section class="modal modal-view-delete-attachment">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
+		<h2>Delete Attachment</h2>
+		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-attachment-delete" action="" method="post">	
+			<p><span class="important">Important</span>:  Are you 100% positive you want to delete <strong></strong>?  There is no undo.</p>
 			<input type="hidden" name="id" value="" />		
-			<a href="#" class="btn btn-delete btn-submit left">Yes, delete</a>
-			<a href="#" class="btn btn-modal-close left">Cancel</a>
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete.</a>
+			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
 		</form>
 	</section>
 </section>

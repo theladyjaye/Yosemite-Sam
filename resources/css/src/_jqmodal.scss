@@ -1,10 +1,15 @@
-.modal {width: 700px; height: 400px; margin-left: -350px; left: 50%; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 0, 5px); position: absolute; @include corner();}
-	.modal .btn-modal-close {position: absolute; right: 20px; top: 15px;
-			&:active {position: absolute; top: 16px;}
+.modal {width: 365px; margin-left: -183px; left: 50%; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 0, 5px); position: absolute; @include corner();}
+	.modal h2 {position: absolute; width: 100%; top: 0; left: 0; background: $color_dark_gray; color: #fff; height: 45px; line-height: 45px; text-indent: 20px; font-size: 22px; text-transform: uppercase; @include onecorner(2px, 'top', 'left'); @include onecorner(2px, 'top', 'right')};
+	.modal .btn-modal-close {position: absolute; right: 20px; top: 0; color: $color_light_gray; font-size: 14px; line-height: 45px; text-transform: uppercase;
+			&:active {position: absolute; top: 1px;}
+			&:hover {color: $color_light_pink;}
 		}
+	.modal form {margin-top: 40px;}
+		.modal form p {margin-bottom: 10px;}
+		.modal form .btn-submit {margin-top: 10px;}
+		.modal form .btn-modal-cancel {margin: 10px 0 0 10px;}
 
-
-.jqmWindow {display: none; position: fixed; top: 17%; left: 50%; @include lineargradient(#fff, $color_light_white); color: $color_dark_gray; padding: 20px}
+.jqmWindow {display: none; position: fixed; top: 12%; left: 50%; @include lineargradient(#fff, $color_light_white); color: $color_dark_gray; padding: 20px}
 .jqmOverlay {background-color: #000}
 
 /* Background iframe styling for IE6. Prevents ActiveX bleed-through (<select> form elements, etc.) */

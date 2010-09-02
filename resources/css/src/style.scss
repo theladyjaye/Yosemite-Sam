@@ -77,6 +77,7 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 .peeq {color: $color_light_pink;}
 .complete {color: $color_light_pink;}
 .incomplete {color: $color_light_blue;}
+.important {color: $color_light_red; text-transform: uppercase; font-weight: bold;}
 .wrap {width: $wrap_width; margin: 0 auto;}
 .timestamp {color: #aaa; font-style: italic;}
 .left {float: left;}
@@ -92,6 +93,7 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 	}
 
 .btn.btn-back:before {content: '\AB'; color: $color_light_yellow; padding-right: 4px}
+.add:before,
 .btn.btn-add:before {content: '+'; color: $color_light_yellow; padding-right: 4px}
 .btn.btn-annotate span {position: relative; top: 5px; margin-right: 3px;}
 // END UTILITIES

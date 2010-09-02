@@ -68,6 +68,7 @@ function peeq()
 										var txt_matches = matches > 1 ? "matches" : "match";
 										$(".matches").html('<span class="complete">' + matches + '</span> ' + txt_matches);
 										$(".paginate li:visible:last").addClass("last");
+									}
 									else if(matches == 0)
 									{
 										$(".no-matches").show();
@@ -505,6 +506,7 @@ function peeq()
 	var setup_modals = function() 
 	{
 		$(".modal").addClass("jqmWindow").jqm({
+			overlay: 90,
 			trigger: false,
 			closeClass: "btn-modal-close",
 			onShow: function(hash) {
@@ -513,7 +515,7 @@ function peeq()
 					"display": "block",
 					"opacity": 0
 				}).animate({
-					"top": "17%",
+					"top": "12%",
 					"opacity": 1
 				}, 300, "easeOutQuad");
 				
@@ -543,7 +545,7 @@ function peeq()
 					$frm = $this.hasClass("modal-view-delete-attachment") ? $("#frm-attachment-delete") :  $("#frm-state-delete");
 					
 				$frm.find("input[name=id]").val(id); // populate id
-				$frm.find(".btn-submit").append(" " + $this.parents("tr").find(".table-column-title").text()); // populate label
+				$frm.find("p strong").append(" " + $this.parents("tr").find(".table-column-title").text()); // populate label
 			}
 			
 			return false;
@@ -556,6 +558,20 @@ function peeq()
 				matches = class_names.match(regExp);
 			return (matches.length) ? "." + matches[0] : "";
 		}
+		
+		// cancel triggers close
+		$(".btn-modal-cancel").click(function() {
+			$(".btn-modal-close").click();
+			return false;
+		});
+		
+		// file upload skin
+		$("input[type=file]").filestyle({ 
+	   		image: "/resources/imgs/btn-browse.png",
+		    imageheight : 50,
+		    imagewidth : 87,
+		    width : 260	
+		});
 	};
 	
 	// PUBLIC --------------------------------

@@ -27,8 +27,15 @@
 	background-image: -webkit-gradient(radial, $anchor center, 10, $anchor center, 150, from($color1), to($color2));
 }
 
-@mixin corner($radius:5px)
+@mixin onecorner($radius, $hside, $vside)
 {
+	border-#{$hside}-#{$vside}-radius: 			$radius;
+	-moz-border-radius-#{$hside}#{$vside}: 		$radius;
+	-webkit-border-#{$hside}-#{$vside}-radius: 	$radius;
+}
+
+@mixin corner($radius:5px)
+{	
     -wekit-border-radius:   $radius;
     -moz-border-radius:     $radius;
     -o-border-radius:       $radius;

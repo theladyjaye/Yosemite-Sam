@@ -73,7 +73,7 @@
 									<tr {{if state._id == _id}}class="current"{{/if}}>
 										<td class="table-column-icon"><span class="icon icon-jpg"></span></td>
 										<td class="table-column-title">${label}</td>
-										<td class="table-column-right">{{if view.states.length > 1}}<a href="#${_id.split("/").slice(-1)}" class="icon icon-trash btn-delete ir">Delete</a>{{/if}}</td>
+										<td class="table-column-right">{{if view.states.length > 1}}<a href="#${_id.split("/").slice(-1)}" class="icon icon-trash btn-delete ir btn-modal modal-view-delete-state">Delete</a>{{/if}}</td>
 									</tr>											
 								{{/each}}
 							</tbody>
@@ -87,18 +87,21 @@
 
 <section class="modal modal-view-delete-view">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
+		<h2>Delete ${peeq.utils.template.truncate(view.label, 15)}</h2>
+		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-view-delete" action="" method="post">	
+			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong>${view.label}</strong>, all states and annotations will be deleted as well.  There is no undo.</p>  
 			<input type="hidden" name="label" value="${view.label}" />		
-			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything in ${view.label}.</a>
-			<a href="#" class="btn btn-modal-close left">Cancel</a>
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything.</a>
+			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
 		</form>
 	</section>
 </section>
 
 <section class="modal modal-view-add-state">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
+		<h2 class="add">Add State</h2>
+		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-state-add" action="" method="post">
 			<ul>
 				<li class="field">								
@@ -130,11 +133,13 @@
 
 <section class="modal modal-view-delete-state">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
-		<form id="frm-state-delete" action="" method="post">	
+		<h2>Delete State</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-state-delete" action="" method="post">
+			<p><span class="important">Important</span>:  By choosing to delete <strong></strong>, all annotations will be deleted as well.  There is no undo.</p>  
 			<input type="hidden" name="id" value="" />		
-			<a href="#" class="btn btn-delete btn-submit left">Yes, delete</a>
-			<a href="#" class="btn btn-modal-close left">Cancel</a>
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete.</a>
+			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
 		</form>
 	</section>
 </section>

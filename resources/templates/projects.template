@@ -91,7 +91,8 @@
 
 <section class="modal modal-view-add-project">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
+		<h2 class="add">Add Project</h2>
+		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-project-add" action="" method="post">
 			<ul>
 				<li class="field">								
