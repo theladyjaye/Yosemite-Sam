@@ -386,42 +386,47 @@ function peeq()
 							break;
 						}
 					}
+					
+					// get annotations
+					peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"] + "/annotations", {}, "get", function(annotations) {					
+						// preview
+						$("#main").stop(false, true).animate({
+							"opacity": 0
+						}, 300, "linear", function() {
+							change_bg("annotate");
+							$(this).html("").render_template({
+								"name": "annotate",
+								"data": data,
+								"complete": function() {
+									$("body").attr("id", "annotate");
+								
+									// size representation								
+									var representation_image = new Image(),
+										$representation = $("#representation"),
+										$representation_image = $representation.find("img");
 									
-					// preview
-					$("#main").stop(false, true).animate({
-						"opacity": 0
-					}, 300, "linear", function() {
-						change_bg("annotate");
-						$(this).html("").render_template({
-							"name": "annotate",
-							"data": data,
-							"complete": function() {
-								$("body").attr("id", "annotate");
+									representation_image.src = $representation_image.attr("src");
+									$representation.width(representation_image.width).height(representation_image.height);
 								
-								// size representation								
-								var representation_image = new Image(),
-									$representation = $("#representation"),
-									$representation_image = $representation.find("img");
-									
-								representation_image.src = $representation_image.attr("src");
-								$representation.width(representation_image.width).height(representation_image.height);
+									// back to details button
+									$("header .btn-back").attr("href", "#/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"]);
 								
-								// back to details button
-								$("header .btn-back").attr("href", "#/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"]);
+									peeq.annotate.main();
 								
-								peeq.annotate.main();
+									console.log(annotations);
+									peeq.annotate.add_annotations(annotations);
 								
+									$("#main").animate({
+										"opacity": 1
+									});
 								
-								$("#main").animate({
-									"opacity": 1
-								});
-								
-								// deeplinking to annotation
-								if(context.params["id"])
-								{
-									console.log(context.params["id"]);
+									// deeplinking to annotation
+									if(context.params["id"])
+									{
+										console.log(context.params["id"]);
+									}
 								}
-							}
+							});
 						});
 					});
 				});

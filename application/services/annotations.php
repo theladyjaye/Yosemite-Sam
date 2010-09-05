@@ -107,6 +107,8 @@ class YSSServiceAnnotations extends YSSService
 		$input->addValidator(new AMPatternValidator('context', AMValidator::kOptional, '/^[\w\d -]+$/', "Invalid context"));
 		$input->addValidator(new AMPatternValidator('x', AMValidator::kOptional, '/^((\d+)\.(\d)+))$/', "Invalid x coordinate"));
 		$input->addValidator(new AMPatternValidator('y', AMValidator::kOptional, '/^((\d+)\.(\d)+))$/', "Invalid y coordinate"));
+		$input->addValidator(new AMPatternValidator('width', AMValidator::kRequired, '/^[\d]+$/', "Invalid width coordinate"));
+		$input->addValidator(new AMPatternValidator('height', AMValidator::kRequired, '/^[\d]+$/', "Invalid height coordinate"));
 	}
 	
 	private function applyPutValidators(&$input)
@@ -115,6 +117,8 @@ class YSSServiceAnnotations extends YSSService
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMPatternValidator('x', AMValidator::kRequired, '/^((\d+)\.(\d)+))$/', "Invalid x coordinate"));
 		$input->addValidator(new AMPatternValidator('y', AMValidator::kRequired, '/^((\d+)\.(\d)+))$/', "Invalid y coordinate"));
+		$input->addValidator(new AMPatternValidator('width', AMValidator::kRequired, '/^[\d]+$/', "Invalid width coordinate"));
+		$input->addValidator(new AMPatternValidator('height', AMValidator::kRequired, '/^[\d]+$/', "Invalid height coordinate"));
 		$input->addValidator(new AMPatternValidator('type', AMValidator::kRequired, '/^task|note$/', "Invalid annotation type. Expecting task or note"));
 		$input->addValidator(new AMPatternValidator('context', AMValidator::kOptional, '/^[\w\d -]+$/', "Invalid context"));
 	}
@@ -202,6 +206,8 @@ class YSSServiceAnnotations extends YSSService
 					$annotation->description = $input->description;
 					$annotation->x = $input->x;
 					$annotation->y = $input->y;
+					$annotation->width = $input->width;
+					$annotation->height = $input->height;
 					
 					if($state->addAnnotation($annotation))
 					{
@@ -380,6 +386,12 @@ class YSSServiceAnnotations extends YSSService
 		
 		if($input->y && $annotation->y != $input->y)
 			$annotation->y = $input->y;
+		
+		if($input->width && $annotation->width != $input->width)
+			$annotation->width = $input->width;
+			
+		if($input->height && $annotation->height != $input->height)
+			$annotation->height = $input->height;
 	}
 	
 	public function deleteAnnotation($project_id, $view_id, $state_id, $annotation_id)

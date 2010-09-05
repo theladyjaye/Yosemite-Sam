@@ -35,14 +35,14 @@
 		var container = this;
 		var containerHeight = $(container).height();
 		var defaults = {
-	    xPosition: 'middle',
-	    yPosition: 'middle',
+	    	xPosition: 'middle',
+	    	yPosition: 'middle',
 			height: containerHeight
-	  };
+	  	};
 		var options = $.extend(defaults, options);
 	
-		$.each(annotations, function() {
-			var element = annotationCallback(this);
+		$.each(annotations, function(i) {
+			var element = annotationCallback($.extend(options, annotations[i]));
 			element.css({position: 'absolute'});
 		
 			$(container).append(element);
