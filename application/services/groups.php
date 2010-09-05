@@ -173,12 +173,14 @@ class YSSServiceGroups extends YSSService
 	
 	public function deleteGroup($project_id, $group_id)
 	{
+		//$record = file_get_contents('php://input');
+		print_r($_SERVER);
 		echo "deleteGroup: ", $project_id, "in group: ",$group_id ;exit;
 	}
 	
-	public function deleteTask($project_id, $group_id)
+	public function deleteTask($project_id, $group_id, $task_id)
 	{
-		echo "deleteTaskFromGroup: ", $project_id, "in group: ",$group_id ;exit;
+		echo "deleteTaskFromGroup: ", $task_id, " from project: ", $project_id, "in group: ",$group_id ;exit;
 	}
 	
 	private function applyBaseGroupValidators(&$input)

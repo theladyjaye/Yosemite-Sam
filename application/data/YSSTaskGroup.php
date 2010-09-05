@@ -1,9 +1,16 @@
 <?php
+/**
+ * YSSTaskGroup a group of tasks which each represent the same functionality in different views/states
+ * They are not Groups like "Adam's tasks" rather they are "News Module" where "News Module" is used
+ * exactly the same way across multiple states.  Thus, if one of the tasks is completed, they are all completed. 
+ *
+ * @author Adam Venturella
+ */
 class YSSTaskGroup extends YSSCouchObject
 {
 	public $label;
 	public $tasks;
-	protected $type = "taskGroup";
+	public $type = "taskGroup";
 	
 	private $project;
 	

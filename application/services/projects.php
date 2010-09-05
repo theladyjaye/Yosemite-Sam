@@ -217,7 +217,7 @@ class YSSServiceProjects extends YSSService
 							if($success)
 							{
 								$database->bulk_update($payload);
-					
+								
 								// we may not want to compact here.
 								// Depending on how we charge people, disk space may be important
 								// since we just did a copy , with attachments, followed by a delete

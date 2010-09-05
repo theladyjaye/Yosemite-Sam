@@ -6,7 +6,7 @@ class YSSState extends YSSCouchObject
 	public $description;
 	public $attachments;
 	
-	protected $type = "state";
+	public $type = "state";
 	
 	public static function stateWithId($id)
 	{

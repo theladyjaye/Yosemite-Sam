@@ -5,7 +5,7 @@ class YSSProject extends YSSCouchObject
 	public $description;
 	public $attachments;
 	
-	protected $type = "project";
+	public $type = "project";
 	
 	public static function projectWithId($id)
 	{

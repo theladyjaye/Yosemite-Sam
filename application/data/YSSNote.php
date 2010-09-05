@@ -1,7 +1,7 @@
 <?php
 class YSSNote extends YSSAnnotation
 {
-	protected $type = "note";
+	public $type = "note";
 	
 	public static function noteWithArray($array)
 	{

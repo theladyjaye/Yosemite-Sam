@@ -7,7 +7,7 @@ class YSSAttachment extends YSSCouchObject
 	public $content_type;
 	public $content_length;
 	
-	protected $type = 'attachment';
+	public $type = 'attachment';
 	
 	private $domain;
 	private $file;

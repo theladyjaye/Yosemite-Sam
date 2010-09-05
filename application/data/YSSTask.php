@@ -10,7 +10,7 @@ class YSSTask extends YSSAnnotation
 	public $priority;
 	public $estimate;
 	
-	protected $type = "task";
+	public $type = "task";
 	
 	// Task Id's should be generated from the following:
 	// YSSSecurity::generate_token($salt) = this->_id;

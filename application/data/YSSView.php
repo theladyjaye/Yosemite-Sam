@@ -6,7 +6,7 @@ class YSSView extends YSSCouchObject
 	public $project;
 	public $states;
 	
-	protected $type = "view";
+	public $type = "view";
 	
 	public static function viewWithId($id)
 	{

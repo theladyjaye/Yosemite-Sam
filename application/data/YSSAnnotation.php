@@ -7,6 +7,6 @@ abstract class YSSAnnotation extends YSSCouchObject
 	public $x;
 	public $y;
 	
-	protected $type = "annotation";
+	public $type = "annotation";
 }
 ?>

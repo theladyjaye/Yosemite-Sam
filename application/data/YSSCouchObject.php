@@ -5,7 +5,7 @@ class YSSCouchObject
 	public $_rev;
 	public $created_by;
 	public $created_at;
-	protected $type;
+	public $type;
 	
 	protected function database()
 	{
