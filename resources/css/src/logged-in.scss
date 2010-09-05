@@ -58,7 +58,7 @@
 			}
 			.annotate-preview-container figure img {position: absolute; width: 290px; height: 203px; @include boxshadow(rgba(0, 0, 0, 0.8), 0, 0, 2px)}				
 		#annotate-preview {position: absolute; margin: -15px 0 0 -4px; width: 290px; height: 203px; overflow: hidden;}
-			#annotate-preview a {position: absolute;
+			#annotate-preview a {position: absolute; @include transition(none, 0.15s, ease-out);
 				&.icon-note {opacity: 0.8;
 						&.on,
 						&:hover {opacity: 1}
@@ -81,9 +81,16 @@
 			.states .table-annotations .table-column-creator {width: 100px; display: none;}
 			.states .wide .table-annotations .table-column-creator {display: table-cell;}		
 			.states .table-annotations .table-column-status {width: 120px;}
+				.table-column-status.status-incomplete span:before {/*content: "incomplete";*/ display: block;}
+				// http://webitect.net/design/webdesign/creating-fancy-bullet-points-with-pure-css3/
+				body:nth-of-type(1) .table-column-status.status-complete span {padding: 0 0 0 45px; position: relative;  
+						&:before {content: "\00a0"; display: block; border: 9px solid $color_dark_gray; @include corner(9px); height: 0; width: 0; position: absolute; left: 7px; top: 40%; margin-top: -8px; text-indent: -9999px;}
+						&:after {content: "\00a0"; display: block; width: 3px; height: 6px; border: solid $color_light_white; border-width: 0 2px 2px 0; position: absolute; left: 14px; top: 40%; margin-top: -4px; @include rotate(45deg);}
+					}				
 			.states .table-annotations .table-column-timestamp {width: 100px; display: none;}
 			.states .wide .table-annotations .table-column-timestamp {display: table-cell;}
 			.states .table-annotations .table-column-type {width: 60px}
+			
 	// END STATES SPECIFIC
 	
 	
@@ -196,33 +203,58 @@
 .annotation.active {@include borderimage('../imgs/annotation-border-active.png');}
 
 /** -- minimized note view -- **/
-/*#view-body-editor .minimized.annotation {width: 0 !important; height: 0 !important;}*/
+.minimized.annotation {width: 0 !important; height: 0 !important;}
 
 .minimized.annotation .ui-resizable-handle,
 .minimized.annotation .border,		
 .minimized.annotation .overlay,		
 .minimized.annotation form {display: none;}
 	
-.annotation .annotation-num {position: absolute; top: -17px; left: -18px; background: #272727; width: 21px; height: 20px; line-height: 20px; text-align: center; color: #fff; @include corner(15px); padding: 4px; font-size: 14px; font-weight: bold; cursor: pointer; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); }
+.annotation .annotation-num {position: absolute; top: -17px; left: -18px; background: #272727; width: 21px; height: 20px; line-height: 20px; text-align: center; color: #fff; @include corner(15px); padding: 4px; font-size: 14px; font-weight: bold; cursor: pointer; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); @include transition(color, 0.15s, ease-out)}
+.annotation.minimized .annotation-num {background: $color_light_gray; @include transition(color, 0.15s, ease-out);
+		&:hover {background: $color_light_blue;}
+	}
+
 .annotation .border {position: absolute; top: -1px; left: -1px; border: 1px solid rgba(0, 0, 0, 0.4);@include corner(); width: 100%; height: 100%;}
 .annotation .overlay {position: absolute; top: 0; left: 0;@include corner(); width: 100%; height: 100%; cursor: move;}
-.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; height: 360px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; @include boxshadow();}			
+.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; height: 385px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; @include boxshadow(); /* @include transition(height, 0.15s, ease-out); */
+		&.type-note {height: 270px;}
+	}		
+	
 	.annotation .frm-annotation p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
+
 	.annotation .btn-priority {float: right; width: 16px; text-align: center; font-size: 26px; line-height: 29px;
 			&.checked {@include lineargradient($color_light_red, $color_dark_red);}
 		}
+	.annotation .type-note .btn-priority {display: none;}
 	
 	.annotation form input,
 	.annotation form textarea {background: #fff;}
-	.annotation form input {width: 300px;}
+	.annotation form input {width: 300px; font-size: 18px; height: 24px;}
 	.annotation form textarea {float: left; position: relative; width: 390px; height: 100px; padding: 5px; resize: none; font: 18px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif;}
 	.annotation form label {width: 90px; font-weight: bold; position: relative; top: 4px; float: left;}
 	.annotation form select {width: 180px; position: relative; float: left; margin-left: 10px; top: 11px; outline: none;}
-	.annotation form .btn-close-task {position: relative; float: right; margin-left: 20px; top: 4px;}
+	.annotation form .btn-status {position: relative; float: right; margin-left: 15px; top: 4px; opacity: 0.5;
+			&.status-close {opacity: 1;}
+		}
 	.annotation form .group-cta {position: relative; top: 15px; width: 100%;}
 	.annotation form .btn-save {position: relative; float: left;}
 	.annotation form .btn-cancel {position: relative; float: left; margin-left: 20px;}
 	.annotation form .btn-delete {position: relative; float: right;}
+	
+	.annotation form input[name=estimate] {width: 78px; height: 16px; font-size: 14px; margin: 5px 0 0 10px;}
+	.annotation form .dd-estimate {width: 80px;}
+	
+	.annotation .type {position: absolute; left: -26px; top: 6px;
+			& .btn {height: 25px; padding: 1px 6px; background: #272727; @include corner(0); opacity: 0.5;
+					&:first-child {@include onecorner(5px, "top", "left")}
+					&:nth-child(2) {@include onecorner(5px, "bottom", "left")}
+					&.selected {opacity: 1;}
+					& span {margin-top: 5px;}
+				}
+		}
+		
+	.annotation .task-fields {display: none;}
 
 /* Resizable
 ----------------------------------*/

@@ -28,7 +28,7 @@
 				element.data('responseTime', date.getTime() - startTime);
 			}
 		});		
-		
+		return this;
 	};
 
 	$.fn.addAnnotations = function(annotationCallback, annotations, options) {
@@ -66,6 +66,8 @@
 				element.hide();
 			}
 		});
+		
+		return this;
 	};
 
 	$.fn.positionAtEvent = function(event, xPosition, yPosition) {
@@ -75,14 +77,18 @@
 		$(this).css('position', 'absolute');
 	};
 
-	$.fn.seralizeAnnotations = function(xPosition, yPosition) {
+	$.fn.serializeAnnotations = function(xPosition, yPosition) {
 		var annotations = [];
 		this.each(function(){
 //			annotations.push({x: $(this).relativeX(xPosition), y: $(this).relativeY(yPosition), response_time: $(this).data('responseTime')});
-			annotations.push({x: $(this).relativeX(xPosition), y: $(this).relativeY(yPosition), response_time: $(this).data('responseTime'), width: $(this).width(), height: $(this).height()});
+			annotations.push($(this).serializeAnnotation(xPosition, yPosition));
 		});
 		return annotations;
 	};
+	
+	$.fn.serializeAnnotation = function(xPosition, yPosition) {
+		return {x: $(this).relativeX(xPosition), y: $(this).relativeY(yPosition), response_time: $(this).data('responseTime'), width: $(this).width(), height: $(this).height()};
+	}
 
 	$.fn.relativeX = function(xPosition) {
 		var left = $(this).coordinates().x + ($(this).xOffset(xPosition));

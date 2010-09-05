@@ -105,16 +105,16 @@ class YSSServiceAnnotations extends YSSService
 		$input->addValidator(new AMInputValidator('label', AMValidator::kOptional, 2, null, "Invalid label.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMPatternValidator('context', AMValidator::kOptional, '/^[\w\d -]+$/', "Invalid context"));
-		$input->addValidator(new AMPatternValidator('x', AMValidator::kOptional, '/^[\d]+$/', "Invalid x coordinate"));
-		$input->addValidator(new AMPatternValidator('y', AMValidator::kOptional, '/^[\d]+$/', "Invalid x coordinate"));
+		$input->addValidator(new AMPatternValidator('x', AMValidator::kOptional, '/^((\d+)\.(\d)+))$/', "Invalid x coordinate"));
+		$input->addValidator(new AMPatternValidator('y', AMValidator::kOptional, '/^((\d+)\.(\d)+))$/', "Invalid y coordinate"));
 	}
 	
 	private function applyPutValidators(&$input)
 	{
 		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kRequired, 2, null, "Invalid description.  Expecting minimum 2 characters."));
-		$input->addValidator(new AMPatternValidator('x', AMValidator::kRequired, '/^[\d]+$/', "Invalid x coordinate"));
-		$input->addValidator(new AMPatternValidator('y', AMValidator::kRequired, '/^[\d]+$/', "Invalid x coordinate"));
+		$input->addValidator(new AMPatternValidator('x', AMValidator::kRequired, '/^((\d+)\.(\d)+))$/', "Invalid x coordinate"));
+		$input->addValidator(new AMPatternValidator('y', AMValidator::kRequired, '/^((\d+)\.(\d)+))$/', "Invalid y coordinate"));
 		$input->addValidator(new AMPatternValidator('type', AMValidator::kRequired, '/^task|note$/', "Invalid annotation type. Expecting task or note"));
 		$input->addValidator(new AMPatternValidator('context', AMValidator::kOptional, '/^[\w\d -]+$/', "Invalid context"));
 	}

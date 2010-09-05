@@ -70,6 +70,14 @@
 	-moz-border-image: url($url) $offset_top $offset_right $offset_bottom $offset_left $scaling; 
 	-webkit-border-image: url($url) $offset_top $offset_right $offset_bottom $offset_left $scaling;
 }
+
+@mixin rotate($val)
+{
+	-webkit-transform:  rotate($val);
+	-moz-transform: 	rotate($val);
+	-o-transform: 		rotate($val);
+}
+
 // NON-SEMANTIC HELPER CLASSES 
 // source: http://html5boilerplate.com/
 

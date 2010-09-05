@@ -188,7 +188,7 @@ peeq.prototype.utils =
 			},
 			get_priority: function(priority)
 			{
-				return priority > 0 ? "!" : "";
+				return (priority && priority > 0) ? "!" : "";
 			},
 			get_status: function(status)
 			{				
@@ -220,5 +220,15 @@ peeq.prototype.utils =
 		{
 			return str.replace(new RegExp("\\n", "g"), "<br />")
 		}
+	},
+	querystring_to_object: function(querystring)
+	{
+		var result = {};
+		
+		querystring.replace(/([^=&]+)=([^&]*)/g, function(match, key, value) {
+			result[unescape(key)] = unescape(value);
+		});
+		
+		return result;
 	}
 };
