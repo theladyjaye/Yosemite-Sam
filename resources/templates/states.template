@@ -24,12 +24,13 @@
 			<div class="column-body-inner">
 				<div class="annotate-preview-container">
 					<figure>
-						<a href="${document.location.href}/annotate"><img src="${state.attachment.path}" alt="" /></a>
+						<a href="${document.location.href}/annotate"><img id="annotate-preview-image" src="${state.attachment.path}" alt="" /></a>
 						<div id="annotate-preview"></div>
 					</figure>
 				</div>
 				<div class="state-details">
-					<a class="btn-update-image right" href="#">Update image</a>
+					<!-- ><a class="btn-update-image right" href="#">Update image</a> -->
+					<span class="right">Update image (disabled)</span>
 					<hr />
 					<h2 class="editable">${view.label}</h2>
 					<div class="meta">

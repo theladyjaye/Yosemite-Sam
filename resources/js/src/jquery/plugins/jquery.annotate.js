@@ -36,8 +36,8 @@
 		var containerHeight = $(container).height();
 		var defaults = {
 	    	xPosition: 'middle',
-	    	yPosition: 'middle',
-			height: containerHeight
+	    	yPosition: 'middle',		
+			containerHeight: (options && options.containerHeight) ? options.containerHeight : containerHeight
 	  	};
 		var options = $.extend(defaults, options);
 	
@@ -48,8 +48,7 @@
 			$(container).append(element);
 		
 			var left = (this.x * $(container).width()) - ($(element).xOffset(options.xPosition));
-			var top = (this.y * options.height) - ($(element).yOffset(options.yPosition));
-			
+			var top = (this.y * options.containerHeight) - ($(element).yOffset(options.yPosition));
 			if (this.width && this.height) {
 				element.css({width: this.width + 'px', height: this.height + 'px'});
 				element.find(".frm-note").css({top: this.height + 10 + "px"});
@@ -91,13 +90,13 @@
 	}
 
 	$.fn.relativeX = function(xPosition) {
-		var left = $(this).coordinates().x + ($(this).xOffset(xPosition));
+		var left = $(this).coordinates().x; // + ($(this).xOffset(xPosition));
 		var width = $(this).parent().width();
 		return left / width;
 	}
 
 	$.fn.relativeY = function(yPosition) {
-		var top = $(this).coordinates().y + ($(this).yOffset(yPosition));
+		var top = $(this).coordinates().y; // + ($(this).yOffset(yPosition));
 		var height = $(this).parent().height();
 		return top / height;
 	}

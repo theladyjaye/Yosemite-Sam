@@ -15,7 +15,7 @@ peeq.prototype.forms =
 		add: function(id)
 		{		
 			peeq.forms.project.submit($("#" + id), "PUT", function(response) {
-				console.log(response, "project add");
+				document.location.reload(true); // reload from server
 			});	
 		},
 		delete: function(id)
@@ -44,7 +44,7 @@ peeq.prototype.forms =
 		add: function(id)
 		{		
 			peeq.forms.view.submit($("#" + id), "PUT", function(response) {
-				console.log(response, "view add");
+				document.location.reload(true); // reload from server
 			});	
 		},
 		delete: function(id)
@@ -56,7 +56,7 @@ peeq.prototype.forms =
 				if(response.ok)
 				{
 					// redirect to projects
-					//document.location.href = "/";
+					document.location.href = "/";
 				}
 			});
 		},
@@ -77,7 +77,8 @@ peeq.prototype.forms =
 		add: function(id)
 		{		
 			peeq.forms.state.submit($("#" + id), "PUT", function(response) {
-				console.log(response, "state add");
+				//console.log(response, "state add");
+				document.location.reload(true); // reload from server
 			});	
 		},
 		delete: function(id)
@@ -86,8 +87,8 @@ peeq.prototype.forms =
 				if(response.ok)
 				{
 					// redirect to projects
-					//document.location.href = "/";
-					console.log('deleted state');
+					document.location.href = "/";
+					//console.log('deleted state');
 				}
 			});
 		},
@@ -108,7 +109,8 @@ peeq.prototype.forms =
 		add: function(id) 
 		{
 			peeq.forms.attachment.submit($("#" + id), "PUT", function(response) {
-				console.log(response, "attachment added");
+				// console.log(response, "attachment added");
+				document.location.reload(true); // reload from server
 			});
 		},
 		delete: function(id)
@@ -121,6 +123,7 @@ peeq.prototype.forms =
 				{
 					// redirect to projects
 					// document.location.href = "/";
+					document.location.reload(true); // reload from server
 				}
 			});
 		},

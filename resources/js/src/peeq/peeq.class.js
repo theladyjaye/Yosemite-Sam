@@ -326,6 +326,7 @@ function peeq()
 											});
 										
 											// preview
+											/*
 											$("#annotate-preview").render_template({
 												"name": "states.annotations",
 												"data": annotations,
@@ -342,7 +343,29 @@ function peeq()
 														}
 													})
 												}
-											});	
+											});
+											*/
+											
+											$("#annotate-preview").addAnnotations(function(props) {
+												return $("<a />", {
+													"href": document.location.href + "/annotate:" + peeq.utils.template.annotations.sanitize_id(props._id),
+													"class": "annotation-item annotation-id-" + peeq.utils.template.annotations.sanitize_id(props._id) +  " icon " + peeq.utils.template.get_annotation_marker_class(props) + " ir",
+													"html": props.type
+												});												
+											}, annotations, {"containerHeight": $("#annotate-preview-image").height()});
+											
+											$("#main").delegate(".annotation-item", "mouseover", function() {
+												var annotation_id = peeq.utils.template.annotations.get_id_from_elt($(this));
+												$("." + annotation_id).addClass("on")
+											}).delegate(".annotation-item", "mouseout", function() {
+												$(".annotation-item.on").removeClass("on");
+											}).delegate(".annotation-item", "click", function() {
+												if($(this).attr("href"))
+												{
+													document.location.href = $(this).attr("href");
+												}
+											});										
+											
 										}
 										// no annotations
 										else
@@ -413,18 +436,28 @@ function peeq()
 								
 									peeq.annotate.main();
 								
-									console.log(annotations);
-									peeq.annotate.add_annotations(annotations);
+									var deeplink_id = context.params["id"] || null;
+									peeq.annotate.add_annotations(annotations, deeplink_id);
 								
 									$("#main").animate({
 										"opacity": 1
 									});
 								
 									// deeplinking to annotation
+									/*
 									if(context.params["id"])
-									{
-										console.log(context.params["id"]);
+									{										
+										var annotation_id = context.params["id"];
+										$("#representation .annotation-" + annotation_id + " .annotation-num").click();																				
 									}
+									else
+									{
+										// minimize all
+										$("#representation").find(".annotation").each(function() {
+											$(this).find(".annotation-num").trigger("click", true);
+										});
+									}
+									*/
 								}
 							});
 						});

@@ -193,6 +193,10 @@ peeq.prototype.utils =
 			get_status: function(status)
 			{				
 				return status > 0 ? "complete" : "incomplete";
+			},
+			get_status_icon: function(status)
+			{
+				return status > 0 ? "icon icon-success" : "";
 			}
 		},
 		states:
@@ -231,4 +235,5 @@ peeq.prototype.utils =
 		
 		return result;
 	}
+	
 };

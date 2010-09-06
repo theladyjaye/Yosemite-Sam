@@ -194,6 +194,9 @@ class YSSServiceAnnotations extends YSSService
 								
 						if($input->priority)
 							$annotation->priority = $input->priority;
+						
+						if($input->estimate)
+							$annotation->estimate = $input->estimate;
 					}
 				
 					if(!$annotation) $annotation = new YSSNote();
@@ -312,6 +315,8 @@ class YSSServiceAnnotations extends YSSService
 			if($input->priority && $annotation->priority != $input->priority)
 				$annotation->priority = $input->priority;
 			
+			if($input->estimate && $annotation->estimate != $input->estimate)
+				$annotation->estimate = $input->estimate;
 			
 			$final_checksum = md5($annotation->__toString());
 			

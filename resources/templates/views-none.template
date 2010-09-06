@@ -4,12 +4,12 @@
 			<a class="btn btn-back left" href="">
 				Back to Projects
 			</a>
-			<a class="btn right btn-add" href="#">
+			<a class="btn right btn-add btn-modal modal-view-add-view" href="#">
 				Add View
 			</a>						
 		</nav>
 		<section class="column-body">
-			<p>You have 0 views.  Get started!  <a href="#" class="incomplete">Create a new view</a>.			
+			<p>You have 0 views.  Get started!  <a href="#" class="incomplete btn-modal modal-view-add-view">Create a new view</a>.			
 		</section>
 	</div>
 	<div class="column sidebar detail">
@@ -54,7 +54,7 @@
 							<tr>
 								<th class="table-column-icon"><span class="icon icon-paperclip"></span></th>
 								<th class="table-column-title">Attachments</th>
-								<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir">Add</a>
+								<th class="table-column-right"><a href="#" class="icon icon-add btn-add ir btn-modal modal-view-add-attachment">Add</a>
 							</tr>
 						</thead>
 						<tbody>
@@ -68,7 +68,7 @@
 							{{/each}}														
 						{{else}}
 							<tr class="none">
-								<td colspan="3">You have no attachments. <a href="#">Add one</a>.</td>
+								<td colspan="3">You have no attachments. <a href="#" class="btn-modal modal-view-add-attachment">Add one</a>.</td>
 							</tr>
 						{{/if}}
 						</tbody>
@@ -79,13 +79,86 @@
 	</div>
 </section>
 
+<section class="modal modal-view-add-view">
+	<section>
+		<h2 class="add">Add View</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-view-add" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="label" />
+					<label for="label">View Name</label>
+					<span class="hint">What's my name?</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="file" name="attachment" />
+					<label for="label">Representation</label>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<textarea name="description"></textarea>
+					<label for="description">Description</label>
+					<span class="hint">About this view...</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Add View</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-add-attachment">
+	<section>
+		<h2 class="add">Add Attachment</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-attachment-add" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="label" />
+					<label for="label">Attachment Name</label>
+					<span class="hint">Call me..</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="file" name="attachment" />
+					<label for="label">Representation</label>
+					<span class="hint">browse for file...</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Add Attachment</a>
+		</form>
+	</section>
+</section>
+
 <section class="modal modal-view-delete-project">
 	<section>
-		<a class="btn btn-modal-close" href="#">Close</a>
+		<h2>Delete ${peeq.utils.template.truncate(project.label, 15)}</h2>
+		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-project-delete" action="" method="post">	
+			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong>${project.label}</strong>, all attachments, views, states, and annotations will be deleted as well. EVERYTHING! There is no undo.</p>  
 			<input type="hidden" name="label" value="${project.label}" />		
-			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything in ${project.label}.</a>
-			<a href="#" class="btn btn-modal-close left">Cancel</a>
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything.</a>
+			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-delete-attachment">
+	<section>
+		<h2>Delete Attachment</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-attachment-delete" action="" method="post">	
+			<p><span class="important">Important</span>:  Are you 100% positive you want to delete <strong></strong>?  There is no undo.</p>
+			<input type="hidden" name="id" value="" />		
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete.</a>
+			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
 		</form>
 	</section>
 </section>

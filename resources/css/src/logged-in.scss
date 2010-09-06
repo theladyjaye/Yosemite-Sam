@@ -53,16 +53,15 @@
 	
 	// STATES SPECIFIC
 	.annotate-preview-container {width: 100%; position: relative}
-		.annotate-preview-container figure {margin: 0 auto; width: 290px; height: 203px; overflow: hidden;
-				a:active {position: absolute;}				
-			}
-			.annotate-preview-container figure img {position: absolute; width: 290px; height: 203px; @include boxshadow(rgba(0, 0, 0, 0.8), 0, 0, 2px)}				
-		#annotate-preview {position: absolute; margin: -15px 0 0 -4px; width: 290px; height: 203px; overflow: hidden;}
-			#annotate-preview a {position: absolute; @include transition(none, 0.15s, ease-out);
+		.annotate-preview-container figure {margin: 0 auto; width: 290px; overflow: hidden}
+			.annotate-preview-container figure img {width: 290px; @include boxshadow(rgba(0, 0, 0, 0.8), 0, 0, 2px)}				
+		#annotate-preview {position: absolute; top: 0; left: 0; width: 290px;}
+			#annotate-preview a {position: absolute; @include transition(none, 0.15s, ease-out); width: 15px !important; height: 17px !important; display: block !important;
 				&.icon-note {opacity: 0.8;
 						&.on,
 						&:hover {opacity: 1}
 					}
+				&.icon-marker-complete {opacity: 0.3;}
 				}
 	.state-details .btn-update-image {margin: 5px 0;}
 			
@@ -76,11 +75,12 @@
 			.states .table-annotations tbody .table-column-priority {font-size: 22px; font-weight: bold;}
 				.states .table-annotations tbody tr:hover .table-column-priority {color: #fff;}
 			.states .table-annotations .table-column-icon {width: 70px;}
-			.states .table-annotations .table-column-title {width: 330px;}
-			.states .wide .table-annotations .table-column-title {width: 450px;}
+			.states .table-annotations .table-column-title {width: /*330*/ 395px;}
+			.states .wide .table-annotations .table-column-title {width: /*450*/ 505px;}
 			.states .table-annotations .table-column-creator {width: 100px; display: none;}
 			.states .wide .table-annotations .table-column-creator {display: table-cell;}		
 			.states .table-annotations .table-column-status {width: 120px;}
+			.states .table-annotations tr.status-complete {opacity: 0.3;}
 				.table-column-status.status-incomplete span:before {/*content: "incomplete";*/ display: block;}
 				// http://webitect.net/design/webdesign/creating-fancy-bullet-points-with-pure-css3/
 				body:nth-of-type(1) .table-column-status.status-complete span {padding: 0 0 0 45px; position: relative;  
@@ -226,7 +226,7 @@
 	.annotation .btn-priority {float: right; width: 16px; text-align: center; font-size: 26px; line-height: 29px;
 			&.checked {@include lineargradient($color_light_red, $color_dark_red);}
 		}
-	.annotation .type-note .btn-priority {display: none;}
+	.annotation.type-note .btn-priority {display: none;}
 	
 	.annotation form input,
 	.annotation form textarea {background: #fff;}
