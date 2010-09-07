@@ -41,9 +41,10 @@ class AMFilesizeValidator extends AMValidator
 	
 	public function validate()
 	{
-		$value = $this->form->{$this->key};
-		$this->updateRequiredFlag($value);
-		$this->isValid = ($value->size <= $this->bytes) ? true : false;
+		$fileData = $this->form->fileData;
+		$value = $fileData[$this->key];
+		$this->updateRequiredFlag((object)$value);
+		$this->isValid = ($value["size"] <= $this->bytes) ? true : false;
 	}
 }
 ?>

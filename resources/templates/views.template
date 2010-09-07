@@ -150,7 +150,7 @@
 	<section>
 		<h2 class="add">Add View</h2>
 		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-view-add" action="" method="post">
+		<form id="frm-view-add" action="" method="post" enctype="multipart/form-data">
 			<ul>
 				<li class="field">								
 					<input type="text" name="label" />

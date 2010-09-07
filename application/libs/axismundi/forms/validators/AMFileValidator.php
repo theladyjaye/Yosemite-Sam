@@ -38,8 +38,9 @@ class AMFileValidator extends AMValidator
 	
 	public function validate()
 	{
-		$value = $this->form->{$this->key};
-		$this->updateRequiredFlag($value);
+		$fileData = $this->form->fileData;
+		$value = $fileData[$this->key];
+		$this->updateRequiredFlag((object)$value);
 		$this->isValid = empty($value) ? false : true;
 	}
 }
