@@ -14,7 +14,7 @@ function(head, req)
 				result.push(current)
 				
 			current             = row.value;
-			current.tasks       = {completed:0, total:0};
+			current.tasks       = {"completed":0, "total":0};
 			current.views       = 0;
 			current.attachments = [];
 		}
@@ -27,12 +27,12 @@ function(head, req)
 					break;
 						
 				case "view":
-					current.views++;
+					current.views = current.views + 1;
 					break;
 				
 				case "task":
-					current.tasks.total++;
-					current.tasks.completed += row.value.value;
+					current.tasks.total = current.tasks.total + 1;
+					current.tasks.completed = current.tasks.completed + row.value.value;
 					break;
 			}
 		}

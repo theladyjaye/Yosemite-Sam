@@ -1,5 +1,7 @@
 function(doc) 
 {
+	// !json enums.TaskStatus
+	
 	var project = doc._id.split("/").slice(0, 2).join("/");
 	
 	if(doc.type == "project")
@@ -9,12 +11,24 @@ function(doc)
 	
 	if (doc.type == "view")
 	{
-		emit([project, 1], {type:"view", value:1});
+		emit([project, 1], {"type":"view", "value":1});
 	}
 	
 	if (doc.type == "task")
 	{
-		emit([project, 2], {type:"task", value:doc.complete ? 1 : 0})
+		var taskValue;
+		switch(doc.status)
+		{
+			case enums.TaskStatus.kStatusIncomplete:
+				taskValue = 0;
+				break;
+
+			case enums.TaskStatus.kStatusComplete:
+				taskValue = 1;
+				break;
+		}
+		
+		emit([project, 2], {"type":"task", "value":taskValue})
 	}
 	
 	if (doc.type == "attachment")

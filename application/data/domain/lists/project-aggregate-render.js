@@ -30,7 +30,7 @@ function(head, req)
 			current.attachments = [];
 			current.path	    = current._id.split("/").slice(1).join("/");
 			
-			var created_date    = new Date(current.created_at.replace(/\+\d*/, ""));			
+			var created_date    = new Date(current.created_at.replace(/\+\d*/, ""));
 			current.created_at  = (created_date.getMonth() + 1) + "/" + created_date.getDate() + "/" + created_date.getFullYear();
 		}
 		else
@@ -42,12 +42,12 @@ function(head, req)
 					break;
 						
 				case "view":
-					current.views++;
+					current.views = current.views + 1;
 					break;
 				
 				case "task":
-					current.tasks.total++;
-					current.tasks.completed += row.value.value;
+					current.tasks.total = current.tasks.total + 1;
+					current.tasks.completed =  current.tasks.completed + row.value.value;
 					break;
 			}
 		}
