@@ -6,6 +6,12 @@ peeq.prototype.forms =
 		$("#main").delegate("form .btn-submit", "click", function() {
 			var id = $(this).parents("form").attr("id"), // frm-project-add
 				path = id.split("-");
+				
+			if(path[2] == "delete")
+			{
+				path[2] = "remove";
+			}
+			
 			peeq.forms[path[1]][path[2]](id); // peeq.forms.project.add()
 			return false;
 		});
@@ -18,7 +24,7 @@ peeq.prototype.forms =
 				document.location.reload(true); // reload from server
 			});	
 		},
-		delete: function(id)
+		remove: function(id)
 		{
 			peeq.forms.project.submit($("#" + id), "DELETE", function(response) {
 				if(response.ok)
@@ -47,7 +53,7 @@ peeq.prototype.forms =
 				document.location.reload(true); // reload from server
 			});	
 		},
-		delete: function(id)
+		remove: function(id)
 		{
 			var $form = $("#" + id), 
 				id = peeq.forms.utils.gen_id_from_label($form.find("[input[name=label]").val()),
@@ -81,7 +87,7 @@ peeq.prototype.forms =
 				document.location.reload(true); // reload from server
 			});	
 		},
-		delete: function(id)
+		remove: function(id)
 		{
 			peeq.forms.state.submit($("#" + id), "DELETE", function(response) {
 				if(response.ok)
@@ -113,7 +119,7 @@ peeq.prototype.forms =
 				document.location.reload(true); // reload from server
 			});
 		},
-		delete: function(id)
+		remove: function(id)
 		{
 			var $form = $("#" + id),
 				id = encodeURIComponent($form.find("[input[name=id]").val()),

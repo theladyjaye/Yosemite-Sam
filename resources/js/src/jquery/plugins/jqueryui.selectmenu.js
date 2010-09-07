@@ -134,7 +134,8 @@ $.widget("ui.selectmenu", {
 				.data('index',i)
 				.addClass(selectOptionData[i].classes)
 				.data('optionClasses', selectOptionData[i].classes|| '')
-				.mouseup(function(event){
+				/* EDIT: .mouseup(function(event){*/
+				.mousedown(function(event){
 						if(self._safemouseup){
 							var changed = $(this).data('index') != self._selectedIndex();
 							self.value($(this).data('index'));
@@ -143,7 +144,7 @@ $.widget("ui.selectmenu", {
 							self.close(event,true);
 						}
 					return false;
-				})
+				})				
 				.click(function(){
 					return false;
 				})

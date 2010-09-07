@@ -78,11 +78,6 @@ peeq.prototype.annotate =
 			return false;
 		});
 
-/*
-		$("#representation img img").load(function() {
-			$("#representation img").css("width", $(this).width());
-		});
-*/
 		$(".view-editor .item-details").toggle(function() {
 			$(".task-list-container").fadeIn();
 			$(".ui-resizable-handle").hide(); // hide handles to prevent resizing
@@ -112,7 +107,8 @@ peeq.prototype.annotate =
 			xPosition: "left",
 			yPosition: "top"
 		}).trigger("mouseup");	
-		
+	
+		// ISSUE WITH CHROME
 		if(deeplink_id)
 		{
 			$("#representation .annotation-" + deeplink_id + ".minimized .annotation-num").click();
@@ -127,6 +123,7 @@ peeq.prototype.annotate =
 	},			
 	ui_annotation: function(options)
 	{
+		// DEFAULTS => OPTIONS
 		var defaults = {
 			id: "",
 			context: "",
@@ -147,11 +144,17 @@ peeq.prototype.annotate =
 		}				
 		options.type_class = options.type == "note" ? "type-note" : "type-task";
 		
+		// END OPTIONS SETUP
+		
+			
 		// minimize all current annotations
 		$("#representation").find(".annotation").each(function() {
 			$(this).find(".annotation-num").trigger("click", true);
 		});
+	
+		// ANNOTATION CREATION
 		
+		// create annotation (container for everything)
 		var annotation = $("<div />", {
 			"class": "annotation " + options.type_class + " annotation-" + peeq.utils.template.annotations.sanitize_id(options.id)
 		}).resizable({
@@ -183,16 +186,20 @@ peeq.prototype.annotate =
 			$(this).unbind("mousemove");
 		});
 
+		// border elt
 		var border = $("<div />", {
 			"class": "border"
 		}).appendTo(annotation);
 
+		// overlay elt
 		var overlay = $("<div />", {
 			"class": "overlay"
 		}).appendTo(annotation);
 		
+		// get next annotation id
 		var annotation_id = peeq.annotate.get_next_annotation_count();
 
+		// create annotation number
 		var annotation_num = $("<span />", {
 			"class": "annotation-num",
 			"html": annotation_id,
@@ -237,39 +244,18 @@ peeq.prototype.annotate =
 			}
 		}).appendTo(annotation);
 
+		// create actual form
 		var frm = $("<form />", {
 			"class": "frm-annotation",
 			"action": "post"		
 		}).appendTo(annotation);
 
-		if(options.height)
-		{
-			frm.css({
-				"top": 10 + parseInt(options.height)
-			});
-		}
-
+		// create form content
 		var frm_content = $("<div />", {
 			"html": '<div class="type"><a href="#" class="btn btn-note selected"><span class="icon icon-note"></span></a><a href="#" class="btn btn-task"><span class="icon icon-task"></span></a><input type="radio" value="note" name="type" checked="checked" class="visuallyhidden" /><input type="radio" value="task" name="type" class="visuallyhidden" /></div><p class="field"><a href="#" class="btn btn-priority" title="Low Priority">!</a><input type="checkbox" name="priority" class="visuallyhidden"/><input type="text" name="label" value="' + options.label + '" /><label for="label">Title</label></p><p class="field"><textarea name="description">' + options.description + '</textarea><label for="description">Description</label></p><div class="task-fields"><p><label for="context">Context</label><select id="dd-context-' + annotation_id + '" class="dd-context" name="context"><option value="HTML">HTML</option><option value="Flash">Flash</option></select></p><p><label for="assigned_to">Assigned To</label><select id="dd-assigned-to-' + annotation_id + '" class="dd-assigned-to" name="assigned_to"><option value="bross">bross - Flash Developer | USA</option><option value="alincoln">alincoln - Project Manager | BLITZ</option></select><a href="#" class="btn btn-status status-close">Close Task</a><input type="checkbox" name="status" class="visuallyhidden" /></p><p class="field"><label for="estimate">Estimate</label><input type="text" name="estimate" maxlength="4" /> <select id="dd-estimate-' + annotation_id + '" class="dd-estimate" name="estimate_time"><option value="hours">hours</option><option value="days">days</option><option value="weeks">weeks</option></select></p></div><p class="group-cta"><a href="#" class="btn btn-save">Save</a><a href="#" class="btn btn-cancel">Cancel</a><a href="#" class="btn btn-delete">Delete</a></p>'
 		}).appendTo(frm);
 
-		if(options.context)
-		{
-			frm.find(".dd-context option[value=" + options.context + "]").attr("selected", "selected");
-		}
-		
-		if(options.assigned_to)
-		{
-			frm.find(".dd-assigned-to option[value=" + options.assigned_to + "]").attr("selected", "selected");
-		}
-		
-		if(options.estimate)
-		{
-			var estimate_parts = options.estimate.split(" ");
-			frm.find("input[name=estimate]").val(estimate_parts[0]);
-			frm.find(".estimate_time option[value=" + estimate_parts[1] + "]");
-		}
-
+		// type toggle: note
 		frm.find(".type .btn-note").click(function() {
 			var $annotation = $(this).parents(".annotation");
 			
@@ -282,6 +268,7 @@ peeq.prototype.annotate =
 			return false;
 		});
 		
+		// type toggle: task
 		frm.find(".type .btn-task").click(function() {
 			var $annotation = $(this).parents(".annotation");
 			
@@ -291,16 +278,10 @@ peeq.prototype.annotate =
 			$annotation.removeClass("type-note").addClass("type-task");
 			
 			$annotation.find(".type .btn-note").removeClass("selected");
-			
 			return false;
 		});
-		
-		if(options.type == "task")
-		{
-			frm.find(".type .btn-task").click();
-		}
-		
-
+				
+		// priority toggle
 		frm.find(".btn-priority").click(function() {
 			var $this = $(this),
 				$chkbox = $this.next("input[name=priority]"),
@@ -320,11 +301,7 @@ peeq.prototype.annotate =
 			return false;
 		});
 		
-		if(options.priority && options.priority == 1)
-		{
-			frm.find(".btn-priority").click();
-		}
-				
+		// status toggle
 		frm.find(".btn-status").click(function() {
 			var $this = $(this),
 				$chkbox = $this.next("input[name=status]");
@@ -342,24 +319,71 @@ peeq.prototype.annotate =
 			return false;
 		});
 		
+		// make sure input for estimate is only numbers and .
+		frm.find("input[name=estimate]").numeric(".");
+
+
+		// POPULATE FIELDS
+		
+		// set the form 10px below the height of the annotation
+		if(options.height)
+		{
+			frm.css({
+				"top": 10 + parseInt(options.height)
+			});
+		}
+		
+		// type of field (task|note)
+		if(options.type == "task")
+		{
+			frm.find(".type .btn-task").click();
+			frm.find(".task-fields").show();
+		}
+		
+		// context for tasks
+		if(options.context)
+		{
+			frm.find(".dd-context option[value=" + options.context + "]").attr("selected", "selected");
+		}
+		
+		// assigned to for tasks
+		if(options.assigned_to)
+		{
+			frm.find(".dd-assigned-to option[value=" + options.assigned_to + "]").attr("selected", "selected");
+		}
+		
+		// estimate for tasks
+		if(options.estimate)
+		{
+			var estimate_parts = options.estimate.split(" ");
+			frm.find("input[name=estimate]").val(estimate_parts[0]);
+			frm.find(".estimate_time option[value=" + estimate_parts[1] + "]");
+		}
+		
+		// priority
+		if(options.priority && options.priority == 1)
+		{
+			frm.find(".btn-priority").click();
+		}
+		
+		// status
 		if(options.status && options.status == "1")
 		{
 			frm.find(".btn-status").click();
 		}
 	
+		// set annotation id
 		if(options.id)
 		{
 			annotation.data("annotation-id", options.id);
 		}
 
-		frm.find("input[name=estimate]").numeric(".");
 
-/*
-		frm.find('select').selectmenu({
-			width: 150,
+		// face melting custom dropdowns, for all except estimate b/c that one is not as wide
+		frm.find('select:not(.dd-estimate)').selectmenu({
+			width: 175,
 			format: function(text)
 			{
-				//console.log(text);
 				var newText = text;
 				//array of find replaces
 				var findreps = [
@@ -376,7 +400,12 @@ peeq.prototype.annotate =
 				return newText;
 			}
 		});
-*/
+		
+		// estimate face melting custom dropdown
+		frm.find("select.dd-estimate").selectmenu({
+			width: 95,
+			menuWidth: 75
+		});
 
 		return annotation;
 	}

@@ -99,7 +99,7 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 // END UTILITIES
 
 // ICONS
-.icon {background: url('../imgs/sprite-icons.png') no-repeat; width: 15px; height: 17px; float: left; display: block;}
+.icon, .ui-icon {background: url('../imgs/sprite-icons.png') no-repeat; width: 15px; height: 17px; float: left; display: block;}
 .icon.icon-view {background-position: 0 3px}
 .icon.icon-task {background-position: -19px 0}
 .icon.icon-note {background-position: -37px 0}
@@ -134,6 +134,12 @@ footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; posi
 .icon.icon-marker-incomplete {background-position: 0 -108px;}
 .icon.icon-marker.on {background-position: -18px -108px;}
 .icon.icon-marker-complete {background-position: -36px -108px;}
+.ui-icon-gripsmall-diagonal-se,
+.icon.icon-resizer {background-position: -54px -108px;}
+.ui-icon-triangle-1-s,
+.icon.icon-dropdown-arrows {background-position: -72px -108px;}
+.ui-state-active .ui-icon-triangle-1-s,
+.icon.icon-dropdown-arrows-pink {background-position: -90px -108px;}
 // END ICONS
 
 @import "jqmodal";

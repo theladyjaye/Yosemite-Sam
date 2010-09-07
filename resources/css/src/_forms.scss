@@ -36,26 +36,28 @@ form {}
 		form .forgot-password {position: relative; float: left; margin: 7px 0 0 5px; font-style: italic;}
 
 // custom select menu
-.ui-select-menu {float: left;}
-.ui-selectmenu { display: block; position:relative; height:2em; text-decoration: none; overflow:hidden;}
-.ui-selectmenu-icon { position:absolute; right:6px; margin-top:-8px; top: 50%; }
+.ui-selectmenu { display: block; position:relative; float: left; top: 7px; height:2em; text-decoration: none; overflow:hidden;
+		&:active {top: 10px;}
+	}
+.ui-selectmenu-icon { position:absolute; right:-2px; margin-top:-4px; top: 50%; }
 .ui-selectmenu-menu { padding:0; margin:0; list-style:none; position:absolute; top: 0; visibility: hidden; overflow: auto; }
 .ui-selectmenu-open { visibility: visible; }
-.ui-selectmenu-menu-popup { margin-top: -1px; z-index: 2; width: 300px; background: $color_dark_gray; border: 1px solid #444; @include corner()}
+.ui-selectmenu-menu-popup { margin-top: -1px; z-index: 2; width: 150px; background: #fff; border: 1px solid #eee; @include corner(); @include boxshadow(rgba(0, 0, 0, 0.5), 0, 0, 8px); @include transition(none, 0, linear);}
 .ui-selectmenu-menu-dropdown { }
-.ui-selectmenu-menu li { padding:0; margin:0; display: block; border-top: 1px solid rgba(0, 0, 0, 0.2); border-bottom: 1px solid #444; text-transform: uppercase; font-weight: bold;
+.ui-selectmenu-menu li { padding: 2px; margin:0; display: block; border-top: 1px solid rgba(0, 0, 0, 0.2); /*border-bottom: 1px solid #444;*/ font-weight: bold;
 		&:first-child {border-top: 1px solid transparent;}
 		&:last-child  {border-bottom: 1px solid transparent}
 	}
-.ui-selectmenu-menu-popup .ui-state-hover a {background: #444; color: #fff;}
-.ui-selectmenu-menu li a,.ui-selectmenu-status {background: $color_dark_gray; height: 20px; display:block; padding: 5px; }
+.ui-selectmenu-menu-popup .ui-state-hover a {background: $color_light_blue; color: #fff; @include corner();}
+.ui-selectmenu-menu li a,.ui-selectmenu-status {background: #fff; color: $color_dark_gray; height: auto; font-size: 12px; display:block; padding: 5px; @include corner(); @include transition(none, 0.15s, ease-out);}
 .ui-selectmenu-menu li.ui-selectmenu-hasIcon a,
-.ui-selectmenu-hasIcon .ui-selectmenu-status { padding-left: 20px; position: relative; margin-left: 5px; }
+.ui-selectmenu-hasIcon .ui-selectmenu-status {padding-left: 20px; position: relative; margin-left: 5px;}
 .ui-selectmenu-menu li .ui-icon, .ui-selectmenu-status .ui-icon { position: absolute; top: 1em; margin-top: -8px; left: 0; }
-.ui-selectmenu-status { line-height: 1.4em; }
+.ui-selectmenu-status {line-height: 1.4em; @include boxshadow(rgba(0, 0, 0, 0.5), 0, 0, 3px, inset); font-weight: bold; height: 14px}
+.ui-state-active .ui-selectmenu-status {}
 .ui-selectmenu-open li.ui-selectmenu-item-focus a {  }
-.ui-selectmenu-open li.ui-selectmenu-item-selected { }
-.ui-selectmenu-menu li span,.ui-selectmenu-status span { display:block; margin-bottom: .2em; }
+.ui-selectmenu-open li.ui-selectmenu-item-selected a {background: $color_light_pink; color: #fff;}
+.ui-selectmenu-menu li span,.ui-selectmenu-status span { display:block}
 .ui-selectmenu-menu li .ui-selectmenu-item-header { font-weight: bold; }
 .ui-selectmenu-menu li .ui-selectmenu-item-content {  }
 .ui-selectmenu-menu li .ui-selectmenu-item-footer { opacity: .8; }
