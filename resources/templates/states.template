@@ -103,7 +103,7 @@
 	<section>
 		<h2 class="add">Add State</h2>
 		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-state-add" action="" method="post">
+		<form id="frm-state-add" action="" method="post" target="iframe-ajax-on-demand" enctype="multipart/form-data">
 			<ul>
 				<li class="field">								
 					<input type="text" name="label" />

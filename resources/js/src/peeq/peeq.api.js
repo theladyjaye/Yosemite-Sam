@@ -6,36 +6,29 @@ peeq.prototype.api =
 			callback(data);
 		}
 	},
-	createForm: function(action, $original_form, successCallback)
+	do_ajax_upload: function(action, $original_form, successCallback)
 	{
-	    var id = "frm-ajax-on-demand";
+		var iframe = "iframe-ajax-on-demand";
 	    
-	    // remove form if it currently exists
-	    $("#" + id).remove();
-	    
-	    var $frm = $("<form />", {
-	        id: id,
-	        method: "post",
-	        action: action,
-	        enctype: "multipart/form-data"	        
-	    });
-	    
-	    $original_form.find("input").each(function() {
-			$("<input />", {
-	            type: "hidden",	
-	            name: $(this).attr("name"),
-	            val: $(this).val()
-	        }).appendTo($frm);
-		}).end().find("textarea").each(function() {
-			$("<textarea />", {	            
-	            name: $(this).attr("name"),
-	            html: $(this).val()
-	        }).appendTo($frm);
-		});
-				
-	    $frm.appendTo("body");
-	    
-	    return $frm;
+	    // remove iframe if it currently exists
+	    $("#" + iframe).remove();
+	
+		var $iframe = $('<iframe name="' + iframe + '" id="' + iframe + '" style="display:none;width:0;height:0" src="" target="_self" />');   
+		
+		$iframe.insertAfter("#" + $original_form.attr("id"));
+			    	
+		$original_form.attr("action", action).submit();
+		$iframe.load(function() {
+			var response = $.parseJSON($("#" + iframe)[0].contentDocument.body.innerHTML);
+			if(response.ok)
+			{
+				// CHANGE TO AJAX refresh
+				document.location.reload(true);
+			}
+			$("#" + iframe).remove();
+		});		
+
+	    return false;
 	},
 	request: function(resource, data, method, successCallback, isUpload)
 	{
@@ -49,14 +42,7 @@ peeq.prototype.api =
             // if uploading file
 		    if(isUpload)
 		    {
-		        var $frm = peeq.api.createForm(handler, data);
-		        $frm.submit(function() {
-		           $.post(handler, $frm.serialize(), function(data) {
-		               $frm.remove();
-		               peeq.api.successCallbackHandler(successCallback, data);
-		           })
-		           return false; 
-		        }).submit();			       
+		        peeq.api.do_ajax_upload(handler, data, successCallback);			       
 		    }
 		    else
 		    {		    

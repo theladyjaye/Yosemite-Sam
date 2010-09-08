@@ -101,15 +101,15 @@
 							<dt class="complete">Completed</dt>
 							<dd class="complete">${peeq.utils.template.completed_views(views)}</dd>
 						</dl>
-						<p class="percentage">${peeq.utils.template.percentage(peeq.utils.template.completed_views(views), project.views)}%</p>
+						<p class="percentage">${peeq.utils.template.percentage(peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))}%</p>
 						<table>
 						    <tr>
 				                <th>Incomplete</th>
-				                <td>${peeq.utils.template.percentage(project.views - peeq.utils.template.completed_views(views), project.views)}%</td>
+				                <td>${peeq.utils.template.percentage(peeq.utils.template.total_tasks_in_project(views) - peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))}%</td>
 				            </tr>
 				            <tr>
 				                <th>Complete</th>
-				                <td>${peeq.utils.template.percentage(peeq.utils.template.completed_views(views), project.views)}%</td>
+				                <td>${peeq.utils.template.percentage(peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))}%</td>
 				            </tr>
 						</table>								
 					</div>
@@ -150,7 +150,7 @@
 	<section>
 		<h2 class="add">Add View</h2>
 		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-view-add" action="" method="post">
+		<form id="frm-view-add" action="" method="post" target="iframe-ajax-on-demand" enctype="multipart/form-data">
 			<ul>
 				<li class="field">								
 					<input type="text" name="label" />
@@ -182,7 +182,7 @@
 	<section>
 		<h2 class="add">Add Attachment</h2>
 		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-attachment-add" action="" method="post">
+		<form id="frm-attachment-add" action="" method="post" target="iframe-ajax-on-demand" enctype="multipart/form-data">
 			<ul>
 				<li class="field">								
 					<input type="text" name="label" />

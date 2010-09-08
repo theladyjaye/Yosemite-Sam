@@ -124,6 +124,26 @@ peeq.prototype.utils =
 			
 			return completed;
 		},
+		completed_tasks_in_project: function(views)
+		{
+			var completed = 0;
+			for(var i = 0, len = views.length; i < len; i++)
+			{
+				completed += views[i].tasks.completed;
+			}
+			
+			return completed;
+		},
+		total_tasks_in_project: function(views)
+		{
+			var tasks = 0;
+			for(var i = 0, len = views.length; i < len; i++)
+			{
+				tasks += views[i].tasks.total;
+			}
+			
+			return tasks;
+		},
 		icon_from_content_type: function(content_type)
 		{
 			var icon = "icon-view";
