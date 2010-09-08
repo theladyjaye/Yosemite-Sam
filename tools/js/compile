@@ -1,12 +1,27 @@
 #! /bin/sh
 
 # to run: sh compile
+# to run specific page: sh compile coming-soon.php coming-soon.min.js 
+#	=> coming-soon.php is the file name
+#	=> coming-soon.min.js is the compressed output file
 
-#index file
-index_file=../../index.php
+#index file is default
+filename=index.php
+if [ $1 ]; then
+	filename=$1
+fi
+
+index_file=../../$filename
 
 #js compressed output file
-js_output_file=../../resources/js/script.min.js
+# script.min.js is default
+scriptfile="script.min.js"
+if [ $2 ]; then
+	scriptfile=$2
+fi
+
+js_output_file="../../resources/js/$scriptfile"
+
 # js compiler (currently closeure)
 compiler=`pwd`/compiler.jar
 

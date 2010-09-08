@@ -1,0 +1,68 @@
+@import "reset";
+@import "config";
+@import "helper";
+@import "forms";
+
+
+// BASE
+body {font: 14px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif; color: $color_dark_gray; background: #FCFCFB; /*overflow-x: hidden;*/}
+    a {text-decoration: none; @include transition(all, 0.15s, ease-out); color: $color_light_blue;}
+    a:active {position: relative; top: 1px;}
+	a:hover {color: $color_light_pink;}
+	ul {list-style: none;}
+	hr {clear: both;}
+	hr.thick {border-width: 6px; border-color: #000;}
+#main {position: relative; top: 200px; margin: 0 auto; width: 800px; padding-bottom: 20px; opacity: 1;}
+// END BASE
+
+// BG
+#bg {background: url('../imgs/bg-vignette-top-left.png') top left no-repeat, url('../imgs/bg-vignette-top-right.png') top right no-repeat, url('../imgs/bg-vignette-bottom-left.png') bottom left no-repeat, url('../imgs/bg-vignette-bottom-right.png') bottom right no-repeat, url('../imgs/bg-vignette-top.png') top center repeat-x, url('../imgs/bg-vignette-bottom.png') bottom center repeat-x, url('../imgs/bg-vignette-left.png') left center repeat-y, url('../imgs/bg-vignette-right.png') right center repeat-y; @include backgroundsize(465px, 130px); bottom: 0; left: 0; position: fixed; right: 0; top: 0; z-index: -1; min-height: 800px; border-top: 3px solid $color_light_pink;}
+    #bg img {position: absolute; left: 50%; margin-left: -600px; opacity: 0;}
+	#bg-default {opacity: 1;}
+// END BG
+
+
+// HEADER
+h1 {font-size: 40px; margin-bottom: 20px; text-indent: -9999px; background: url('../imgs/coming-soon.png')  no-repeat; width: 271px; height: 109px;
+	&.hide {text-indent: 0; background-image: none;}
+	& em {position: relative; float: right; color: $color_light_gray; opacity: 0.4; font-weight: normal; letter-spacing: -2px;}
+}
+// END HEADER
+
+#left {float: left; width: 400px;}
+#right {float: left; width: 400px;}
+
+
+// ABOUT
+#about {line-height: 24px; font-size: 18px; color: $color_light_gray; width: 355px;
+	strong {color: $color_dark_gray; font-weight: normal;}
+}
+// END ABOUT
+
+// FIRST TO KNOW
+#first-to-know {margin: 40px 0 0 0;
+	& p {font-size: 20px; color: $color_dark_gray; margin: 0 0 5px 0}
+}
+
+form li {clear: none; width: auto}
+	form .field input {width: 225px; margin-right: 20px;}
+	form .hint {top: 14px; font-size: 26px;}
+	form .btn {margin-top: 6px;}
+// END FIRST TO KNOW
+
+
+// UTILITIES
+.peeq {color: $color_light_pink;}
+.complete {color: $color_light_pink;}
+.incomplete {color: $color_light_blue;}
+.important {color: $color_light_red; text-transform: uppercase; font-weight: bold;}
+.wrap {width: $wrap_width; margin: 0 auto;}
+.timestamp {color: #aaa; font-style: italic;}
+.left {float: left;}
+.right {float: right;}
+.clearboth {clear: both;}
+
+.btn {height: 25px; display: block; @include lineargradient(#494949, #20211f); @include boxshadow(rgba(0, 0, 0, 0.6), 0, 0, 1px); @include corner(3px); padding: 5px 10px; color: #fff; text-transform: uppercase; font-weight: bold; font-size: 15px; line-height: 25px; float: left;
+	&:hover {@include lineargradient(#555, #20211f); @include boxshadow(rgba(0, 0, 0, 0.8), 0, 0, 1px); color: #fff;};
+	&:after {content: '\00BB'; color: $color_light_yellow; padding-left: 4px}
+}
