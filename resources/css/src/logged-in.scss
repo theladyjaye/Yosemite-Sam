@@ -198,7 +198,7 @@
 // END EDITABLE FIELDS
 
 // ANNOTATION
-.annotation {width: 20px; height: 20px; background: rgba(255, 255, 255, 0.3); margin-left: 2px; @include borderimage('../imgs/note-border.png'); border: 5px solid #ff7b09; @include corner();
+.annotation {width: 20px; height: 20px; background: rgba(255, 255, 255, 0.3); margin-left: 2px; @include borderimage('../imgs/note-border.png'); border: 5px solid $color_light_blue; @include corner();
 	&.type-task {@include borderimage('../imgs/task-border.png');}
 }
 

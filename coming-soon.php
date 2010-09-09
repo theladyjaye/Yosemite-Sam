@@ -1,14 +1,15 @@
 <? 
-$sfw 	= false; // safe for work
-$debug 	= true;
-$peak	= "peak";
-$peeq 	= "peeq";
-
+$sfw	 		= false; // safe for work
+$debug 			= true;
+$peak			= "peak";
+$peeq 			= "peeq";
+$twitter		= "peeqservice";
 
 if($sfw)
 {
-	$peak = "!!!!";
-	$peeq = "oooo";
+	$peak 		= "!!!!";
+	$peeq 		= "oooo";
+	$twitter	= "%%%%%%%%";
 }
 
 ?>
@@ -27,34 +28,52 @@ if($sfw)
 <body>
 	<div id="bg"></div>
 	<div id="main">		
-		<div id="left">
+		<div class="column">
 			<h1 <?if($sfw):?>class="hide"<?endif;?>>Logo ... <em>coming soon</em></h1>
 		</div>
 		
-		<div id="right">
-			<p id="about"><span class="peeq"><?=$peeq?></span> is an <strong>online service</strong> that will shape the way you consider <strong>project development</strong> creating an environment for team collaboration from design to engineering to launch.</p>
+		<div class="column">
+			<div id="view-sign-up-container">
+				<div id="view-sign-up">			
+					<p id="about"><span class="peeq"><?=$peeq?></span> is an <strong>online service</strong> that will shape the way you consider <strong>project development</strong> creating an environment for team collaboration from design to engineering to launch.</p>
 	
-			<div id="first-to-know">
-				<p>Be the first to know when <?=$peak?> @ <span class="peeq"><?=$peeq?></span></p>
-				<form method="post" action="">
-					<ul>
-						<li class="field">
-							<input type="email" name="email" />
-							<span class="hint">me@domain.com</span>
-							<span class="icon icon-success"></span>
-							<span class="icon icon-error"></span>
-						</li>
-						<li>
-							<a class="btn" href="#">Let me know</a>
-						</li>
-					</ul>
-				</form>
-			</div>
+					<div id="first-to-know">
+						<p>Be the first to know when to <?=$peak?> @ <span class="peeq"><?=$peeq?></span></p>
+						<form method="post" action="">
+							<ul>
+								<li class="field">
+									<input type="email" name="email" />
+									<span class="hint">me@domain.com</span>
+									<span class="icon icon-success"></span>
+									<span class="icon icon-error"></span>
+								</li>
+								<li>
+									<a class="btn btn-submit" href="#">Let me know</a>
+								</li>
+							</ul>
+						</form>
+					</div>
+				</div>	
+				<div id="annotation-container">
+					<div class="annotation">
+						<div class="ui-resizeable-handle icon icon-resizer"></div>
+						<div class="border"></div>
+						<div class="overlay"></div>
+					</div>
+					<span class="annotation-num">1</span>
+					<span class="cursor cursor-pointer"></span>
+				</div>
+			</div>	
+			<div id="view-signed-up-container">
+				<p>Glad we could <span class="peeq"><?=$peeq?></span> your interest!</p>
+				<p>You’ll hear from us shortly.  Till then be sure to follow <a href="http://twitter.com/peeqservice">@<?=$twitter?></a> on twitter.</p>
+			</div>	
 		</div>
 	</div>
 	
 	<?if($debug):?>
 	<script src="resources/js/src/jquery/jquery.js"></script>
+	<script src="resources/js/src/jquery/plugins/jquery.easing.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.toggle_form_field.js"></script>
 	<script src="resources/js/src/peeq/peeq.coming-soon.js"></script>
 	<?else:?>
