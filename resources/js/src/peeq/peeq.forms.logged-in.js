@@ -146,11 +146,10 @@ peeq.prototype.forms =
 		},
 		update: function(form_id)
 		{
-			var id = document.location.hash.split("/")[1],
-				$form = $("#" + form_id),
-				attachment_id = encodeURIComponent($form.find("input[name=id]").val().split("/").slice(-1)[0]);
-			
-			peeq.api.request("/project/" + id + "/attachment/" + attachment_id, $form, "POST", function(response) {
+			var id = peeq.forms.utils.get_pathname(1),
+				$form = $("#" + form_id);
+
+			peeq.api.request("/project/" + id, $form, "POST", function(response) {
 				document.location.reload(true);
 			}, true);
 		}

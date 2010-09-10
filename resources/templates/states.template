@@ -158,7 +158,6 @@
 					<span class="icon icon-error"></span>
 				</li>
 			</ul>
-			<input type="hidden" name="id" value="${state.attachment.path}" />
 			<a href="#" class="btn btn-add btn-submit left clearboth">Update</a>
 		</form>
 	</section>
