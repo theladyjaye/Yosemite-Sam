@@ -18,7 +18,7 @@ form {}
 			
 			// highlight label on focus
 			form .field-domain input:focus + span,
-			form .field-domain input:focus + span + p > label, 
+			form .field-domain input:focus ~ p > label, 
 			.field input:focus + label,
 			.field textarea:focus + label {opacity: 1; color: $color_dark_gray;}		
 		form .field-domain input {border: 0; outline: none; font-size: 28px; color: $color_dark_gray; width: 240px; height: 38px; letter-spacing: -1px; text-align: right;}
@@ -30,7 +30,11 @@ form {}
 		form .hint {position: absolute; top: 22px; left: 8px; font-size: 20px; letter-spacing: -1px; color: #aaa; opacity: 0.45; z-index: 1;}		
 		form textarea + label + .hint {top: 8px;}
 		form .domain {float: right; margin: -55px 10px 0 0; position: relative; font-size: 28px}
+		form .success ~ .icon-success,
+		form .field-domain .success ~ p .icon-success {display: block;}
 		form .icon-success {position: relative; top: 9px; left: 5px; display: none;}
+		form .error ~ .icon-error,
+		form .field-domain .error ~ p .icon-error {display: block;}
 		form .icon-error {position: relative; top: 9px; left: 5px; color: $color_light_pink; font-style: italic; padding-left: 18px; display: none;}
 		#frm-sign-in .icon-error {float: left; display: block; margin: 20px 0; width: 100%; font-size: 16px; line-height: 16px;}
 		form .forgot-password {position: relative; float: left; margin: 7px 0 0 5px; font-style: italic;}
