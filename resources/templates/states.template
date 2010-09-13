@@ -58,7 +58,7 @@
 							</table>								
 						</div>
 						<hr />
-						<p class="desc editable-textarea">${view.description}</p>					
+						<p class="desc editable-textarea">{{if state.description != ""}}${state.description}{{else}}description goes here.{{/if}}</p>					
 						<hr />
 						<table id="table-states" class="table-sortable">
 							<thead>
@@ -113,8 +113,7 @@
 				</li>
 				<li class="field">								
 					<input type="file" name="attachment" />
-					<label for="label">Representation</label>
-					<span class="hint">jpg of state</span>
+					<label for="label">Representation (jpg)</label>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
@@ -152,8 +151,7 @@
 			<ul>
 				<li class="field">								
 					<input type="file" name="attachment" />
-					<label for="label">Representation</label>
-					<span class="hint">new image</span>
+					<label for="label">New representation (jpg)</label>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>

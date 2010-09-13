@@ -82,7 +82,7 @@
 	<div class="column sidebar detail">
 		<nav>
 			<a class="btn btn-delete btn-modal modal-view-delete-project right" href="#">
-				Delete
+				Delete Project
 			</a>
 		</nav>
 		<section class="column-body">
@@ -114,7 +114,7 @@
 						</table>								
 					</div>
 					<hr />
-					<p class="desc editable-textarea">${project.description}</p>					
+					<p class="desc editable-textarea">{{if project.description != ""}}${project.description}{{else}}description goes here.{{/if}}</p>					
 					<hr />
 					<table id="table-attachments" class="table-sortable">
 						<thead>
@@ -161,7 +161,7 @@
 				</li>
 				<li class="field">								
 					<input type="file" name="attachment" />
-					<label for="label">Representation</label>
+					<label for="label">Representation (jpg)</label>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
@@ -187,14 +187,12 @@
 				<li class="field">								
 					<input type="text" name="label" />
 					<label for="label">Attachment Name</label>
-					<span class="hint">Call me..</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
 					<input type="file" name="attachment" />
 					<label for="label">Representation</label>
-					<span class="hint">browse for file...</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>

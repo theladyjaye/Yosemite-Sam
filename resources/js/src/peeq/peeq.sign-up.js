@@ -26,27 +26,27 @@ function peeq()
 		});
 	}
 	
-	// PUBLIC --------------------------------
-	this.main = function() 
+	var signup_validation = function() 
 	{
-		// transition in
-		transition_in();
-		
-		// register events
-		register_events();
-		
-		// first sign up field gets focus
-		$("input:eq(0)").focus();
-		
 		$("#frm-sign-up").validation({
 			rules: [
 				{
 					elt: "input[name=firstname]",
 					rule: /\w{2,}/
 				},
+				/*
 				{
 					elt: "input[name=lastname]",
 					rule: /\w{2,}/
+				},
+				*/
+				{
+					elt: "input[name=lastname]",
+					rule: "custom",
+					success: function(evt, $elt)
+					{
+						return ($elt.val() == "test");
+					}
 				},
 				{
 					elt: "input[name=username]",
@@ -82,7 +82,8 @@ function peeq()
 			checkevent: "keyup",
 			onerror: function(evt, $elt)
 			{
-				if((!$elt.hasClass("error") && !$elt.hasClass("success")) && $elt.val().length < 2)
+				var data = $("#frm-sign-up").data("validation");
+				if(!data.is_validating && (!$elt.hasClass("error") && !$elt.hasClass("success")) && $elt.val().length < 2)
 				{
 					return false;
 				}
@@ -95,7 +96,60 @@ function peeq()
 			{
 				$password_match.val("").removeClass("success error");
 			}
+		}).end().bind("complete.validate", function(evt, is_valid) {
+			console.log(is_valid);
+			
+			if(is_valid)
+			{
+				// submit form
+			}
+		}).find(".btn-signup").click(function() {			
+			$("#frm-sign-up").trigger("validate"); // validate on submit
+			return false;
 		});
+	};
+	
+	var signin_validation = function() 
+	{
+		$("#frm-sign-in .btn-sign-in").click(function() {
+			var $frm = $("#frm-sign-in"),
+				$error_msg = $frm.find(".error-message");
+			/*
+			$.post("/login", $frm.serialize(), function(response) {
+				if(response.ok)
+				{
+					// success
+					$error_msg.hide();
+					// proceed
+				}
+				else 
+				{
+					// fail
+					$error_msg.html(reponse.error).fadeIn();					
+				}
+			});
+			*/
+			return false;
+		});
+	}
+	
+	// PUBLIC --------------------------------
+	this.main = function() 
+	{
+		// transition in
+		transition_in();
+		
+		// register events
+		register_events();
+		
+		// first sign up field gets focus
+		$("input:eq(0)").focus();
+		
+		// setup sign up validation
+		signup_validation();
+		
+		// setup sign in validation
+		signin_validation();	
 		
 	};
 };
