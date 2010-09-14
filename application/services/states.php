@@ -135,14 +135,20 @@ class YSSServiceStates extends YSSService
 		
 		if($state)
 		{
+			$dirty = false;
+			
 			// update all applicable fields up to the label. Label gets special treatment
-			if($input->description)
+			if($input->description && $input->description != $state->description)
+			{
 				$state->description = $input->description;
+				$dirty = true;
+			}
 				
 			
 			if($input->attachment->tmp_name)
 			{
 				$this->updateStateRepresenation($state, $input, $response);
+				$dirty = true;
 			}
 			
 			if($input->label)
@@ -265,7 +271,7 @@ class YSSServiceStates extends YSSService
 			else
 			{
 				// save with no label transform success:
-				if($state->save())
+				if($dirty && $state->save())
 				{
 					$response->ok = true;
 					$response->id = $state->_id;
