@@ -40,7 +40,7 @@ class YSSServiceGroups extends YSSService
 			
 			case "POST":
 				$this->addEndpoint("POST",    "/api/project/{project_id}/group/task",                          "createGroup");
-				$this->addEndpoint("POST",    "/api/project/{project_id}/group/task/{group_id}",               "updateGroup");
+				$this->addEndpoint("POST",    "/api/project/{project_id}/group/task/{group_id}/{task_id}",     "addTaskToGroup");
 				break;
 			
 			case "DELETE":
@@ -58,38 +58,84 @@ class YSSServiceGroups extends YSSService
 		echo $database->document($id, true);
 	}
 	
-	public function updateGroup($project_id, $group_id)
+	public function addTaskToGroup($project_id, $group_id, $task_id)
 	{
 		$response = new stdClass();
 		$response->ok = false;
 	
-		$data                    = $_POST;//json_decode(file_get_contents('php://input'), true);
+		$data                    = array();//json_decode(file_get_contents('php://input'), true);
 		$data['project_id']      = strtolower($project_id);
 		$data['group_id']        = strtolower($group_id);
+	    $data['task_id']         = strtolower($task_id);
 	
-		if(isset($data['label'])) $data['transform_label'] = YSSUtils::transform_to_id($data['label']);
-		
 		$context    = array(AMForm::kDataKey=>$data);
 		$input      = AMForm::formWithContext($context);
 		
 		$this->applyBaseGroupValidators($input);
+		$input->addValidator(new AMPatternValidator('task_id', AMValidator::kRequired, '/^project\/[a-z\d-]{2,}\/[a-z\d-]{2,}\/[a-z\d-]{2,}\/[a-f0-9]{32}$/', "Invalid task id."));
 		
 		if($input->isValid)
 		{
-			$project = YSSProject::projectWithId('project/'.$input->project_id);
-			$isNew   = $project == null ? true : false;
-			
-			// set our validators based on the type of command:
-			// adding validators causes the forms needs validation 
-			// flag to be reset, so we can check for validation again
-			$isNew ? $this->applyPutValidators($input) : $this->applyPostValidators($input);
-			
-			if($input->isValid)
+			// does the project exist?
+			$project = YSSProject::projectWithId('project/'.$project_id);
+		
+			if($project)
 			{
-				$isNew ? $this->createNewGroup($input, $response) : $this->updateExistingGroup($project, $input, $response);
+				// does the task group exist?
+				$group = YSSTaskGroup::groupWithId($project->_id.'/group/task/'.$group_id);
+			
+				if($group)
+				{
+					$task = YSSTask::taskWithId($task_id);
+				
+					if($task)
+					{
+						if(!in_array($task_id, $group->tasks))
+						{
+							$group->addTask($task);
+						
+							if($group->save())
+							{
+								$task->group  = $group->_id;
+							
+								if($task->save())
+								{
+									$response->ok = true;
+									$response->id = $group->_id;
+								}
+								else
+								{
+									$input->addValidator(new AMErrorValidator('error', 'Unable to save task updates to task') );
+									$this->hydrateErrors($input, $response);
+								}
+							}
+							else
+							{
+								$input->addValidator(new AMErrorValidator('error', 'Unable to save task group') );
+								$this->hydrateErrors($input, $response);
+							}
+						}
+						else
+						{
+							$input->addValidator(new AMErrorValidator('task', 'Task already exists in group') );
+							$this->hydrateErrors($input, $response);
+						}
+					}
+					else
+					{
+						$input->addValidator(new AMErrorValidator('task', 'Task does not exist') );
+						$this->hydrateErrors($input, $response);
+					}
+				}
+				else
+				{
+					$input->addValidator(new AMErrorValidator('taskGroup', 'Task Group does not exist') );
+					$this->hydrateErrors($input, $response);
+				}
 			}
 			else
 			{
+				$input->addValidator(new AMErrorValidator('project', 'Project does not exist') );
 				$this->hydrateErrors($input, $response);
 			}
 		}
@@ -115,7 +161,7 @@ class YSSServiceGroups extends YSSService
 		$this->applyPutValidators($input);
 		if($input->isValid)
 		{
-			// does the group exist?
+			// does the project exist?
 			$project = YSSProject::projectWithId('project/'.$input->project_id);
 
 			if($project)
@@ -131,9 +177,18 @@ class YSSServiceGroups extends YSSService
 					
 					if($group->save())
 					{
+						$task->group  = $group->_id;
 						
-						$response->ok = true;
-						$response->id = $group->_id;
+						if($task->save())
+						{
+							$response->ok = true;
+							$response->id = $group->_id;
+						}
+						else
+						{
+							$input->addValidator(new AMErrorValidator('error', 'Unable to save task updates to task') );
+							$this->hydrateErrors($input, $response);
+						}
 					}
 					else
 					{
@@ -162,13 +217,18 @@ class YSSServiceGroups extends YSSService
 		echo json_encode($response);
 	}
 	
-	public function updateExistingGroup(&$input, &$response)
+	public function updateExistingGroup(&$project, &$input, &$response)
 	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
+//		$group        = YSSTaskGroup::groupWithId($project->id.'/group/task/'.);
+		
 		// requires 
 		// task id
 		// label
 		
-		echo "createGroup: ", $project_id;exit;
+		echo "updateGroup: ", $project_id; exit;
 	}
 	
 	public function deleteGroup($project_id, $group_id)
