@@ -294,6 +294,50 @@ class CouchDB
 		}
 	}
 	
+	public function request($method='GET', $path='/', $query=null, $data=null, $json=false)
+	{
+		static $loaded = false;
+		
+		if(!$loaded)
+		{
+			require 'commands/CDBRequest.php';
+			$loaded = true;
+		}
+		
+		if($this->shouldPerformActionWithDatabase())
+		{
+			if(is_array($data) || is_a($data, 'stdClass'))
+			{
+				$data = couchdb_json_encode($data);
+			}
+			else if(is_object($data))
+			{
+				$data = $data->__toString();
+			}
+			
+			$options = array('method' => $method,
+			                 'path'   => $path,
+			                 'query'  => $query,
+			                 'data'   => $data);
+			
+			$connection = new CouchDBConnection($this->connectionOptions);
+			$response   = $connection->execute(new CDBRequest($this->connectionOptions['database'], $options));
+			
+			if($json)
+			{
+				return $response->data;
+			}
+			else
+			{
+				return $response->result;
+			}
+		}
+		else
+		{
+			$this->throw_no_database_exception();
+		}
+	}
+	
 	public function bulk_update($documents, $json=false)
 	{
 		static $loaded = false;
