@@ -73,7 +73,7 @@
 							</div>														
 						</li>
 					</ul>
-					<a href="#" class="btn left clearboth">Sign Up</a>
+					<a href="#" class="btn btn-signup left clearboth">Sign Up</a>
 				</form>
 			</div>
 		</section>
@@ -101,7 +101,7 @@
 							<a href="#" class="forgot-password incomplete">forgot password</a>
 						</li>
 					</ul>	
-					<a href="#" class="btn left">Login</a>				
+					<a href="#" class="btn btn-sign-in left">Login</a>				
 				</form>				
 			</div>
 		</section>

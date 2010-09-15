@@ -15,12 +15,12 @@
 	<div class="column sidebar detail">
 		<nav>
 			<a class="btn btn-delete btn-modal modal-view-delete-project right" href="#">
-				Delete
+				Delete Project
 			</a>
 		</nav>
 		<section class="column-body">
 			<div class="column-body-inner">
-				<h2>${project.label}</h2>
+				<h2 class="editable">${project.label}</h2>
 				<div class="meta">
 					<a class="author" href="#">${project.created_by}</a>
 					<span class="timestamp">Created ${peeq.utils.template.elapsed_time(project.created_at)}</span>
@@ -47,7 +47,7 @@
 						</table>								
 					</div>
 					<hr />
-					<p class="desc">${project.description}</p>					
+					<p class="desc editable-textarea">{{if project.description != ""}}${project.description}{{else}}description goes here.{{/if}}</p>					
 					<hr />
 					<table class="table-sortable">
 						<thead>
@@ -120,14 +120,12 @@
 				<li class="field">								
 					<input type="text" name="label" />
 					<label for="label">Attachment Name</label>
-					<span class="hint">Call me..</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
 					<input type="file" name="attachment" />
 					<label for="label">Representation</label>
-					<span class="hint">browse for file...</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>

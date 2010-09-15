@@ -1,13 +1,11 @@
 <? 
 $sfw	 		= false; // safe for work
 $debug 			= true;
-$peak			= "peak";
 $peeq 			= "peeq";
 $twitter		= "peeqservice";
 
 if($sfw)
 {
-	$peak 		= "!!!!";
 	$peeq 		= "oooo";
 	$twitter	= "%%%%%%%%";
 }
@@ -38,7 +36,7 @@ if($sfw)
 					<p id="about"><span class="peeq"><?=$peeq?></span> is an <strong>online service</strong> that will shape the way you consider <strong>project development</strong> creating an environment for team collaboration from design to engineering to launch.</p>
 	
 					<div id="first-to-know">
-						<p>Be the first to know when to <?=$peak?> @ <span class="peeq"><?=$peeq?></span></p>
+						<p>Be the first to take a sneeq <span class="peeq"><?=$peeq?></span>:</p>
 						<form method="post" action="">
 							<ul>
 								<li class="field">

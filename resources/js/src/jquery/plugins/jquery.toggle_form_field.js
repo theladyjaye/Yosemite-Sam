@@ -19,8 +19,10 @@
 		if (settings) $.extend(config, settings);
 
 		this.each(function(i) {	
+			var $field = $(this);
+			
 			// input field focus/blur/key toggle
-			$(this).focus(function() {
+			$field.focus(function() {
 				var $this = $(this);
 				if($this.val() == "")
 				{
@@ -28,7 +30,7 @@
 						"opacity": config.opacity_focus
 					}, config.duration);
 				}
-			}).blur(function() {
+			}).bind("blur reset.toggle_form_field", function() {
 				var $this = $(this);
 				if($this.val() == "")
 				{
@@ -44,8 +46,16 @@
 						"opacity": config.opacity_keyup
 					}, config.duration);
 				}
-			});			
-		});
+			});		
+
+			// set keyup style onload if fields populated from refresh
+			if($field.val() != "")
+			{
+				$field.parent().find("." + config.hint_class).animate({
+					"opacity": config.opacity_keyup
+				}, config.duration);
+			}
+		});		
 		
 		return this;
 	};

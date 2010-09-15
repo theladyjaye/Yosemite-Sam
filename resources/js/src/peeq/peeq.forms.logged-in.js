@@ -18,11 +18,46 @@ peeq.prototype.forms =
 	},	
 	project:
 	{
+		validate: function(id)
+		{
+			var $form = $("#" + id);
+			
+			$form.one("complete.validate", function(evt, is_valid) {				
+				if(is_valid)
+				{
+					peeq.forms.project.submit($form, "PUT", function(response) {
+						if(response.ok)
+						{
+							document.location.reload(true);
+						}
+						
+						// peeq.forms.utils.reset($form);
+					});
+				}
+			});
+			
+			if(!$form.data("validation")) // setup validation b/c not set up yet
+			{
+				$form.validation({
+					"rules": [
+						{
+							elt: "input[name=label]",
+							rule: /[\w\d- ]{2,}/,
+							checkevent: "keypress",
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 2 characters.");
+							}
+						}
+					]
+				});
+			}
+			
+			$form.trigger("validate");				
+		},
 		add: function(id)
-		{		
-			peeq.forms.project.submit($("#" + id), "PUT", function(response) {
-				document.location.reload(true); // reload from server
-			});	
+		{	
+			peeq.forms.project.validate(id);
 		},
 		remove: function(id)
 		{
@@ -47,11 +82,62 @@ peeq.prototype.forms =
 	},
 	view:
 	{
+		validate: function(id)
+		{
+			var $form = $("#" + id);
+			
+			$form.one("complete.validate", function(evt, is_valid) {				
+				if(is_valid)
+				{
+					peeq.forms.view.submit($form, "PUT", function(response) {
+						if(response.ok)
+						{
+							document.location.reload(true);
+						}
+						
+						
+						// peeq.forms.utils.reset($form);
+					});
+				}
+			});
+			
+			if(!$form.data("validation")) // setup validation b/c not set up yet
+			{
+				$form.validation({
+					"rules": [
+						{
+							elt: "input[name=label]",
+							rule: /[\w\d- ]{2,}/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 2 characters.")
+							}
+						},
+						{
+							elt: "input[name=attachment]",
+							rule: /.jpg$/,
+							onerror: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").text("jpg only.").show();
+								$field.find(".icon-success").hide();
+							},
+							onsuccess: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").hide();
+								$field.find(".icon-success").show();
+							}
+						}
+					]
+				});
+			}
+			
+			$form.trigger("validate");	
+		},
 		add: function(id)
-		{		
-			peeq.forms.view.submit($("#" + id), "PUT", function(response) {
-				document.location.reload(true); // reload from server
-			});	
+		{	
+			peeq.forms.view.validate(id);
 		},
 		remove: function(id)
 		{
@@ -61,8 +147,9 @@ peeq.prototype.forms =
 			peeq.api.request("/project/" + path + "/" + id, {}, "DELETE", function(response) {
 				if(response.ok)
 				{
-					// redirect to projects
-					document.location.href = "/";
+					$form.parents(".modal").find(".btn-modal-close").click();
+					// redirect to views
+					document.location.href = "/#/" + path;
 				}
 			});
 		},
@@ -80,21 +167,72 @@ peeq.prototype.forms =
 	},
 	state:
 	{
+		validate: function(id)
+		{
+			var $form = $("#" + id);
+			
+			$form.one("complete.validate", function(evt, is_valid) {				
+				if(is_valid)
+				{
+					peeq.forms.state.submit($form, "PUT", function(response) {
+						if(response.ok)
+						{
+							document.location.reload(true);
+						}
+						
+						
+						// peeq.forms.utils.reset($form);
+					});
+				}
+			});
+			
+			if(!$form.data("validation")) // setup validation b/c not set up yet
+			{
+				$form.validation({
+					"rules": [
+						{
+							elt: "input[name=label]",
+							rule: /[\w\d- ]{2,}/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 2 characters.")
+							}
+						},
+						{
+							elt: "input[name=attachment]",
+							rule: /.jpg$/,
+							onerror: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").text("jpg only.").show();
+								$field.find(".icon-success").hide();
+							},
+							onsuccess: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").hide();
+								$field.find(".icon-success").show();
+							}
+						}
+					]
+				});
+			}
+			
+			$form.trigger("validate");	
+		},
 		add: function(id)
-		{		
-			peeq.forms.state.submit($("#" + id), "PUT", function(response) {
-				//console.log(response, "state add");
-				document.location.reload(true); // reload from server
-			});	
+		{	
+			peeq.forms.state.validate(id);
 		},
 		remove: function(id)
 		{
 			peeq.forms.state.submit($("#" + id), "DELETE", function(response) {
 				if(response.ok)
 				{
-					// redirect to projects
-					document.location.href = "/";
-					//console.log('deleted state');
+					// redirect to views
+					var path = peeq.forms.utils.get_pathname(1, 3);
+					$form.parents(".modal").find(".btn-modal-close").click();
+					document.location.href = "/#/" + path;
 				}
 			});
 		},
@@ -112,12 +250,108 @@ peeq.prototype.forms =
 	},
 	attachment: 
 	{
+		validate: function(id)
+		{
+			var $form = $("#" + id);
+			
+			$form.one("complete.validate", function(evt, is_valid) {				
+				if(is_valid)
+				{
+					peeq.forms.attachment.submit($form, "PUT", function(response) {
+						if(response.ok)
+						{
+							document.location.reload(true);
+						}
+						
+						
+						// peeq.forms.utils.reset($form);
+					});
+				}
+			});
+			
+			if(!$form.data("validation")) // setup validation b/c not set up yet
+			{
+				$form.validation({
+					"rules": [
+						{
+							elt: "input[name=label]",
+							rule: /[\w\d- ]{2,}/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 2 characters.")
+							}
+						},
+						{
+							elt: "input[name=attachment]",
+							rule: /\.(jpg|png|doc|docx|pdf|xls|xlsx|swf|txt)$/,
+							onerror: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").text("jpg, png, swf, txt, doc, pdf, xls only").show();
+								$field.find(".icon-success").hide();
+							},
+							onsuccess: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").hide();
+								$field.find(".icon-success").show();
+							}
+						}
+					]
+				});
+			}
+			
+			$form.trigger("validate");	
+		},
+		validate_update: function(id)
+		{
+			var $form = $("#" + id);
+			
+			$form.one("complete.validate", function(evt, is_valid) {				
+				if(is_valid)
+				{
+					var project_id = peeq.forms.utils.get_pathname(1);
+
+					peeq.api.request("/project/" + project_id, $form, "POST", function(response) {
+						if(response.ok)
+						{
+							document.location.reload(true);
+
+							// peeq.forms.utils.reset($form);
+						}
+					}, true);
+				}
+			});
+			
+			if(!$form.data("validation")) // setup validation b/c not set up yet
+			{
+				$form.validation({
+					"rules": [
+						{
+							elt: "input[name=attachment]",
+							rule: /\.(jpg)$/,
+							onerror: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").text("jpg only").show();
+								$field.find(".icon-success").hide();
+							},
+							onsuccess: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").hide();
+								$field.find(".icon-success").show();
+							}
+						}
+					]
+				});
+			}
+			
+			$form.trigger("validate");	
+		},
 		add: function(id) 
 		{
-			peeq.forms.attachment.submit($("#" + id), "PUT", function(response) {
-				// console.log(response, "attachment added");
-				document.location.reload(true); // reload from server
-			});
+			peeq.forms.attachment.validate(id);
 		},
 		remove: function(id)
 		{
@@ -127,8 +361,6 @@ peeq.prototype.forms =
 			peeq.api.request("/project/" + path + "/attachment/" + id, $form.serialize(), "DELETE", function(response) {
 				if(response.ok)
 				{
-					// redirect to projects
-					// document.location.href = "/";
 					document.location.reload(true); // reload from server
 				}
 			});
@@ -146,13 +378,7 @@ peeq.prototype.forms =
 		},
 		update: function(form_id)
 		{
-			var id = document.location.hash.split("/")[1],
-				$form = $("#" + form_id),
-				attachment_id = encodeURIComponent($form.find("input[name=id]").val().split("/").slice(-1)[0]);
-			
-			peeq.api.request("/project/" + id + "/attachment/" + attachment_id, $form, "POST", function(response) {
-				document.location.reload(true);
-			}, true);
+			peeq.forms.attachment.validate_update(form_id);
 		}
 	},
 	utils:
@@ -166,6 +392,19 @@ peeq.prototype.forms =
 		{	
 			var ary_hash = document.location.hash.split("/");
 			return ary_hash.slice(slice_start || 1, slice_end || ary_hash.length).join("/");			
+		},
+		reset: function($form)
+		{
+			/*
+			// clear fields
+			$form.trigger("reset.validate");
+			// reset toggle form fields
+			$form.find("input").trigger("reset.toggle_form_field");
+			$form.find("textarea").trigger("reset.toggle_form_field");
+			
+			// close modal
+			$form.parents(".modal").find(".btn-modal-close").click();
+			*/
 		}
 	}
 };
