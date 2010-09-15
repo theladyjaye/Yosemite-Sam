@@ -210,7 +210,7 @@ class YSSServiceGroups extends YSSService
 		}
 		else
 		{
-			$input->addValidator(new AMErrorValidator('project_id', 'Invalid project id') );
+			$input->addValidator(new AMErrorValidator('project', 'Invalid project id') );
 			$this->hydrateErrors($input, $response);
 		}
 		
@@ -299,7 +299,7 @@ class YSSServiceGroups extends YSSService
 			}
 			else
 			{
-				$input->addValidator(new AMErrorValidator('project_id', 'Invalid project id') );
+				$input->addValidator(new AMErrorValidator('project', 'Invalid project id') );
 				$this->hydrateErrors($input, $response);
 			}
 		}
@@ -316,7 +316,86 @@ class YSSServiceGroups extends YSSService
 		$response     = new stdClass();
 		$response->ok = false;
 		
-		echo "deleteTaskFromGroup: ", $task_id, " from project: ", $project_id, "in group: ",$group_id ;exit;
+		$data                    = array();
+		$data['project_id']      = strtolower($project_id);
+		$data['group_id']        = strtolower($group_id);
+	    $data['task_id']         = strtolower($task_id);
+	
+		$context    = array(AMForm::kDataKey=>$data);
+		$input      = AMForm::formWithContext($context);
+		
+		$this->applyBaseGroupValidators($input);
+		$input->addValidator(new AMPatternValidator('task_id', AMValidator::kRequired, '/^project\/[a-z\d-]{2,}\/[a-z\d-]{2,}\/[a-z\d-]{2,}\/[a-f0-9]{32}$/', "Invalid task id."));
+		
+		if($input->isValid)
+		{
+			// does the project exist?
+			$project = YSSProject::projectWithId('project/'.$input->project_id);
+			
+			if($project)
+			{
+				// does the task group exist?
+				$group = YSSTaskGroup::groupWithId($project->_id.'/group/task/'.$group_id);
+				
+				if($group)
+				{
+					$tasks = array();
+					$task  = null;
+					
+					foreach($group->tasks as $id)
+					{
+						if($id == $task_id)
+							$task = YSSTask::taskWithId($id);
+						else
+							$tasks[] = $id;
+					}
+					
+					if($task != null)
+					{
+						$group->tasks = $tasks;
+						
+						if($group->save())
+						{
+							$task->group = null;
+							
+							if($task->save())
+							{
+								$response->ok = true;
+							}
+							else
+							{
+								$input->addValidator(new AMErrorValidator('task', 'Unable to save task') );
+								$this->hydrateErrors($input, $response);
+							}
+						}
+						else
+						{
+							$input->addValidator(new AMErrorValidator('taskGroup', 'Unable to save Task Group') );
+							$this->hydrateErrors($input, $response);
+						}
+					}
+					else
+					{
+						$input->addValidator(new AMErrorValidator('task', 'Task does not exist in group') );
+						$this->hydrateErrors($input, $response);
+					}
+				}
+				else
+				{
+					$input->addValidator(new AMErrorValidator('taskGroup', 'Task Group does not exist') );
+					$this->hydrateErrors($input, $response);
+				}
+			}
+			else
+			{
+				$input->addValidator(new AMErrorValidator('project', 'Invalid project id') );
+				$this->hydrateErrors($input, $response);
+			}
+		}
+		else
+		{
+			$this->hydrateErrors($input, $response);
+		}
 		
 		echo json_encode($response);
 	}
