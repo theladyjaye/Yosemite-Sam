@@ -53,23 +53,82 @@ class YSSServiceGroups extends YSSService
 	
 	public function getTaskGroups($project_id)
 	{
-		$session  = YSSSession::sharedSession();
-		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		$response = new stdClass();
+		$response->ok = false;
 		
-		$options = array('startkey'     => array("project/lucy-the-dog", null),
-		                 'endkey'       => array("project/lucy-the-dog", new stdClass()),
-		                 'include_docs' => true);
+		$data                    = array();
+		$data['project_id']      = strtolower($project_id);
+	
+		$context    = array(AMForm::kDataKey=>$data);
+		$input      = AMForm::formWithContext($context);
 		
-		$result   = $database->view("project/taskGroup-report", $options, false);
-		return '{"ok":true}';
+		$input->addValidator(new AMPatternValidator('project_id', AMValidator::kRequired, '/^[a-z\d-]{2,}$/', "Invalid project id."));
+		
+		if($input->isValid)
+		{
+		
+			$session  = YSSSession::sharedSession();
+			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		
+			$options = array('startkey'     => array("project/".$project_id, null),
+			                 'endkey'       => array("project/".$project_id, new stdClass()),
+			                 'include_docs' => true);
+		
+			$result   = $database->view("project/taskGroup-report", $options, false);
+			$groups = array();
+			
+			foreach($result as $row)
+				$groups[] = $row;
+				
+			$response->ok     = true;
+			$response->groups = $groups;
+		}
+		else
+		{
+			$this->hydrateErrors($input, $response);
+		}
+		
+		echo json_encode($response);
 	}
 	
 	public function getTasksInGroup($project_id, $group_id)
 	{
-		echo "getTasksInGroup: ", $project_id, "in group: ", $group_id;exit;
-		$session  = YSSSession::sharedSession();
-		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		echo $database->document($id, true);
+		
+		$response     = new stdClass();
+		$response->ok = false;
+	
+		$data                    = array();
+		$data['project_id']      = strtolower($project_id);
+		$data['group_id']        = strtolower($group_id);
+	
+		$context    = array(AMForm::kDataKey=>$data);
+		$input      = AMForm::formWithContext($context);
+		
+		$this->applyBaseGroupValidators($input);
+		
+		if($input->isValid)
+		{
+			$session  = YSSSession::sharedSession();
+			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		
+			$options = array('include_docs' => true);
+		
+			$result   = $database->view("project/taskGroup-tasks", $options, false);
+			$tasks    = array();
+			
+			foreach($result as $row)
+				$tasks[] = $row;
+				
+			$response->ok    = true;
+			$response->group = "project/$project_id/group/task/$group_id";
+			$response->tasks = $tasks;
+		}
+		else
+		{
+			$this->hydrateErrors($input, $response);
+		}
+		
+		echo json_encode($response);
 	}
 	
 	public function addTaskToGroup($project_id, $group_id, $task_id)
