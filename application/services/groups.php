@@ -36,6 +36,7 @@ class YSSServiceGroups extends YSSService
 		{
 			case "GET":
 				$this->addEndpoint("GET",    "/api/project/{project_id}/group/task/{group_id}",                "getTasksInGroup");
+				$this->addEndpoint("GET",    "/api/project/{project_id}/group/task",                           "getTaskGroups");
 				break;
 			
 			case "POST":
@@ -48,6 +49,19 @@ class YSSServiceGroups extends YSSService
 				$this->addEndpoint("DELETE",    "/api/project/{project_id}/group/task/{group_id}/{task_id}",   "deleteTask");
 				break;
 		}
+	}
+	
+	public function getTaskGroups($project_id)
+	{
+		$session  = YSSSession::sharedSession();
+		$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+		
+		$options = array('startkey'     => array("project/lucy-the-dog", null),
+		                 'endkey'       => array("project/lucy-the-dog", new stdClass()),
+		                 'include_docs' => true);
+		
+		$result   = $database->view("project/taskGroup-report", $options, false);
+		return '{"ok":true}';
 	}
 	
 	public function getTasksInGroup($project_id, $group_id)
@@ -96,7 +110,7 @@ class YSSServiceGroups extends YSSService
 						
 							if($group->save())
 							{
-								$task->group  = $group->_id;
+								//$task->group  = $group->_id;
 							
 								if($task->save())
 								{
@@ -177,7 +191,7 @@ class YSSServiceGroups extends YSSService
 					
 					if($group->save())
 					{
-						$task->group  = $group->_id;
+						//$task->group  = $group->_id;
 						
 						if($task->save())
 						{
