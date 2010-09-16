@@ -76,7 +76,6 @@
 				.states .table-annotations tbody tr:hover .table-column-priority {color: #fff;}
 			.states .table-annotations .table-column-context {width: 90px;}
 			.states .table-annotations .table-column-title {width: 335px;}
-			.states .wide .table-annotations .table-column-title {width: 348px;}
 			.states .table-annotations .table-column-creator {width: 100px; display: none;}
 			.states .wide .table-annotations .table-column-creator {display: table-cell;}		
 			.states .table-annotations .table-column-status {width: 120px;}
@@ -90,6 +89,18 @@
 			
 	// END STATES SPECIFIC
 	
+
+	// SETTINGS SPECIFIC
+	.settings .table-users {width: 580px; margin: 0 auto;}
+		.settings .table-users th {font-weight: normal; line-height: 10px; margin-top: 10px; text-indent: 10px; cursor: pointer;}
+		.settings .table-users td {padding-left: 5px;}
+		.settings .table-users .table-column-name {width: 145px;}
+		.settings .table-users .table-column-username {width: 145px;}
+		.settings .table-users .table-column-email {width: 145px;}
+		.settings .table-users .table-column-admin {width: 95px;}
+		.settings .table-users .table-column-edit {width: 25px;}
+	// END SETTINGS SPECIFIC
+
 	
 	// ANNOTATE SPECIFIC
 	#annotate header {position: fixed; z-index: 3;}

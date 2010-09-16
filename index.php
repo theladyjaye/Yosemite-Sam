@@ -1,7 +1,7 @@
 <?php require 'application/system/YSSEnvironment.php'; ?>
 <?
 
-$sfw = 1;
+$sfw = 0;
 
 $peeq = "peeq";
 
@@ -38,7 +38,7 @@ if(!$sfw)
 				<h1 class="username">G'day <a href="#">Gruffi</a></h1>
 				<nav>
 					<ul>
-						<li><a href="#">Settings</a></li>
+						<li><a href="#/settings">Settings</a></li>
 						<li class="logout"><a href="#">Logout</a></li>
 					</ul>
 				</nav>

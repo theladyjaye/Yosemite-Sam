@@ -14,7 +14,9 @@ function peeq()
 
 			// ROUTES
 			// projects
-			this.get("", function(context) {			
+			this.get("", function(context) {
+				change_nav();
+							
 				peeq.api.request("/projects", {}, "get", function(data) {
 					var data = data || {},
 						storage_key = "blitz.projects";
@@ -101,138 +103,148 @@ function peeq()
 			})
 			// views
 			.get("#/:project", function(context) {
+				change_nav();
 				
-				// get project data from local storage (!reading from service now)
-				var local_storage_projects = context.session("blitz.projects"),
-					len = local_storage_projects.length,
-					project_data;
+				// settings page
+				if(context.params["project"].toLowerCase() == "settings")
+				{
+					this.trigger("settings", context);
+				}
+				else // view
+				{
+					
+					// get project data from local storage (!reading from service now)
+					var local_storage_projects = context.session("blitz.projects"),
+						len = local_storage_projects.length,
+						project_data;
 				
-				// get project from service
-				peeq.api.request("/projects", {}, "get", function(project_data) {					
-					for(var i = 0; i < len; i++)
-					{
-					    //if(local_storage_projects[i]["_id"] == "project/" + context.params["project"])
-					    if(project_data[i]._id == "project/" + context.params["project"])
-					    {
-					    	//project_data = local_storage_projects[i];
-					    	project_data = project_data[i];
-					    	break;
-					    }
-					}
+					// get project from service
+					peeq.api.request("/projects", {}, "get", function(project_data) {					
+						for(var i = 0; i < len; i++)
+						{
+						    //if(local_storage_projects[i]["_id"] == "project/" + context.params["project"])
+						    if(project_data[i]._id == "project/" + context.params["project"])
+						    {
+						    	//project_data = local_storage_projects[i];
+						    	project_data = project_data[i];
+						    	break;
+						    }
+						}
 							
-					if(project_data)
-					{
-						// get views of project
-						peeq.api.request("/project/" + context.params["project"] + "/views", {}, "get", function(data) {			
-							var data = data || {},							
-								storage_key = "blitz." + context.params["project"] + ".views";
+						if(project_data)
+						{
+							// get views of project
+							peeq.api.request("/project/" + context.params["project"] + "/views", {}, "get", function(data) {			
+								var data = data || {},							
+									storage_key = "blitz." + context.params["project"] + ".views";
 						
-							// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
-							if(!peeq.is_online)
-							{						
-								data = context.session(storage_key, function() {
-									return {};
-								});					
-							}
+								// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
+								if(!peeq.is_online)
+								{						
+									data = context.session(storage_key, function() {
+										return {};
+									});					
+								}
 
-							var template = (data.length && data[0]) ? "views" : "views-none";			
-							//console.log(project_data);
-							$("#main").stop(false, true).animate({
-								"opacity": 0
-							}, 300, "linear", function() {
-								change_bg("views");
-								$(this).html("").render_template({
-									"name": template,
-									"data": {"views": data,
-											 "project": project_data},
-									"complete": function() {									
-										// all pie charts in view except #pie-chart-project
-										$(".pie-chart:not(#pie-chart-project)").piechart({
-											radius: 10,
-											xpos: 10,
-											ypos: 10,
-											width: 20,
-											height: 20,
-											show_labels: false,
-											is_hoverable: false
-										});
-							
-										$("#pie-chart-project").piechart({
-											radius: 60,
-											xpos: 90,
-											ypos: 90,
-											width: 190,
-											height: 170
-										});
-							
-										$("body").attr("id", "");
-									
-										/*
-										// pagination				
-										var items_per_page = 2;				
-										if($(".paginate li").length > items_per_page)
-										{
-											$(".paginate").pajinate({
-												num_page_links_to_display: 3,
-												items_per_page: items_per_page,
-												nav_panel_id: ".page-navigation",
-												nav_label_prev: "&lsaquo;",
-												nav_label_next: "&rsaquo;",
-												nav_label_first: "&laquo;",
-												nav_label_last: "&raquo;"							
+								var template = (data.length && data[0]) ? "views" : "views-none";			
+								//console.log(project_data);
+								$("#main").stop(false, true).animate({
+									"opacity": 0
+								}, 300, "linear", function() {
+									change_bg("views");
+									$(this).html("").render_template({
+										"name": template,
+										"data": {"views": data,
+												 "project": project_data},
+										"complete": function() {									
+											// all pie charts in view except #pie-chart-project
+											$(".pie-chart:not(#pie-chart-project)").piechart({
+												radius: 10,
+												xpos: 10,
+												ypos: 10,
+												width: 20,
+												height: 20,
+												show_labels: false,
+												is_hoverable: false
 											});
-										}   
-										*/
+							
+											$("#pie-chart-project").piechart({
+												radius: 60,
+												xpos: 90,
+												ypos: 90,
+												width: 190,
+												height: 170
+											});
+							
+											$("body").attr("id", "");
+									
+											/*
+											// pagination				
+											var items_per_page = 2;				
+											if($(".paginate li").length > items_per_page)
+											{
+												$(".paginate").pajinate({
+													num_page_links_to_display: 3,
+													items_per_page: items_per_page,
+													nav_panel_id: ".page-navigation",
+													nav_label_prev: "&lsaquo;",
+													nav_label_next: "&rsaquo;",
+													nav_label_first: "&laquo;",
+													nav_label_last: "&raquo;"							
+												});
+											}   
+											*/
 
-										$(".search").philter({
-											query_over: ".paginate li",
-											query_by: ".title"
-										}).bind("complete.philter", function(evt, matches) {
-											$(".paginate li.last").removeClass("last");
-											if(matches > 0)
-											{
-												$(".no-matches").hide();
-												var txt_matches = matches > 1 ? "matches" : "match";
-												$(".matches").html('<span class="complete">' + matches + '</span> ' + txt_matches);
-												$(".paginate li:visible:last").addClass("last");
-											}
-											else if(matches == 0)
-											{
-												$(".no-matches").show();
-												$(".matches").text("");									
-											}
-											else
-											{
-												$(".no-matches").hide();
-												$(".matches").text("");	
-											}
-										}).parents("form").submit(function() {
-											return false;
-										});
+											$(".search").philter({
+												query_over: ".paginate li",
+												query_by: ".title"
+											}).bind("complete.philter", function(evt, matches) {
+												$(".paginate li.last").removeClass("last");
+												if(matches > 0)
+												{
+													$(".no-matches").hide();
+													var txt_matches = matches > 1 ? "matches" : "match";
+													$(".matches").html('<span class="complete">' + matches + '</span> ' + txt_matches);
+													$(".paginate li:visible:last").addClass("last");
+												}
+												else if(matches == 0)
+												{
+													$(".no-matches").show();
+													$(".matches").text("");									
+												}
+												else
+												{
+													$(".no-matches").hide();
+													$(".matches").text("");	
+												}
+											}).parents("form").submit(function() {
+												return false;
+											});
 									
-										// move to separate function
-										$("input").toggle_form_field();
+											// move to separate function
+											$("input").toggle_form_field();
 									
-										// download attachments (in new window)
-										$("#table-attachments tbody").delegate("tr", "click", function() {
-											var attachment_id = $(this).find(".btn-delete").attr("href").substr(1);
-											window.open("/api/attachments/project" + encodeURIComponent("/" + context.params["project"] + "/attachment/" + attachment_id));
-										});
+											// download attachments (in new window)
+											$("#table-attachments tbody").delegate("tr", "click", function() {
+												var attachment_id = $(this).find(".btn-delete").attr("href").substr(1);
+												window.open("/api/attachments/project" + encodeURIComponent("/" + context.params["project"] + "/attachment/" + attachment_id));
+											});
 																											
-										setup_modals();
-										peeq.editable.main();
-										$("#main").animate({
-											"opacity": 1
-										});
-									}
+											setup_modals();
+											peeq.editable.main();
+											$("#main").animate({
+												"opacity": 1
+											});
+										}
+									});
 								});
-							});
 	
-							// store data
-							context.session(storage_key, data);
-						});
-					}	
-				});		
+								// store data
+								context.session(storage_key, data);
+							});
+						}	
+					});
+				}		
 			})
 			.get("#/:project/:view", function(context) {
 				// redirect to project
@@ -240,6 +252,8 @@ function peeq()
 			})
 			// states
 			.get("#/:project/:view/:state", function(context) {
+				change_nav();
+				
 				// get view data from local storage (!read from service now)
 				var local_storage_view = context.session("blitz." + context.params["project"] + ".views"),
 					len = local_storage_view.length,
@@ -401,9 +415,37 @@ function peeq()
 				this.trigger("annotate", context);
 			});
 			
+			// settings view
+			this.bind("settings", function(event, context) {
+				change_nav();				
+				$("#main").stop(false, true).animate({
+					"opacity": 0
+				}, 300, "linear", function() {
+					change_bg("settings");
+					$(this).html("").render_template({
+						"name": "settings",
+						"data": {"users": "test"},
+						"complete": function() {
+							setup_modals();
+					        $("body").attr("id", "");
+					
+							$(".settings").find(".table-sortable").tablesorter({
+								"cssAsc": "icon-sort-asc",
+								"cssDesc": "icon-sort-desc"
+							});
+					
+					        $("#main").animate({
+					        	"opacity": 1
+					        });
+						}
+					});
+				});
+			});
+			
 			// annotate event
 			// handles annotate view and deeplinking to an annotation in annotate view
 			this.bind("annotate", function(event, context) {
+				change_nav();
 				// get states of project
 				peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/states", {}, "get", function(data) {					
 					
@@ -462,6 +504,15 @@ function peeq()
 				});
 			});
 		});
+	};
+	
+	var change_nav = function() 
+	{
+		var hash = document.location.hash,
+			$header = $("header");
+			
+		$header.find("a").removeClass("off");
+		$header.find("a[href=" + hash + "]").addClass("on");
 	};
 	
 	var transition_in_footer = function()

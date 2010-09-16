@@ -1,0 +1,183 @@
+<section class="wrap settings">
+	<div class="column">
+		<nav>
+			<a class="btn right btn-add btn-modal modal-view-add-user" href="#">
+				Add User
+			</a>
+		</nav>
+		<section class="column-body">	
+			<table class="table-sortable table-users">
+				<thead>
+					<tr>
+						<th class="table-column-name icon icon-sort">Name</th>
+						<th class="table-column-username icon icon-sort">Username</th>
+						<th class="table-column-email icon icon-sort">Email</th>
+						<th class="table-column-admin icon icon-sort">Admin</th>
+						<th class="table-column-edit"></th>	
+					</tr>
+				</thead>
+				<tbody>
+				
+					<tr class="">
+						<td class="table-column-name">Jackson, Andrew</td>
+						<td class="table-column-username">ajackson</td>
+						<td class="table-column-email">ajackson@gmail.com</td>
+						<td class="table-column-admin"><span class="icon icon-success ir">admin</span></td>
+						<td class="table-column-edit"><span class="icon icon-pencil"></span></td>
+					</tr>
+					
+					<tr class="">
+						<td class="table-column-name">Jackson, Andrew</td>
+						<td class="table-column-username">ajackson</td>
+						<td class="table-column-email">ajackson@gmail.com</td>
+						<td class="table-column-admin"></td>
+						<td class="table-column-edit"><span class="icon icon-pencil"></span></td>
+					</tr>
+					
+					<tr class="">
+						<td class="table-column-name">Jackson, Andrew</td>
+						<td class="table-column-username">ajackson</td>
+						<td class="table-column-email">ajackson@gmail.com</td>
+						<td class="table-column-admin"><span class="icon icon-success ir">admin</span></td>
+						<td class="table-column-edit"><span class="icon icon-pencil"></span></td>
+					</tr>
+				
+				</tbody>
+			</table>			
+		</section>
+	</div>
+	<div class="column sidebar">
+		<nav>
+		</nav>
+		<section class="column-body">
+			<div class="column-body-inner">
+				<div class="company-logo">
+					<span></span>
+					<img src="resources/imgs/fpo-company.jpg" alt="" />
+				</div>
+				<hr class="thick" />
+				<div class="company-meta">
+					<p class="domain">blitz.peeq.com</p>
+					<p class="timestamp">Created 2 months ago</p>
+					<hr />
+					<dl>
+						<dt class="incomplete">Projects</dt>
+						<dd class="incomplete">3</dd>
+						<dt class="complete">Completed</dt>
+						<dd class="complete">1</dd>
+					</dl>
+					<hr />
+					<dl>
+						<dt>Users</dt>
+						<dd>16</dd>
+					</dl>
+				</div>
+			</div>
+		</section>
+	</div>
+</section>
+
+<section class="modal modal-view-add-user">
+	<section>
+		<h2 class="add">Add User</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-user-add" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="firstname" />
+					<label for="firstname">First Name</label>
+					<span class="hint"></span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="text" name="lastname" />
+					<label for="lastname">Last Name</label>
+					<span class="hint"></span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="text" name="email" />
+					<label for="email">E-mail</label>
+					<span class="hint">user@domain.com</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="text" name="username" />
+					<label for="username">Username</label>
+					<span class="hint">Make it unique</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="checkbox" name="admin" />
+					<label for="admin">Admin</label>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Add User</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-edit-user">
+	<section>
+		<h2 class="add">Edit User</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-user-edit" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="firstname" />
+					<label for="firstname">First Name</label>
+					<span class="hint"></span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="text" name="lastname" />
+					<label for="lastname">Last Name</label>
+					<span class="hint"></span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="text" name="email" />
+					<label for="email">E-mail</label>
+					<span class="hint">user@domain.com</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="text" name="username" />
+					<label for="username">Username</label>
+					<span class="hint">Keep it unique</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="checkbox" name="admin" />
+					<label for="admin">Admin</label>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-submit left clearboth">Save</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-delete-user">
+	<section>
+		<h2>Delete User</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-attachment-delete" action="" method="post">	
+			<p><span class="important">Important</span>:  Are you 100% positive you want to delete <strong></strong>?  There is no undo.</p>
+			<input type="hidden" name="id" value="" />		
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete.</a>
+			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
+		</form>
+	</section>
+</section>
