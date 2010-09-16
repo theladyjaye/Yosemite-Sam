@@ -1,1 +1,0 @@
-<a href="${document.location.href}/annotate:${peeq.utils.template.annotations.sanitize_id(_id)}" class="annotation-item annotation-id-${peeq.utils.template.annotations.sanitize_id(_id)} icon ${peeq.utils.template.get_annotation_marker_class(this.data)} ir" style="top: ${peeq.utils.templates.annotations.get_y(y)}px; left: ${x}px">${type}</a>

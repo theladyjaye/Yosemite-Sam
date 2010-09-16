@@ -233,7 +233,7 @@ $.widget("ui.selectmenu", {
 						break;
 					case $.ui.keyCode.DOWN:
 					case $.ui.keyCode.RIGHT:
-						ret = false;
+						ret = false;						
 						self._moveFocus(1);
 						break;	
 					case $.ui.keyCode.HOME:
@@ -414,7 +414,7 @@ $.widget("ui.selectmenu", {
 			var newIndex = currIndex + amt;
 		}
 		else { var newIndex = parseInt(this._optionLis.filter(amt).data('index'), 10); }
-		
+
 		if(newIndex < 0){ newIndex = 0; }
 		if(newIndex > this._optionLis.size()-1){
 			newIndex =  this._optionLis.size()-1;

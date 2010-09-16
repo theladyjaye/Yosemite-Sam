@@ -1,27 +1,27 @@
 <table class="table-sortable table-annotations">
 	<thead>
 		<tr>
-			<th class="table-column-priority icon icon-sort">!</th>
-			<!-- <th class="table-column-icon icon icon-sort">Context</th> -->
+			<th class="table-column-priority icon icon-sort"></th>
+			<th class="table-column-context icon icon-sort">Context</th>
 			<th class="table-column-title icon icon-sort">Title</th>
 			<th class="table-column-creator icon icon-sort">Creator</th>
 			<th class="table-column-status icon icon-sort">Status</th>
-			<th class="table-column-timestamp icon icon-sort">Timestamp</th>
-			<!-- <th class="table-column-type icon icon-sort">Type</th> -->
-			<!-- <th class="table-column-right"></th> -->
+			<!--<th class="table-column-timestamp icon icon-sort">Timestamp</th>-->
+			<th class="table-column-assigned-to icon icon-sort">Assigned to</th>
+			<th class="table-column-estimate icon icon-sort">Estimate</th>		
 		</tr>
 	</thead>
 	<tbody>
 		{{each annotations}}
 		<tr class="annotation-item annotation-id-${peeq.utils.template.annotations.sanitize_id(_id)} status-${peeq.utils.template.annotations.get_status(status)}">
 			<td class="table-column-priority">{{if priority}}${peeq.utils.template.annotations.get_priority(priority)}{{/if}}</td>
-			<!-- <td class="table-column-icon"><span class="icon icon-jpg ir">jpg</span></td> -->
+			<td class="table-column-context">${context}</td>
 			<td class="table-column-title">${label}</td>
 			<td class="table-column-creator">${created_by}</td>
 			<td class="table-column-status"><span class="${peeq.utils.template.annotations.get_status_icon(status)} ir">${peeq.utils.template.annotations.get_status(status)}</span></td>
-			<td class="table-column-timestamp">${peeq.utils.template.elapsed_time(created_at)}</td>
-			<!-- <td class="table-column-type">${type}</td> -->
-			<!-- <td class="table-column-right"><span class="icon icon-trash btn-delete ir">delete</span></td> -->
+			<!-- <td class="table-column-timestamp">${peeq.utils.template.elapsed_time(created_at)}</td>-->
+			<td class="table-column-assigned-to">${assigned_to}</td>
+			<td class="table-column-estimate">${estimate}</td>
 		</tr>
 		{{/each}}
 	</tbody>

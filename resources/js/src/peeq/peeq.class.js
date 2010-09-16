@@ -351,7 +351,7 @@ function peeq()
 												{
 													$preview_annotation = $($preview_annotations[i]);
 													preview_position = $preview_annotation.position();
-													console.log(preview_position.top, preview_position.left, preview_position.left < -5);
+													
 													if(preview_position.top < -5 || preview_position.top > preview_height ||
 													   preview_position.left < -5 || preview_position.left > preview_width)
 													{
@@ -441,8 +441,14 @@ function peeq()
 									// back to details button
 									$("header .btn-back").attr("href", "#/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"]);
 								
+									peeq.annotate.config.users = {
+										"alincoln": "alincoln - Project Manager | BLITZ",
+										"jmadison": "jmadison - Software Developer | BLITZ",
+										"ajackson": "ajackson - Art Director | BLITZ",
+										"bross": "bross - Designer | BLITZ"
+									};
 									peeq.annotate.main();
-								
+									
 									var deeplink_id = context.params["id"] || null;
 									peeq.annotate.add_annotations(annotations, deeplink_id);
 								

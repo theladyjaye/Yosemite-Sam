@@ -245,6 +245,16 @@ peeq.prototype.utils =
 			return str.replace(new RegExp("\\n", "g"), "<br />")
 		}
 	},
+	add_options_to_select: function(obj, $select)
+	{
+		var options = [];
+		for(var key in obj)
+		{
+			options.push('<option value="' + key + '">' + obj[key] + '</option>');
+		}
+		
+		$select.html(options.join(''));
+	},	
 	querystring_to_object: function(querystring)
 	{
 		var result = {};

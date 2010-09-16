@@ -1,10 +1,23 @@
 <?php require 'application/system/YSSEnvironment.php'; ?>
+<?
+
+$sfw = 1;
+
+$peeq = "peeq";
+
+if(!$sfw)
+{
+	$peeq = "****";
+}
+
+?>
+
 <!DOCTYPE HTML>
 <? //<html manifest="peeq.cache">?>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>peeq</title>
+	<title><?=$peeq?></title>
 	<meta name="description" content="about peeq">
 	<meta name="author" content="peeq">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
@@ -19,7 +32,7 @@
 	</div>
 	<div id="container">
 		<header>
-			<a class="peeq" href="/"><img src="resources/imgs/peeq.png" alt="peeq" /></a>
+			<a class="peeq" href="/"><?if($sfw):?><img src="resources/imgs/peeq.png" alt="peeq" /><?endif;?></a>
 			<a class="btn btn-back" href="#">Back to Details</a>
 			<section>
 				<h1 class="username">G'day <a href="#">Gruffi</a></h1>
@@ -35,12 +48,17 @@
 			
 		</article>
 	</div>
+	<? /*
+	<div id="loading">
+		Loading
+	</div>
+	*/ ?>
 	<div id="network-connectivity">
 		<p class="icon icon-offline" title="You are offline"></p>
 	</div>
 	<footer>
 		<section class="wrap">
-			<p>Copyright &copy; 2010 <a href="/" class="peeq">peeq</a>. All rights reserved.</p>
+			<p>Copyright &copy; 2010 <a href="/" class="peeq"><?=$peeq?></a>. All rights reserved.</p>
 			<nav>
 				<ul>
 					<li><a href="#">Twitter</a> |</li>

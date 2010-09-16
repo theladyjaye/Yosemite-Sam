@@ -1,13 +1,28 @@
 peeq.prototype.annotate = 
 {
+	config: {
+		users: {},
+		context_options: {
+			"Flash": "Flash",
+			"HTML": "HTML",
+			"PHP": "PHP",
+			"dotnet": ".NET",
+			"design": "Design",
+			"general": "General"
+		}
+	},
 	main: function() 
 	{
-		$("#representation").annotatableImage(peeq.annotate.ui_annotation, {
+		var $representation = $("#representation");
+		
+		// set up annotations
+		$representation.annotatableImage(peeq.annotate.ui_annotation, {
 			xPosition: "left",
 			yPosition: "top"
 		});
 		
-		$("#representation").delegate(".annotation .btn-save", "click", function(evt) {
+		// save annotation
+		$representation.delegate(".annotation .btn-save", "click", function(evt) {
 			// save to db
 			var $annotation = $(this).parents(".annotation"),
 				$frm_annotation = $annotation.find(".frm-annotation"),
@@ -19,7 +34,7 @@ peeq.prototype.annotate =
 			// clean up
 			// annotation_props => obj_serialized
 			obj_serialized = $.extend(obj_serialized, annotation_props);
-			obj_serialized.label = label;
+			obj_serialized.label = label || "No Title";
 			obj_serialized.description = description;
 			
 			
@@ -30,7 +45,10 @@ peeq.prototype.annotate =
 			// status
 			obj_serialized.status = (obj_serialized.status == "on") ? 1 : 0
 			
-			obj_serialized_estimate_time = null;	
+			// clean up form vars
+			delete obj_serialized.estimate_time;	
+			
+			
 			$frm_annotation.fadeOut();				
 			
 			var id = $annotation.data("annotation-id"); // if exists then updating
@@ -56,10 +74,10 @@ peeq.prototype.annotate =
 			});
 			
 			return false;
-		}).delegate(".annotation .btn-cancel", "click", function(evt) {
+		}).delegate(".annotation .btn-cancel", "click", function(evt) {  // cancel
 			$(this).parents(".annotation").find(".annotation-num").trigger("click", true);
 			return false;
-		}).delegate(".annotation .btn-delete", "click", function(evt) {
+		}).delegate(".annotation .btn-delete", "click", function(evt) { // delete
 			var $annotation = $(this).parents(".annotation");
 			
 			$annotation.fadeOut(function() {
@@ -76,17 +94,7 @@ peeq.prototype.annotate =
 			}
 
 			return false;
-		});
-
-		$(".view-editor .item-details").toggle(function() {
-			$(".task-list-container").fadeIn();
-			$(".ui-resizable-handle").hide(); // hide handles to prevent resizing
-			$(".annotation-num").css({"z-index": "2"});
-		}, function() {
-			$(".task-list-container").fadeOut();
-			$(".ui-resizable-handle").show();
-			$(".annotation-num").css({"z-index": "200002"});
-		});		
+		});	
 	},
 	get_annotations: function() 
 	{
@@ -115,7 +123,8 @@ peeq.prototype.annotate =
 			var $deeplink_annotation = $("#representation .annotation-" + deeplink_id),								
 				top = parseInt($deeplink_annotation.css("top"))
 			window.scrollTo(0, top);
-		}	
+		}
+			
 	},
 	get_next_annotation_count: function() 
 	{
@@ -146,61 +155,87 @@ peeq.prototype.annotate =
 		
 		// END OPTIONS SETUP
 		
+		// variables
+		var $representation = $("#representation");
 			
 		// minimize all current annotations
-		$("#representation").find(".annotation").each(function() {
-			$(this).find(".annotation-num").trigger("click", true);
+		$representation.find(".annotation").each(function() {
+			var $this = $(this);
+			
+			// delete task if not saved and title is empty
+			if($this.find("input[name=label]").val() == "" && !$this.data("annotation-id"))
+			{
+				$this.find(".btn-delete").click();
+			}
+			else // otherwise minimize
+			{
+				$this.find(".annotation-num").trigger("click", true);
+			}
 		});
 	
 		// ANNOTATION CREATION
 		
 		// create annotation (container for everything)
-		var annotation = $("<div />", {
+		var $annotation = $("<div />", {
 			"class": "annotation " + options.type_class + " annotation-" + peeq.utils.template.annotations.sanitize_id(options.id)
-		}).resizable({
+		}).resizable({ // resize annotation
 			handles: "e, s, w, ne, se, sw",
-			resize: function(evt, ui) 
+			containment: 'parent',
+			start: function(evt, ui)
 			{
+				$(this).trigger("deactivate");
+			},
+			stop: function(evt, ui)
+			{							
 				$(this).find(".frm-annotation").css({
 					"top": ui.size.height + 10
-				});
+				});				
 			}
-		}).draggable({
-			containment: [5, $("#representation").position().top + 60, 1900, $("#representation").height() + 60],
-			handle: ".overlay"
-		}).click(function() {
-			$(".annotation").removeClass("active");
+		}).draggable({ // drag annotation
+			containment: 'parent',
+			handle: ".overlay",
+			start: function(evt, ui)
+			{
+				$(this).trigger("deactivate");
+			}
+		}).mouseup(function() {
 			$(this).addClass("active");
-			$(this).find(".frm-annotation").fadeIn();
+		}).bind("activate", function() {
+			$(this).addClass("active");
+		}).bind("deactivate", function() {
+			$(this).removeClass("active");
 		});
 
 		// drag initial size
-		$("#representation").mousemove(function(evt) {
-			var pos = annotation.position();
-			annotation.width(evt.pageX - pos.left - $("#representation").position().left).height(evt.pageY - pos.top - 50);
-			annotation.find(".frm-annotation").css({
-				"top": annotation.height() + 10
+		$representation.mousemove(function(evt) {
+			var pos = $annotation.position();
+			$annotation.width(evt.pageX - pos.left - $representation.position().left).height(evt.pageY - pos.top - 50);
+			$annotation.find(".frm-annotation").css({
+				"top": $annotation.height() + 10
 			});
 			return false;
 		}).mouseup(function(evt) {
-			$(this).unbind("mousemove");
+			$(this).unbind("mousemove").unbind("mouseup");
 		});
 
 		// border elt
-		var border = $("<div />", {
+		var $border = $("<div />", {
 			"class": "border"
-		}).appendTo(annotation);
+		}).appendTo($annotation);
 
 		// overlay elt
-		var overlay = $("<div />", {
-			"class": "overlay"
-		}).appendTo(annotation);
+		var $overlay = $("<div />", {
+			"class": "overlay",
+			"click": function() {
+				$(this).parents(".annotation").removeClass("minimized");
+			}
+		}).appendTo($annotation);
 		
 		// get next annotation id
 		var annotation_id = peeq.annotate.get_next_annotation_count();
 
 		// create annotation number
-		var annotation_num = $("<span />", {
+		var $annotation_num = $("<span />", {
 			"class": "annotation-num",
 			"html": annotation_id,
 			"click": function(evt, isForceMinimize) {
@@ -211,7 +246,7 @@ peeq.prototype.annotate =
 				{				
 					if(!$annotation.hasClass("minimized"))
 					{
-						$annotation.data("yss", {
+						$annotation.data("peeq", {
 							"width": $annotation.width(),
 							"height": $annotation.height()
 						});
@@ -223,10 +258,10 @@ peeq.prototype.annotate =
 				}
 				else
 				{
-					var data = $annotation.data("yss");
+					var data = $annotation.data("peeq");
 					
 					// minimize all others
-					$("#representation").find(".annotation").each(function() {
+					$representation.find(".annotation").each(function() {
 						if($(this) != $annotation)
 						{
 							$(this).find(".annotation-num").trigger("click", true);
@@ -240,23 +275,30 @@ peeq.prototype.annotate =
 					
 					$frm_annotation.fadeIn();
 				}
+			
 				return false;
 			}
-		}).appendTo(annotation);
+		}).appendTo($annotation);
 
 		// create actual form
-		var frm = $("<form />", {
+		var $frm = $("<form />", {
 			"class": "frm-annotation",
 			"action": "post"		
-		}).appendTo(annotation);
+		}).appendTo($annotation);
 
 		// create form content
-		var frm_content = $("<div />", {
-			"html": '<div class="type"><a href="#" class="btn btn-note selected"><span class="icon icon-note"></span></a><a href="#" class="btn btn-task"><span class="icon icon-task"></span></a><input type="radio" value="note" name="type" checked="checked" class="visuallyhidden" /><input type="radio" value="task" name="type" class="visuallyhidden" /></div><p class="field"><a href="#" class="btn btn-priority" title="Low Priority">!</a><input type="checkbox" name="priority" class="visuallyhidden"/><input type="text" name="label" value="' + options.label + '" /><label for="label">Title</label></p><p class="field"><textarea name="description">' + options.description + '</textarea><label for="description">Description</label></p><div class="task-fields"><p><label for="context">Context</label><select id="dd-context-' + annotation_id + '" class="dd-context" name="context"><option value="HTML">HTML</option><option value="Flash">Flash</option></select></p><p><label for="assigned_to">Assigned To</label><select id="dd-assigned-to-' + annotation_id + '" class="dd-assigned-to" name="assigned_to"><option value="bross">bross - Flash Developer | USA</option><option value="alincoln">alincoln - Project Manager | BLITZ</option></select><a href="#" class="btn btn-status status-close">Close Task</a><input type="checkbox" name="status" class="visuallyhidden" /></p><p class="field"><label for="estimate">Estimate</label><input type="text" name="estimate" maxlength="4" /> <select id="dd-estimate-' + annotation_id + '" class="dd-estimate" name="estimate_time"><option value="hours">hours</option><option value="days">days</option><option value="weeks">weeks</option></select></p></div><p class="group-cta"><a href="#" class="btn btn-save">Save</a><a href="#" class="btn btn-cancel">Cancel</a><a href="#" class="btn btn-delete">Delete</a></p>'
-		}).appendTo(frm);
+		var $frm_content = $("<div />", {
+			"html": '<div class="type"><a href="#" class="btn btn-note selected"><span class="icon icon-note"></span></a><a href="#" class="btn btn-task"><span class="icon icon-task"></span></a><input type="radio" value="note" name="type" checked="checked" class="visuallyhidden" /><input type="radio" value="task" name="type" class="visuallyhidden" /></div><p class="field"><a href="#" class="btn btn-priority" title="Low Priority">!</a><input type="checkbox" name="priority" class="visuallyhidden"/><input type="text" name="label" value="' + options.label + '" /><label for="label">Title</label></p><p class="field"><textarea name="description">' + options.description + '</textarea><label for="description">Description</label></p><div class="task-fields"><p><label for="context">Context</label><select id="dd-context-' + annotation_id + '" class="dd-context" name="context"></select></p><p><label for="assigned_to">Assigned To</label><select id="dd-assigned-to-' + annotation_id + '" class="dd-assigned-to" name="assigned_to"></select><a href="#" class="btn btn-status status-close">Close Task</a><input type="checkbox" name="status" class="visuallyhidden" /></p><p class="field"><label for="estimate">Estimate</label><input type="text" name="estimate" maxlength="4" /> <select id="dd-estimate-' + annotation_id + '" class="dd-estimate" name="estimate_time"><option value="hours">hours</option><option value="days">days</option><option value="weeks">weeks</option></select></p></div><p class="group-cta"><a href="#" class="btn btn-save">Save</a><a href="#" class="btn btn-cancel">Cancel</a><a href="#" class="btn btn-delete">Delete</a></p>'
+		}).appendTo($frm);
+
+
+		// add context options
+		peeq.utils.add_options_to_select(peeq.annotate.config.context_options, $frm.find(".dd-context"));
+		// add user options
+		peeq.utils.add_options_to_select(peeq.annotate.config.users, $frm.find(".dd-assigned-to"));
 
 		// type toggle: note
-		frm.find(".type .btn-note").click(function() {
+		$frm.find(".type .btn-note").click(function() {
 			var $annotation = $(this).parents(".annotation");
 			
 			$(this).addClass("selected");
@@ -269,12 +311,12 @@ peeq.prototype.annotate =
 		});
 		
 		// type toggle: task
-		frm.find(".type .btn-task").click(function() {
+		$frm.find(".type .btn-task").click(function() {
 			var $annotation = $(this).parents(".annotation");
 			
 			$(this).addClass("selected");
-			frm.find("input[name=type][value=task]").click();
-			frm.find(".task-fields").show();
+			$frm.find("input[name=type][value=task]").click();
+			$frm.find(".task-fields").show();
 			$annotation.removeClass("type-note").addClass("type-task");
 			
 			$annotation.find(".type .btn-note").removeClass("selected");
@@ -282,7 +324,7 @@ peeq.prototype.annotate =
 		});
 				
 		// priority toggle
-		frm.find(".btn-priority").click(function() {
+		$frm.find(".btn-priority").click(function() {
 			var $this = $(this),
 				$chkbox = $this.next("input[name=priority]"),
 				priority = "Low";
@@ -302,7 +344,7 @@ peeq.prototype.annotate =
 		});
 		
 		// status toggle
-		frm.find(".btn-status").click(function() {
+		$frm.find(".btn-status").click(function() {
 			var $this = $(this),
 				$chkbox = $this.next("input[name=status]");
 				
@@ -320,7 +362,7 @@ peeq.prototype.annotate =
 		});
 		
 		// make sure input for estimate is only numbers and .
-		frm.find("input[name=estimate]").numeric(".");
+		$frm.find("input[name=estimate]").numeric(".");
 
 
 		// POPULATE FIELDS
@@ -328,59 +370,59 @@ peeq.prototype.annotate =
 		// set the form 10px below the height of the annotation
 		if(options.height)
 		{
-			frm.css({
+			$frm.css({
 				"top": 10 + parseInt(options.height)
-			});
+			});	
 		}
 		
 		// type of field (task|note)
 		if(options.type == "task")
 		{
-			frm.find(".type .btn-task").click();
-			frm.find(".task-fields").show();
+			$frm.find(".type .btn-task").click();
+			$frm.find(".task-fields").show();
 		}
 		
 		// context for tasks
 		if(options.context)
 		{
-			frm.find(".dd-context option[value=" + options.context + "]").attr("selected", "selected");
+			$frm.find(".dd-context option[value=" + options.context + "]").attr("selected", "selected");
 		}
 		
 		// assigned to for tasks
 		if(options.assigned_to)
 		{
-			frm.find(".dd-assigned-to option[value=" + options.assigned_to + "]").attr("selected", "selected");
+			$frm.find(".dd-assigned-to option[value=" + options.assigned_to + "]").attr("selected", "selected");
 		}
 		
 		// estimate for tasks
 		if(options.estimate)
 		{
 			var estimate_parts = options.estimate.split(" ");
-			frm.find("input[name=estimate]").val(estimate_parts[0]);
-			frm.find(".estimate_time option[value=" + estimate_parts[1] + "]");
+			$frm.find("input[name=estimate]").val(estimate_parts[0]);
+			$frm.find(".estimate_time option[value=" + estimate_parts[1] + "]");
 		}
 		
 		// priority
 		if(options.priority && options.priority == 1)
 		{
-			frm.find(".btn-priority").click();
+			$frm.find(".btn-priority").click();
 		}
 		
 		// status
 		if(options.status && options.status == "1")
 		{
-			frm.find(".btn-status").click();
+			$frm.find(".btn-status").click();
 		}
 	
 		// set annotation id
 		if(options.id)
 		{
-			annotation.data("annotation-id", options.id);
+			$annotation.data("annotation-id", options.id);
 		}
 
 
 		// face melting custom dropdowns, for all except estimate b/c that one is not as wide
-		frm.find('select:not(.dd-estimate)').selectmenu({
+		$frm.find('select:not(.dd-estimate)').selectmenu({
 			width: 175,
 			format: function(text)
 			{
@@ -402,11 +444,11 @@ peeq.prototype.annotate =
 		});
 		
 		// estimate face melting custom dropdown
-		frm.find("select.dd-estimate").selectmenu({
+		$frm.find("select.dd-estimate").selectmenu({
 			width: 95,
 			menuWidth: 75
 		});
 
-		return annotation;
+		return $annotation;
 	}
 };
