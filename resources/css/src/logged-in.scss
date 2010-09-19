@@ -73,13 +73,12 @@
 			.states .table-annotations td {padding-left: 5px;}
 			.states .table-annotations .table-column-priority {width: 30px; color: $color_dark_red; font-weight: bold;}
 			.states .table-annotations tbody .table-column-priority {font-size: 22px; font-weight: bold;}
-				.states .table-annotations tbody tr:hover .table-column-priority {color: #fff;}
 			.states .table-annotations .table-column-context {width: 90px;}
 			.states .table-annotations .table-column-title {width: 335px;}
 			.states .table-annotations .table-column-creator {width: 100px; display: none;}
 			.states .wide .table-annotations .table-column-creator {display: table-cell;}		
 			.states .table-annotations .table-column-status {width: 120px;}
-			.states .table-annotations tr.status-complete {opacity: 0.3;}		
+			.states .table-annotations tr.status-complete {background: url('../imgs/line.gif') repeat-x 0 12px; opacity: 0.3;}		
 			.states .table-annotations .table-column-timestamp {width: 100px; display: none;}
 			.states .wide .table-annotations .table-column-timestamp {display: table-cell;}
 			.states .table-annotations .table-column-assigned-to {width: 100px; display: none;}
@@ -165,8 +164,10 @@
 				&:nth-child(even):hover {background: $color_light_pink; border-color: $color_light_pink; color: #000;}
 				&:hover:last-child {border-color: $color_light_pink}
 				&.on a,
-				&:hover a {color: #000;}			
+				&:hover a {color: #000;}
+				&.status-complete:nth-child(even):hover,			
 				&:nth-child(even) {background: #fff}
+				&.status-complete:hover {background-image: url(../imgs/line.gif); color: $color_dark_gray;}
 				&.none:hover {background: $color_light_white; border: none;}
 				&.current,
 				&.current:hover {background: $color_light_blue; color: $color_light_white; cursor: default;}
@@ -236,8 +237,7 @@
 
 .annotation.active .frm-annotation {display: block;}
 .annotation.minimized .frm-annotation {display: none;}
-.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; height: 385px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; display: none; @include boxshadow(); /* @include transition(height, 0.15s, ease-out); */}
-.annotation.type-note .frm-annotation {height: 270px;}
+.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; background: #272727;@include corner(); color: #ccc; padding: 15px 15px 25px 15px; font-size: 12px; float: left; display: none; @include boxshadow(); /* @include transition(height, 0.15s, ease-out); */}
 	
 	.annotation .frm-annotation p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
 
@@ -260,9 +260,13 @@
 	.annotation form .btn-cancel {position: relative; float: left; margin-left: 20px;}
 	.annotation form .btn-delete {position: relative; float: right;}
 	
-	.annotation form input[name=estimate] {width: 60px; height: 16px; font-size: 14px; margin: 5px 0 0 0;}
+	.annotation form .field-estimate {margin-top: -5px}
+	.annotation form input[name=estimate] {width: 60px; height: 14px; font-size: 12px; margin-top: 6px; font-weight: bold;}
 	.annotation form .dd-estimate {width: 80px;}
 	.annotation form .dd-estimate + a {left: 8px;}
+	
+	.annotation form .field-groups {height: 30px;}
+	.annotation form input[name=new_group] {width: 100px; height: 14px; font-size: 12px; margin-top: 6px; float: right; font-weight: bold; display: none;}
 	
 	.annotation .type {position: absolute; left: -26px; top: 6px;
 			& .btn {height: 25px; padding: 1px 6px; background: #272727; @include corner(0); opacity: 0.5;

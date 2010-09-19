@@ -1,7 +1,7 @@
 <?php require 'application/system/YSSEnvironment.php'; ?>
 <?
 
-$sfw = 0;
+$sfw = 1;
 
 $peeq = "peeq";
 

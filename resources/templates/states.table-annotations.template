@@ -5,7 +5,7 @@
 			<th class="table-column-context icon icon-sort">Context</th>
 			<th class="table-column-title icon icon-sort">Title</th>
 			<th class="table-column-creator icon icon-sort">Creator</th>
-			<th class="table-column-status icon icon-sort">Status</th>
+			<!-- <th class="table-column-status icon icon-sort">Status</th> -->
 			<!--<th class="table-column-timestamp icon icon-sort">Timestamp</th>-->
 			<th class="table-column-assigned-to icon icon-sort">Assigned to</th>
 			<th class="table-column-estimate icon icon-sort">Estimate</th>		
@@ -18,7 +18,7 @@
 			<td class="table-column-context">${context}</td>
 			<td class="table-column-title">${label}</td>
 			<td class="table-column-creator">${created_by}</td>
-			<td class="table-column-status"><span class="${peeq.utils.template.annotations.get_status_icon(status)} ir">${peeq.utils.template.annotations.get_status(status)}</span></td>
+			<!-- ><td class="table-column-status"><span class="${peeq.utils.template.annotations.get_status_icon(status)} ir">${peeq.utils.template.annotations.get_status(status)}</span></td> -->
 			<!-- <td class="table-column-timestamp">${peeq.utils.template.elapsed_time(created_at)}</td>-->
 			<td class="table-column-assigned-to">${assigned_to}</td>
 			<td class="table-column-estimate">${estimate}</td>
