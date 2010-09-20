@@ -110,18 +110,18 @@ class YSSServiceGroups extends YSSService
 		{
 			$session  = YSSSession::sharedSession();
 			$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
-		
-			$options = array('include_docs' => true);
-		
-			$result   = $database->view("project/taskGroup-tasks", $options, false);
-			$tasks    = array();
 			
-			foreach($result as $row)
-				$tasks[] = $row;
-				
+			
+			$options = array('include_docs' => true,
+			                 'startkey'     => array("project/".$project_id."/group/task/".$group_id, null),
+			                 'endkey'       => array("project/".$project_id."/group/task/".$group_id, 3));
+		
+		
+			$result = $database->formatList("project/taskGroup-tasks-aggregate", "taskGroup-tasks", $options, false);
+			
 			$response->ok    = true;
 			$response->group = "project/$project_id/group/task/$group_id";
-			$response->tasks = $tasks;
+			$response->tasks = $result;
 		}
 		else
 		{
