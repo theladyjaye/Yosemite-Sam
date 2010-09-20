@@ -13,7 +13,7 @@ function(head, req)
 			if(current)
 				result.push(current)
 				
-			current             = row.doc;
+			current             = {"_id":row.doc._id, "label":row.doc.label, "description":row.doc.description};//row.doc;
 			current.view        = null;
 			current.state       = null;
 		}
@@ -22,11 +22,11 @@ function(head, req)
 			switch(type)
 			{
 				case "view":
-					current.view = row.doc;
+					current.view = {"_id":row.doc._id, "label":row.doc.label, "description":row.doc.description};//row.doc;
 					break;
 				
 				case "state":
-					current.state = row.doc;
+					current.state = {"_id":row.doc._id, "label":row.doc.label, "description":row.doc.description};//row.doc;
 					break;
 			}
 		}

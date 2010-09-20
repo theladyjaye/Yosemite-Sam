@@ -119,9 +119,12 @@ class YSSServiceGroups extends YSSService
 		
 			$result = $database->formatList("project/taskGroup-tasks-aggregate", "taskGroup-tasks", $options, false);
 			
+			
 			$response->ok    = true;
 			$response->group = "project/$project_id/group/task/$group_id";
 			$response->tasks = $result;
+			
+			print_r($response);exit;
 		}
 		else
 		{
