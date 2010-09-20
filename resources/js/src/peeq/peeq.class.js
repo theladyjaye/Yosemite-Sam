@@ -460,44 +460,65 @@ function peeq()
 					}
 					
 					// get annotations
-					peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"] + "/annotations", {}, "get", function(annotations) {					
-						// preview
-						$("#main").stop(false, true).animate({
-							"opacity": 0
-						}, 300, "linear", function() {
-							change_bg("annotate");
-							$(this).html("").render_template({
-								"name": "annotate",
-								"data": data,
-								"complete": function() {
-									$("body").attr("id", "annotate");
+					peeq.api.request("/project/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"] + "/annotations", {}, "get", function(annotations) {
+						
+						// get task groups
+						peeq.api.request("/project/" + context.params["project"] + "/group/task", {}, "get", function(task_groups) {						
+											
+							// preview
+							$("#main").stop(false, true).animate({
+								"opacity": 0
+							}, 300, "linear", function() {
+								change_bg("annotate");
+								$(this).html("").render_template({
+									"name": "annotate",
+									"data": data,
+									"complete": function() {
+										$("body").attr("id", "annotate");
 								
-									// size representation								
-									var representation_image = new Image(),
-										$representation = $("#representation"),
-										$representation_image = $representation.find("img");
+										// handle annotate methods once representation has loaded		
+										var	$representation = $("#representation");										
+										$representation.find("img:eq(0)").load(function() {
+											// size representation
+											$representation.width($(this)[0].naturalWidth).height($(this)[0].naturalHeight);
+										
+								
+											// back to details button
+											$("header .btn-back").attr("href", "#/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"]).click(function() {
+												// clean up from annotate view
+												peeq.annotate.cleanup();
+											});
+								
+											peeq.annotate.config.users = {
+												"alincoln": "alincoln - Project Manager | BLITZ",
+												"jmadison": "jmadison - Software Developer | BLITZ",
+												"ajackson": "ajackson - Art Director | BLITZ",
+												"bross": "bross - Designer | BLITZ"
+											};
+										
+											var groups = {"0": "None"};
+											if(task_groups)
+											{
+												for(var i = 0, len = task_groups.groups.length; i < len; i++)
+												{
+													groups[task_groups.groups[i]._id] = task_groups.groups[i].label;
+												}											
+											}
+										
+											groups["-1"] = "Create New Group";
+											peeq.annotate.config.task_groups = $.extend(peeq.annotate.config.task_groups, groups);
+										
+											peeq.annotate.main();
 									
-									representation_image.src = $representation_image.attr("src");
-									$representation.width(representation_image.width).height(representation_image.height);
+											var deeplink_id = context.params["id"] || null;
+											peeq.annotate.add_annotations(annotations, deeplink_id);
 								
-									// back to details button
-									$("header .btn-back").attr("href", "#/" + context.params["project"] + "/" + context.params["view"] + "/" + context.params["state"]);
-								
-									peeq.annotate.config.users = {
-										"alincoln": "alincoln - Project Manager | BLITZ",
-										"jmadison": "jmadison - Software Developer | BLITZ",
-										"ajackson": "ajackson - Art Director | BLITZ",
-										"bross": "bross - Designer | BLITZ"
-									};
-									peeq.annotate.main();
-									
-									var deeplink_id = context.params["id"] || null;
-									peeq.annotate.add_annotations(annotations, deeplink_id);
-								
-									$("#main").animate({
-										"opacity": 1
-									});
-								}
+											$("#main").animate({
+												"opacity": 1
+											});
+										});
+									}
+								});
 							});
 						});
 					});
@@ -567,18 +588,7 @@ function peeq()
 	
 	// registers modal, add, delete events
 	var register_events = function() 
-	{
-		/*
-		sammy.$element().delegate(".btn-delete", "click", function() {
-			var path = sammy.getLocation().split("/").slice("1");
-			peeq.api.request("/project/" + path, {}, "DELETE", function(msg) {
-				console.log('deleted', msg);
-				//sammy.redirect("");
-			});
-			return false;
-		});
-		*/
-		
+	{		
 		// forms
 		try {
 			peeq.forms.main();

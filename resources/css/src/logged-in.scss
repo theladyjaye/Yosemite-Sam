@@ -62,7 +62,7 @@
 						&:hover {opacity: 1}
 					}
 				&.icon-marker-complete {opacity: 0.3;}
-				}
+				}			
 	.state-details .btn-update-image {margin: 5px 0;}
 			
 	.states #table-annotations-container {}	
@@ -75,13 +75,13 @@
 			.states .table-annotations tbody .table-column-priority {font-size: 22px; font-weight: bold;}
 			.states .table-annotations .table-column-context {width: 90px;}
 			.states .table-annotations .table-column-title {width: 335px;}
-			.states .table-annotations .table-column-creator {width: 100px; display: none;}
-			.states .wide .table-annotations .table-column-creator {display: table-cell;}		
+			.states .wide .table-annotations .table-column-title {width: 435px;}
+			.states .table-annotations .table-column-creator {width: 100px}
 			.states .table-annotations .table-column-status {width: 120px;}
-			.states .table-annotations tr.status-complete {background: url('../imgs/line.gif') repeat-x 0 12px; opacity: 0.3;}		
+			.states .table-annotations tr.status-complete {background-image: url('../imgs/line.gif'); background-repeat: repeat-x; background-position: 0 12px; opacity: 0.3;}		
 			.states .table-annotations .table-column-timestamp {width: 100px; display: none;}
 			.states .wide .table-annotations .table-column-timestamp {display: table-cell;}
-			.states .table-annotations .table-column-assigned-to {width: 100px; display: none;}
+			.states .table-annotations .table-column-assigned-to {width: 130px; display: none;}
 			.states .wide .table-annotations .table-column-assigned-to {display: table-cell;}
 			.states .table-annotations .table-column-estimate {width: 100px; display: none;}
 			.states .wide .table-annotations .table-column-estimate {display: table-cell;}
@@ -90,6 +90,8 @@
 	
 
 	// SETTINGS SPECIFIC
+	.settings .btn-back {float: left;}
+	.settings .btn-update-image {margin: 5px 0;}
 	.settings .table-users {width: 580px; margin: 0 auto;}
 		.settings .table-users th {font-weight: normal; line-height: 10px; margin-top: 10px; text-indent: 10px; cursor: pointer;}
 		.settings .table-users td {padding-left: 5px;}
@@ -117,6 +119,7 @@
 		}
 	
 	// SIDEBAR
+	/*
 	.wide + .sidebar {position: fixed; right: 0; top: 100px;
 			& {opacity: 0.8;}
 			& .annotate-preview-container {margin-bottom: 0}
@@ -124,13 +127,16 @@
 			& .btn-delete, 
 			& .state-details {display: none;}
 		}
+	*/
+	.wide + .sidebar {display: none;}
 			.sidebar .company-logo {height: 138px; width: 290px; background: $color_light_white; display: table-cell; text-align: center; vertical-align: middle;}
 				.sidebar .company-logo * {vertical-align: middle;}
 				.sidebar .company-logo span {display: inline-block; height: 100%; width: 1px;}
 			
 			.sidebar .company-meta {}
-				.sidebar .company-meta .domain {color: #000; font-size: 18px;}
-				.sidebar .company-meta .timestamp {}
+				.sidebar .company-meta .company {font-size: 26px; font-weight: bold; line-height: 26px;}
+				.sidebar .company-meta .domain {color: $color_light_gray; font-size: 18px;}
+				.sidebar .company-meta .timestamp {color: #ccc;}
 			
 				.sidebar dl {font-size: 18px; margin-bottom: 10px; float: left; line-height: 28px;}
 					.sidebar dt {width: 140px; clear: left; float: left; display: inline;}
@@ -165,9 +171,10 @@
 				&:hover:last-child {border-color: $color_light_pink}
 				&.on a,
 				&:hover a {color: #000;}
-				&.status-complete:nth-child(even):hover,			
+				&.status-complete {@include transition(none, 0, ease-out);}
+				&.status-complete:nth-child(even):hover {background-image: url(../imgs/line.gif)}			
 				&:nth-child(even) {background: #fff}
-				&.status-complete:hover {background-image: url(../imgs/line.gif); color: $color_dark_gray;}
+				&.status-complete:hover {background-color: inherit; background-image: url(../imgs/line.gif); background-repeat: repeat-x; background-position: 0 12px; color: $color_dark_gray}
 				&.none:hover {background: $color_light_white; border: none;}
 				&.current,
 				&.current:hover {background: $color_light_blue; color: $color_light_white; cursor: default;}
@@ -209,19 +216,20 @@
 // ANNOTATION
 .annotation {width: 20px; height: 20px; background: rgba(255, 255, 255, 0.3); margin-left: 2px; @include borderimage('../imgs/note-border.png'); border: 5px solid $color_light_blue; @include corner();
 	&.type-task {@include borderimage('../imgs/task-border.png');}
+	&.active {@include borderimage('../imgs/note-border-active.png');
+		& .ui-resizable-handle,
+		& .border,
+		& .overlay,
+		& form {display: block;}
+	}	
+	&.type-task.active {@include borderimage('../imgs/task-border-active.png');}
+	&.minimized {width: 0 !important; height: 0 !important;
+		& .ui-resizable-handle,
+		& .border,
+		& .overlay,
+		& form {display: none !important;}		
+	}
 }
-
-
-.annotation.active {@include borderimage('../imgs/note-border-active.png');}
-.annotation.type-task.active {@include borderimage('../imgs/task-border-active.png');}
-
-/** -- minimized note view -- **/
-.minimized.annotation {width: 0 !important; height: 0 !important;}
-
-.minimized.annotation .ui-resizable-handle,
-.minimized.annotation .border,		
-.minimized.annotation .overlay,		
-.minimized.annotation form {display: none;}
 	
 .annotation .annotation-num {position: absolute; top: -17px; left: -18px; background: #272727; width: 21px; height: 20px; line-height: 20px; text-align: center; color: #fff; @include corner(15px); padding: 4px; font-size: 14px; font-weight: bold; cursor: pointer; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); @include transition(color, 0.15s, ease-out)}
 .annotation.minimized .annotation-num {background: $color_light_gray; @include transition(all, 0.15s, ease-out);
@@ -235,9 +243,15 @@
 .annotation .overlay {position: absolute; top: 0; left: 0;@include corner(); width: 100%; height: 100%; cursor: move;}
 .annotation .ui-resizable-handle {opacity: 0.8}
 
+.annotation.active .ui-resizable,
 .annotation.active .frm-annotation {display: block;}
-.annotation.minimized .frm-annotation {display: none;}
+.annotation .ui-resizable,
+.annotation .frm-annotation {display: none;}
 .annotation .frm-annotation {position: absolute; top: 30px; width: 400px; background: #272727;@include corner(); color: #ccc; padding: 15px 15px 25px 15px; font-size: 12px; float: left; display: none; @include boxshadow(); /* @include transition(height, 0.15s, ease-out); */}
+	
+	.annotation .frm-annotation-container {width: 400px; height: 420px; overflow: hidden;}
+	.annotation.type-note .frm-annotation-container {height: 270px;}
+	.annotation .frm-annotation-inner {position: relative;}
 	
 	.annotation .frm-annotation p {float: left; clear: both; width: 100%; margin-bottom: 7px;}
 
@@ -279,6 +293,21 @@
 		
 	.annotation .task-fields {display: none;}
 	.annotation.type-task .task-fields {display: block;}
+	.annotation .btn-see-related-tasks {position: relative; top: 12px; left: 10px; font-size: 14px; font-weight: bold}
+	.annotation .view-related-tasks {position: absolute; left: 405px;
+		& .btn-back-to-form {float: left;}
+		& .tbl-related-tasks {margin: 20px 0 0 20px; list-style: decimal outside none; font-size: 14px; font-weight: bold; float: left;
+			& li {width: 370px; margin: 0;
+			 	& a {display: block; font-size: 14px; color: $color_light_gray; padding: 5px; @include corner(); font-weight: normal;
+					& .title {color: #fff; font-weight: bold;}
+					&:hover {background: $color_light_pink; color: #fff}
+				}
+				&.none {list-style: none;}
+				&.plus-more {list-style: none; margin-top: 20px;}
+			}
+		}
+	}
+		
 
 /* Resizable
 ----------------------------------*/

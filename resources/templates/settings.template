@@ -1,6 +1,9 @@
 <section class="wrap settings">
 	<div class="column">
 		<nav>
+			<a class="btn btn-back" href="/">
+				Back to Projects
+			</a>
 			<a class="btn right btn-add btn-modal modal-view-add-user" href="#">
 				Add User
 			</a>
@@ -55,8 +58,10 @@
 					<span></span>
 					<img src="resources/imgs/fpo-company.jpg" alt="" />
 				</div>
+				<a class="btn-update-image right btn-modal modal-view-update-attachment" href="#">Update company image</a>
 				<hr class="thick" />
 				<div class="company-meta">
+					<p class="company">BLITZ</p>
 					<p class="domain">blitz.peeq.com</p>
 					<p class="timestamp">Created 2 months ago</p>
 					<hr />
@@ -178,6 +183,24 @@
 			<input type="hidden" name="id" value="" />		
 			<a href="#" class="btn btn-delete btn-submit left">Yes, delete.</a>
 			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-update-attachment">
+	<section>
+		<h2 class="add">Update Image</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-attachment-update" action="" method="post" target="iframe-ajax-on-demand" enctype="multipart/form-data">
+			<ul>
+				<li class="field">								
+					<input type="file" name="attachment" />
+					<label for="label">New company image (max: 290 x 138, jpg only)</label>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Update</a>
 		</form>
 	</section>
 </section>
