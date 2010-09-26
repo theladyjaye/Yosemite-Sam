@@ -237,8 +237,6 @@ class YSSServiceStates extends YSSService
 												$task = $new_id.substr($task, strlen($state->_id));
 										}
 										
-										print_r($document);
-										
 										$payload->docs[]  = $document;
 									}
 									else
