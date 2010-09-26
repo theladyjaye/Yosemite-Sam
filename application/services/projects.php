@@ -22,6 +22,7 @@ require YSSApplication::basePath().'/application/data/YSSProject.php';
 require YSSApplication::basePath().'/application/data/YSSAnnotation.php';
 require YSSApplication::basePath().'/application/data/YSSView.php';
 require YSSApplication::basePath().'/application/data/YSSTask.php';
+require YSSApplication::basePath().'/application/data/YSSTaskGroup.php';
 
 
 require YSSApplication::basePath().'/application/data/YSSAttachment.php';
@@ -195,7 +196,7 @@ class YSSServiceProjects extends YSSService
 								{
 									$result = $database->copy($document['_id'], $copy_id);
 								}
-						
+								
 								
 								if(isset($result['error']))
 								{
@@ -211,6 +212,21 @@ class YSSServiceProjects extends YSSService
 								{
 									$document['_deleted'] = true;
 									$payload->docs[] = $document;
+									
+									// no errors
+									if($document['type'] == 'taskGroup')
+									{
+										foreach($document['tasks'] as &$task)
+											$task = $id.substr($task, strlen($project->_id));
+
+										$group        = new YSSTaskGroup();
+										$group->_id   = $copy_id;
+										$group->_rev  = $result['rev'];
+										$group->label = $document['label'];
+										$group->tasks = $document['tasks'];
+
+										$payload->docs[]  = $group;
+									}
 								}
 							}
 						
