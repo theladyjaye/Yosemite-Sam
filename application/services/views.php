@@ -199,7 +199,11 @@ class YSSServiceViews extends YSSService
 								}
 								else
 								{
-									$result = $database->copy($document['_id'], $copy_id);
+									// task groups are project level documents, but will contain references to views 
+									// within their task array, so we need to skip any copy operation here
+									// and deal with the internal task list update below.
+									if($document['type'] != 'taskGroup')
+										$result = $database->copy($document['_id'], $copy_id);
 								}
 							
 								if(isset($result['error']))
@@ -214,8 +218,29 @@ class YSSServiceViews extends YSSService
 								}
 								else
 								{
-									$document['_deleted'] = true;
-									$payload->docs[] = $document;
+									// no errors
+									
+									// Update the task list in a group if needed
+									// task groups are a project level document though,
+									// so we don't delete it or rename the group _id.
+									// Also, the way the map is setup, a task group is not
+									// going to be returned unless one of the tasks in the group
+									// is part of this $view
+									if($document['type'] == 'taskGroup')
+									{
+										foreach($document['tasks'] as &$task)
+										{
+											if(strpos($task, $view->_id) !== false)
+												$task = $new_id.substr($task, strlen($view->_id));
+										}
+										
+										$payload->docs[]  = $document;
+									}
+									else
+									{
+										$document['_deleted'] = true;
+										$payload->docs[] = $document;
+									}
 								}
 							}
 						
