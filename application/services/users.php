@@ -143,7 +143,7 @@ class YSSServiceDefault extends YSSService
 				$session->currentUser = $currentUser;
 				
 				$response->ok     = true;
-				$response->domain = $currentUser->domain;
+				$response->user   = $currentUser;
 			}
 		}
 		else
