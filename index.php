@@ -10,6 +10,8 @@ if(!$sfw)
 	$peeq = "****";
 }
 
+
+$current_user = $_SESSION['YSS']['currentUser'];
 ?>
 
 <!DOCTYPE HTML>
@@ -35,11 +37,11 @@ if(!$sfw)
 			<a class="peeq" href="/"><?if($sfw):?><img src="resources/imgs/peeq.png" alt="peeq" /><?endif;?></a>
 			<a class="btn btn-back" href="#">Back to Details</a>
 			<section>
-				<h1 class="username">G'day <a href="#">Gruffi</a></h1>
+				<h1 class="username">G'day <a href="#/settings"><?=$current_user->firstname?></a></h1>
 				<nav>
 					<ul>
 						<li><a href="#/settings">Settings</a></li>
-						<li class="logout"><a href="#">Logout</a></li>
+						<li id="btn-logout" class="logout"><a href="#">Logout</a></li>
 					</ul>
 				</nav>
 			</section>
@@ -81,7 +83,6 @@ if(!$sfw)
 	<script src="resources/js/src/jquery/plugins/jqModal.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.easing.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.tmpl.js"></script>
-	<script src="resources/js/src/jquery/plugins/jquery.render_template.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.polling.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.tablesorter.min.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.toggle_form_field.js"></script>
@@ -97,6 +98,8 @@ if(!$sfw)
 	<script src="resources/js/src/sammy/plugins/sammy.cache.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.json.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.storage.js"></script>
+	<script src="resources/js/src/sammy/plugins/sammy.template.js"></script>
+	<script src="resources/js/src/sammy/plugins/sammy.title.js"></script>
 	<script src="resources/js/src/peeq/peeq.class.js"></script>
 	<script src="resources/js/src/peeq/peeq.api.js"></script>
 	<script src="resources/js/src/peeq/peeq.forms.logged-in.js"></script>

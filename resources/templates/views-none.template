@@ -20,10 +20,10 @@
 		</nav>
 		<section class="column-body">
 			<div class="column-body-inner">
-				<h2 class="editable">${project.label}</h2>
+				<h2 class="editable"><%=project.label%></h2>
 				<div class="meta">
-					<a class="author" href="#">${project.created_by}</a>
-					<span class="timestamp">Created ${peeq.utils.template.elapsed_time(project.created_at)}</span>
+					<a class="author" href="#"><%=project.created_by%></a>
+					<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(project.created_at)%></span>
 				</div>
 				<hr class="thick" />
 				<div class="project-meta">
@@ -47,7 +47,7 @@
 						</table>								
 					</div>
 					<hr />
-					<p class="desc editable-textarea">{{if project.description != ""}}${project.description}{{else}}description goes here.{{/if}}</p>					
+					<p class="desc editable-textarea"><%if(project.description) { %><%=project.description%><% } else {%>description goes here.<%}%></p>					
 					<hr />
 					<table class="table-sortable">
 						<thead>
@@ -58,19 +58,28 @@
 							</tr>
 						</thead>
 						<tbody>
-						{{if project.attachments.length > 0}}
-							{{each project.attachments}}
+						<%
+							if(project.attachments.length > 0)
+							{
+								for(var i = 0, len = project.attachments.length, attachment; i < len; i++)
+								{
+									attachment = project.attachments[i];
+						%>
 								<tr>
-									<td class="table-column-icon"><span class="icon ${peeq.utils.template.icon_from_content_type(content_type)}"></span></td>
-									<td class="table-column-title"><a href="${path}" class="title">${label}</a></td>
+									<td class="table-column-icon"><span class="icon <%=peeq.utils.template.icon_from_content_type(attachment.content_type)%>"></span></td>
+									<td class="table-column-title"><a href="<%=attachment.path%>" class="title"><%=attachment.label%></a></td>
 									<td class="table-column-right"><a href="#" class="icon icon-trash btn-delete ir">Delete</a></td>
 								</tr>
-							{{/each}}														
-						{{else}}
+								<%}%>														
+						<%
+							} 
+							else 
+							{
+						%>
 							<tr class="none">
 								<td colspan="3">You have no attachments. <a href="#" class="btn-modal modal-view-add-attachment">Add one</a>.</td>
 							</tr>
-						{{/if}}
+						<% 	} %>
 						</tbody>
 					</table>	
 				</div>
@@ -140,8 +149,8 @@
 		<h2>Delete ${peeq.utils.template.truncate(project.label, 15)}</h2>
 		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-project-delete" action="" method="post">	
-			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong>${project.label}</strong>, all attachments, views, states, and annotations will be deleted as well. EVERYTHING! There is no undo.</p>  
-			<input type="hidden" name="label" value="${project.label}" />		
+			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong><%=project.label%></strong>, all attachments, views, states, and annotations will be deleted as well. EVERYTHING! There is no undo.</p>  
+			<input type="hidden" name="label" value="<%=project.label%>" />		
 			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything.</a>
 			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
 		</form>

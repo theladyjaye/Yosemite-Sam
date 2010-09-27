@@ -17,63 +17,67 @@
 				</p>
 			</form>		
 			<ul class="content">				
-				{{each views}}
+				<% 
+					for(var i = 0, len = views.length, view; i < len; i++)
+					{
+						view = views[i];			
+				%>
 				<li>
 					<div class="column-item-left">
-						{{if states.length && states[0].attachment && states[0].attachment.path}}
+						<%if(view.states.length && view.states[0].attachment && view.states[0].attachment.path) {%>
 						<div class="thumb">
- 							<a href="${peeq.utils.template.sanitize_id(states[0]._id)}"><img src="${states[0].attachment.path}" alt="" /></a>
+ 							<a href="<%=peeq.utils.template.sanitize_id(view.states[0]._id)%>"><img src="<%=view.states[0].attachment.path%>" alt="" /></a>
 						</div>
-						{{else}}
+						<%} else {%>
 						<div class="thumb no-thumb"> 							
 							<div class="message">
 								<h4>No Image</h4>
 								<p><a href="#">Upload</a> one now.</p>
 							</div>
 						</div>
-						{{/if}}
+						<%}%>
 						<div class="tasks">
 							<span class="icon icon-task ir">Tasks</span>
-							<span class="incomplete">${tasks.total - tasks.completed}/</span><span class="complete">${tasks.total}</span>
+							<span class="incomplete"><%=(view.tasks.total - view.tasks.completed)%>/</span><span class="complete"><%=view.tasks.total%></span>
 						</div>
-						<div id="pie-chart-${peeq.utils.template.index($value, views)}" class="pie-chart">										
-							<p class="percentage">{{if tasks.total > 0}} ${peeq.utils.template.percentage(tasks.completed, tasks.total)}{{else}}0{{/if}}%</p>
+						<div id="pie-chart-<%=i%>" class="pie-chart">										
+							<p class="percentage"><%if(view.tasks.total > 0) {%><%=peeq.utils.template.percentage(view.tasks.completed, view.tasks.total)%><%}else{%>0<%}%>%</p>
 							<table>
 							    <tr>
 					                <th>Incomplete</th>
-					                <td>${peeq.utils.template.percentage(tasks.total - tasks.completed, tasks.total)}%</td>
+					                <td><%=peeq.utils.template.percentage(view.tasks.total - view.tasks.completed, view.tasks.total)%>%</td>
 					            </tr>
 					            <tr>
 					                <th>Complete</th>
-					                <td>${peeq.utils.template.percentage(tasks.completed, tasks.total)}%</td>
+					                <td><%=peeq.utils.template.percentage(view.tasks.completed, view.tasks.total)%>%</td>
 					            </tr>
 							</table>								
 						</div>																
 					</div>
 					<div class="column-item-right">
-						<a href="${peeq.utils.template.sanitize_id(states[0]._id)}" class="title">${peeq.utils.template.truncate(label, 15)}</a>
+						<a href="<%=peeq.utils.template.sanitize_id(view.states[0]._id)%>" class="title"><%=peeq.utils.template.truncate(view.label, 15)%></a>
 						<div class="meta">
-							<a class="author" href="#">${created_by}</a>
-							<span class="timestamp">Created ${peeq.utils.template.elapsed_time(created_at)}</span>
+							<a class="author" href="#"><%=view.created_by%></a>
+							<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(view.created_at)%></span>
 							<div class="excerpt">
-								<p>${peeq.utils.template.truncate(description, 185)}</p>
+								<p><%=peeq.utils.template.truncate(view.description, 185)%></p>
 							</div>
 						</div>
 						<div class="stats">
 							<p>															
 								<span class="icon icon-note ir">Notes</span>	
-								<span class="count">${notes}</span>
+								<span class="count"><%=view.notes%></span>
 							</p>	
-							{{if states.length > 1}}						
+							<%if(view.states.length > 1) {%>						
 							<p>
 								<span class="icon icon-state ir">States</span>
-								<span class="count">${states.length}</span>
+								<span class="count"><%=view.states.length%></span>
 							</p>
-							{{/if}}
+							<%}%>
 						</div>
 					</div>
 				</li>
-				{{/each}}							
+				<%}%>							
 			</ul>		
 			<p class="no-matches"><span class="incomplete">0</span> matches in search.  Try removing a few letters.</p>
 			<div class="page-navigation"></div>					
@@ -87,34 +91,34 @@
 		</nav>
 		<section class="column-body">
 			<div class="column-body-inner">
-				<h2 class="editable">${project.label}</h2>
+				<h2 class="editable"><%=project.label%></h2>
 				<div class="meta">
-					<a class="author" href="#">${project.created_by}</a>
-					<span class="timestamp">Created ${peeq.utils.template.elapsed_time(project.created_at)}</span>
+					<a class="author" href="#"><%=project.created_by%></a>
+					<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(project.created_at)%></span>
 				</div>
 				<hr class="thick" />
 				<div class="project-meta">
 					<div id="pie-chart-project" class="pie-chart">										
 						<dl>
 							<dt class="incomplete">Views</dt>
-							<dd class="incomplete">${project.views}</dd>
+							<dd class="incomplete"><%=project.views%></dd>
 							<dt class="complete">Completed</dt>
-							<dd class="complete">${peeq.utils.template.completed_views(views)}</dd>
+							<dd class="complete"><%=peeq.utils.template.completed_views(views)%></dd>
 						</dl>
-						<p class="percentage">${peeq.utils.template.percentage(peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))}%</p>
+						<p class="percentage"><%=peeq.utils.template.percentage(peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))%>%</p>
 						<table>
 						    <tr>
 				                <th>Incomplete</th>
-				                <td>${peeq.utils.template.percentage(peeq.utils.template.total_tasks_in_project(views) - peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))}%</td>
+				                <td><%=peeq.utils.template.percentage(peeq.utils.template.total_tasks_in_project(views) - peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))%>%</td>
 				            </tr>
 				            <tr>
 				                <th>Complete</th>
-				                <td>${peeq.utils.template.percentage(peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))}%</td>
+				                <td><%=peeq.utils.template.percentage(peeq.utils.template.completed_tasks_in_project(views), peeq.utils.template.total_tasks_in_project(views))%>%</td>
 				            </tr>
 						</table>								
 					</div>
 					<hr />
-					<p class="desc editable-textarea">{{if project.description != ""}}${project.description}{{else}}description goes here.{{/if}}</p>					
+					<p class="desc editable-textarea"><%if(project.description) {%><%=project.description%><% } else { %>description goes here.<%}%></p>					
 					<hr />
 					<table id="table-attachments" class="table-sortable">
 						<thead>
@@ -125,19 +129,27 @@
 							</tr>
 						</thead>
 						<tbody>
-						{{if project.attachments.length > 0}}
-							{{each project.attachments}}
+						<%
+							if(project.attachments.length > 0) 
+							{
+								for(var i = 0, len = project.attachments.length, attachment; i < len; i++)
+								{
+									attachment = project.attachments[i];
+						%>
 								<tr>
-									<td class="table-column-icon"><span class="icon ${peeq.utils.template.icon_from_content_type(content_type)}"></span></td>
-									<td class="table-column-title">${label}</td>
-									<td class="table-column-right"><a href="#${_id}" class="icon icon-trash btn-delete btn-modal modal-view-delete-attachment ir">Delete</a></td>
+									<td class="table-column-icon"><span class="icon <%=peeq.utils.template.icon_from_content_type(attachment.content_type)%>"></span></td>
+									<td class="table-column-title"><%=attachment.label%></td>
+									<td class="table-column-right"><a href="#<%=attachment._id%>" class="icon icon-trash btn-delete btn-modal modal-view-delete-attachment ir">Delete</a></td>
 								</tr>
-							{{/each}}														
-						{{else}}
+						<% 		} 
+							}
+							else
+							{
+						%>						
 							<tr class="none">
 								<td colspan="3">You have no attachments. <a class="btn-add btn-modal modal-view-add-attachment" href="#">Add one</a>.</td>
 							</tr>
-						{{/if}}
+						<%	} %>
 						</tbody>
 					</table>	
 				</div>
@@ -204,11 +216,11 @@
 
 <section class="modal modal-view-delete-project">
 	<section>
-		<h2>Delete ${peeq.utils.template.truncate(project.label, 15)}</h2>
+		<h2>Delete <%=peeq.utils.template.truncate(project.label, 15)%></h2>
 		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-project-delete" action="" method="post">	
-			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong>${project.label}</strong>, all attachments, views, states, and annotations will be deleted as well. EVERYTHING! There is no undo.</p>  
-			<input type="hidden" name="label" value="${project.label}" />		
+			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong><%=project.label%></strong>, all attachments, views, states, and annotations will be deleted as well. EVERYTHING! There is no undo.</p>  
+			<input type="hidden" name="label" value="<%=project.label%>" />		
 			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything.</a>
 			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
 		</form>
@@ -219,11 +231,6 @@
 	<section>
 		<h2>Delete Attachment</h2>
 		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-attachment-delete" action="" method="post">	
-			<p><span class="important">Important</span>:  Are you 100% positive you want to delete <strong></strong>?  There is no undo.</p>
-			<input type="hidden" name="id" value="" />		
-			<a href="#" class="btn btn-delete btn-submit left">Yes, delete.</a>
-			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
-		</form>
+		<form id="frm-attachment-delete" action="" method="post" />
 	</section>
 </section>

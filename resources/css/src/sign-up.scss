@@ -4,5 +4,8 @@
 	.column-body h2 {font-size: 36px; letter-spacing: -2px; font-weight: normal; margin-top: 10px;}
 	.column-body h2:first-child {margin-top: 0;}
 	.column-body h3 {font-size: 28px; letter-spacing: -1px; font-weight: normal;}
-	#frm-sign-up {margin-top: 30px;}
+	#frm-sign-up {margin-top: 30px;
+			& .icon-error {width: auto;}
+		}
 		form .btn {margin-top: 30px;}
+	

@@ -219,6 +219,8 @@ peeq.prototype.annotate =
 			yPosition: "top"
 		}).trigger("mouseup");	
 	
+		$(".annotation:last").trigger("deactivate").addClass("minimized");
+	
 		if(deeplink_id)
 		{			
 			peeq.annotate.deeplink_to_annotation(deeplink_id);

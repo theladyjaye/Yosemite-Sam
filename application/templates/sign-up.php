@@ -48,8 +48,8 @@
 							<span class="icon icon-error"></span>
 						</li>
 						<li class="field">
-							<input type="password" name="passwordmatch" />
-							<label for="passwordmatch">Password Again</label>
+							<input type="password" name="password_verify" />
+							<label for="password_verify">Password Again</label>
 							<span class="hint">One more time for good measure.</span>
 							<span class="icon icon-success"></span>
 							<span class="icon icon-error"></span>
@@ -85,11 +85,11 @@
 			<div class="column-body-inner">
 				<h3>Already have an account?</h3>
 				<form id="frm-sign-in" action="" method="post">
-					<p class="icon icon-error invisible">Invalid Credientials</p>
+					<p class="icon icon-error error-message invisible">Invalid Credientials</p>
 					<ul>
 						<li class="field">
-							<input type="text" name="company" />
-							<label for="company">Company</label>
+							<input type="text" name="domain" />
+							<label for="domain">Domain</label>
 						</li>
 						<li class="field">
 							<input type="email" name="username" />

@@ -14,40 +14,43 @@
 				</p>
 			</form>
 			<ul class="content">
-				{{each projects}}
+				<%
+					for(var i = 0, len = projects.length, project; i < len; i++) {
+						project = projects[i];
+				%>
 				<li>
 					<div class="column-item-left">
-						<div id="pie-chart-${peeq.utils.template.index($value, projects)}" class="pie-chart">										
+						<div id="pie-chart-<%=i%>" class="pie-chart">										
 							<table>
 							    <tr>
 					                <th>Incomplete</th>
-					                <td>${peeq.utils.template.percentage(tasks.total - tasks.completed, tasks.total)}%</td>
+					                <td><%=peeq.utils.template.percentage(project.tasks.total - project.tasks.completed, project.tasks.total)%>%</td>
 					            </tr>
 					            <tr>
 					                <th>Complete</th>
-					                <td>${peeq.utils.template.percentage(tasks.completed, tasks.total)}%</td>
+					                <td><%=peeq.utils.template.percentage(project.tasks.completed, project.tasks.total)%>%</td>
 					            </tr>
 							</table>								
 						</div>																
 					</div>
 					<div class="column-item-right">
-						<a href="${peeq.utils.template.sanitize_id(_id)}" class="title">${peeq.utils.template.truncate(label, 14)}</a>
+						<a href="<%=peeq.utils.template.sanitize_id(projects[i]._id)%>" class="title"><%=peeq.utils.template.truncate(project.label, 14)%></a>
 						<div class="meta">
-							<a class="author" href="#">${created_by}</a>
-							<span class="timestamp">Created ${peeq.utils.template.elapsed_time(created_at)}</span>
+							<a class="author" href="#"><%=project.created_by%></a>
+							<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(project.created_at)%></span>
 							<div class="excerpt">
-								<p>${peeq.utils.template.truncate(description, 185)}</p>
+								<p><%=peeq.utils.template.truncate(project.description, 185)%></p>
 							</div>
 						</div>
 						<div class="stats">
 							<p>															
 								<span class="icon icon-view ir">Views</span>	
-								<span class="count {{if tasks.completed > 0 && tasks.completed == tasks.total}} complete {{else}}incomplete{{/if}}">${views}</span>
+								<span class="count <% if(project.tasks.completed > 0 && project.tasks.completed == project.tasks.total) {%> complete <% } else {%> incomplete<%}%>"><%=project.views%></span>
 							</p>
 						</div>
 					</div>
 				</li>
-				{{/each}}								
+				<% } %>								
 			</ul>	
 			<p class="no-matches"><span class="incomplete">0</span> matches in search.  Try removing a few letters.</p>
 			<div class="page-navigation"></div>							
@@ -55,11 +58,6 @@
 	</div>
 	<div class="column sidebar">
 		<nav>
-			<!--
-			<a class="btn btn-delete right" href="#">
-				Delete
-			</a>
-			-->
 		</nav>
 		<section class="column-body">
 			<div class="column-body-inner">
@@ -75,9 +73,9 @@
 					<hr />
 					<dl>
 						<dt class="incomplete">Projects</dt>
-						<dd class="incomplete">${projects.length}</dd>
+						<dd class="incomplete"><%=projects.length%></dd>
 						<dt class="complete">Completed</dt>
-						<dd class="complete">${peeq.utils.template.get_completed_projects_count(projects)}</dd>
+						<dd class="complete"><%=peeq.utils.template.get_completed_projects_count(projects)%></dd>
 					</dl>
 					<hr />
 					<dl>

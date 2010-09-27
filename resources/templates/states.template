@@ -1,17 +1,57 @@
 <section class="wrap states">
 	<div class="column">
 		<nav>
-			<a class="btn btn-back left" href="#/${state._id.split("/").slice(1, -2).join("/")}">
+			<a class="btn btn-back left" href="#/<%=state._id.split('/').slice(1, -2).join('/')%>">
 				Back to views
 			</a>
-			<a class="btn right btn-annotate" href="${document.location.href}/annotate">
+			<a class="btn right btn-annotate" href="<%=document.location.href%>/annotate">
 				<span class="icon icon-pencil"></span>
 				Annotate
 			</a>						
 		</nav>
 		<section class="column-body">					
-			<div id="table-annotations-container"></div>
+			<div id="table-annotations-container">
+				<table class="table-sortable table-annotations">
+					<thead>
+						<tr>
+							<th class="table-column-priority icon icon-sort"></th>
+							<th class="table-column-context icon icon-sort">Context</th>
+							<th class="table-column-title icon icon-sort">Title</th>
+							<th class="table-column-creator icon icon-sort">Creator</th>
+							<th class="table-column-assigned-to icon icon-sort">Assigned to</th>
+							<th class="table-column-estimate icon icon-sort">Estimate</th>		
+						</tr>
+					</thead>
+					<tbody>
+						<%
+							var len = annotations.length;
+							if(len)
+							{
+								for(var i = 0, annotation; i < len; i++)
+								{
+									annotation = annotations[i];
+						%>
+									<tr class="annotation-item annotation-id-<%=peeq.utils.template.annotations.sanitize_id(annotation._id)%> status-<%=peeq.utils.template.annotations.get_status(annotation.status)%>">
+										<td class="table-column-priority"><%if(annotation.priority) {%><%=peeq.utils.template.annotations.get_priority(annotation.priority)%><%}%></td>
+										<td class="table-column-context"><%=annotation.context%></td>
+										<td class="table-column-title"><%=annotation.label%></td>
+										<td class="table-column-creator"><%=annotation.created_by%></td>
+										<td class="table-column-assigned-to"><%=annotation.assigned_to%></td>
+										<td class="table-column-estimate"><%=annotation.estimate%></td>
+									</tr>
+						<%		}
+							}
+							else
+							{								
+						%>
+								<p class="table-annotations none">You have 0 annotations.  <a href="<%=document.location.href%>/annotate">Get started now</a>.</p>
+						<%	} %>
+					</tbody>
+				</table>	
+			</div>
+			<%if(len) {%>
 			<div class="expander"></div>
+			<%}%>
 		</section>
 	</div>
 	<div class="column sidebar detail">
@@ -24,41 +64,41 @@
 			<div class="column-body-inner">
 				<div class="annotate-preview-container">
 					<figure>
-						<a href="${document.location.href}/annotate"><img id="annotate-preview-image" src="${state.attachment.path}" alt="" /></a>
+						<a href="<%=document.location.href%>/annotate"><img id="annotate-preview-image" src="<%=state.attachment.path%>" alt="" /></a>
 						<div id="annotate-preview"></div>
 					</figure>
 				</div>
 				<div class="state-details">
 					<a class="btn-update-image right btn-modal modal-view-update-attachment" href="#">Update image</a>
 					<hr />
-					<h2 class="editable">${view.label}</h2>
+					<h2 class="editable"><%=view.label%></h2>
 					<div class="meta">
-						<a class="author" href="#">${state.created_by}</a>
-						<span class="timestamp">Created ${peeq.utils.template.elapsed_time(state.created_at)}</span>
+						<a class="author" href="#"><%=state.created_by%></a>
+						<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(state.created_at)%></span>
 					</div>
 					<hr class="thick" />
 					<div class="project-meta">
 						<div id="pie-chart-project" class="pie-chart">										
 							<dl>
 								<dt class="incomplete">Tasks</dt>
-								<dd class="incomplete">${state.tasks.total}</dd>
+								<dd class="incomplete"><%=state.tasks.total%></dd>
 								<dt class="complete">Completed</dt>
-								<dd class="complete">${state.tasks.completed}</dd>
+								<dd class="complete"><%=state.tasks.completed%></dd>
 							</dl>
-							<p class="percentage">${peeq.utils.template.percentage(state.tasks.completed, state.tasks.total)}%</p>
+							<p class="percentage"><%=peeq.utils.template.percentage(state.tasks.completed, state.tasks.total)%>%</p>
 							<table>
 							    <tr>
 					                <th>Incomplete</th>
-					                <td>${peeq.utils.template.percentage(state.tasks.total - state.tasks.completed, state.tasks.total)}%</td>
+					                <td><%=peeq.utils.template.percentage(state.tasks.total - state.tasks.completed, state.tasks.total)%>%</td>
 					            </tr>
 					            <tr>
 					                <th>Complete</th>
-					                <td>${peeq.utils.template.percentage(state.tasks.completed, state.tasks.total)}%</td>
+					                <td><%=peeq.utils.template.percentage(state.tasks.completed, state.tasks.total)%>%</td>
 					            </tr>
 							</table>								
 						</div>
 						<hr />
-						<p class="desc editable-textarea">{{if state.description != ""}}${state.description}{{else}}description goes here.{{/if}}</p>					
+						<p class="desc editable-textarea"><%if (state.description) {%><%=state.description%><% } else {%>description goes here.<%}%></p>					
 						<hr />
 						<table id="table-states" class="table-sortable">
 							<thead>
@@ -69,13 +109,17 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{each view.states}}
-									<tr {{if state._id == _id}}class="current"{{/if}}>
+								<% 
+									for(var i = 0, len = view.states.length, state; i < len; i++) 
+									{
+										state_item = view.states[i];
+								%>
+									<tr <%if (state._id == state_item._id) {%>class="current"<%}%>>
 										<td class="table-column-icon"><span class="icon icon-jpg"></span></td>
-										<td class="table-column-title">${label}</td>
-										<td class="table-column-right">{{if view.states.length > 1}}<a href="#${_id.split("/").slice(-1)}" class="icon icon-trash btn-delete ir btn-modal modal-view-delete-state">Delete</a>{{/if}}</td>
+										<td class="table-column-title"><%=state_item.label%></td>
+										<td class="table-column-right"><%if(len > 1) {%><a href="#<%=state_item._id.split('/').slice(-1)%>" class="icon icon-trash btn-delete ir btn-modal modal-view-delete-state">Delete</a><%}%></td>
 									</tr>											
-								{{/each}}
+								<%}%>
 							</tbody>
 						</table>	
 					</div>
@@ -87,11 +131,11 @@
 
 <section class="modal modal-view-delete-view">
 	<section>
-		<h2>Delete ${peeq.utils.template.truncate(view.label, 15)}</h2>
+		<h2>Delete <%=peeq.utils.template.truncate(view.label, 15)%></h2>
 		<a class="btn-modal-close" href="#">Close</a>
 		<form id="frm-view-delete" action="" method="post">	
-			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong>${view.label}</strong>, all states and annotations will be deleted as well.  There is no undo.</p>  
-			<input type="hidden" name="label" value="${view.label}" />		
+			<p><span class="important">Important</span>:  Let's get real for a sec. By choosing to delete <strong><%=view.label%></strong>, all states and annotations will be deleted as well.  There is no undo.</p>  
+			<input type="hidden" name="label" value="<%=view.label%>" />		
 			<a href="#" class="btn btn-delete btn-submit left">Yes, delete everything.</a>
 			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
 		</form>

@@ -32,29 +32,15 @@ function peeq()
 			rules: [
 				{
 					elt: "input[name=firstname]",
-					rule: /\w{2,}/
+					rule: /^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/
 				},
-				/*
 				{
 					elt: "input[name=lastname]",
-					rule: /\w{2,}/
-				},
-				*/
-				{
-					elt: "input[name=lastname]",
-					rule: "custom",
-					success: function(evt, $elt)
-					{
-						return ($elt.val() == "test");
-					}
-				},
+					rule: /^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/
+				},				
 				{
 					elt: "input[name=username]",
-					rule: "ajax",
-					type: "post",
-					url: "/handler.php",
-					data: "username",
-					success: '{"ok":true}'					
+					rule: /^[\w\d]{4,}/				
 				},
 				{
 					elt: "input[name=email]",
@@ -62,10 +48,10 @@ function peeq()
 				},
 				{
 					elt: "input[name=password]",
-					rule: /\w{2,}/
+					rule: /^[\w\d\W]{5,}/
 				},
 				{
-					elt: "input[name=passwordmatch]",
+					elt: "input[name=password_verify]",
 					rule: "match",
 					matching_field: "input[name=password]",
 					checkevent: "blur"
@@ -76,7 +62,7 @@ function peeq()
 				},
 				{
 					elt: "input[name=domain]", /* change to ajax */
-					rule: /\w{2,}/
+					rule: /^[a-zA-Z0-9-]+$/
 				}
 			],
 			checkevent: "keyup",
@@ -91,17 +77,19 @@ function peeq()
 			}
 		}).find("input[name=password]").keypress(function() {
 			 // clear matching password if changing password and matching password has already been entered 
-			var $password_match = $(this).parents("form").find("input[name=passwordmatch]");
+			var $password_match = $(this).parents("form").find("input[name=password_verify]");
 			if($password_match.val().length)
 			{
 				$password_match.val("").removeClass("success error");
 			}
-		}).end().bind("complete.validate", function(evt, is_valid) {
-			console.log(is_valid);
-			
+		}).end().bind("complete.validate", function(evt, is_valid) {			
+			console.log(is_valid)
 			if(is_valid)
 			{
-				// submit form
+				console.log($("#frm-sign-up").serialize());
+				$.post("/api/account/register", $("#frm-sign-up").serialize(), function(response) {
+					console.log(response);
+				});
 			}
 		}).find(".btn-signup").click(function() {			
 			$("#frm-sign-up").trigger("validate"); // validate on submit
@@ -114,21 +102,24 @@ function peeq()
 		$("#frm-sign-in .btn-sign-in").click(function() {
 			var $frm = $("#frm-sign-in"),
 				$error_msg = $frm.find(".error-message");
-			/*
-			$.post("/login", $frm.serialize(), function(response) {
+			
+			$.post("/api/account/login", $frm.serialize(), function(response) {
+				console.log(response);
 				if(response.ok)
 				{
 					// success
-					$error_msg.hide();
+					$error_msg.css({"visibility": "hidden"});									
 					// proceed
+					document.location.href = "/";	
 				}
 				else 
 				{
 					// fail
-					$error_msg.html(reponse.error).fadeIn();					
+					$error_msg.html(response.error);
+					$error_msg.css({"visibility": "visible"});					
 				}
 			});
-			*/
+			
 			return false;
 		});
 	}
