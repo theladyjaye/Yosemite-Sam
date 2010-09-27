@@ -40,6 +40,7 @@ class YSSExport
 		{
 			$type = $document['type'];
 			unset($document['_rev']);
+			
 			switch($type)
 			{
 				case 'project':
