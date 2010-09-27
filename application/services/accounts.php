@@ -28,6 +28,7 @@ class YSSServiceDefault extends YSSService
 		{
 			case "GET":
 				$this->addEndpoint("GET",     "/api/account/domain",       "getDomainInfo");
+				$this->addEndpoint("GET",     "/api/account/domain/{id}",  "getUsersInDomain");
 				break;
 				
 			case "POST":
@@ -36,6 +37,40 @@ class YSSServiceDefault extends YSSService
 				$this->addEndpoint("POST",    "/api/account/register",     "registerAccount");
 				break;
 		}
+	}
+	
+	public function getUsersInDomain($domain)
+	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$session  = YSSSession::sharedSession();
+		
+		if($session->currentUser)
+		{
+			$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+			
+			if($company)
+			{
+				$response->ok    = true;
+				$response->users = array();
+				
+				$users = $company->getUsers();
+				
+				foreach($users as $user)
+					$response->users[] = $user;
+			}
+			else
+			{
+				$response->message = "Invalid Company";
+			}
+		}
+		else
+		{
+			$response->message = "unauthorized";
+		}
+		
+		echo json_encode($response);
 	}
 	
 	public function getDomainInfo()
@@ -58,21 +93,18 @@ class YSSServiceDefault extends YSSService
 				                           "domain"    => $company->domain,
 				                           "timestamp" => $company->timestamp,
 				                           "users"     => $company->users);
-			
-				echo json_encode($response);
 			}
 			else
 			{
 				$response->message = "Invalid Company";
-				echo json_encode($response);
 			}
 		}
 		else
 		{
-			$response->message = "Unable to authenticate";
-			echo json_encode($response);
+			$response->message = "unauthorized";
 		}
 		
+		echo json_encode($response);
 	}
 	
 	public function logout()

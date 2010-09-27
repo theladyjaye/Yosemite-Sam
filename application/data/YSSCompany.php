@@ -3,6 +3,7 @@ require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyWit
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyInsertUser.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyDeleteUser.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyInsert.php';
+require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyUsers.php';
 
 /*
 	TODO YSSCompany needs the logo image url
@@ -71,6 +72,16 @@ class YSSCompany
 		}
 		
 		return $result;
+	}
+	
+	public function getUsers()
+	{
+		if($this->id)
+		{
+			$database = YSSDatabase::connection(YSSDatabase::kSql);
+			$query = new YSSQueryCompanyUsers($database, array('company_id'=>$this->id));
+			return $query;
+		}
 	}
 	
 	public function save()
