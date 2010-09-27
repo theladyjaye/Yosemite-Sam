@@ -48,21 +48,28 @@ class YSSServiceDefault extends YSSService
 		
 		if($session->currentUser)
 		{
-			$company = YSSCompany::companyWithDomain($session->currentUser->domain);
-			
-			if($company)
+			if($session->currentUser->domain == $domain)
 			{
-				$response->ok    = true;
-				$response->users = array();
+				$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+			
+				if($company)
+				{
+					$response->ok    = true;
+					$response->users = array();
 				
-				$users = $company->getUsers();
+					$users = $company->getUsers();
 				
-				foreach($users as $user)
-					$response->users[] = $user;
+					foreach($users as $user)
+						$response->users[] = $user;
+				}
+				else
+				{
+					$response->message = "Invalid Company";
+				}
 			}
 			else
 			{
-				$response->message = "Invalid Company";
+				$response->message = "unauthorized";
 			}
 		}
 		else
