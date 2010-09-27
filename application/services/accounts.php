@@ -27,8 +27,8 @@ class YSSServiceDefault extends YSSService
 		switch($method)
 		{
 			case "GET":
-				$this->addEndpoint("GET",     "/api/account/domain",       "getDomainInfo");
-				$this->addEndpoint("GET",     "/api/account/domain/{id}",  "getUsersInDomain");
+				$this->addEndpoint("GET",     "/api/account/domain",             "getDomainInfo");
+				$this->addEndpoint("GET",     "/api/account/domain/{id}/users",  "getUsersInDomain");
 				break;
 				
 			case "POST":
