@@ -68,7 +68,7 @@ class AMServiceManager
 		$path        = substr($_SERVER['REQUEST_URI'], 0, ($termination === false ? strlen($_SERVER['REQUEST_URI']) : $termination));
 		
 		$this->contract->registerServiceEndpoints($method);
-		
+
 		if($path[0] == '/'){
 			$path = substr($path, 1);
 		}
@@ -98,11 +98,11 @@ class AMServiceManager
 			AMServiceManager::not_found();
 		
 		$endpoints = array();
+		
 		foreach($branch as $service)
 		{
 			$match  = array_intersect($segments, $service->parts);
 			$params = $segmentsLength - count($match);
-			
 			
 			if($params == $service->parameter_count &&
 				count(array_diff($service->parts, $match)) == 0)

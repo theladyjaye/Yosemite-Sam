@@ -4,11 +4,16 @@ require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyIns
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyDeleteUser.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyInsert.php';
 
+/*
+	TODO YSSCompany needs the logo image url
+*/
 class YSSCompany
 {
 	public $id;
 	public $name;
 	public $domain;
+	public $timestamp;
+	public $users;
 	
 	public static function companyWithDomain($domain)
 	{
@@ -31,6 +36,7 @@ class YSSCompany
 		$object->name       = $array['name'];
 		$object->domain     = $array['domain'];
 		$object->timestamp  = $array['timestamp'];
+		$object->users      = $array['users'];
 		
 		return $object;
 	}

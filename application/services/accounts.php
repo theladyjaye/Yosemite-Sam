@@ -26,12 +26,53 @@ class YSSServiceDefault extends YSSService
 	{
 		switch($method)
 		{
+			case "GET":
+				$this->addEndpoint("GET",     "/api/account/domain",       "getDomainInfo");
+				break;
+				
 			case "POST":
 				$this->addEndpoint("POST",    "/api/account/logout",       "logout");
 				$this->addEndpoint("POST",    "/api/account/login",        "login");
 				$this->addEndpoint("POST",    "/api/account/register",     "registerAccount");
 				break;
 		}
+	}
+	
+	public function getDomainInfo()
+	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$session  = YSSSession::sharedSession();
+		
+		/*
+			TODO Company needs the logo image url
+		*/
+		if($session->currentUser)
+		{
+			$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+			if($company)
+			{
+				$response->ok = true;
+				$response->company = array("name"      => $company->name, 
+				                           "domain"    => $company->domain,
+				                           "timestamp" => $company->timestamp,
+				                           "users"     => $company->users);
+			
+				echo json_encode($response);
+			}
+			else
+			{
+				$response->message = "Invalid Company";
+				echo json_encode($response);
+			}
+		}
+		else
+		{
+			$response->message = "Unable to authenticate";
+			echo json_encode($response);
+		}
+		
 	}
 	
 	public function logout()
