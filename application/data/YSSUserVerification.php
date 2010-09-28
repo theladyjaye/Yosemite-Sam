@@ -15,6 +15,8 @@ class YSSUserVerification
 		
 		$message = new YSSMessageVerifyAccount($user->email, $user->domain, $token);
 		$message->send();
+		
+		return $token;
 	}
 	
 	public static function verify($token, $domain)

@@ -11,9 +11,16 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
+
 require YSSApplication::basePath().'/application/data/YSSCompany.php';
 require YSSApplication::basePath().'/application/data/YSSUser.php';
 require YSSApplication::basePath().'/application/data/YSSDomain.php';
+
+require YSSApplication::basePath().'/application/system/YSSSecurity.php';
+require YSSApplication::basePath().'/application/mail/YSSMail.php';
+require YSSApplication::basePath().'/application/data/YSSUserVerification.php';
+require YSSApplication::basePath().'/application/data/queries/YSSQueryUsersForDomain.php';
+
 
 
 require YSSApplication::basePath().'/application/system/YSSService.php';
@@ -126,6 +133,7 @@ class YSSServiceDefault extends YSSService
 			   $session->currentUser->domain == $domain)
 			{
 				$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+				
 				if($company)
 				{
 					$context = array(AMForm::kDataKey=>$_POST);
@@ -150,48 +158,52 @@ class YSSServiceDefault extends YSSService
 
 						// do the username and email values already exist?
 						$user           = YSSUser::userWithEmail($input->email);
-						$usernameExists = YSSUser::userWithUsernameInDomain($input->username, $this->session->currentUser->domain);
+						$usernameExists = YSSUser::userWithUsernameInDomain($input->username, $session->currentUser->domain);
+						
 						$dirty          = false;
-
+						
 						if($usernameExists == null)
 						{
 							if($user)
 							{
 								$dirty = true;
 								$input->addValidator(new AMErrorValidator('email', "Invalid email address.  This email address is currently in use."));
-								$this->hydrateErrors($response, $input);
+								$this->hydrateErrors($input, $response);
 							}
 							
 							if(!$dirty)
 							{
 								$user               = new YSSUser();
-								$user->domain       = $this->session->currentUser->domain;
+								$user->domain       = $session->currentUser->domain;
 								$user->username     = $input->username;
 								$user->email        = $input->email;
 								$user->firstname    = $input->firstname;
 								$user->lastname     = $input->lastname;
 								$user->level        = $input->administrator ? YSSUserLevel::kAdministrator : YSSUserLevel::kUser;
 								$user->active       = YSSUserActiveState::kInactive;
-								$user->password     = YSSUser::passwordWithStringAndDomain(YSSSecurity::generate_token(), $this->session->currentUser->domain);
-
+								$user->password     = YSSUser::passwordWithStringAndDomain(YSSSecurity::generate_token(), $session->currentUser->domain);
+								
 								$user               = $user->save();
 
 								$company->addUser($user);
 								$token = YSSUserVerification::register($user);
 								
 								$response->ok    = true;
-								$response->token = $token;
+								//$response->token = $token;
 							}
 						}
 						else
 						{
+							if($user)
+								$input->addValidator(new AMErrorValidator('email', "Invalid email address.  This email address is currently in use."));
+								
 							$input->addValidator(new AMErrorValidator('username', "Invalid username.  This username is already taken"));
-							$this->hydrateErrors($response, $input);
+							$this->hydrateErrors($input, $response);
 						}
 					}
 					else
 					{
-						$this->hydrateErrors($response, $input);
+						$this->hydrateErrors($input, $response);
 					}
 				}
 				else
@@ -259,7 +271,6 @@ class YSSServiceDefault extends YSSService
 		$response->ok = false;
 		
 		$session  = YSSSession::sharedSession();
-		
 		/*
 			TODO Company needs the logo image url
 		*/
