@@ -35,6 +35,7 @@ class ManageUsersController extends YSSController
 		$input->addValidator(new AMPatternValidator('lastname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
 		$input->addValidator(new AMEmailValidator('email', AMValidator::kRequired, 'Invalid email address'));
 		$input->addValidator(new AMPatternValidator('username', AMValidator::kRequired, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
+		
 		if($input->isValid)
 		{
 			// everything looks good so far

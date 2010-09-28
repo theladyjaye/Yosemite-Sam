@@ -27,16 +27,189 @@ class YSSServiceDefault extends YSSService
 		switch($method)
 		{
 			case "GET":
-				$this->addEndpoint("GET",     "/api/account/domain",             "getDomainInfo");
-				$this->addEndpoint("GET",     "/api/account/domain/{id}/users",  "getUsersInDomain");
+				$this->addEndpoint("GET",     "/api/account/{domain}",        "getDomainInfo");
+				$this->addEndpoint("GET",     "/api/account/{domain}/users",  "getUsersInDomain");
 				break;
 				
 			case "POST":
-				$this->addEndpoint("POST",    "/api/account/logout",       "logout");
-				$this->addEndpoint("POST",    "/api/account/login",        "login");
-				$this->addEndpoint("POST",    "/api/account/register",     "registerAccount");
+				$this->addEndpoint("POST",    "/api/account/logout",                    "logout");
+				$this->addEndpoint("POST",    "/api/account/login",                     "login");
+				$this->addEndpoint("POST",    "/api/account/register",                  "registerAccount");
+				$this->addEndpoint("POST",    "/api/account/{domain}/users/{username}", "updateUserInDomain");
+				$this->addEndpoint("POST",    "/api/account/{domain}/users",            "addUserInDomain");
 				break;
 		}
+	}
+	
+	public function updateUserInDomain($domain, $username)
+	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$session  = YSSSession::sharedSession();
+		
+		if($session->currentUser)
+		{
+			if($session->currentUser->domain == $domain)
+			{
+				$user = YSSUser::userWithUsernameInDomain($username, $session->currentUser->domain);
+				if($user)
+				{
+					$data    =& $_POST;
+					
+					$context = array(AMForm::kDataKey=>$data);
+					$input   = AMForm::formWithContext($context);
+					
+					$input->addValidator(new AMPatternValidator('firstname', AMValidator::kOptional, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+					$input->addValidator(new AMPatternValidator('lastname', AMValidator::kOptional, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+					$input->addValidator(new AMPatternValidator('username', AMValidator::kOptional, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
+					$input->addValidator(new AMPatternValidator('password', AMValidator::kOptional, '/^[\w\d\W]{5,}$/', "Invalid password.  Expecting minimum 5 characters. Cannot contain spaces"));
+					$input->addValidator(new AMEmailValidator('email', AMValidator::kOptional, 'Invalid email address'));
+					
+					if($input->isValid)
+					{
+						// everything looks good so far
+						// but we need to do some additional checking/cleanup
+						// before we can create the account
+						
+						if(isset($data['firstname']))
+							$user->firstname = ucwords(strtolower($data['firstname']));
+						
+						if(isset($data['lastname']))
+							$user->lastname  = ucwords(strtolower($data['lastname']));
+						
+						if(isset($data['email']))
+							$user->email     = strtolower($data['email']);
+						
+						if(isset($data['username']))
+							$user->username  = strtolower($data['username']);
+							
+						$user = $user->save();
+						
+						$response->ok   = true;
+						$response->user = $user;
+					}
+					else
+					{
+						$this->hydrateErrors($response, $input);
+					}
+					
+				}
+				else
+				{
+					$response->message = "unknown user";
+				}
+			}
+			else
+			{
+				$response->message = "unauthorized";
+			}
+		}
+		else
+		{
+			$response->message = "unauthorized";
+		}
+		
+		echo json_encode($response);
+	}
+	
+	public function addUserInDomain($domain)
+	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$session  = YSSSession::sharedSession();
+		
+		if($session->currentUser)
+		{
+			if($session->currentUser->level == YSSUserLevel::kAdministrator && 
+			   $session->currentUser->domain == $domain)
+			{
+				$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+				if($company)
+				{
+					$context = array(AMForm::kDataKey=>$_POST);
+					$input   = AMForm::formWithContext($context);
+
+					$input->addValidator(new AMPatternValidator('firstname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+					$input->addValidator(new AMPatternValidator('lastname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+					$input->addValidator(new AMEmailValidator('email', AMValidator::kRequired, 'Invalid email address'));
+					$input->addValidator(new AMPatternValidator('username', AMValidator::kRequired, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
+
+					if($input->isValid)
+					{
+						// everything looks good so far
+						// but we need to do some additional checking/cleanup
+						// before we can create the account
+
+						$data =& $input->formData;
+						$data['firstname'] = ucwords(strtolower($data['firstname']));
+						$data['lastname']  = ucwords(strtolower($data['lastname']));
+						$data['email']     = strtolower($data['email']);
+						$data['username']  = strtolower($data['username']);
+
+						// do the username and email values already exist?
+						$user           = YSSUser::userWithEmail($input->email);
+						$usernameExists = YSSUser::userWithUsernameInDomain($input->username, $this->session->currentUser->domain);
+						$dirty          = false;
+
+						if($usernameExists == null)
+						{
+							if($user)
+							{
+								$dirty = true;
+								$input->addValidator(new AMErrorValidator('email', "Invalid email address.  This email address is currently in use."));
+								$this->hydrateErrors($response, $input);
+							}
+							
+							if(!$dirty)
+							{
+								$user               = new YSSUser();
+								$user->domain       = $this->session->currentUser->domain;
+								$user->username     = $input->username;
+								$user->email        = $input->email;
+								$user->firstname    = $input->firstname;
+								$user->lastname     = $input->lastname;
+								$user->level        = $input->administrator ? YSSUserLevel::kAdministrator : YSSUserLevel::kUser;
+								$user->active       = YSSUserActiveState::kInactive;
+								$user->password     = YSSUser::passwordWithStringAndDomain(YSSSecurity::generate_token(), $this->session->currentUser->domain);
+
+								$user               = $user->save();
+
+								$company->addUser($user);
+								$token = YSSUserVerification::register($user);
+								
+								$response->ok    = true;
+								$response->token = $token;
+							}
+						}
+						else
+						{
+							$input->addValidator(new AMErrorValidator('username', "Invalid username.  This username is already taken"));
+							$this->hydrateErrors($response, $input);
+						}
+					}
+					else
+					{
+						$this->hydrateErrors($response, $input);
+					}
+				}
+				else
+				{
+					$response->message = "invalid company";
+				}
+			}
+			else
+			{
+				$response->message = "unauthorized";
+			}
+		}
+		else
+		{
+			$response->message = "unauthorized";
+		}
+		
+		echo json_encode($response);
 	}
 	
 	public function getUsersInDomain($domain)
@@ -64,7 +237,7 @@ class YSSServiceDefault extends YSSService
 				}
 				else
 				{
-					$response->message = "Invalid Company";
+					$response->message = "invalid company";
 				}
 			}
 			else
@@ -80,7 +253,7 @@ class YSSServiceDefault extends YSSService
 		echo json_encode($response);
 	}
 	
-	public function getDomainInfo()
+	public function getDomainInfo($domain)
 	{
 		$response     = new stdClass();
 		$response->ok = false;
@@ -92,18 +265,25 @@ class YSSServiceDefault extends YSSService
 		*/
 		if($session->currentUser)
 		{
-			$company = YSSCompany::companyWithDomain($session->currentUser->domain);
-			if($company)
+			if($session->currentUser->domain == $domain)
 			{
-				$response->ok = true;
-				$response->company = array("name"      => $company->name, 
-				                           "domain"    => $company->domain,
-				                           "timestamp" => $company->timestamp,
-				                           "users"     => $company->users);
+				$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+				if($company)
+				{
+					$response->ok = true;
+					$response->company = array("name"      => $company->name, 
+					                           "domain"    => $company->domain,
+					                           "timestamp" => $company->timestamp,
+					                           "users"     => $company->users);
+				}
+				else
+				{
+					$response->message = "invalid company";
+				}
 			}
 			else
 			{
-				$response->message = "Invalid Company";
+				$response->message = "unauthorized";
 			}
 		}
 		else
