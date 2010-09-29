@@ -83,7 +83,7 @@ function peeq()
 				$password_match.val("").removeClass("success error");
 			}
 		}).end().bind("complete.validate", function(evt, is_valid) {			
-			console.log(is_valid)
+			//console.log(is_valid)
 			if(is_valid)
 			{
 				console.log($("#frm-sign-up").serialize());

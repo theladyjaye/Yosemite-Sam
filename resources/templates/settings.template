@@ -20,31 +20,19 @@
 					</tr>
 				</thead>
 				<tbody>
-				
+					<%
+						for(var i = 0, len = users.length, user; i < len; i++)
+						{
+							user = users[i];
+					%>
 					<tr class="">
-						<td class="table-column-name">Jackson, Andrew</td>
-						<td class="table-column-username">ajackson</td>
-						<td class="table-column-email">ajackson@gmail.com</td>
-						<td class="table-column-admin"><span class="icon icon-success ir">admin</span></td>
+						<td class="table-column-name"><%=user.lastname%>, <%=user.firstname%></td>
+						<td class="table-column-username"><%=user.username%></td>
+						<td class="table-column-email"><%=user.email%></td>
+						<td class="table-column-admin"><%if(user.level >= 7) {%><span class="icon icon-success ir">admin</span><%}%></td>
 						<td class="table-column-edit"><span class="icon icon-pencil"></span></td>
 					</tr>
-					
-					<tr class="">
-						<td class="table-column-name">Jackson, Andrew</td>
-						<td class="table-column-username">ajackson</td>
-						<td class="table-column-email">ajackson@gmail.com</td>
-						<td class="table-column-admin"></td>
-						<td class="table-column-edit"><span class="icon icon-pencil"></span></td>
-					</tr>
-					
-					<tr class="">
-						<td class="table-column-name">Jackson, Andrew</td>
-						<td class="table-column-username">ajackson</td>
-						<td class="table-column-email">ajackson@gmail.com</td>
-						<td class="table-column-admin"><span class="icon icon-success ir">admin</span></td>
-						<td class="table-column-edit"><span class="icon icon-pencil"></span></td>
-					</tr>
-				
+					<%	}	%>
 				</tbody>
 			</table>			
 		</section>
@@ -61,20 +49,20 @@
 				<a class="btn-update-image right btn-modal modal-view-update-attachment" href="#">Update company image</a>
 				<hr class="thick" />
 				<div class="company-meta">
-					<p class="company">BLITZ</p>
-					<p class="domain">blitz.peeq.com</p>
-					<p class="timestamp">Created 2 months ago</p>
+					<p class="company"><%=account.name%></p>
+					<p class="domain"><%=account.domain%>.peeq.com</p>
+					<p class="timestamp">Created <%=peeq.utils.template.elapsed_time(account.timestamp)%></p>
 					<hr />
 					<dl>
 						<dt class="incomplete">Projects</dt>
-						<dd class="incomplete">3</dd>
+						<dd class="incomplete"><%=projects.length%></dd>
 						<dt class="complete">Completed</dt>
-						<dd class="complete">1</dd>
+						<dd class="complete"><%=peeq.utils.template.get_completed_projects_count(projects)%></dd>
 					</dl>
 					<hr />
 					<dl>
 						<dt>Users</dt>
-						<dd>16</dd>
+						<dd><%=account.users%></dd>
 					</dl>
 				</div>
 			</div>

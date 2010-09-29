@@ -67,9 +67,9 @@
 				</div>
 				<hr class="thick" />
 				<div class="company-meta">
-					<p class="company">BLITZ</p>
-					<p class="domain">blitz.peeq.com</p>
-					<p class="timestamp">Created 2 months ago</p>
+					<p class="company"><%=account.name%></p>
+					<p class="domain"><%=account.domain%>.peeq.com</p>
+					<p class="timestamp">Created <%=peeq.utils.template.elapsed_time(account.timestamp)%></p>
 					<hr />
 					<dl>
 						<dt class="incomplete">Projects</dt>
@@ -80,7 +80,7 @@
 					<hr />
 					<dl>
 						<dt>Users</dt>
-						<dd>16</dd>
+						<dd><%=account.users%></dd>
 					</dl>
 				</div>
 			</div>
