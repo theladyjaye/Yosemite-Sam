@@ -3,6 +3,7 @@
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithId.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithEmail.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithUsernameInDomain.php';
+require YSSApplication::basePath().'/application/data/queries/YSSQueryUserWithEmailInDomain.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserInsert.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUserUpdate.php';
 
@@ -49,6 +50,20 @@ class YSSUser
 		$object   = null;
 		$database = YSSDatabase::connection(YSSDatabase::kSql);
 		$query    = new YSSQueryUserWithEmail($database, $email);
+		
+		if(count($query) == 1)
+		{
+			$object = YSSUser::hydrateWithArray($query->one());
+		}
+		
+		return $object;
+	}
+	
+	public static function userWithEmailInDomain($email, $domain)
+	{
+		$object   = null;
+		$database = YSSDatabase::connection(YSSDatabase::kSql);
+		$query    = new YSSQueryUserWithEmailInDomain($database, array('email'=>$email, 'domain'=>$domain));
 		
 		if(count($query) == 1)
 		{

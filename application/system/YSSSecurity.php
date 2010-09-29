@@ -38,7 +38,7 @@ class YSSSecurity
 		$base   = "_-!@#%^&*()[]{}|?><.+=;:0123456789bcdfghjkmnpqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		*/
 		
-		$base   = "!@*$0123456789bcdfghjkmnpqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$base   = "!@$0123456789bcdfghjkmnpqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		$string = "";
 		$i      = 0;
 
