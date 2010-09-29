@@ -1,5 +1,7 @@
 <?php require 'application/system/YSSEnvironment.php'; ?>
 <?
+//echo $_GET['domain']; exit;
+
 
 $sfw = 1;
 
@@ -88,7 +90,6 @@ $current_user = $_SESSION['YSS']['currentUser'];
 	<script src="resources/js/src/jquery/plugins/jquery.toggle_form_field.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.annotate.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.jeditable.js"></script>
-<!--	<script src="resources/js/src/jquery/plugins/jquery.pajinate.js"></script> -->
 	<script src="resources/js/src/jquery/plugins/jquery.philter.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.filestyle.js"></script>
 	<script src="resources/js/src/jquery/plugins/jqueryui.selectmenu.js"></script>

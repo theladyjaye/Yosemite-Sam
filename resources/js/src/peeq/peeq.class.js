@@ -93,18 +93,16 @@ function peeq()
 			"opacity": 0
 		}, 200, "linear", function() {
 			$(this).html(content);
-			if($.isFunction(transition_out_callback)) 
-			{
-				transition_out_callback(this);
-				$(this).animate({
-					"opacity": 1
-				}, 300, "linear", function() {
-					if($.isFunction(complete_callback)) 
-					{
-						complete_callback(this);
-					}
-				});
-			}
+
+			transition_out_callback(this);
+			$(this).animate({
+				"opacity": 1
+			}, 300, "linear", function() {
+				if($.isFunction(complete_callback)) 
+				{
+					complete_callback(this);
+				}
+			});
 		});
 	};
 	
@@ -126,8 +124,22 @@ function peeq()
 				return true;
 			};
 			
+			var verify_authorization = function(data)
+			{
+				if(!data.ok) 
+				{
+					not_authorized();	
+				}
+			};
+			
+			var not_authorized = function(url)
+			{
+				window.location = url || "http://yss.com/sign-up.php";
+				return true;
+			};
+			
 			// set title
-			this.setTitle("peeq | BLITZ");
+			this.setTitle("peeq » BLITZ");
 
 			// ROUTES
 			// projects
@@ -136,8 +148,12 @@ function peeq()
 				var page = get_page_info("project");
 				
 				peeq.api.request("/handler", {"service": "project"}, "get", function(data) {
+					verify_authorization(data);
+					context.title("");
 					var data = data.result || {};
-
+/*
+					peeq.api.request("/account/domain", {}, "get", function(account) { console.log(account) });
+					*/
 					/*
 					// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
 					if(!peeq.is_online)
@@ -148,9 +164,9 @@ function peeq()
 					}
 					*/
 					
-					var template = (data.length) ? "projects" : "projects-none";			
+					var template = (data.projects.length) ? "projects" : "projects-none";			
 					
-					context.render(get_template_path(template), {"projects": data}, function(content) {
+					context.render(get_template_path(template), {"projects": data.projects, "account": data.account}, function(content) {
 						swap_transition(content, function() {
 							$(".pie-chart").piechart();
 							$("body").attr("id", page.body_id);
@@ -191,7 +207,7 @@ function peeq()
 							context.session(page.storage_key, data);
 						});
 					});				
-				});		
+				});	
 			})
 			// views
 			.get("#/:project", function(context) {
@@ -206,6 +222,7 @@ function peeq()
 				else // view
 				{												
 					peeq.api.request("/handler", {"service": "view", "project": context.params["project"]}, "get", function(data) {	
+						verify_authorization(data);
 						var data = data.result || {};
 
 						/*
@@ -222,6 +239,8 @@ function peeq()
 						{
 							context.notFound();
 						}
+
+						context.title("» " + data.project.label);
 
 						var template = (data.views.length && data.views[0]) ? "views" : "views-none";			
 						
@@ -303,11 +322,12 @@ function peeq()
 				var page = get_page_info("state");
 											
 				peeq.api.request("/handler", {"service": "state", "project": context.params["project"], "view": context.params["view"], "state": context.params["state"]}, "get", function(data) {								
+					verify_authorization(data);
 					var data = data.result || {};
 						//storage_key = "blitz." + context.params["project"] + "-" + context.params["view"] + "-states";
 					
 					var current_state = peeq.utils.template.states.get_current(data.states, context.path.replace("#", "project"));
-										
+															
 					/*
 					// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
 					if(!peeq.is_online)
@@ -317,7 +337,8 @@ function peeq()
 						});					
 					}
 					*/
-										
+					context.title("» " + data.project.label + " » " + data.view.label + " » " + current_state.label);	
+					
 					context.render(get_template_path("states"), {"view": data.view, "state": current_state, "annotations": data.annotations}, function(content) {
 						swap_transition(content, function() {										
 							change_bg("states");							
@@ -410,16 +431,19 @@ function peeq()
 			// settings view
 			this.bind("settings", function(event, context) {
 				change_nav();		
-				
-				context.render(get_template_path("settings"), {"users": "test"}, function(content) {
-					swap_transition(content, function() {
-						change_bg("settings");
-						setup_modals();
-				        $("body").attr("id", "");
+				peeq.api.request("/handler", {"service": "settings"}, "get", function(data) {
+					verify_authorization(data);
+					context.title("» Settings");
+					context.render(get_template_path("settings"), data.result, function(content) {
+						swap_transition(content, function() {
+							change_bg("settings");
+							setup_modals();
+					        $("body").attr("id", "");
 			
-						$(".settings").find(".table-sortable").tablesorter({
-							"cssAsc": "icon-sort-asc",
-							"cssDesc": "icon-sort-desc"
+							$(".settings").find(".table-sortable").tablesorter({
+								"cssAsc": "icon-sort-asc",
+								"cssDesc": "icon-sort-desc"
+							});
 						});
 					});
 				});
@@ -431,10 +455,13 @@ function peeq()
 				change_nav();
 				
 				peeq.api.request("/handler", {"service": "annotate", "project": context.params["project"], "view": context.params["view"], "state": context.params["state"]}, "get", function(data) {
+					verify_authorization(data);
 					var data = data.result || {};											
 
 					context.render(get_template_path("annotate"), data.state, function(content) {
 						swap_transition(content, function() {
+							context.title("");
+							//context.title("» " + data.project.label + " » " + data.view.label + " » " + current_state.label);
 							change_bg("annotate");
 							$("body").attr("id", "annotate");
 					

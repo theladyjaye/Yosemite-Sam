@@ -32,7 +32,7 @@ peeq.prototype.api =
 	},
 	request: function(resource, data, method, successCallback, isUpload)
 	{
-		var api_path = "http://yss.com/api",
+		var api_path = "/api",
 			isUpload = isUpload || false;
 		
 		if(resource)
@@ -55,11 +55,12 @@ peeq.prototype.api =
    					beforeSend: function(xhr) {
    						xhr.setRequestHeader("X-HTTP-Method-Override", method || "GET");
    					},
-   					type: "POST",
+   					type: /*method || */ "POST",
    					data: data, 
 					dataType: "json",
    					url: handler,
    					success: function(response) {
+
    						peeq.api.successCallbackHandler(successCallback, response);
    					}
    				});	
