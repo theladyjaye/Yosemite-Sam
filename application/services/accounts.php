@@ -142,6 +142,7 @@ class YSSServiceDefault extends YSSService
 				if($user)
 				{
 					$data    =& $_POST;
+					$dirty   = false;
 					
 					$context = array(AMForm::kDataKey=>$data);
 					$input   = AMForm::formWithContext($context);
@@ -149,37 +150,60 @@ class YSSServiceDefault extends YSSService
 					$input->addValidator(new AMPatternValidator('firstname', AMValidator::kOptional, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
 					$input->addValidator(new AMPatternValidator('lastname', AMValidator::kOptional, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
 					$input->addValidator(new AMPatternValidator('username', AMValidator::kOptional, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
-					$input->addValidator(new AMPatternValidator('password', AMValidator::kOptional, '/^[\w\d\W]{5,}$/', "Invalid password.  Expecting minimum 5 characters. Cannot contain spaces"));
 					$input->addValidator(new AMEmailValidator('email', AMValidator::kOptional, 'Invalid email address'));
 					
-					if($input->isValid)
+					if($input->password)
 					{
-						// everything looks good so far
-						// but we need to do some additional checking/cleanup
-						// before we can create the account
-						
-						if(isset($data['firstname']))
-							$user->firstname = ucwords(strtolower($data['firstname']));
-						
-						if(isset($data['lastname']))
-							$user->lastname  = ucwords(strtolower($data['lastname']));
-						
-						if(isset($data['email']))
-							$user->email     = strtolower($data['email']);
-						
-						if(isset($data['username']))
-							$user->username  = strtolower($data['username']);
-							
-						$user = $user->save();
-						
-						$response->ok   = true;
-						$response->user = $user;
-					}
-					else
-					{
-						$this->hydrateErrors($response, $input);
+						// only the owner can change the password
+						if($session->currentUser->id == $user->id)
+						{
+							$input->addValidator(new AMPatternValidator('password', AMValidator::kRequired, '/^[\w\d\W]{5,}$/', "Invalid password.  Expecting minimum 5 characters. Cannot contain spaces"));
+							$input->addValidator(new AMMatchValidator('password', 'password_verify', AMValidator::kRequired, "Passwords do not match"));
+						}
+						else
+						{
+							$dirty = true;
+							$this->message = "unable to change password";
+						}
 					}
 					
+					
+					if($dirty == false)
+					{
+						if($input->isValid)
+						{
+							// everything looks good so far
+							// but we need to do some additional checking/cleanup
+							// before we can create the account
+							
+							// there is no reason for using the array access here vs $input-> access
+							// just sarted typing it that way.
+						
+							if(isset($data['firstname']))
+								$user->firstname = ucwords(strtolower($data['firstname']));
+						
+							if(isset($data['lastname']))
+								$user->lastname  = ucwords(strtolower($data['lastname']));
+						
+							if(isset($data['email']))
+								$user->email     = strtolower($data['email']);
+						
+							if(isset($data['username']))
+								$user->username  = strtolower($data['username']);
+								
+							if(isset($data['password']))
+								$user->password = YSSUser::passwordWithStringAndDomain($data['password'], $session->currentUser->domain);
+							
+							$user = $user->save();
+						
+							$response->ok   = true;
+							$response->user = $user;
+						}
+						else
+						{
+							$this->hydrateErrors($response, $input);
+						}
+					}
 				}
 				else
 				{
