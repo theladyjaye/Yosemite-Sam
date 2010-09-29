@@ -69,6 +69,7 @@ class YSSServiceDefault extends YSSService
 					if($company)
 					{
 						$user = YSSUser::userWithUsernameInDomain($username, $session->currentUser->domain);
+						
 						if($user)
 						{
 							if ($user->id != $session->currentUser->id)
