@@ -3,7 +3,8 @@ class YSSQueryCompanyDeleteUser extends AMQuery
 {
 	protected function initialize()
 	{
-		// $options will be a YSSUser
+		$this->isMultiQuery = true;
+		
 		$company_id = (int)$this->dbh->real_escape_string($this->options['company_id']);
 		$user_id    = (int)$this->dbh->real_escape_string($this->options['user_id']);
 		
@@ -15,7 +16,9 @@ class YSSQueryCompanyDeleteUser extends AMQuery
 			but then we also need to do something to ensure the deleted users email is returned to the available pool.
 		*/
 		$this->sql = <<<SQL
-		DELETE FROM company_user WHERE company_id = $company_id AND user_id = $user_id;
+DELETE FROM company_user WHERE company_id = $company_id AND user_id = $user_id;
+DELETE FROM user WHERE id = $user_id;
+DELETE FROM user_verification WHERE user_id = $user_id;
 SQL;
 	}
 }

@@ -45,7 +45,85 @@ class YSSServiceDefault extends YSSService
 				$this->addEndpoint("POST",    "/api/account/{domain}/users/{username}", "updateUserInDomain");
 				$this->addEndpoint("POST",    "/api/account/{domain}/users",            "addUserInDomain");
 				break;
+			
+			case "DELETE":
+				$this->addEndpoint("DELETE",    "/api/account/{domain}/users/{username}",  "deleteUserInDomain");
+				break;
 		}
+	}
+	
+	public function deleteUserInDomain($domain, $username)
+	{
+		$response     = new stdClass();
+		$response->ok = false;
+		
+		$session  = YSSSession::sharedSession();
+		
+		if($session->currentUser)
+		{
+			if($session->currentUser->domain == $domain)
+			{
+				if($session->currentUser->level == YSSUserLevel::kAdministrator)
+				{
+					$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+					if($company)
+					{
+						$user = YSSUser::userWithUsernameInDomain($username, $session->currentUser->domain);
+						if($user)
+						{
+							if ($user->id != $session->currentUser->id)
+							{
+								$company->deleteUser($user);
+								
+								$database = YSSDatabase::connection(YSSDatabase::kCouchDB, $session->currentUser->domain);
+								$options  = array('key'          => $user->username,
+								                  'include_docs' => true);
+
+								$result        = $database->view("project/task-user", $options, false);
+
+								$payload       = new stdClass();
+								$payload->docs = array();
+								
+								foreach($result as $document)
+								{
+									$document['assigned_to'] = null;
+									$payload->docs[] = $document;
+								}
+								
+								$database->bulk_update($payload);
+								$response->ok = true;
+							}
+							else
+							{
+								$response->message = "invalid user";
+							}
+						}
+						else
+						{
+							$response->message = "unknown user";
+						}
+					}
+					else
+					{
+						$response->message = "unauthorized";
+					}
+				}
+				else
+				{
+					$response->message = "unauthorized";
+				}
+			}
+			else
+			{
+				$response->message = "unauthorized";
+			}
+		}
+		else
+		{
+			$response->message = "unauthorized";
+		}
+		
+		echo json_encode($response);
 	}
 	
 	public function updateUserInDomain($domain, $username)
@@ -208,7 +286,7 @@ class YSSServiceDefault extends YSSService
 				}
 				else
 				{
-					$response->message = "invalid company";
+					$response->message = "unauthorized";
 				}
 			}
 			else

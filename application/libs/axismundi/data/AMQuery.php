@@ -31,7 +31,10 @@ class AMQuery implements Iterator, Countable
 	
 	public function execute()
 	{
-		$this->result = $this->dbh->query($this->__toString());
+		if($this->isMultiQuery)
+			$this->dbh->multi_query($this->__toString());
+		else
+			$this->result = $this->dbh->query($this->__toString());
 	}
 	
 	public function __toString()
