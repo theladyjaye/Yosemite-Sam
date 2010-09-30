@@ -92,7 +92,10 @@ class YSSServiceDefault extends YSSService
 					}
 					
 					$logo->save();
+					
 					$company->logo  = YSSAttachment::attachmentEndpointWithId($logo->_id);
+					$company->save();
+					
 					$response->ok   = true;
 					$response->path = $company->logo;
 				}
@@ -482,10 +485,11 @@ class YSSServiceDefault extends YSSService
 				if($company)
 				{
 					$response->ok = true;
-					$response->company = array("name"			    => $company->name, 
+					$response->company = array("name"			    => $company->name,
 					                           "domain"    			=> $company->domain,
 					                           "timestamp" 			=> $company->timestamp,
 					                           "users"     			=> $company->users,
+					                           "logo"               => $company->logo,
 											   "current_username" 	=> $session->currentUser->username);
 				}
 				else

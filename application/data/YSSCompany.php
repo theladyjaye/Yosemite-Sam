@@ -3,6 +3,7 @@ require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyWit
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyInsertUser.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyDeleteUser.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyInsert.php';
+require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyUpdate.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyUsers.php';
 
 /*
@@ -89,13 +90,12 @@ class YSSCompany
 	public function save()
 	{
 		$object = null;
-		
 		if($this->id)
 		{
 			// update
-			/*
-				TODO create update comapny query
-			*/
+			$database = YSSDatabase::connection(YSSDatabase::kSql);
+			$query    = new YSSQueryCompanyUpdate($database, array('id'=>$this->id, 'logo'=>$this->logo));
+			$query->execute();
 			$object = $this;
 		}
 		else
