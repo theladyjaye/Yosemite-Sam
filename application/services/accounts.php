@@ -73,7 +73,7 @@ class YSSServiceDefault extends YSSService
 				$input   = AMForm::formWithContext($context);
 			
 				$input->addValidator(new AMFileValidator('logo', AMValidator::kRequired, "Invalid attachment. None provided."));
-				$input->addValidator(new AMFilesizeValidator('logo', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
+				$input->addValidator(new AMFilesizeValidator('logo', AMValidator::kRequired, MAX_UPLOAD_SIZE, "Invalid attachment size. Expecting maximum ".(MAX_UPLOAD_SIZE / 1024)." megabytes."));
 			
 				if($input->isValid)
 				{
@@ -98,6 +98,10 @@ class YSSServiceDefault extends YSSService
 					
 					$response->ok   = true;
 					$response->path = $company->logo;
+				}
+				else
+				{
+					$this->hydrateErrors($input, $response);
 				}
 			}
 			else

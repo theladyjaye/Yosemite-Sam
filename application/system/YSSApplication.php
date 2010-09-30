@@ -1,4 +1,7 @@
 <?php
+
+define("MAX_UPLOAD_SIZE", 1024000);
+
 class YSSApplication
 {
 	private static $application;

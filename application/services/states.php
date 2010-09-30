@@ -76,7 +76,7 @@ class YSSServiceStates extends YSSService
 		$input->addValidator(new AMInputValidator('label', AMValidator::kOptional, 2, null, "Invalid label.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMFileValidator('attachment', AMValidator::kOptional, "Invalid attachment. None provided."));
-		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
+		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, MAX_UPLOAD_SIZE, "Invalid attachment size. Expecting maximum ".(MAX_UPLOAD_SIZE / 1024)." megabytes."));
 	}
 	
 	private function applyPutValidators(&$input)
@@ -84,7 +84,7 @@ class YSSServiceStates extends YSSService
 		$input->addValidator(new AMInputValidator('label', AMValidator::kRequired, 2, null, "Invalid label.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMInputValidator('description', AMValidator::kOptional, 2, null, "Invalid description.  Expecting minimum 2 characters."));
 		$input->addValidator(new AMFileValidator('attachment', AMValidator::kRequired, "Invalid attachment. None provided."));
-		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
+		$input->addValidator(new AMFilesizeValidator('attachment', AMValidator::kRequired, MAX_UPLOAD_SIZE, "Invalid attachment size. Expecting maximum ".(MAX_UPLOAD_SIZE / 1024)." megabytes."));
 		$input->addValidator(new AMMatchValidator('state_id', 'transform_label', AMValidator::kRequired, "Invalid state id."));
 	}
 	
