@@ -15,6 +15,7 @@ class YSSCompany
 	public $domain;
 	public $timestamp;
 	public $users;
+	public $logo;
 	
 	public static function companyWithDomain($domain)
 	{
@@ -38,6 +39,7 @@ class YSSCompany
 		$object->domain     = $array['domain'];
 		$object->timestamp  = $array['timestamp'];
 		$object->users      = $array['users'];
+		$object->logo       = $array['logo'];
 		
 		return $object;
 	}

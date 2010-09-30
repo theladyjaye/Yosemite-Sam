@@ -9,6 +9,8 @@ require YSSApplication::basePath().'/application/libs/axismundi/forms/validators
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMEmailValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMMatchValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
+require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFileValidator.php';
+require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMFileSizeValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/services/AMServiceManager.php';
 
 
@@ -19,6 +21,7 @@ require YSSApplication::basePath().'/application/data/YSSDomain.php';
 require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/mail/YSSMail.php';
 require YSSApplication::basePath().'/application/data/YSSUserVerification.php';
+require YSSApplication::basePath().'/application/data/YSSAttachment.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryUsersForDomain.php';
 
 
@@ -42,9 +45,11 @@ class YSSServiceDefault extends YSSService
 				$this->addEndpoint("POST",    "/api/account/logout",                       "logout");
 				$this->addEndpoint("POST",    "/api/account/login",                        "login");
 				$this->addEndpoint("POST",    "/api/account/register",                     "registerAccount");
+				
+				$this->addEndpoint("POST",    "/api/account/{domain}/users/reset/{email}", "resetPassword");
 				$this->addEndpoint("POST",    "/api/account/{domain}/users/{username}",    "updateUserInDomain");
 				$this->addEndpoint("POST",    "/api/account/{domain}/users",               "addUserInDomain");
-				$this->addEndpoint("POST",    "/api/account/{domain}/users/reset/{email}", "resetPassword");
+				$this->addEndpoint("POST",    "/api/account/{domain}",                     "updateDomain");
 				break;
 			
 			case "DELETE":
@@ -53,10 +58,67 @@ class YSSServiceDefault extends YSSService
 		}
 	}
 	
-	public function resetPassword($domain, $email)
+	public function updateDomain($domain)
 	{
 		$response     = new stdClass();
-		$response->ok = ok;
+		$response->ok = false;
+		
+		$session  = YSSSession::sharedSession();
+		if($session->currentUser && $session->currentUser->domain == $domain)
+		{
+			if($session->currentUser->level == YSSUserLevel::kAdministrator)
+			{
+				$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+				$context = array(AMForm::kFilesKey=>$_FILES);
+				$input   = AMForm::formWithContext($context);
+			
+				$input->addValidator(new AMFileValidator('logo', AMValidator::kRequired, "Invalid attachment. None provided."));
+				$input->addValidator(new AMFilesizeValidator('logo', AMValidator::kRequired, 1024000, "Invalid attachment size. Expecting maximum 1 megabyte."));
+			
+				if($input->isValid)
+				{
+					$id        = "domain-logo";
+					$logo      = YSSAttachment::attachmentWithIdInDomain($id, $session->currentUser->domain);
+					
+					if($logo)
+					{
+						$logo->setFile($input->logo->tmp_name);
+						YSSAttachment::saveAttachmentInDomain($logo, $session->currentUser->domain);
+					}
+					else
+					{
+						$logo      = YSSAttachment::attachmentWithLocalFileInDomain($input->logo->tmp_name, $session->currentUser->domain);
+						$logo->_id = "domain-logo";
+					}
+					
+					$logo->save();
+					$company->logo  = YSSAttachment::attachmentEndpointWithId($logo->_id);
+					$response->ok   = true;
+					$response->path = $company->logo;
+				}
+			}
+			else
+			{
+				$response->message = "unauthorized";
+			}
+		}
+		else
+		{
+			$response->message = "unauthorized";
+		}
+		
+		
+		
+		echo json_encode($response);
+	}
+	
+	public function resetPassword($domain, $email)
+	{
+		// always returing {ok:true} here no matter what $email or $domain is given
+		// no need to let people know what the real domains / accounts are.
+		
+		$response     = new stdClass();
+		$response->ok = true;
 		
 		$data    = array('domain' => $domain, 'email' => $mail);
 		$context = array(AMForm::kDataKey=>$data);

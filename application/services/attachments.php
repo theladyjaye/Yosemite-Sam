@@ -43,7 +43,6 @@ class YSSServiceAttachments extends YSSService
 	
 	public function getAttachment($id)
 	{
-		
 		// may want to do some caching here so we are not hitting S3 ALL the time, if enabled.
 		
 		$session    = YSSSession::sharedSession();
