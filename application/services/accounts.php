@@ -420,10 +420,11 @@ class YSSServiceDefault extends YSSService
 				if($company)
 				{
 					$response->ok = true;
-					$response->company = array("name"      => $company->name, 
-					                           "domain"    => $company->domain,
-					                           "timestamp" => $company->timestamp,
-					                           "users"     => $company->users);
+					$response->company = array("name"			    => $company->name, 
+					                           "domain"    			=> $company->domain,
+					                           "timestamp" 			=> $company->timestamp,
+					                           "users"     			=> $company->users,
+											   "current_username" 	=> $session->currentUser->username);
 				}
 				else
 				{

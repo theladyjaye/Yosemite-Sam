@@ -381,6 +381,85 @@ peeq.prototype.forms =
 			peeq.forms.attachment.validate_update(form_id);
 		}
 	},
+	user:
+	{
+		add: function(id)
+		{
+			var $frm = $("#" + id);
+			
+			peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users", $frm.serialize(), "POST", function(response) {
+			
+				if(response.ok)
+				{
+					// add row
+					var $row = $("<tr />").appendTo(".table-users tbody");
+										
+					// update row
+					peeq.forms.user.update_row_in_table($row, response.user);
+					
+					// hide modal
+					$(".modal").jqmHide();
+				}
+			});
+		},
+		edit: function(id)
+		{
+			var $frm = $("#" + id),
+				username = $frm.find("input[name=username]").data("original");
+			
+			// clear original
+			$frm.find("input[name=username]").data("original", "");
+			
+			peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users/" + username, $frm.serialize(), "POST", function(response) {
+				
+				if(response.ok)
+				{
+					var $row = $(".table-users").find(".username-" + username);
+					
+					// update row
+					peeq.forms.user.update_row_in_table($row, response.user);
+					
+					// hide modal
+					$(".modal").jqmHide();
+				}
+			});
+		}, 
+		remove: function(id)
+		{
+			var $form = $("#" + id),
+				username = $form.find("[input[name=id]").val();
+			peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users/" + username, $form.serialize(), "DELETE", function(response) {
+				if(response.ok)
+				{
+					// remove row
+					var $row = $(".table-users").find(".username-" + username).remove();
+					// hide modal
+					$(".modal").jqmHide();
+				}
+			});
+		},
+		changepassword: function(id)
+		{
+			var $form = $("#" + id),
+				username = $(".modal-view-changepassword-user").attr("href").substr(1);
+			peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users/" + username, $form.serialize(), "POST", function(response) {
+				if(response.ok)
+				{
+					// hide modal
+					$(".modal").jqmHide();
+				}
+			});
+		},
+		update_row_in_table: function($row, user)
+		{		
+			// update row
+			$row.removeClass("username-" + username).addClass("username-" + username);
+			$row.find(".table-column-name").text(user.lastname + ", " + user.firstname);
+			$row.find(".table-column-username").text(user.username);
+			$row.find(".table-column-email").text(user.email);
+			$row.find(".table-column-admin").text((user.level >= 7) ? '<td class="table-column-admin"><span class="icon icon-success ir">admin</span></td>' : '');
+		}
+	},
 	utils:
 	{
 		gen_id_from_label: function(label)

@@ -9,7 +9,7 @@
 		.modal form .btn-submit {margin-top: 10px;}
 		.modal form .btn-modal-cancel {margin: 10px 0 0 10px;}
 
-.jqmWindow {display: none; position: fixed; top: 12%; left: 50%; @include lineargradient(#fff, $color_light_white); color: $color_dark_gray; padding: 20px}
+.jqmWindow {display: none; position: absolute; top: 7%; left: 50%; @include lineargradient(#fff, $color_light_white); color: $color_dark_gray; padding: 20px}
 .jqmOverlay {background-color: #000}
 
 /* Background iframe styling for IE6. Prevents ActiveX bleed-through (<select> form elements, etc.) */

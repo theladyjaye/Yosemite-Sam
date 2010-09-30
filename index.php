@@ -1,9 +1,6 @@
 <?php require 'application/system/YSSEnvironment.php'; ?>
 <?
-//echo $_GET['domain']; exit;
-
-
-$sfw = 1;
+$sfw = 0;
 
 $peeq = "peeq";
 
@@ -11,7 +8,6 @@ if(!$sfw)
 {
 	$peeq = "****";
 }
-
 
 $current_user = $_SESSION['YSS']['currentUser'];
 ?>

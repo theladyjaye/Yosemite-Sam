@@ -264,6 +264,9 @@ peeq.prototype.utils =
 		});
 		
 		return result;
+	},
+	get_subdomain: function()
+	{
+		return document.location.host.split(".")[0];		
 	}
-	
 };

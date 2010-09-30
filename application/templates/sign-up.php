@@ -83,26 +83,45 @@
 		</nav> -->
 		<section class="column-body">
 			<div class="column-body-inner">
-				<h3>Already have an account?</h3>
-				<form id="frm-sign-in" action="" method="post">
-					<p class="icon icon-error error-message invisible">Invalid Credientials</p>
-					<ul>
-						<li class="field">
-							<input type="text" name="domain" />
-							<label for="domain">Domain</label>
-						</li>
-						<li class="field">
-							<input type="email" name="username" />
-							<label for="username">Username/Email</label>
-						</li>
-						<li class="field">
-							<input type="password" name="password" />
-							<label for="password">Password</label>
-							<a href="#" class="forgot-password incomplete">forgot password</a>
-						</li>
-					</ul>	
-					<a href="#" class="btn btn-sign-in left">Login</a>				
-				</form>				
+				<div id="sign-in-container">
+					<h3>Already have an account?</h3>
+					<form id="frm-sign-in" action="" method="post">
+						<p class="icon icon-error error-message invisible">Invalid Credientials</p>
+						<ul>
+							<li class="field">
+								<input type="text" name="domain" />
+								<label for="domain">Domain</label>
+							</li>
+							<li class="field">
+								<input type="email" name="username" />
+								<label for="username">Username/Email</label>
+							</li>
+							<li class="field">
+								<input type="password" name="password" />
+								<label for="password">Password</label>
+								<a href="#" class="forgot-password incomplete">forgot password</a>
+							</li>
+						</ul>	
+						<a href="#" class="btn btn-sign-in left">Login</a>				
+					</form>	
+				</div>
+				<div id="forgot-password-container">	    	
+					<h3>Forgot Password</h3>
+					<form id="frm-forgot-password" action="" method="post">
+						<p class="icon icon-error error-message invisible">Invalid Credientials</p>
+						<ul>
+							<li class="field">
+								<input type="text" name="domain" />
+								<label for="domain">Domain</label>
+							</li>
+							<li class="field">
+								<input type="email" name="username" />
+								<label for="username">Username/Email</label>
+							</li>
+						</ul>	
+						<a href="#" class="btn btn-reset-password left">Reset Password</a>				
+					</form>
+				</div>
 			</div>
 		</section>
 	</div>
