@@ -17,6 +17,7 @@
 						<th class="table-column-email icon icon-sort">Email</th>
 						<th class="table-column-admin icon icon-sort">Admin</th>
 						<th class="table-column-edit"></th>	
+						<th class="table-column-delete"></th>	
 					</tr>
 				</thead>
 				<tbody>
@@ -25,12 +26,13 @@
 						{
 							user = users[i];
 					%>
-					<tr class="">
+					<tr class="username-<%=user.username%>">
 						<td class="table-column-name"><%=user.lastname%>, <%=user.firstname%></td>
 						<td class="table-column-username"><%=user.username%></td>
 						<td class="table-column-email"><%=user.email%></td>
 						<td class="table-column-admin"><%if(user.level >= 7) {%><span class="icon icon-success ir">admin</span><%}%></td>
-						<td class="table-column-edit"><span class="icon icon-pencil"></span></td>
+						<td class="table-column-edit"><span class="icon icon-pencil btn-modal modal-view-edit-user btn-edit"></span></td>
+						<td class="table-column-delete"><a href="#<%=user.username%>" class="icon icon-trash btn-modal modal-view-delete-user btn-delete ir">delete</a></td>
 					</tr>
 					<%	}	%>
 				</tbody>
@@ -65,6 +67,12 @@
 						<dd><%=account.users%></dd>
 					</dl>
 				</div>
+				<hr />
+				<div class="account-actions">
+					<h3>Account Actions</h3>
+					<p><a href="#<%=account.current_username%>" class="btn-modal modal-view-changepassword-user">Change Password</a></p>
+					<p><a href="#" class="btn-delete-account">Delete Account</a></p>
+				</div>
 			</div>
 		</section>
 	</div>
@@ -79,28 +87,24 @@
 				<li class="field">								
 					<input type="text" name="firstname" />
 					<label for="firstname">First Name</label>
-					<span class="hint"></span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
 					<input type="text" name="lastname" />
 					<label for="lastname">Last Name</label>
-					<span class="hint"></span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
 					<input type="text" name="email" />
 					<label for="email">E-mail</label>
-					<span class="hint">user@domain.com</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
 					<input type="text" name="username" />
 					<label for="username">Username</label>
-					<span class="hint">Make it unique</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
@@ -125,28 +129,24 @@
 				<li class="field">								
 					<input type="text" name="firstname" />
 					<label for="firstname">First Name</label>
-					<span class="hint"></span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
 					<input type="text" name="lastname" />
 					<label for="lastname">Last Name</label>
-					<span class="hint"></span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
 					<input type="text" name="email" />
 					<label for="email">E-mail</label>
-					<span class="hint">user@domain.com</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
 					<input type="text" name="username" />
 					<label for="username">Username</label>
-					<span class="hint">Keep it unique</span>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>
@@ -166,11 +166,35 @@
 	<section>
 		<h2>Delete User</h2>
 		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-attachment-delete" action="" method="post">	
+		<form id="frm-user-delete" action="" method="post">	
 			<p><span class="important">Important</span>:  Are you 100% positive you want to delete <strong></strong>?  There is no undo.</p>
 			<input type="hidden" name="id" value="" />		
 			<a href="#" class="btn btn-delete btn-submit left">Yes, delete.</a>
 			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
+		</form>
+	</section>
+</section>
+
+<section class="modal modal-view-changepassword-user">
+	<section>
+		<h2>Change Password</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-user-changepassword" action="" method="post">	
+			<ul>
+				<li class="field">								
+					<input type="password" name="password" />
+					<label for="password">Password</label>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<input type="password" name="password_verify" />
+					<label for="password_verify">Password Match</label>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-submit left clearboth">Change</a>
 		</form>
 	</section>
 </section>

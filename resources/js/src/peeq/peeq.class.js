@@ -12,7 +12,7 @@ function peeq()
 	// get each page's information
 	var get_page_info = function(page_name) 
 	{
-		var account_domain = "blitz"; //get_subdomain();
+		var account_domain = peeq.utils.get_subdomain();
 		var page_props = get_page_props();
 		
 		var pages = {
@@ -47,12 +47,7 @@ function peeq()
 		
 		return page;
 	};
-	
-	var get_subdomain = function()
-	{
-		return document.location.host.split(".")[0];		
-	};
-	
+		
 	// split hash into page properties
 	var get_page_props = function()
 	{
@@ -444,6 +439,25 @@ function peeq()
 								"cssAsc": "icon-sort-asc",
 								"cssDesc": "icon-sort-desc"
 							});
+							
+							$(".table-users").find(".btn-edit").click(function() {
+								// get fields
+								var $row = $(this).parents("tr"),
+									ary_name = $row.find(".table-column-name").text().split(","),
+									first_name = $.trim(ary_name[1]),
+									last_name = $.trim(ary_name[0]),
+									username = $row.find(".table-column-username").text(),
+									email = $row.find(".table-column-email").text(),
+									is_admin = $row.find(".table-column-admin").text().length,
+									$modal = $(".modal-view-edit-user");
+								
+								// populate modal with fields
+								$modal.find("input[name=firstname]").val(first_name);
+								$modal.find("input[name=lastname]").val(last_name);
+								$modal.find("input[name=username]").val(username).data("original", username);
+								$modal.find("input[name=email]").val(email);
+								$modal.find("input[name=admin]").attr("checked", is_admin ? "checked" : "");
+							});
 						});
 					});
 				});
@@ -603,7 +617,7 @@ function peeq()
 					"display": "block",
 					"opacity": 0
 				}).animate({
-					"top": "12%",
+					"top": "7%",
 					"opacity": 1
 				}, 300, "easeOutQuad");
 				
@@ -627,15 +641,31 @@ function peeq()
 			
 			// attachment delete modal link 
 			// state delete modal link
+			// user delete modal link
 			// => populate fields
-			if($(this).hasClass("modal-view-delete-attachment") || $(this).hasClass("modal-view-delete-state"))
+			if($(this).hasClass("modal-view-delete-attachment") || $(this).hasClass("modal-view-delete-state")  || $(this).hasClass("modal-view-delete-user"))
 			{
 				var $this = $(this),
 					id = $this.attr("href").substr(1),
-					$frm = $this.hasClass("modal-view-delete-attachment") ? $("#frm-attachment-delete") :  $("#frm-state-delete");
+					column_name = ".table-column-title",
+					$frm;
 					
+				if($this.hasClass("modal-view-delete-attachment"))
+				{
+					$frm = $("#frm-attachment-delete");
+				}	
+				else if($this.hasClass("modal-view-delete-state"))
+				{
+					$frm = $("#frm-state-delete");
+				}
+				else
+				{
+					$frm = $("#frm-user-delete");
+					column_name = ".table-column-username";
+				}
+								
 				$frm.find("input[name=id]").val(id); // populate id
-				$frm.find("p strong").append(" " + $this.parents("tr").find(".table-column-title").text()); // populate label
+				$frm.find("p strong").append(" " + $this.parents("tr").find(column_name).text()); // populate label
 			}
 			
 			return false;
