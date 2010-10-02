@@ -129,7 +129,7 @@ function peeq()
 			
 			var not_authorized = function(url)
 			{
-				window.location = url || "http://yss.com/sign-up.php";
+				//window.location = url || "http://yss.com/sign-up.php";
 				return true;
 			};
 			
@@ -143,7 +143,8 @@ function peeq()
 				var page = get_page_info("project");
 				
 				peeq.api.request("/handler", {"service": "project"}, "get", function(data) {
-					verify_authorization(data);
+					console.log(data);
+					//verify_authorization(data);
 					context.title("");
 					var data = data.result || {};
 /*

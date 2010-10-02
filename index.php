@@ -1,15 +1,13 @@
 <?php require 'application/system/YSSEnvironment.php'; ?>
 <?
-$sfw = 0;
-
-$peeq = "peeq";
-
-if(!$sfw)
+if(isset($_SESSION['YSS']))
 {
-	$peeq = "****";
+	$current_user = $_SESSION['YSS']['currentUser'];
 }
-
-$current_user = $_SESSION['YSS']['currentUser'];
+else
+{
+//	header("Location: /sign-up.php");
+}
 ?>
 
 <!DOCTYPE HTML>
@@ -17,7 +15,7 @@ $current_user = $_SESSION['YSS']['currentUser'];
 <html>
 <head>
 	<meta charset="utf-8">
-	<title><?=$peeq?></title>
+	<title>peeq</title>
 	<meta name="description" content="about peeq">
 	<meta name="author" content="peeq">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
@@ -32,7 +30,7 @@ $current_user = $_SESSION['YSS']['currentUser'];
 	</div>
 	<div id="container">
 		<header>
-			<a class="peeq" href="/"><?if($sfw):?><img src="resources/imgs/peeq.png" alt="peeq" /><?endif;?></a>
+			<a class="peeq" href="/"><img src="resources/imgs/peeq.png" alt="peeq" /></a>
 			<a class="btn btn-back" href="#">Back to Details</a>
 			<section>
 				<h1 class="username">G'day <a href="#/settings"><?=$current_user->firstname?></a></h1>
@@ -58,7 +56,7 @@ $current_user = $_SESSION['YSS']['currentUser'];
 	</div>
 	<footer>
 		<section class="wrap">
-			<p>Copyright &copy; 2010 <a href="/" class="peeq"><?=$peeq?></a>. All rights reserved.</p>
+			<p>Copyright &copy; 2010 <a href="/" class="peeq">peeq</a>. All rights reserved.</p>
 			<nav>
 				<ul>
 					<li><a href="#">Twitter</a> |</li>

@@ -53,8 +53,7 @@ function peeq()
 				{
 					elt: "input[name=password_verify]",
 					rule: "match",
-					matching_field: "input[name=password]",
-					checkevent: "blur"
+					matching_field: "input[name=password]"
 				},
 				{
 					elt: "input[name=company]",
@@ -65,7 +64,7 @@ function peeq()
 					rule: /^[a-zA-Z0-9-]+$/
 				}
 			],
-			checkevent: "keyup",
+			checkevent: "submit",
 			onerror: function(evt, $elt)
 			{
 				var data = $("#frm-sign-up").data("validation");
@@ -75,20 +74,37 @@ function peeq()
 				}
 				return true;
 			}
-		}).find("input[name=password]").keypress(function() {
+		})
+		/*.find("input[name=password]").keypress(function() {
 			 // clear matching password if changing password and matching password has already been entered 
 			var $password_match = $(this).parents("form").find("input[name=password_verify]");
 			if($password_match.val().length)
 			{
 				$password_match.val("").removeClass("success error");
 			}
-		}).end().bind("complete.validate", function(evt, is_valid) {			
+		}).end()*/
+		.bind("complete.validate", function(evt, is_valid) {			
 			//console.log(is_valid)
 			if(is_valid)
 			{
-				console.log($("#frm-sign-up").serialize());
 				$.post("/api/account/register", $("#frm-sign-up").serialize(), function(response) {
-					console.log(response);
+					response = $.parseJSON(response);
+					if(response.ok)
+					{
+						// success
+					}
+					else
+					{
+						if(response.errors)
+						{					
+							for(var i = 0, len = response.errors.length, $field; i < len; i++)
+							{
+								$field = $("#frm-sign-up").find("input[name=" + response.errors[i].key + "]").parents(".field");
+								$field.find(".icon-success").hide();
+								$field.find(".icon-error").html(response.errors[i].message).show();
+							}
+						}
+					}
 				});
 			}
 		}).find(".btn-signup").click(function() {			

@@ -13,13 +13,13 @@ $response = array("ok" => true);
 
 $domain_info = get_domain_info($host, $domain);
 
-if($domain_info->ok)
+//if($domain_info->ok)
 {
 	switch($service)
 	{
 		case "project":
 			$response["result"] = array("projects" => json_decode(file_get_contents("$host/api/projects")),
-										"account" => $domain_info->company);
+										"account" => 'blitz'); //$domain_info->company);
 			break;
 		
 		case "view":
@@ -47,11 +47,12 @@ if($domain_info->ok)
 			break;
 	}
 }
+/*
 else
 {
 	$response["ok"] = false;
 }
-
+*/
 //print_r($response);
 echo json_encode($response);
 
