@@ -11,7 +11,7 @@
  Target Server Version : 50085
  File Encoding         : iso-8859-1
 
- Date: 06/27/2010 20:31:23 PM
+ Date: 10/02/2010 11:57:27 AM
 */
 
 SET NAMES latin1;
@@ -26,8 +26,9 @@ CREATE TABLE `company` (
   `name` varchar(255) NOT NULL,
   `domain` varchar(255) NOT NULL,
   `timestamp` char(24) NOT NULL,
+  `logo` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `company_user`
@@ -54,7 +55,7 @@ CREATE TABLE `user` (
   `active` int(1) NOT NULL,
   `timestamp` char(24) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `user_verification`
@@ -67,5 +68,5 @@ CREATE TABLE `user_verification` (
   `user_id` int(11) NOT NULL,
   `timestamp` char(24) NOT NULL,
   PRIMARY KEY  (`id`,`token`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
