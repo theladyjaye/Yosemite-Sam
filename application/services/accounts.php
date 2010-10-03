@@ -251,10 +251,10 @@ class YSSServiceDefault extends YSSService
 					$context = array(AMForm::kDataKey=>$data);
 					$input   = AMForm::formWithContext($context);
 					
-					$input->addValidator(new AMPatternValidator('firstname', AMValidator::kOptional, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
-					$input->addValidator(new AMPatternValidator('lastname', AMValidator::kOptional, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
-					$input->addValidator(new AMPatternValidator('username', AMValidator::kOptional, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
-					$input->addValidator(new AMEmailValidator('email', AMValidator::kOptional, 'Invalid email address'));
+					$input->addValidator(new AMPatternValidator('firstname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+					$input->addValidator(new AMPatternValidator('lastname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+					$input->addValidator(new AMPatternValidator('username', AMValidator::kRequired, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
+					$input->addValidator(new AMEmailValidator('email', AMValidator::kRequired, 'Invalid email address'));
 					
 					if($input->password)
 					{
@@ -301,6 +301,10 @@ class YSSServiceDefault extends YSSService
 							$user = $user->save();
 						
 							$response->ok   = true;
+							
+							// remove password, active, and timestamp from user
+							unset($user->password, $user->active, $user->timestamp);
+														
 							$response->user = $user;
 						}
 						else
@@ -527,6 +531,10 @@ class YSSServiceDefault extends YSSService
 	
 	public function login()
 	{
+		// Similiar to resetPassword for error handling
+		// no need to let people know what the real domains / accounts and emails are.
+		// return {ok:true} or {ok:false}
+		
 		$response     = new stdClass();
 		$response->ok = false;
 		
@@ -606,7 +614,7 @@ class YSSServiceDefault extends YSSService
 			{
 				$input->addValidator(new AMErrorValidator('username', "Invalid account."));
 				$input->addValidator(new AMErrorValidator('password', "Invalid account."));
-				$this->hydrateErrors($input, $response);
+				//$this->hydrateErrors($input, $response);
 			}
 			else
 			{
@@ -628,7 +636,7 @@ class YSSServiceDefault extends YSSService
 		}
 		else
 		{
-			$this->hydrateErrors($input, $response);
+			//$this->hydrateErrors($input, $response);
 		}
 		
 		echo json_encode($response);

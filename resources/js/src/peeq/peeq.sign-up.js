@@ -12,7 +12,20 @@ function peeq()
 			$(this).parent().removeClass("focus");
 		}).parent().find(".domain").click(function() {
 			$(this).parent().find("input").focus();
-		})
+		});
+		
+		// forgot password / sign-in toggle
+		$(".btn-forgot-password").click(function() {
+			$("#forgot-password-container").show();
+			$("#sign-in-container").hide();
+			$("#frm-forgot-password input[name=domain]").focus();
+		});
+		
+		$(".btn-sign-in-form").click(function() {
+			$("#forgot-password-container").hide();
+			$("#sign-in-container").show();
+			$("#frm-sign-in input[name=domain]").focus();
+		});
 	};
 	
 	var transition_in = function() 
@@ -99,7 +112,7 @@ function peeq()
 						{					
 							for(var i = 0, len = response.errors.length, $field; i < len; i++)
 							{
-								$field = $("#frm-sign-up").find("input[name=" + response.errors[i].key + "]").parents(".field");
+								$field = $("#frm-sign-up").find("input[name=" + response.errors[i].key + "]").parents("li");
 								$field.find(".icon-success").hide();
 								$field.find(".icon-error").html(response.errors[i].message).show();
 							}
@@ -120,7 +133,6 @@ function peeq()
 				$error_msg = $frm.find(".error-message");
 			
 			$.post("/api/account/login", $frm.serialize(), function(response) {
-				console.log(response);
 				if(response.ok)
 				{
 					// success
@@ -130,12 +142,35 @@ function peeq()
 				}
 				else 
 				{
-					// fail
-					$error_msg.html(response.error);
+					// error
 					$error_msg.css({"visibility": "visible"});					
 				}
 			});
 			
+			return false;
+		});
+	}
+	
+	var forgotpassword_validation = function() 
+	{
+		$("#frm-forgot-password .btn-reset-password").click(function() {
+			var $frm = $("#frm-forgot-password"),
+				domain = $frm.find("input[name=domain]").val(),
+				email = $frm.find("input[name=email]").val();
+				
+			if(domain && email)
+			{			
+				$.post("/api/account/" + domain + "/users/reset/" + email, $frm.serialize(), function(response) {
+					// proceed
+					$(".btn-sign-in-form").click();
+					$(".msg-password-sent").css({"visibility": "visible"});
+				
+					var timer = setTimeout(function() {
+						$(".msg-password-sent").css({"visibility": "hidden"});
+						clearTimeout(timer);
+					}, 3000);
+				});
+			}
 			return false;
 		});
 	}
@@ -157,6 +192,9 @@ function peeq()
 		
 		// setup sign in validation
 		signin_validation();	
+		
+		// setup forgot password validation
+		forgotpassword_validation();
 		
 	};
 };

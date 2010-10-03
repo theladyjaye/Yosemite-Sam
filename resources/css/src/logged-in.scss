@@ -99,7 +99,7 @@
 		.settings .table-users .table-column-username {width: 125px;}
 		.settings .table-users .table-column-email {width: 165px;}
 		.settings .table-users .table-column-admin {width: 95px;}
-		.settings .table-users .table-column-edit {width: 25px;}
+		.settings .table-users .table-column-edit {width: 35px;}
 		
 	.settings .account-actions {
 		h3 {font-size: 18px;}
@@ -107,6 +107,10 @@
 			&:hover {color: $color_light_red;}
 		}
 	}
+
+	.modal .chk-admin,	
+	.modal .msg-admin {display: none;}
+
 	// END SETTINGS SPECIFIC
 
 	

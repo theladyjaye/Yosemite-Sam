@@ -4,8 +4,8 @@
 	.column-body h2 {font-size: 36px; letter-spacing: -2px; font-weight: normal; margin-top: 10px;}
 	.column-body h2:first-child {margin-top: 0;}
 	.column-body h3 {font-size: 28px; letter-spacing: -1px; font-weight: normal;}
-	#frm-sign-up {margin-top: 30px;
-			& .icon-error {width: auto;}
+	#frm-sign-up, #frm-forgot-password {margin-top: 30px;
+			& .icon-error {width: auto; font-size: 14px; letter-spacing: 0;}
 		}
 		form .btn {margin-top: 30px;}
 		
@@ -14,4 +14,6 @@
 	}
 	
 	#forgot-password-container {display: none;}
+	.btn-sign-in-form {font-style: italic;}
+	.msg-password-sent {position: absolute; font-weight: bold; margin-top: 15px; background: $color_light_pink; color: #fff; padding: 5px; width: 276px; @include corner();}
 	

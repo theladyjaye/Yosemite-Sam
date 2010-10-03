@@ -383,24 +383,212 @@ peeq.prototype.forms =
 	},
 	user:
 	{
-		add: function(id)
+		validate_add: function(id)
 		{
-			var $frm = $("#" + id);
+			var $form = $("#" + id);
 			
-			peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users", $frm.serialize(), "POST", function(response) {
-			
-				if(response.ok)
+			$form.one("complete.validate", function(evt, is_valid) {				
+				if(is_valid)
 				{
-					// add row
-					var $row = $("<tr />").appendTo(".table-users tbody");
-										
-					// update row
-					peeq.forms.user.update_row_in_table($row, response.user);
-					
-					// hide modal
-					$(".modal").jqmHide();
+						peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users", $form.serialize(), "POST", function(response) {
+
+						if(response.ok)
+						{
+							// user needs to verify before we can add them
+							
+							
+							// add row
+							//var $row = $("<tr />").appendTo(".table-users tbody");
+
+							// update row
+							//peeq.forms.user.update_row_in_table($row, response.user, response.user.username);
+
+							// hide modal
+							$(".modal").jqmHide();							
+						}
+						else
+						{
+							if(response.errors)
+							{					
+								for(var i = 0, len = response.errors.length, $field; i < len; i++)
+								{
+									$field = $form.find("input[name=" + response.errors[i].key + "]").parents("li");
+									$field.find(".icon-success").hide();
+									$field.find(".icon-error").html(response.errors[i].message).show();
+								}
+							}
+						}
+					});
 				}
 			});
+			
+			if(!$form.data("validation")) // setup validation b/c not set up yet
+			{
+				$form.validation({
+					"rules": [
+						{
+							elt: "input[name=firstname]",
+							rule: /^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 2 characters.")
+							}
+						},	
+						{
+							elt: "input[name=lastname]",
+							rule: /^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 2 characters.")
+							}
+						},				
+						{
+							elt: "input[name=email]",
+							rule: $.validation.EMAIL,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Invalid email address.")
+							}
+						},
+						{
+							elt: "input[name=username]",
+							rule: /^[\w\d]{4,}$/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 4 characters.")
+							}
+						}
+					]
+				});
+			}
+			
+			$form.trigger("validate");	
+		},
+		validate_edit: function(id, username)
+		{
+			var $form = $("#" + id);
+			
+			$form.one("complete.validate", function(evt, is_valid) {				
+				if(is_valid)
+				{
+					peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users/" + username, $form.serialize(), "POST", function(response) {
+
+						if(response.ok)
+						{
+							var $row = $(".table-users").find(".username-" + username);
+
+							// update row
+							peeq.forms.user.update_row_in_table($row, response.user, username);
+
+							// hide modal
+							$(".modal").jqmHide();
+						}
+						else
+						{
+							if(response.errors)
+							{					
+								for(var i = 0, len = response.errors.length, $field; i < len; i++)
+								{
+									$field = $form.find("input[name=" + response.errors[i].key + "]").parents("li");
+									$field.find(".icon-success").hide();
+									$field.find(".icon-error").html(response.errors[i].message).show();
+								}
+							}
+						}
+					});
+				}
+			});
+			
+			if(!$form.data("validation")) // setup validation b/c not set up yet
+			{
+				$form.validation({
+					"rules": [
+						{
+							elt: "input[name=firstname]",
+							rule: /^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 2 characters.")
+							}
+						},	
+						{
+							elt: "input[name=lastname]",
+							rule: /^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 2 characters.")
+							}
+						},				
+						{
+							elt: "input[name=email]",
+							rule: $.validation.EMAIL,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Invalid email address.")
+							}
+						},
+						{
+							elt: "input[name=username]",
+							rule: /^[\w\d]{4,}$/,
+							onerror: function(evt, $elt)
+							{
+								$elt.parent().find(".icon-error").text("Must be at least 4 characters.")
+							}
+						}
+					]
+				});
+			}
+			
+			$form.trigger("validate");	
+		},
+		validate_company_logo: function(id)
+		{
+			var $form = $("#" + id);
+			
+			$form.one("complete.validate", function(evt, is_valid) {				
+				if(is_valid)
+				{
+					peeq.api.request("/account/" + peeq.utils.get_subdomain(), $form, "POST", function(response) {
+						console.log(response);
+						if(response.ok)
+						{
+							//document.location.reload(true);
+
+							// peeq.forms.utils.reset($form);
+						}
+					}, true);
+				}
+			});
+			
+			if(!$form.data("validation")) // setup validation b/c not set up yet
+			{
+				$form.validation({
+					"rules": [
+						{
+							elt: "input[name=attachment]",
+							rule: /\.(jpg)$/,
+							onerror: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").text("jpg only").show();
+								$field.find(".icon-success").hide();
+							},
+							onsuccess: function(evt, $elt)
+							{
+								var $field = $elt.parents(".field");
+								$field.find(".icon-error").hide();
+								$field.find(".icon-success").show();
+							}
+						}
+					]
+				});
+			}
+			
+			$form.trigger("validate");
+		},
+		add: function(id)
+		{
+			peeq.forms.user.validate_add(id);		
 		},
 		edit: function(id)
 		{
@@ -410,19 +598,7 @@ peeq.prototype.forms =
 			// clear original
 			$frm.find("input[name=username]").data("original", "");
 			
-			peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users/" + username, $frm.serialize(), "POST", function(response) {
-				
-				if(response.ok)
-				{
-					var $row = $(".table-users").find(".username-" + username);
-					
-					// update row
-					peeq.forms.user.update_row_in_table($row, response.user);
-					
-					// hide modal
-					$(".modal").jqmHide();
-				}
-			});
+			peeq.forms.user.validate_edit(id, username);
 		}, 
 		remove: function(id)
 		{
@@ -450,7 +626,11 @@ peeq.prototype.forms =
 				}
 			});
 		},
-		update_row_in_table: function($row, user)
+		updatecompanylogo: function(id)
+		{
+			peeq.forms.user.validate_company_logo(id);	
+		},
+		update_row_in_table: function($row, user, username)
 		{		
 			// update row
 			$row.removeClass("username-" + username).addClass("username-" + username);

@@ -48,7 +48,7 @@
 					<span></span>
 					<img src="resources/imgs/fpo-company.jpg" alt="" />
 				</div>
-				<a class="btn-update-image right btn-modal modal-view-update-attachment" href="#">Update company image</a>
+				<a class="btn-update-image right btn-modal modal-view-updatecompanylogo-user" href="#">Update company image</a>
 				<hr class="thick" />
 				<div class="company-meta">
 					<p class="company"><%=account.name%></p>
@@ -151,10 +151,10 @@
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
-					<input type="checkbox" name="admin" />
-					<label for="admin">Admin</label>
-					<span class="icon icon-success"></span>
-					<span class="icon icon-error"></span>
+					<input type="checkbox" name="admin" class="chk-admin" />
+					<span class="msg-admin">This user is an admin.</span>
+					<span class="msg-user">This user is not an admin.</span>
+					<a href="#" class="btn-admin-change">Change this.</a>
 				</li>
 			</ul>
 			<a href="#" class="btn btn-submit left clearboth">Save</a>
@@ -199,15 +199,15 @@
 	</section>
 </section>
 
-<section class="modal modal-view-update-attachment">
+<section class="modal modal-view-updatecompanylogo-user">
 	<section>
 		<h2 class="add">Update Image</h2>
 		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-attachment-update" action="" method="post" target="iframe-ajax-on-demand" enctype="multipart/form-data">
+		<form id="frm-user-updatecompanylogo" action="" method="post" target="iframe-ajax-on-demand" enctype="multipart/form-data">
 			<ul>
 				<li class="field">								
 					<input type="file" name="attachment" />
-					<label for="label">New company image (max: 290 x 138, jpg only)</label>
+					<label for="label">New company image (max: 290 x 138)</label>
 					<span class="icon icon-success"></span>
 					<span class="icon icon-error"></span>
 				</li>

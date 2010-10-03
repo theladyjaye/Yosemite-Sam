@@ -129,7 +129,7 @@ function peeq()
 			
 			var not_authorized = function(url)
 			{
-				//window.location = url || "http://yss.com/sign-up.php";
+				window.location = url || "http://yss.com/sign-up.php";
 				return true;
 			};
 			
@@ -143,13 +143,9 @@ function peeq()
 				var page = get_page_info("project");
 				
 				peeq.api.request("/handler", {"service": "project"}, "get", function(data) {
-					console.log(data);
-					//verify_authorization(data);
+					verify_authorization(data);
 					context.title("");
 					var data = data.result || {};
-/*
-					peeq.api.request("/account/domain", {}, "get", function(account) { console.log(account) });
-					*/
 					/*
 					// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
 					if(!peeq.is_online)
@@ -458,6 +454,31 @@ function peeq()
 								$modal.find("input[name=username]").val(username).data("original", username);
 								$modal.find("input[name=email]").val(email);
 								$modal.find("input[name=admin]").attr("checked", is_admin ? "checked" : "");
+								// setup admin change button
+								$modal.find(".btn-admin-change").click().click();
+							});
+							
+							// toggle admin privileges
+							$(".btn-admin-change").click(function() {
+								var $li = $(this).parents("li"),
+									$msg_admin = $li.find(".msg-admin"),
+									$msg_user = $li.find(".msg-user"),
+									$chkbox = $li.find("input[name=admin]");
+									
+								if($chkbox.is(":checked")) // is admin
+								{
+									$msg_admin.hide();
+									$msg_user.show();
+									$chkbox.attr("checked", "");
+								}
+								else
+								{
+									$msg_admin.show();
+									$msg_user.hide();
+									$chkbox.attr("checked", "checked");
+								}
+																
+								return false;
 							});
 						});
 					});

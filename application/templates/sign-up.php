@@ -87,6 +87,7 @@
 					<h3>Already have an account?</h3>
 					<form id="frm-sign-in" action="" method="post">
 						<p class="icon icon-error error-message invisible">Invalid Credientials</p>
+						<p class="invisible msg-password-sent">Password Sent!</p>
 						<ul>
 							<li class="field">
 								<input type="text" name="domain" />
@@ -99,7 +100,7 @@
 							<li class="field">
 								<input type="password" name="password" />
 								<label for="password">Password</label>
-								<a href="#" class="forgot-password incomplete">forgot password</a>
+								<a href="#" class="btn-forgot-password forgot-password incomplete">forgot password?</a>
 							</li>
 						</ul>	
 						<a href="#" class="btn btn-sign-in left">Login</a>				
@@ -107,16 +108,16 @@
 				</div>
 				<div id="forgot-password-container">	    	
 					<h3>Forgot Password</h3>
+					<a href="#" class="btn-sign-in-form incomplete">Nevermind, I remember.</a>
 					<form id="frm-forgot-password" action="" method="post">
-						<p class="icon icon-error error-message invisible">Invalid Credientials</p>
 						<ul>
 							<li class="field">
 								<input type="text" name="domain" />
 								<label for="domain">Domain</label>
 							</li>
 							<li class="field">
-								<input type="email" name="username" />
-								<label for="username">Username/Email</label>
+								<input type="email" name="email" />
+								<label for="username">Email</label>
 							</li>
 						</ul>	
 						<a href="#" class="btn btn-reset-password left">Reset Password</a>				

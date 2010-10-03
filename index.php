@@ -6,10 +6,9 @@ if(isset($_SESSION['YSS']))
 }
 else
 {
-//	header("Location: /sign-up.php");
+	header("Location: /sign-up.php");
 }
 ?>
-
 <!DOCTYPE HTML>
 <? //<html manifest="peeq.cache">?>
 <html>
