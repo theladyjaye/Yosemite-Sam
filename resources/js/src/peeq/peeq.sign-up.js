@@ -197,8 +197,15 @@ function peeq()
 		// register events
 		register_events();
 		
-		// first sign up field gets focus
-		$("input:eq(0)").focus();
+		if(document.location.hash == "#login") // if deeplink to login then give focus to sign in form
+		{
+			$("#frm-sign-in").find("input:eq(0)").focus();
+		}
+		else
+		{
+			// first sign up field gets focus
+			$("input:eq(0)").focus();
+		}
 		
 		// setup sign up validation
 		signup_validation();

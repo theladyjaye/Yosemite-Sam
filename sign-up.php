@@ -35,9 +35,6 @@
 			<?php include('application/templates/sign-up.php');?>
 		</article>
 	</div>
-	<div id="network-connectivity">
-		<p class="icon icon-offline" title="You are offline"></p>
-	</div>
 	<footer>
 		<section class="wrap">
 			<p>Copyright &copy; 2010 <a href="/" class="peeq">peeq</a>. All rights reserved.</p>
