@@ -4,7 +4,7 @@ form {}
 	form li li {clear: none; width: 190px;}
 		form .field-domain div,
 		.field input,
-		.field textarea {position: relative; z-index: 2; background: transparent; @include boxshadow(rgba(0, 0, 1, 0.2), 0, 0, 3px, inset); @include corner(); font-size: 28px; color: $color_dark_gray; width: 351px; height: 38px; float: left; padding: 5px; letter-spacing: -1px; border: 1px solid rgba(0, 0, 0, 0.1); outline: none; @include transition(all, 0.15s, ease-out)}
+		.field textarea {position: relative; z-index: 2; background: transparent; @include boxshadow(rgba(0, 0, 1, 0.2), 0, 0, 3px, inset); @include corner(); font-size: 22px; color: $color_dark_gray; width: 351px; height: 38px; float: left; padding: 5px; letter-spacing: -1px; border: 1px solid rgba(0, 0, 0, 0.1); outline: none; @include transition(all, 0.15s, ease-out)}
 		.field textarea {height: 200px; font: 18px "Calibri","Lucida Sans",Helvetica,Arial,sans-serif;}
 		.field input.file {margin-right: 10px; width: 260px;}
 		.field input[type=file] {cursor: pointer;}

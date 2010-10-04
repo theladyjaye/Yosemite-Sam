@@ -231,6 +231,11 @@
 	<section>
 		<h2>Delete Attachment</h2>
 		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-attachment-delete" action="" method="post" />
+		<form id="frm-attachment-delete" action="" method="post">	
+			<p><span class="important">Important</span>:  Are you 100% positive you want to delete <strong></strong>?  There is no undo.</p>
+			<input type="hidden" name="id" value="" />		
+			<a href="#" class="btn btn-delete btn-submit left">Yes, delete.</a>
+			<a href="#" class="btn btn-modal-cancel left">Cancel</a>
+		</form>
 	</section>
 </section>

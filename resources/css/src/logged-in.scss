@@ -100,17 +100,27 @@
 		.settings .table-users .table-column-email {width: 165px;}
 		.settings .table-users .table-column-admin {width: 95px;}
 		.settings .table-users .table-column-edit {width: 35px;}
+		.settings .table-users .user-me {color: $color_light_pink;}
+		.settings .table-users .btn-edit {cursor: pointer;}
+		
+	// remove hover states
+	.settings .table-sortable tbody tr {height: 21px; padding: 2px 3px; font-size: 16px; line-height: 21px; cursor: default; @include transition(all, 0.15s, ease-out); @include corner(); display: block; width: 100%; background: $color_light_white;
+		&:hover {background: $color_light_white; border-color: $color_light_white; color: $color_dark_gray;}
+		&:nth-child(even):hover {background: #fff; color: $color_dark_gray;}
+	}
 		
 	.settings .account-actions {
 		h3 {font-size: 18px;}
 		.btn-delete-account {color: $color_dark_red; margin: 10px 0 0 0; float: left;
 			&:hover {color: $color_light_red;}
 		}
+		
+		.msg {font-weight: bold; background: $color_light_pink; color: #fff; padding: 5px 10px; @include corner(); display: none;}
 	}
 
 	.modal .chk-admin,	
 	.modal .msg-admin {display: none;}
-
+	
 	// END SETTINGS SPECIFIC
 
 	
@@ -142,7 +152,8 @@
 	.wide + .sidebar {display: none;}
 			.sidebar .company-logo {height: 138px; width: 290px; background: $color_light_white; display: table-cell; text-align: center; vertical-align: middle;}
 				.sidebar .company-logo * {vertical-align: middle;}
-				.sidebar .company-logo span {display: inline-block; height: 100%; width: 1px;}
+//				.sidebar .company-logo span {display: inline-block; height: 100%; width: 1px;}
+				.sidebar .company-logo img {max-width: 290px; max-height: 138px;}
 			
 			.sidebar .company-meta {}
 				.sidebar .company-meta .company {font-size: 26px; font-weight: bold; line-height: 26px;}

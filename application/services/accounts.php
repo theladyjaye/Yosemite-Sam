@@ -251,11 +251,9 @@ class YSSServiceDefault extends YSSService
 					$context = array(AMForm::kDataKey=>$data);
 					$input   = AMForm::formWithContext($context);
 					
-					$input->addValidator(new AMPatternValidator('firstname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
-					$input->addValidator(new AMPatternValidator('lastname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
-					$input->addValidator(new AMPatternValidator('username', AMValidator::kRequired, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
-					$input->addValidator(new AMEmailValidator('email', AMValidator::kRequired, 'Invalid email address'));
 					
+					// if password is passed in then the user is trying to change their password
+					// otherwise the user is editing their information		
 					if($input->password)
 					{
 						// only the owner can change the password
@@ -269,6 +267,13 @@ class YSSServiceDefault extends YSSService
 							$dirty = true;
 							$this->message = "unable to change password";
 						}
+					}
+					else
+					{
+						$input->addValidator(new AMPatternValidator('firstname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+						$input->addValidator(new AMPatternValidator('lastname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+						$input->addValidator(new AMPatternValidator('username', AMValidator::kRequired, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
+						$input->addValidator(new AMEmailValidator('email', AMValidator::kRequired, 'Invalid email address'));
 					}
 					
 					
@@ -456,7 +461,11 @@ class YSSServiceDefault extends YSSService
 					$users = $company->getUsers();
 				
 					foreach($users as $user)
+					{	
+						// identify current logged in user by username				
+						$user['is_current_user'] = ($user['username'] == $session->currentUser->username);											
 						$response->users[] = $user;
+					}					
 				}
 				else
 				{
@@ -498,7 +507,8 @@ class YSSServiceDefault extends YSSService
 					                           "timestamp" 			=> $company->timestamp,
 					                           "users"     			=> $company->users,
 					                           "logo"               => $company->logo,
-											   "current_username" 	=> $session->currentUser->username);
+											   "current_username" 	=> $session->currentUser->username,
+											   "user_level"			=> $session->currentUser->level);
 				}
 				else
 				{

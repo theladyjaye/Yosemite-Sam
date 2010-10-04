@@ -548,12 +548,10 @@ peeq.prototype.forms =
 			$form.one("complete.validate", function(evt, is_valid) {				
 				if(is_valid)
 				{
-					peeq.api.request("/account/" + peeq.utils.get_subdomain(), $form, "POST", function(response) {
-						console.log(response);
+					peeq.api.request("/account/" + peeq.utils.get_subdomain(), $form, "POST", function(response) {						
 						if(response.ok)
 						{
-							//document.location.reload(true);
-
+							document.location.reload(true);
 							// peeq.forms.utils.reset($form);
 						}
 					}, true);
@@ -565,7 +563,7 @@ peeq.prototype.forms =
 				$form.validation({
 					"rules": [
 						{
-							elt: "input[name=attachment]",
+							elt: "input[name=logo]",
 							rule: /\.(jpg)$/,
 							onerror: function(evt, $elt)
 							{
@@ -621,9 +619,10 @@ peeq.prototype.forms =
 			peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users/" + username, $form.serialize(), "POST", function(response) {
 				if(response.ok)
 				{
-					// hide modal
-					$(".modal").jqmHide();
+					$(".settings").find(".msg-password-changed").fadeIn().delay(5000).fadeOut();
 				}
+				// hide modal
+				$(".modal").jqmHide();
 			});
 		},
 		updatecompanylogo: function(id)

@@ -88,6 +88,7 @@ else
 	<script src="resources/js/src/jquery/plugins/jqueryui.selectmenu.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.numeric.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.validation.js"></script>
+	<script src="resources/js/src/jquery/plugins/jquery.lastfieldentersubmit.js"></script>
 	<script src="resources/js/src/sammy/sammy.min.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.cache.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.json.js"></script>

@@ -354,7 +354,8 @@ function peeq()
 						
 							$("#table-annotations-container").find(".table-sortable").tablesorter({
 								"cssAsc": "icon-sort-asc",
-								"cssDesc": "icon-sort-desc"
+								"cssDesc": "icon-sort-desc",
+								"sortList": [[0,1]] /* sort on priority */								
 							});
 						
 							// clicking on tr fire annotation in preview's click event (deeplinking into annotation)
@@ -434,52 +435,64 @@ function peeq()
 			
 							$(".settings").find(".table-sortable").tablesorter({
 								"cssAsc": "icon-sort-asc",
-								"cssDesc": "icon-sort-desc"
+								"cssDesc": "icon-sort-desc",
+								"sortList": [[0,0]] /* sort on last name */
 							});
 							
-							$(".table-users").find(".btn-edit").click(function() {
-								// get fields
-								var $row = $(this).parents("tr"),
-									ary_name = $row.find(".table-column-name").text().split(","),
-									first_name = $.trim(ary_name[1]),
-									last_name = $.trim(ary_name[0]),
-									username = $row.find(".table-column-username").text(),
-									email = $row.find(".table-column-email").text(),
-									is_admin = $row.find(".table-column-admin").text().length,
-									$modal = $(".modal-view-edit-user");
+							// bind events for admin users
+							if(peeq.utils.template.user.is_admin(data.result.account.user_level))
+							{
+								/* // clicking on user allows you to edit user	
+								$(".table-users").find("tbody tr").click(function() {
+									$(this).find(".btn-edit").click();
+									return false;
+								});
+								*/
 								
-								// populate modal with fields
-								$modal.find("input[name=firstname]").val(first_name);
-								$modal.find("input[name=lastname]").val(last_name);
-								$modal.find("input[name=username]").val(username).data("original", username);
-								$modal.find("input[name=email]").val(email);
-								$modal.find("input[name=admin]").attr("checked", is_admin ? "checked" : "");
-								// setup admin change button
-								$modal.find(".btn-admin-change").click().click();
-							});
+								$(".table-users").find(".btn-edit").click(function() {
+									// get fields
+									var $row = $(this).parents("tr"),
+										ary_name = $row.find(".table-column-name").text().split(","),
+										first_name = $.trim(ary_name[1]),
+										last_name = $.trim(ary_name[0]),
+										username = $row.find(".table-column-username").text(),
+										email = $row.find(".table-column-email").text(),
+										is_admin = $row.find(".table-column-admin").text().length,
+										$modal = $(".modal-view-edit-user");
+								
+									// populate modal with fields
+									$modal.find("input[name=firstname]").val(first_name);
+									$modal.find("input[name=lastname]").val(last_name);
+									$modal.find("input[name=username]").val(username).data("original", username);
+									$modal.find("input[name=email]").val(email);
+									$modal.find("input[name=admin]").attr("checked", is_admin ? "checked" : "");
+									// setup admin change button
+									$modal.find(".btn-admin-change").click().click();
+								});
 							
-							// toggle admin privileges
-							$(".btn-admin-change").click(function() {
-								var $li = $(this).parents("li"),
-									$msg_admin = $li.find(".msg-admin"),
-									$msg_user = $li.find(".msg-user"),
-									$chkbox = $li.find("input[name=admin]");
+								// toggle admin privileges
+								$(".btn-admin-change").click(function() {
+									var $li = $(this).parents("li"),
+										$msg_admin = $li.find(".msg-admin"),
+										$msg_user = $li.find(".msg-user"),
+										$chkbox = $li.find("input[name=admin]");
 									
-								if($chkbox.is(":checked")) // is admin
-								{
-									$msg_admin.hide();
-									$msg_user.show();
-									$chkbox.attr("checked", "");
-								}
-								else
-								{
-									$msg_admin.show();
-									$msg_user.hide();
-									$chkbox.attr("checked", "checked");
-								}
+									if($chkbox.is(":checked")) // is admin
+									{
+										$msg_admin.hide();
+										$msg_user.show();
+										$chkbox.attr("checked", "");
+									}
+									else
+									{
+										$msg_admin.show();
+										$msg_user.hide();
+										$chkbox.attr("checked", "checked");
+									}
 																
-								return false;
-							});
+									return false;
+								});
+							}
 						});
 					});
 				});
@@ -623,7 +636,8 @@ function peeq()
 				// redirect 
 				document.location.href = "http://yss.com";
 			});
-		})
+		});
+	
 	};
 	
 	// setup modals
@@ -656,7 +670,11 @@ function peeq()
 					$(this).remove();
 				});
 			}
-		});	
+		}).find("form").lastfieldentersubmit({ // whenever a user presses enter in the last input field of the form it will fire .btn-submit (submitting the form) 
+			submit: function($frm) {
+				$frm.find(".btn-submit").click();
+			}
+		});
 		
 		$(".btn-modal").click(function() {
 			$(".modal"+ get_modal_view(this)).jqmShow();

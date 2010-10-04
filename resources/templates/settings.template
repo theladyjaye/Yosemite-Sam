@@ -4,9 +4,11 @@
 			<a class="btn btn-back" href="/">
 				Back to Projects
 			</a>
+			<%if(peeq.utils.template.user.is_admin(account.user_level)) {%>
 			<a class="btn right btn-add btn-modal modal-view-add-user" href="#">
 				Add User
 			</a>
+			<%}%>
 		</nav>
 		<section class="column-body">	
 			<table class="table-sortable table-users">
@@ -27,12 +29,12 @@
 							user = users[i];
 					%>
 					<tr class="username-<%=user.username%>">
-						<td class="table-column-name"><%=user.lastname%>, <%=user.firstname%></td>
+						<td class="table-column-name"><%=user.lastname%>, <%=user.firstname%> <%if(user.is_current_user) {%><span class="user-me">(ME)</span><%}%></td>
 						<td class="table-column-username"><%=user.username%></td>
 						<td class="table-column-email"><%=user.email%></td>
-						<td class="table-column-admin"><%if(user.level >= 7) {%><span class="icon icon-success ir">admin</span><%}%></td>
-						<td class="table-column-edit"><span class="icon icon-pencil btn-modal modal-view-edit-user btn-edit"></span></td>
-						<td class="table-column-delete"><a href="#<%=user.username%>" class="icon icon-trash btn-modal modal-view-delete-user btn-delete ir">delete</a></td>
+						<td class="table-column-admin"><%if(peeq.utils.template.user.is_admin(user.level)) {%><span class="icon icon-success ir">admin</span><%}%></td>
+						<td class="table-column-edit"><%if(peeq.utils.template.user.is_admin(account.user_level)) {%><span class="icon icon-pencil btn-modal modal-view-edit-user btn-edit"></span><%}%></td>
+						<td class="table-column-delete"><%if(peeq.utils.template.user.is_admin(account.user_level) && !user.is_current_user) {%><a href="#<%=user.username%>" class="icon icon-trash btn-modal modal-view-delete-user btn-delete ir">delete</a><%}%></td>
 					</tr>
 					<%	}	%>
 				</tbody>
@@ -46,9 +48,11 @@
 			<div class="column-body-inner">
 				<div class="company-logo">
 					<span></span>
-					<img src="resources/imgs/fpo-company.jpg" alt="" />
+					<img src="http://yss.com/api/attachments/domain-logo" alt="" />
 				</div>
+				<%if(peeq.utils.template.user.is_admin(account.user_level)) {%>
 				<a class="btn-update-image right btn-modal modal-view-updatecompanylogo-user" href="#">Update company image</a>
+				<%}%>
 				<hr class="thick" />
 				<div class="company-meta">
 					<p class="company"><%=account.name%></p>
@@ -68,11 +72,13 @@
 					</dl>
 				</div>
 				<hr />
+				<% if(peeq.utils.template.user.is_admin(account.user_level)) {%>
 				<div class="account-actions">
 					<h3>Account Actions</h3>
-					<p><a href="#<%=account.current_username%>" class="btn-modal modal-view-changepassword-user">Change Password</a></p>
-					<p><a href="#" class="btn-delete-account">Delete Account</a></p>
+					<p><a href="#<%=account.current_username%>" class="btn-modal modal-view-changepassword-user">Change Password</a>  <span class="msg msg-password-changed">Password Changed!</span></p>
+					<% /*<p><a href="#" class="btn-delete-account">Delete Account</a></p> */ %>
 				</div>
+				<% }%>
 			</div>
 		</section>
 	</div>
@@ -109,10 +115,10 @@
 					<span class="icon icon-error"></span>
 				</li>
 				<li class="field">								
-					<input type="checkbox" name="admin" />
-					<label for="admin">Admin</label>
-					<span class="icon icon-success"></span>
-					<span class="icon icon-error"></span>
+					<input type="checkbox" name="admin" class="chk-admin" />
+					<span class="msg-admin">This user is an admin.</span>
+					<span class="msg-user">This user is not an admin.</span>
+					<a href="#" class="btn-admin-change">Change this.</a>
 				</li>
 			</ul>
 			<a href="#" class="btn btn-add btn-submit left clearboth">Add User</a>
@@ -120,6 +126,7 @@
 	</section>
 </section>
 
+<% if(peeq.utils.template.user.is_admin(account.user_level)) {%>
 <section class="modal modal-view-edit-user">
 	<section>
 		<h2 class="add">Edit User</h2>
@@ -175,6 +182,24 @@
 	</section>
 </section>
 
+<section class="modal modal-view-updatecompanylogo-user">
+	<section>
+		<h2 class="add">Update Image</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-user-updatecompanylogo" action="" method="post" target="iframe-ajax-on-demand" enctype="multipart/form-data">
+			<ul>
+				<li class="field">								
+					<input type="file" name="logo" />
+					<label for="label">New company image (max: 290 x 138)</label>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Update</a>
+		</form>
+	</section>
+</section>
+<%}%>
 <section class="modal modal-view-changepassword-user">
 	<section>
 		<h2>Change Password</h2>
@@ -195,24 +220,6 @@
 				</li>
 			</ul>
 			<a href="#" class="btn btn-submit left clearboth">Change</a>
-		</form>
-	</section>
-</section>
-
-<section class="modal modal-view-updatecompanylogo-user">
-	<section>
-		<h2 class="add">Update Image</h2>
-		<a class="btn-modal-close" href="#">Close</a>
-		<form id="frm-user-updatecompanylogo" action="" method="post" target="iframe-ajax-on-demand" enctype="multipart/form-data">
-			<ul>
-				<li class="field">								
-					<input type="file" name="attachment" />
-					<label for="label">New company image (max: 290 x 138)</label>
-					<span class="icon icon-success"></span>
-					<span class="icon icon-error"></span>
-				</li>
-			</ul>
-			<a href="#" class="btn btn-add btn-submit left clearboth">Update</a>
 		</form>
 	</section>
 </section>

@@ -240,6 +240,13 @@ peeq.prototype.utils =
 				return state;
 			}			
 		},
+		user:
+		{
+			is_admin: function(level)
+			{
+				return level >= 7;
+			}
+		},		
 		nl2br: function(str)
 		{
 			return str.replace(new RegExp("\\n", "g"), "<br />")

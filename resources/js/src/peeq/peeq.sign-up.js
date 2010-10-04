@@ -19,12 +19,21 @@ function peeq()
 			$("#forgot-password-container").show();
 			$("#sign-in-container").hide();
 			$("#frm-forgot-password input[name=domain]").focus();
+		}).keypress(function() {
+			return false;
 		});
 		
 		$(".btn-sign-in-form").click(function() {
 			$("#forgot-password-container").hide();
 			$("#sign-in-container").show();
 			$("#frm-sign-in input[name=domain]").focus();
+		});
+		
+		 // whenever a user presses enter in the last input field of the form it will fire .btn-submit (submitting the form) 
+		$("form").lastfieldentersubmit({
+			submit: function($frm) {
+				$frm.find(".btn-submit").click();
+			}
 		});
 	};
 	
@@ -97,7 +106,6 @@ function peeq()
 			}
 		}).end()*/
 		.bind("complete.validate", function(evt, is_valid) {			
-			//console.log(is_valid)
 			if(is_valid)
 			{
 				$.post("/api/account/register", $("#frm-sign-up").serialize(), function(response) {
@@ -131,14 +139,19 @@ function peeq()
 		$("#frm-sign-in .btn-sign-in").click(function() {
 			var $frm = $("#frm-sign-in"),
 				$error_msg = $frm.find(".error-message");
+
+			$("#forgot-password-container").hide();  // fix bug when pressing enter
+			$("#sign-in-container").show();
+
 			
 			$.post("/api/account/login", $frm.serialize(), function(response) {
+				response = $.parseJSON(response);
 				if(response.ok)
 				{
 					// success
 					$error_msg.css({"visibility": "hidden"});									
 					// proceed
-					document.location.href = "/";	
+					document.location.href = "http://" + response.user.domain + ".yss.com";	
 				}
 				else 
 				{

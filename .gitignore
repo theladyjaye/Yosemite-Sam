@@ -3,3 +3,4 @@
 .sass-cache*
 /tests
 /resources/attachments
+/application/system/config.ini

@@ -73,7 +73,7 @@
 							</div>														
 						</li>
 					</ul>
-					<a href="#" class="btn btn-signup left clearboth">Sign Up</a>
+					<a href="#" class="btn btn-signup btn-submit left clearboth">Sign Up</a>
 				</form>
 			</div>
 		</section>
@@ -100,15 +100,15 @@
 							<li class="field">
 								<input type="password" name="password" />
 								<label for="password">Password</label>
-								<a href="#" class="btn-forgot-password forgot-password incomplete">forgot password?</a>
+								<a href="#" class="btn-forgot-password btn-submit forgot-password incomplete">forgot password?</a>
 							</li>
 						</ul>	
-						<a href="#" class="btn btn-sign-in left">Login</a>				
+						<a href="#" class="btn btn-submit btn-sign-in left">Login</a>				
 					</form>	
 				</div>
 				<div id="forgot-password-container">	    	
 					<h3>Forgot Password</h3>
-					<a href="#" class="btn-sign-in-form incomplete">Nevermind, I remember.</a>
+					<a href="#" class="btn-sign-in-form incomplete">&laquo; Nevermind, I remember.</a>
 					<form id="frm-forgot-password" action="" method="post">
 						<ul>
 							<li class="field">
@@ -120,7 +120,7 @@
 								<label for="username">Email</label>
 							</li>
 						</ul>	
-						<a href="#" class="btn btn-reset-password left">Reset Password</a>				
+						<a href="#" class="btn btn-reset-password btn-submit left">Reset Password</a>				
 					</form>
 				</div>
 			</div>

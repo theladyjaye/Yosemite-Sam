@@ -58,6 +58,7 @@
 	<script src="resources/js/src/jquery/jquery.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.toggle_form_field.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.validation.js"></script>
+	<script src="resources/js/src/jquery/plugins/jquery.lastfieldentersubmit.js"></script>
 	<script src="resources/js/src/peeq/peeq.sign-up.js"></script>
 	<?//endif;?>
 </body>

@@ -13,21 +13,24 @@ peeq.prototype.api =
 	    // remove iframe if it currently exists
 	    $("#" + iframe).remove();
 	
-		var $iframe = $('<iframe name="' + iframe + '" id="' + iframe + '" style="display:none;width:0;height:0" src="" target="_self" />');   
+		var $iframe = $('<iframe name="' + iframe + '" id="' + iframe + '" style="display:none;width:0;height:0" src="http://blitz.yss.com/#/settings" target="_self" />');   
 		
 		$iframe.insertAfter("#" + $original_form.attr("id"));
-			    	
+		
 		$original_form.attr("action", action).submit();
+		
 		$iframe.load(function() {
-			var response = $.parseJSON($("#" + iframe)[0].contentDocument.body.innerHTML);
+		/*	var response = $.parseJSON($("#" + iframe)[0].contentDocument.body.innerHTML);
 			if(response.ok)
 			{
 				// CHANGE TO AJAX refresh
-				document.location.reload(true);
+				//document.location.reload(true);
 			}
+		*/
+			document.location.reload(true);
 			$("#" + iframe).remove();
 		});		
-
+		
 	    return false;
 	},
 	request: function(resource, data, method, successCallback, isUpload)
