@@ -1,5 +1,9 @@
 <?php
-
+/*
+require 'application/system/YSSApplication.php';
+require 'application/libs/axismundi/display/AMDisplayObject.php';
+require 'application/templates/Projects.php';
+*/
 
 // Combines api calls for each page
 

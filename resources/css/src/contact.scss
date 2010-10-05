@@ -1,0 +1,21 @@
+@import "style.scss";
+
+.column-body-inner {width: 900px; margin: 0 auto;}
+	.column-body h1 {font-size: 42px; letter-spacing: -2px; font-weight: normal; color: $color_light_pink;}
+	.column-body h2 {font-size: 36px; letter-spacing: -2px; font-weight: normal; margin-top: 10px;}
+	.column-body h3 {font-size: 18px; color: $color_light_gray; font-weight: normal; margin-top: 5px;}
+	
+	
+.contact {
+	& .column .column-body {height: 560px;}
+	& .view {position: relative;}
+	
+	& .field input,
+	& .field textarea {width: 500px;}
+	& .btn-submit {margin-top: 20px;}
+	
+	#form-notes {position: absolute; left: 560px; width: 325px; font-size: 22px;}
+	#thanks {display: none;}
+}
+	
+#main, footer {opacity: 1; min-height: 0;}

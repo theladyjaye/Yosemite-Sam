@@ -53,17 +53,7 @@ else
 	<div id="network-connectivity">
 		<p class="icon icon-offline" title="You are offline"></p>
 	</div>
-	<footer>
-		<section class="wrap">
-			<p>Copyright &copy; 2010 <a href="/" class="peeq">peeq</a>. All rights reserved.</p>
-			<nav>
-				<ul>
-					<li><a href="#">Twitter</a> |</li>
-					<li><a href="#">Contact</a></li>
-				</ul>
-			</nav>
-		</section>
-	</footer>
+	<?php include('application/templates/footer.php');?>
 	
 	<?php include('application/templates/tracking.php');?>
 	
