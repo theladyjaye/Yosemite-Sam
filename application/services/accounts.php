@@ -725,7 +725,7 @@ class YSSServiceDefault extends YSSService
 				$user->firstname    = $input->firstname;
 				$user->lastname     = $input->lastname;
 				$user->level        = YSSUserLevel::kAdministrator;
-				$user->password     = YSSUser::passwordWithStringAndDomain(YSSSecurity::generateToken(), $user->domain);
+				$user->password     = YSSUser::passwordWithStringAndDomain(YSSSecurity::generate_token(), $user->domain);
 				
 				$company            = $company->save();
 				$user               = $user->save();
