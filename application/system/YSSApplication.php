@@ -1,6 +1,7 @@
 <?php
 
 define("MAX_UPLOAD_SIZE", 1024000);
+define("AWS_S3_ENABLED", false);
 
 class YSSApplication
 {
