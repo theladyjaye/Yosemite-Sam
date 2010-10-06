@@ -96,7 +96,7 @@ class YSSApplication
 		
 		
 		$configuration = YSSConfiguration::standardConfiguration();
-		if($configuration['currentUser'])
+		if(isset($configuration['currentUser']))
 		{
 			$session = YSSSession::sharedSession();
 			$session->currentUser = $configuration['currentUser'];
