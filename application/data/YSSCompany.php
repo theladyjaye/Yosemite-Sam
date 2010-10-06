@@ -1,14 +1,13 @@
 <?php
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyWithDomain.php';
+require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyDetailsWithDomain.php';
+require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyExistsWithDomain.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyInsertUser.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyDeleteUser.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyInsert.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyUpdate.php';
 require YSSApplication::basePath().'/application/data/queries/YSSQueryCompanyUsers.php';
 
-/*
-	TODO YSSCompany needs the logo image url
-*/
 class YSSCompany
 {
 	public $id;
@@ -18,11 +17,43 @@ class YSSCompany
 	public $users;
 	public $logo;
 	
+	public static function companyExistsWithDomain($domain)
+	{
+		$response = false;
+		$database = YSSDatabase::connection(YSSDatabase::kSql);
+		
+		$query    = new YSSQueryCompanyExistsWithDomain($database, $domain);
+		
+		if(count($query))
+			$response = true;
+		
+		return $response;
+	}
+	
+	// this will give you back everything YSSCompany::companyWithDomain does but you will also get back
+	// the quantity of users as well.  Had to seperate the 2 calls because when you register
+	// the SQL to COUNT(*) that would give you the user quantity was returning a null
+	// row, which was breaking the initial user save upon register.
+	public static function companyDetailsWithDomain($domain)
+	{
+		$object   = null;
+		$database = YSSDatabase::connection(YSSDatabase::kSql);
+		$query    = new YSSQueryCompanyDetailsWithDomain($database, $domain);
+		
+		if(count($query) == 1)
+		{
+			$object = YSSCompany::hydrateWithArray($query->one());
+		}
+		
+		return $object;
+	}
+	
 	public static function companyWithDomain($domain)
 	{
 		$object   = null;
 		$database = YSSDatabase::connection(YSSDatabase::kSql);
 		$query    = new YSSQueryCompanyWithDomain($database, $domain);
+		
 		if(count($query) == 1)
 		{
 			$object = YSSCompany::hydrateWithArray($query->one());
@@ -47,6 +78,7 @@ class YSSCompany
 	public function addUser(YSSUser $user)
 	{
 		$result = false;
+		
 		if($this->id && $user->id)
 		{
 			$database = YSSDatabase::connection(YSSDatabase::kSql);
@@ -89,6 +121,7 @@ class YSSCompany
 	public function save()
 	{
 		$object = null;
+		
 		if($this->id)
 		{
 			// update

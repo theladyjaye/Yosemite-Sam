@@ -498,17 +498,18 @@ class YSSServiceDefault extends YSSService
 		{
 			if($session->currentUser->domain == $domain)
 			{
-				$company = YSSCompany::companyWithDomain($session->currentUser->domain);
+				// need the number of users
+				$company = YSSCompany::companyDetailsWithDomain($session->currentUser->domain);
 				if($company)
 				{
 					$response->ok = true;
-					$response->company = array("name"			    => $company->name,
-					                           "domain"    			=> $company->domain,
-					                           "timestamp" 			=> $company->timestamp,
-					                           "users"     			=> $company->users,
+					$response->company = array("name"               => $company->name,
+					                           "domain"             => $company->domain,
+					                           "timestamp"          => $company->timestamp,
+					                           "users"              => $company->users,
 					                           "logo"               => $company->logo,
-											   "current_username" 	=> $session->currentUser->username,
-											   "user_level"			=> $session->currentUser->level);
+											   "current_username"   => $session->currentUser->username,
+											   "user_level"         => $session->currentUser->level);
 				}
 				else
 				{
@@ -690,12 +691,12 @@ class YSSServiceDefault extends YSSService
 			$data['username']  = strtolower($data['username']);
 			
 			// do the domain and email values already exist?
-			$company = YSSCompany::companyWithDomain($input->domain);
+			$company_exists = YSSCompany::companyExistsWithDomain($input->domain);
 			$user    = YSSUser::userWithEmail($input->email);
 			
 			$dirty   = false;
 			
-			if($company)
+			if($company_exists)
 			{
 				$input->addValidator(new AMErrorValidator('domain', "Invalid domain.  This domain is currently in use."));
 				$dirty = true;
@@ -724,7 +725,7 @@ class YSSServiceDefault extends YSSService
 				$user->firstname    = $input->firstname;
 				$user->lastname     = $input->lastname;
 				$user->level        = YSSUserLevel::kAdministrator;
-				$user->password     = YSSUser::passwordWithStringAndDomain($input->password, $user->domain);
+				$user->password     = YSSUser::passwordWithStringAndDomain(YSSSecurity::generateToken(), $user->domain);
 				
 				$company            = $company->save();
 				$user               = $user->save();
@@ -733,6 +734,9 @@ class YSSServiceDefault extends YSSService
 				
 				// create the store for the domain
 				YSSDomain::create($company->domain);
+				
+				// the token comes back, we are not currently doing anything with it.
+				$token = YSSUserVerification::welcome($user);
 				
 				$response->ok = true;
 			}

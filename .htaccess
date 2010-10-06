@@ -1,10 +1,10 @@
 RedirectMatch 404 ^/application(/?|/.*)$
 RedirectMatch 404 ^/resources/attachments(/?|/.*)$
-#<FilesMatch "[^\.]+\.ini">
-#	Order allow,deny
-#	Deny from all
-#	Satisfy All
-#</FilesMatch>
+<FilesMatch "[^\.]+\.ini">
+	Order allow,deny
+	Deny from all
+	Satisfy All
+</FilesMatch>
 
 # Disable ETags
 Header unset ETag  

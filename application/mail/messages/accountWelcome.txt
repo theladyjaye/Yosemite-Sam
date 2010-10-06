@@ -1,0 +1,2 @@
+Welcome to YSS!
+In order to validate your account, please visit: http://{domain}.yss.com/account/verify/{key}

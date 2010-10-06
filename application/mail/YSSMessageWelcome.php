@@ -1,10 +1,10 @@
 <?php
-// This message is sent when a domain owner adds a new user
-class YSSMessageVerifyAccount extends YSSMail
+// This message is sent when a domain is first created
+class YSSMessageWelcome extends YSSMail
 {
 	protected $subject = 'Welcome To YSS!';
-	protected $text    = '/application/mail/messages/accountCreate.txt';
-	protected $html    = '/application/mail/messages/accountCreate.html';
+	protected $text    = '/application/mail/messages/accountWelcome.txt';
+	protected $html    = '/application/mail/messages/accountWelcome.html';
 	
 	private $key;
 	private $domain;

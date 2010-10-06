@@ -1,6 +1,26 @@
 <?php
 class YSSUserVerification
 {
+	// for the creation of a new domain
+	public static function welcome(YSSUser $user)
+	{
+		require YSSApplication::basePath().'/application/data/queries/YSSQueryUserVerificationInsert.php';
+		require YSSApplication::basePath().'/application/mail/YSSMessageWelcome.php';
+		
+		$token    = YSSSecurity::generate_token();
+		$database = YSSDatabase::connection(YSSDatabase::kSql);
+		$query    = new YSSQueryUserVerificationInsert($database, array('token'   => $token,
+		                                                                'domain'  => $user->domain,
+		                                                                'user_id' => $user->id));
+		$query->execute();
+		
+		$message = new YSSMessageWelcome($user->email, $user->domain, $token);
+		$message->send();
+		
+		return $token;
+	}
+	
+	// when users are added to domains
 	public static function register(YSSUser $user)
 	{
 		require YSSApplication::basePath().'/application/data/queries/YSSQueryUserVerificationInsert.php';
