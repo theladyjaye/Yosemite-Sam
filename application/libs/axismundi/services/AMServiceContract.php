@@ -40,7 +40,7 @@ abstract class AMServiceContract
 			}
 			else
 			{
-				AMServiceManager::not_found();
+				AMServiceManager::unauthorized();
 			}
 		}
 		else
