@@ -69,15 +69,6 @@ function peeq()
 					rule: $.validation.EMAIL
 				},
 				{
-					elt: "input[name=password]",
-					rule: /^[\w\d\W]{5,}/
-				},
-				{
-					elt: "input[name=password_verify]",
-					rule: "match",
-					matching_field: "input[name=password]"
-				},
-				{
 					elt: "input[name=company]",
 					rule: /\w{2,}/
 				},
@@ -96,23 +87,16 @@ function peeq()
 				}
 				return true;
 			}
-		})
-		/*.find("input[name=password]").keypress(function() {
-			 // clear matching password if changing password and matching password has already been entered 
-			var $password_match = $(this).parents("form").find("input[name=password_verify]");
-			if($password_match.val().length)
-			{
-				$password_match.val("").removeClass("success error");
-			}
-		}).end()*/
-		.bind("complete.validate", function(evt, is_valid) {			
+		}).bind("complete.validate", function(evt, is_valid) {			
 			if(is_valid)
 			{
 				$.post("/api/account/register", $("#frm-sign-up").serialize(), function(response) {
 					response = $.parseJSON(response);
 					if(response.ok)
 					{
-						// success
+						$("#sign-up-container").fadeOut(200, function() {
+							$("#confirmation").fadeIn();							
+						});
 					}
 					else
 					{
