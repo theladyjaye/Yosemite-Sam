@@ -32,16 +32,21 @@ abstract class AMServiceContract
 	
 	public function __construct()
 	{
-		if($this->requiresAuthorization && $this->verifyAuthorization())
+		if($this->requiresAuthorization)
 		{
-			$this->endpoints = array();
+			if($this->verifyAuthorization())
+			{
+				$this->endpoints = array();
+			}
+			else
+			{
+				AMServiceManager::not_found();
+			}
 		}
 		else
 		{
-			AMServiceManager::not_found();
+			$this->endpoints = array();
 		}
-			
-		
 	}
 	
 	abstract public function registerServiceEndpoints($method);

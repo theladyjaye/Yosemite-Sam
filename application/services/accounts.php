@@ -28,7 +28,7 @@ require YSSApplication::basePath().'/application/data/queries/YSSQueryUsersForDo
 
 require YSSApplication::basePath().'/application/system/YSSService.php';
 
-class YSSServiceDefault extends YSSService
+class YSSServiceAccounts extends YSSService
 {
 	protected $requiresAuthorization = true;
 	
@@ -748,6 +748,6 @@ class YSSServiceDefault extends YSSService
 }
 
 $manager  = new AMServiceManager();
-$manager->bindContract(new YSSServiceDefault());
+$manager->bindContract(new YSSServiceAccounts());
 $manager->start();
 ?>
