@@ -1,7 +1,7 @@
 function(head, req)
 {
 	var row;
-	var result  = [];
+	var result  = null;
 	var current;
 	
 	while(row = getRow())
@@ -11,7 +11,16 @@ function(head, req)
 		if(type == "project")
 		{
 			if(current)
-				result.push(current)
+			{
+				if(!result)
+				{
+					result = [current];
+				}
+				else
+				{
+					result.push(current);
+				}
+			}
 				
 			current             = row.value;
 			current.tasks       = {"completed":0, "total":0};

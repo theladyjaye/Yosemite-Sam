@@ -22,7 +22,6 @@ if($domain_info->ok)
 	switch($service)
 	{
 		case "project":
-			
 			$response["result"] = array("projects"    => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/projects"))),
 										"account"     => $domain_info->company);
 			break;
