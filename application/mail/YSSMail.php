@@ -2,8 +2,8 @@
 require YSSApplication::basePath().'/application/libs/phpmailer/class.phpmailer.php';
 abstract class YSSMail
 {
-	protected $fromName    = 'YSS Agent';
-	protected $fromAddress = 'agent@yss.com';
+	protected $fromName    = 'Peeq';
+	protected $fromAddress = 'agent@peeqservice.com';
 	protected $subject;
 	protected $text;
 	protected $html;

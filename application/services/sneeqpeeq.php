@@ -1,6 +1,7 @@
 <?php
 require '../system/YSSEnvironmentServices.php';
 
+require YSSApplication::basePath().'/application/libs/axismundi/display/AMDisplayObject.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/AMForm.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMEmailValidator.php';
 require YSSApplication::basePath().'/application/libs/axismundi/forms/validators/AMErrorValidator.php';
@@ -9,6 +10,7 @@ require YSSApplication::basePath().'/application/libs/axismundi/services/AMServi
 
 require YSSApplication::basePath().'/application/system/YSSSecurity.php';
 require YSSApplication::basePath().'/application/mail/YSSMail.php';
+require YSSApplication::basePath().'/application/mail/YSSMessageSneeqPeeqConfirmation.php';
 
 
 
@@ -49,6 +51,9 @@ class YSSServiceSneeqPeeq extends YSSService
 			if(isset($status['ok']))
 			{
 				$response->ok = true;
+				
+				$mail = new YSSMessageSneeqPeeqConfirmation($input->email);
+				$mail->send();
 			}
 			else
 			{
