@@ -53,7 +53,6 @@ class YSSCompany
 		$object   = null;
 		$database = YSSDatabase::connection(YSSDatabase::kSql);
 		$query    = new YSSQueryCompanyWithDomain($database, $domain);
-		
 		if(count($query) == 1)
 		{
 			$object = YSSCompany::hydrateWithArray($query->one());
