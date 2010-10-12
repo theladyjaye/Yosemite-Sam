@@ -27,7 +27,8 @@ class YSSDomain
 		
 		YSSApplication::create_storage_for_domain($domain);
 		
-		//print_r($database->put($obj, '_design/project'));
+		$response = $database->put($obj, '_design/project');
+		//print_r($response);
 	}
 	
 	private static function parse($path, &$context, $base_path)
