@@ -1,12 +1,12 @@
 <section class="wrap projects">
 	<div class="column none">
 		<nav>
-			<a class="btn right btn-add" href="#">
+			<a class="btn right btn-add btn-modal modal-view-add-project" href="#">
 				Add Project
 			</a>
 		</nav>
 		<section class="column-body">
-			<p>You have 0 projects.  Don’t be a wallflower.  Join the craze.  <a href="#" class="incomplete">Create a new project now</a>.			
+			<p>You have 0 projects.  Don’t be a wallflower.  Join the craze.  <a href="#" class="incomplete btn-modal modal-view-add-project">Create a new project now</a>.			
 		</section>
 	</div>
 	<div class="column sidebar">
@@ -42,4 +42,30 @@
 			</div>
 		</section>
 	</div>
+</section>
+
+<section class="modal modal-view-add-project">
+	<section>
+		<h2 class="add">Add Project</h2>
+		<a class="btn-modal-close" href="#">Close</a>
+		<form id="frm-project-add" action="" method="post">
+			<ul>
+				<li class="field">								
+					<input type="text" name="label" />
+					<label for="label">Project Name</label>
+					<span class="hint">What's my name?</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+				<li class="field">								
+					<textarea name="description"></textarea>
+					<label for="description">Description</label>
+					<span class="hint">About this project...</span>
+					<span class="icon icon-success"></span>
+					<span class="icon icon-error"></span>
+				</li>
+			</ul>
+			<a href="#" class="btn btn-add btn-submit left clearboth">Add Project</a>
+		</form>
+	</section>
 </section>

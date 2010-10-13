@@ -28,20 +28,23 @@ if($domain_info->ok)
 		
 		case "view":
 			$response["result"] = array("project"     => get_project($_REQUEST['project']),
-										"views"       => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/views"))));
+										"views"       => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/views"))),
+										"account"     => $domain_info->company);
 			break;
 		
 		case "state":
 			$response["result"] = array("project"     => get_project($_REQUEST['project']),
 										"view"        => get_view($_REQUEST['project'], $_REQUEST['view']),
 										"states"      => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/" . $_REQUEST['view'] . "/states"))),
-										"annotations" => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/" . $_REQUEST['view'] . "/" . $_REQUEST['state'] . "/annotations"))));
+										"annotations" => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/" . $_REQUEST['view'] . "/" . $_REQUEST['state'] . "/annotations"))),
+										"account"     => $domain_info->company);
 			break;
 		
 		case "annotate":
 			$response["result"] = array("state"       => get_state($_REQUEST['project'], $_REQUEST['view'], $_REQUEST['state']),
 										"annotations" => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/" . $_REQUEST['view'] . "/" . $_REQUEST['state'] . "/annotations"))),
-										"task_groups" => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/group/task"))));
+										"task_groups" => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/group/task"))),
+										"account"     => $domain_info->company);
 			break;
 		
 		case "settings":
@@ -77,7 +80,7 @@ function get_project($project_name)
 	$projects = null;
 	$json = peeq_api_request(array('method' => 'GET',
 	                               'path'   => "/api/projects"));
-	$projects = json_decode($projects);
+	$projects = json_decode($json);
 	return find_item($projects, "project/$project_name");
 }
 
@@ -130,7 +133,7 @@ function peeq_api_request($options)
 	session_write_close();
 	
 	extract($options);
-	
+
 	$request = array("$method $path HTTP/1.0",
 	                 "Host: ".API_HOST,
                      "Cookie: $session_cookie",
@@ -142,7 +145,7 @@ function peeq_api_request($options)
 	$timeout  = 30;
 	
 	$stream = stream_socket_client("tcp://".API_HOST.":80", $errno, $errstr, $timeout);
-
+	
 	if(!$stream)
 	{
 		throw new Exception('Unable to connect to host '.$socket.' : '.$errno.', '.$errstr);
@@ -153,7 +156,7 @@ function peeq_api_request($options)
 		fwrite($stream, implode("\r\n", $request)."\r\n\r\n");
 		$response = stream_get_contents($stream);
 		fclose($stream);
-		
+
 		list($headers, $body) = explode("\r\n\r\n", $response);
 		return $body;
 	}

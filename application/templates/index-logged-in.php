@@ -1,17 +1,5 @@
-<?php 
-require 'application/system/YSSEnvironment.php'; 
-if(isset($_SESSION['YSS']))
-{
-	$current_user = $_SESSION['YSS']['currentUser'];
-//	echo YSSUtils::peeq_api_request(array('method' => 'GET', 'path'   => "/logged-in"));
-}
-else
-{
-	header('Location: /sign-up.php');
-//	echo file_get_contents('application/templates/index.not-logged-in.php');
-}
+<? require '../system/YSSEnvironment.php'; ?>
 
-?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -55,8 +43,8 @@ else
 	<div id="network-connectivity">
 		<p class="icon icon-offline" title="You are offline"></p>
 	</div>
-	<?php include('application/templates/footer.php');?>	
-	<?php include('application/templates/tracking.php');?>
+	<?php include('footer.php');?>	
+	<?php include('tracking.php');?>
 	
 	<?if("release" == YSSConfiguration::applicationConfiguration()):?>
 	<script src="resources/js/script.min.js"></script>

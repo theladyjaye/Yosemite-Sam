@@ -138,7 +138,7 @@ class YSSServiceAccounts extends YSSService
 			{
 				require YSSApplication::basePath().'/application/mail/YSSMessagePasswordReset.php';
 				
-				$newPassword    = 'bassett314';//YSSSecurity::generate_password();
+				$newPassword    = YSSSecurity::generate_password();
 				$user->password = YSSUser::passwordWithStringAndDomain($newPassword, $domain);
 				$user->save();
 				

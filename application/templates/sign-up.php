@@ -5,7 +5,7 @@
 		<section class="column-body">
 			<div class="column-body-inner">	
 				<div id="sign-up-container" class="view">										
-					<h2><em>See what all the <a href="#" class="incomplete">buzz</a> is about.</em></h2>
+					<h2><em>See what all the <a href="/#buzz" class="incomplete">buzz</a> is about.</em></h2>
 					<h2>Sign up for <span class="peeq">peeq</span>!</h2>
 					<form id="frm-sign-up" action="" method="post">
 						<ul>
@@ -75,46 +75,15 @@
 		</nav> -->
 		<section class="column-body">
 			<div class="column-body-inner">
-				<div id="sign-in-container">
-					<h3>Already have an account?</h3>
-					<form id="frm-sign-in" action="" method="post">
-						<p class="icon icon-error error-message invisible">Invalid Credientials</p>
-						<p class="invisible msg-password-sent">Password Sent!</p>
-						<ul>
-							<li class="field">
-								<input type="text" name="domain" />
-								<label for="domain">Domain</label>
-							</li>
-							<li class="field">
-								<input type="email" name="username" />
-								<label for="username">Username/Email</label>
-							</li>
-							<li class="field">
-								<input type="password" name="password" />
-								<label for="password">Password</label>
-								<a href="#" class="btn-forgot-password btn-submit forgot-password incomplete">forgot password?</a>
-							</li>
-						</ul>	
-						<a href="#" class="btn btn-submit btn-sign-in left">Login</a>				
-					</form>	
-				</div>
-				<div id="forgot-password-container">	    	
-					<h3>Forgot Password</h3>
-					<a href="#" class="btn-sign-in-form incomplete">&laquo; Nevermind, I remember.</a>
-					<form id="frm-forgot-password" action="" method="post">
-						<ul>
-							<li class="field">
-								<input type="text" name="domain" />
-								<label for="domain">Domain</label>
-							</li>
-							<li class="field">
-								<input type="email" name="email" />
-								<label for="username">Email</label>
-							</li>
-						</ul>	
-						<a href="#" class="btn btn-reset-password btn-submit left">Reset Password</a>				
-					</form>
-				</div>
+				<h2>Signing up is simple!</h2>
+				<ol>
+					<li>Enter your name.</li>
+					<li>Choose your username.</li>
+					<li>Enter your email.</li>
+					<li>Enter your company name.</li>
+					<li>Choose your domain.</li>
+				</ol>			
+				<p>Once you setup your account you'll receive an email asking you to verify your account.</p>
 			</div>
 		</section>
 	</div>

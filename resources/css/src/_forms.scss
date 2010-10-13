@@ -9,8 +9,6 @@ form {}
 		.field input.file {margin-right: 10px; width: 260px;}
 		.field input[type=file] {cursor: pointer;}
 		form .field-domain div {margin-bottom: 30px;}
-		#frm-forgot-password input,
-		#frm-sign-in input {width: 275px;}		
 		
 			// highlight field on focus
 			form .field-domain div.focus,
@@ -36,7 +34,7 @@ form {}
 		form .icon-success {position: relative; top: 9px; left: 5px; display: none;}
 		form .error ~ .icon-error,
 		form .field-domain .error ~ p .icon-error {display: block}
-		form .icon-error {position: relative; top: 9px; left: 5px; color: $color_light_pink; font-style: italic; padding-left: 18px; display: none; width: auto; /*180px;*/}
+		form .icon-error {position: relative; top: 9px; left: 5px; color: $color_light_pink; font-style: italic; padding-left: 18px; display: none; width: auto; /*180px;*/ font-size: 15px;}
 		#frm-sign-in .icon-error {float: left; display: block; margin: 20px 0; width: 100%; font-size: 16px; line-height: 16px;}
 		form .forgot-password {position: relative; float: left; margin: 7px 0 0 5px; font-style: italic;}
 

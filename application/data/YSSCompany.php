@@ -17,6 +17,8 @@ class YSSCompany
 	public $users;
 	public $logo;
 	
+	public static $default_logo = "/resources/imgs/peeq-domain-logo.jpg";
+	
 	public static function companyExistsWithDomain($domain)
 	{
 		$response = false;

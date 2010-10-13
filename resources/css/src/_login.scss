@@ -1,0 +1,17 @@
+.modal.modal-view-login {display: none;}
+
+#frm-login, #frm-forgot-password {margin-top: 30px;
+	& .icon-error {width: auto; font-size: 14px; letter-spacing: 0;}
+}
+
+#frm-login {
+	& .btn-forgot-password {margin-top: 7px;}
+}
+
+#forgot-password-container {display: none;
+	& .btn-login-form {float: left; margin: 20px 0 10px 0}
+}
+
+
+.btn-login-form {font-style: italic;}
+.msg-password-sent {position: absolute; font-weight: bold; margin-top: 15px; background: $color_light_pink; color: #fff; padding: 5px; width: 276px; @include corner();}

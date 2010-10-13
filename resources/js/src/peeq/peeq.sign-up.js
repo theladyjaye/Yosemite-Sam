@@ -13,22 +13,7 @@ function peeq()
 		}).parent().find(".domain").click(function() {
 			$(this).parent().find("input").focus();
 		});
-		
-		// forgot password / sign-in toggle
-		$(".btn-forgot-password").click(function() {
-			$("#forgot-password-container").show();
-			$("#sign-in-container").hide();
-			$("#frm-forgot-password input[name=domain]").focus();
-		}).keypress(function() {
-			return false;
-		});
-		
-		$(".btn-sign-in-form").click(function() {
-			$("#forgot-password-container").hide();
-			$("#sign-in-container").show();
-			$("#frm-sign-in input[name=domain]").focus();
-		});
-		
+				
 		 // whenever a user presses enter in the last input field of the form it will fire .btn-submit (submitting the form) 
 		$("form").lastfieldentersubmit({
 			submit: function($frm) {
@@ -118,59 +103,7 @@ function peeq()
 		});
 	};
 	
-	var signin_validation = function() 
-	{
-		$("#frm-sign-in .btn-sign-in").click(function() {
-			var $frm = $("#frm-sign-in"),
-				$error_msg = $frm.find(".error-message");
-
-			$("#forgot-password-container").hide();  // fix bug when pressing enter
-			$("#sign-in-container").show();
-
-			
-			$.post("/api/account/login", $frm.serialize(), function(response) {
-				response = $.parseJSON(response);
-				if(response.ok)
-				{
-					// success
-					$error_msg.css({"visibility": "hidden"});									
-					// proceed
-					document.location.href = "http://" + response.user.domain + ".yss.com";	
-				}
-				else 
-				{
-					// error
-					$error_msg.css({"visibility": "visible"});					
-				}
-			});
-			
-			return false;
-		});
-	}
 	
-	var forgotpassword_validation = function() 
-	{
-		$("#frm-forgot-password .btn-reset-password").click(function() {
-			var $frm = $("#frm-forgot-password"),
-				domain = $frm.find("input[name=domain]").val(),
-				email = $frm.find("input[name=email]").val();
-				
-			if(domain && email)
-			{			
-				$.post("/api/account/" + domain + "/users/reset/" + email, $frm.serialize(), function(response) {
-					// proceed
-					$(".btn-sign-in-form").click();
-					$(".msg-password-sent").css({"visibility": "visible"});
-				
-					var timer = setTimeout(function() {
-						$(".msg-password-sent").css({"visibility": "hidden"});
-						clearTimeout(timer);
-					}, 3000);
-				});
-			}
-			return false;
-		});
-	}
 	
 	// PUBLIC --------------------------------
 	this.main = function() 
@@ -181,25 +114,11 @@ function peeq()
 		// register events
 		register_events();
 		
-		if(document.location.hash == "#login") // if deeplink to login then give focus to sign in form
-		{
-			$("#frm-sign-in").find("input:eq(0)").focus();
-		}
-		else
-		{
-			// first sign up field gets focus
-			$("input:eq(0)").focus();
-		}
+		// first sign up field gets focus
+		$("input:eq(0)").focus();
 		
 		// setup sign up validation
 		signup_validation();
-		
-		// setup sign in validation
-		signin_validation();	
-		
-		// setup forgot password validation
-		forgotpassword_validation();
-		
 	};
 };
 

@@ -28,7 +28,7 @@
 						{
 							user = users[i];
 					%>
-					<tr class="username-<%=user.username%>">
+					<tr class="username-<%=user.username%> <%if(user.is_current_user) {%>is_me<%}%>">
 						<td class="table-column-name"><%=user.lastname%>, <%=user.firstname%> <%if(user.is_current_user) {%><span class="user-me">(ME)</span><%}%></td>
 						<td class="table-column-username"><%=user.username%></td>
 						<td class="table-column-email"><%=user.email%></td>

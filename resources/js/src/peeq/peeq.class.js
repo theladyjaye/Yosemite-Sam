@@ -134,7 +134,7 @@ function peeq()
 			};
 			
 			// set title
-			this.setTitle("peeq » BLITZ");
+			this.setTitle("peeq");
 
 			// ROUTES
 			// projects
@@ -144,7 +144,7 @@ function peeq()
 				
 				peeq.api.request("/handler", {"service": "project"}, "get", function(data) {
 					verify_authorization(data);
-					context.title("");
+					context.title("» " + data.result.account.name);
 					var data = data.result || {};
 					/*
 					// if offline, try to grab from local storage, or fallbacks to cookie, or in-memory storage
@@ -214,7 +214,7 @@ function peeq()
 				else // view
 				{												
 					peeq.api.request("/handler", {"service": "view", "project": context.params["project"]}, "get", function(data) {	
-						verify_authorization(data);
+						verify_authorization(data);					
 						var data = data.result || {};
 
 						/*
@@ -232,7 +232,7 @@ function peeq()
 							context.notFound();
 						}
 
-						context.title("» " + data.project.label);
+						context.title("» " + data.account.name + " » " + data.project.label);
 
 						var template = (data.views.length && data.views[0]) ? "views" : "views-none";			
 						
@@ -329,7 +329,8 @@ function peeq()
 						});					
 					}
 					*/
-					context.title("» " + data.project.label + " » " + data.view.label + " » " + current_state.label);	
+					
+					context.title("» " + data.account.name + " » " + data.project.label + " » " + data.view.label + " » " + current_state.label);	
 					
 					context.render(get_template_path("states"), {"view": data.view, "state": current_state, "annotations": data.annotations}, function(content) {
 						swap_transition(content, function() {										
@@ -352,60 +353,62 @@ function peeq()
 								document.location.href = "#/" + context.params["project"] + "/" + context.params["view"] + "/" + state_id;
 							});
 						
-							$("#table-annotations-container").find(".table-sortable").tablesorter({
-								"cssAsc": "icon-sort-asc",
-								"cssDesc": "icon-sort-desc",
-								"sortList": [[0,1]] /* sort on priority */								
-							});
+							if(data.annotations.length)
+							{
+								$("#table-annotations-container").find(".table-sortable").tablesorter({
+									"cssAsc": "icon-sort-asc",
+									"cssDesc": "icon-sort-desc",
+									"sortList": [[0,1]] /* sort on priority */								
+								});
 						
-							// clicking on tr fire annotation in preview's click event (deeplinking into annotation)
-							$("#table-annotations-container").delegate(".annotation-item", "click", function() {
-								var annotation_id = peeq.utils.template.annotations.get_id_from_elt($(this));
-								$(".annotate-preview-container ." + annotation_id).click();
-							});
+								// clicking on tr fire annotation in preview's click event (deeplinking into annotation)
+								$("#table-annotations-container").delegate(".annotation-item", "click", function() {
+									var annotation_id = peeq.utils.template.annotations.get_id_from_elt($(this));
+									$(".annotate-preview-container ." + annotation_id).click();
+								});
 							
 													
-							// preview							
-							var preview_annotation = null,
-							  	preview_position = null,
-								$annotation_preview_image = $("#annotate-preview-image"),
-								preview_width = $annotation_preview_image.width(),
-								preview_height = $annotation_preview_image.height();
+								// preview							
+								var preview_annotation = null,
+								  	preview_position = null,
+									$annotation_preview_image = $("#annotate-preview-image"),
+									preview_width = $annotation_preview_image.width(),
+									preview_height = $annotation_preview_image.height();
 																		
-							$("#annotate-preview").addAnnotations(function(props) {
-								return $("<a />", {
-									"href": document.location.href + "/annotate:" + peeq.utils.template.annotations.sanitize_id(props._id),
-									"class": "annotation-item annotation-id-" + peeq.utils.template.annotations.sanitize_id(props._id) +  " icon " + peeq.utils.template.get_annotation_marker_class(props) + " ir" ,
-									"html": props.type
-								});												
-							}, data.annotations, {"containerHeight": preview_height});
+								$("#annotate-preview").addAnnotations(function(props) {
+									return $("<a />", {
+										"href": document.location.href + "/annotate:" + peeq.utils.template.annotations.sanitize_id(props._id),
+										"class": "annotation-item annotation-id-" + peeq.utils.template.annotations.sanitize_id(props._id) +  " icon " + peeq.utils.template.get_annotation_marker_class(props) + " ir" ,
+										"html": props.type
+									});												
+								}, data.annotations, {"containerHeight": preview_height});
 							
-							// hide preview annotation positioned outside preview image
-							for(var i = 0, len = data.annotations.length, $preview_annotations = $("#annotate-preview").find(".annotation-item"); i < len; i++)
-							{
-								$preview_annotation = $($preview_annotations[i]);
-								preview_position = $preview_annotation.position();
+								// hide preview annotation positioned outside preview image
+								for(var i = 0, len = data.annotations.length, $preview_annotations = $("#annotate-preview").find(".annotation-item"); i < len; i++)
+								{
+									$preview_annotation = $($preview_annotations[i]);
+									preview_position = $preview_annotation.position();
 								
-								if(preview_position.top < -5 || preview_position.top > preview_height ||
-								   preview_position.left < -5 || preview_position.left > preview_width)
-								{
-									$preview_annotation.css("visibility", "hidden");
-								}			
-							}
-							
-							
-							$("#main").delegate(".annotation-item", "mouseover", function() {
-								var annotation_id = peeq.utils.template.annotations.get_id_from_elt($(this));
-								$("." + annotation_id).addClass("on")
-							}).delegate(".annotation-item", "mouseout", function() {
-								$(".annotation-item.on").removeClass("on");
-							}).delegate(".annotation-item", "click", function() {
-								if($(this).attr("href"))
-								{
-									document.location.href = $(this).attr("href");
+									if(preview_position.top < -5 || preview_position.top > preview_height ||
+									   preview_position.left < -5 || preview_position.left > preview_width)
+									{
+										$preview_annotation.css("visibility", "hidden");
+									}			
 								}
-							});																		
 							
+							
+								$("#main").delegate(".annotation-item", "mouseover", function() {
+									var annotation_id = peeq.utils.template.annotations.get_id_from_elt($(this));
+									$("." + annotation_id).addClass("on")
+								}).delegate(".annotation-item", "mouseout", function() {
+									$(".annotation-item.on").removeClass("on");
+								}).delegate(".annotation-item", "click", function() {
+									if($(this).attr("href"))
+									{
+										document.location.href = $(this).attr("href");
+									}
+								});																		
+							}
 							// store data
 							//context.session(storage_key, data);
 						});
@@ -426,7 +429,7 @@ function peeq()
 				change_nav();		
 				peeq.api.request("/handler", {"service": "settings"}, "get", function(data) {
 					verify_authorization(data);
-					context.title("» Settings");
+					context.title("» " + data.result.account.name + " » Settings");
 					context.render(get_template_path("settings"), data.result, function(content) {
 						swap_transition(content, function() {
 							change_bg("settings");
@@ -458,10 +461,11 @@ function peeq()
 										username = $row.find(".table-column-username").text(),
 										email = $row.find(".table-column-email").text(),
 										is_admin = $row.find(".table-column-admin").text().length,
-										$modal = $(".modal-view-edit-user");
+										is_me = $row.hasClass("is_me"),
+										$modal = $(".modal-view-edit-user");										
 								
 									// populate modal with fields
-									$modal.find("input[name=firstname]").val(first_name);
+									$modal.find("input[name=firstname]").val(is_me ? first_name.replace('(ME)', '') : first_name);
 									$modal.find("input[name=lastname]").val(last_name);
 									$modal.find("input[name=username]").val(username).data("original", username);
 									$modal.find("input[name=email]").val(email);
@@ -509,8 +513,7 @@ function peeq()
 
 					context.render(get_template_path("annotate"), data.state, function(content) {
 						swap_transition(content, function() {
-							context.title("");
-							//context.title("» " + data.project.label + " » " + data.view.label + " » " + current_state.label);
+							context.title("» " + data.account.name);
 							change_bg("annotate");
 							$("body").attr("id", "annotate");
 					
