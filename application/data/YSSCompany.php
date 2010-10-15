@@ -69,7 +69,7 @@ class YSSCompany
 		$object->domain     = $array['domain'];
 		$object->timestamp  = $array['timestamp'];
 		$object->users      = $array['users'];
-		$object->logo       = YSSAttachment::attachmentEndpointWithId("domain-logo");
+		$object->logo       = YSSAttachment::attachmentEndpointWithId("domain-logo"); // there can only be 1 and it's ALWAYS the same id, no need to store it in the DB
 		
 		return $object;
 	}
