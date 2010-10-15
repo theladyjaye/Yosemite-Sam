@@ -18,6 +18,11 @@ peeq.login =
 		// setup modal
 		peeq.login.setup_modal();		
 		
+		// nav
+		$("a[href$='#login']").click(function() {
+			return false;
+		});
+		
 		// forgot password / login toggle
 		$(".btn-forgot-password").click(function() {
 			$("#forgot-password-container").show();			
@@ -78,7 +83,7 @@ peeq.login =
 	{
 		$("#frm-login .btn-login").click(function() {
 			var $frm = $("#frm-login"),
-				$error_msg = $frm.find(".error-message");
+				$error_msg = $frm.find(".login-message");
 
 			$("#forgot-password-container").hide();  // fix bug when pressing enter
 			$("#login-container").show();
@@ -89,14 +94,14 @@ peeq.login =
 				if(response.ok)
 				{
 					// success
-					$error_msg.css({"visibility": "hidden"});									
+					$error_msg.hide()									
 					// proceed
 					document.location.href = "http://" + response.user.domain + ".yss.com";	
 				}
 				else 
 				{
 					// error
-					$error_msg.css({"visibility": "visible"});					
+					$error_msg.fadeIn();		
 				}
 			});
 		
@@ -115,10 +120,11 @@ peeq.login =
 				$.post("/api/account/" + domain + "/users/reset/" + email, $frm.serialize(), function(response) {
 					// proceed
 					$(".btn-sign-in-form").click();
-					$(".msg-password-sent").css({"visibility": "visible"});
+					$frm.find(".login-message").fadeIn();
 			
 					var timer = setTimeout(function() {
-						$(".msg-password-sent").css({"visibility": "hidden"});
+						$frm.find(".login-message").fadeOut();
+						$frm[0].reset();
 						clearTimeout(timer);
 					}, 3000);
 				});

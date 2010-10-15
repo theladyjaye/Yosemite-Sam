@@ -14,4 +14,4 @@
 
 
 .btn-login-form {font-style: italic;}
-.msg-password-sent {position: absolute; font-weight: bold; margin-top: 15px; background: $color_light_pink; color: #fff; padding: 5px; width: 276px; @include corner();}
+.login-message {position: relative; margin-top: 10px; font-weight: bold; margin-top: 15px; background: $color_light_pink; color: #fff; padding: 5px; width: 353px; @include corner(); display: none;}

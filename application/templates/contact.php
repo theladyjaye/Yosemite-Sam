@@ -32,7 +32,7 @@
 					</form>
 				
 					<div id="form-notes">
-						<p>We are humans.  Talk to us. Send us your comments or your questions about <span class="peeq">peeq</span> and we'll get back to as soon as we can.</p>
+						<p>We are humans.  Talk to us. Send us your comments or your questions about <span class="peeq">peeq</span> and we'll get back to you as soon as we can.</p>
 					</div>
 				</div>
 				<div id="thanks" class="view">

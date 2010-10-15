@@ -23,16 +23,16 @@
 			<section>
 				<nav>
 					<ul>
-						<li><a href="/tour">Tour</a></li>
-						<li><a href="/buzz">Buzz</a></li>
-						<li><a href="/sign-up">Sign up</a></li>
-						<li><a href="/login">Login</a></li>
+						<li><a href="/">Home</a></li>
+						<li><a class="on" href="/sign-up">Sign up</a></li>
+						<li><a href="/#login" class="btn-modal modal-view-login">Login</a></li>
 					</ul>
-				</nav> 
+				</nav>
 			</section>
 		</header>
 		<article id="main">
 			<?php include('application/templates/contact.php');?>
+			<?php include('application/templates/login.php');?>
 		</article>
 	</div>
 	<?php include('application/templates/footer.php');?>
@@ -43,10 +43,13 @@
 	<script src="resources/js/contact.min.js"></script>
 	<?else:?>
 	<script src="resources/js/src/jquery/jquery.js"></script>
+	<script src="resources/js/src/jquery/plugins/jqModal.js"></script>
+	<script src="resources/js/src/jquery/plugins/jquery.easing.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.toggle_form_field.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.validation.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.lastfieldentersubmit.js"></script>
 	<script src="resources/js/src/peeq/peeq.contact.js"></script>
+	<script src="resources/js/src/peeq/peeq.login.js"></script>
 	<?endif;?>
 </body>
 </html>

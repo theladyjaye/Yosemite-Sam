@@ -6,8 +6,7 @@
 		<div id="login-container">
 			<h3>Already have an account?</h3>
 			<form id="frm-login" action="" method="post">
-				<p class="icon icon-error error-message invisible">Invalid Credientials</p>
-				<p class="invisible msg-password-sent">Password Sent!</p>
+				<p class="login-message">Invalid Credientials</p>
 				<ul>
 					<li class="field">
 						<input type="text" name="domain" />
@@ -30,6 +29,7 @@
 			<h3>Forgot Password</h3>
 			<a href="#" class="btn-login-form incomplete">&laquo; Nevermind, I remember.</a>
 			<form id="frm-forgot-password" action="" method="post">
+				<p class="login-message">Password Sent!</p>
 				<ul>
 					<li class="field">
 						<input type="text" name="domain" />
