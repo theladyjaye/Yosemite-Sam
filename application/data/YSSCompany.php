@@ -15,9 +15,7 @@ class YSSCompany
 	public $domain;
 	public $timestamp;
 	public $users;
-	public $logo = YSSAttachment::attachmentEndpointWithId("domain-logo");
-	
-	public static $default_logo = "/resources/imgs/peeq-domain-logo.jpg";
+	public $logo;
 	
 	public static function companyExistsWithDomain($domain)
 	{
@@ -71,7 +69,7 @@ class YSSCompany
 		$object->domain     = $array['domain'];
 		$object->timestamp  = $array['timestamp'];
 		$object->users      = $array['users'];
-		$object->logo       = $array['logo'];
+		$object->logo       = YSSAttachment::attachmentEndpointWithId("domain-logo");
 		
 		return $object;
 	}

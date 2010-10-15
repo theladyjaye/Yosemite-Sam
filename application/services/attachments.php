@@ -26,7 +26,7 @@ require 'Zend/Service/Amazon/S3.php';
 
 class YSSServiceAttachments extends YSSService
 {
-	protected $requiresAuthorization = true;
+	protected $requiresAuthorization = false;
 	
 	public function registerServiceEndpoints($method)
 	{
@@ -47,9 +47,23 @@ class YSSServiceAttachments extends YSSService
 		
 		$session    = YSSSession::sharedSession();
 		$attachment = YSSAttachment::attachmentWithRemoteFileInDomain($id, $session->currentUser->domain);
+		
+		if(!$attachment)
+		{
+			if($id == 'domain-logo')
+			{
+				$attachment = YSSAttachment::attachmentWithLocalFileInDomain(YSSApplication::basePath().'/resources/imgs/peeq-domain-logo.jpg', $session->currentUser->domain);
+			}
+			else
+			{
+				AMServiceManager::not_found();
+			}
+		}
+		
 		header('Content-Type:'.$attachment->content_type);
 		header('Content-Length:'.$attachment->content_length);
 		$attachment->contents();
+		
 	}
 }
 
