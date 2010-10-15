@@ -15,7 +15,7 @@ class YSSCompany
 	public $domain;
 	public $timestamp;
 	public $users;
-	public $logo;
+	public $logo = YSSAttachment::attachmentEndpointWithId("domain-logo");
 	
 	public static $default_logo = "/resources/imgs/peeq-domain-logo.jpg";
 	

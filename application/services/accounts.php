@@ -42,7 +42,6 @@ class YSSServiceAccounts extends YSSService
 				break;
 				
 			case "POST":
-				$this->addEndpoint("POST",    "/api/account/{domain}/users/reset/{email}", "resetPassword");
 				$this->addEndpoint("POST",    "/api/account/{domain}/users/{username}",    "updateUserInDomain");
 				$this->addEndpoint("POST",    "/api/account/{domain}/users",               "addUserInDomain");
 				$this->addEndpoint("POST",    "/api/account/{domain}",                     "updateDomain");
@@ -111,43 +110,6 @@ class YSSServiceAccounts extends YSSService
 		}
 		
 		
-		
-		echo json_encode($response);
-	}
-	
-	public function resetPassword($domain, $email)
-	{
-		// always returing {ok:true} here no matter what $email or $domain is given
-		// no need to let people know what the real domains / accounts are.
-		
-		$response     = new stdClass();
-		$response->ok = true;
-		
-		$data    = array('domain' => $domain, 'email' => $mail);
-		$context = array(AMForm::kDataKey=>$data);
-		$input   = AMForm::formWithContext($context);
-		
-		$input->addValidator(new AMEmailValidator('email', AMValidator::kOptional, 'Invalid email address'));
-		$input->addValidator(new AMPatternValidator('domain', AMValidator::kRequired, '/^[a-zA-Z0-9-]+$/', "Invalid domain.  Expecting minimum 1 character. Cannot contain spaces"));
-		
-		if($input->isValid)
-		{
-			$user = YSSUser::userWithEmailInDomain($email, $domain);
-			
-			if($user)
-			{
-				require YSSApplication::basePath().'/application/mail/YSSMessagePasswordReset.php';
-				
-				$newPassword    = YSSSecurity::generate_password();
-				$user->password = YSSUser::passwordWithStringAndDomain($newPassword, $domain);
-				$user->save();
-				
-				$message           = new YSSMessagePasswordReset($user->email);
-				$message->password = $newPassword;
-				$message->domain   = $domain;
-				$message->send();
-			}
-		}
 		
 		echo json_encode($response);
 	}
