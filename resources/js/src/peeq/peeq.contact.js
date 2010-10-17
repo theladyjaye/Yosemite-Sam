@@ -1,5 +1,7 @@
 function peeq()
 {
+	var domain = "yss.com";
+	
 	// PRIVATE -------------------------------
 	var register_events = function()
 	{
@@ -10,6 +12,14 @@ function peeq()
 			submit: function($frm) {
 				$frm.find(".btn-submit").click();
 			}
+		});
+		
+		// logout
+		$("#btn-logout").click(function() {
+			$.post("/api/account/logout", function(response) {
+				// redirect 
+				document.location.href = "http://" + domain;
+			});
 		});
 	};
 	

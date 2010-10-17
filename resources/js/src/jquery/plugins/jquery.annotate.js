@@ -49,10 +49,12 @@
 		
 			var left = (this.x * $(container).width()) - ($(element).xOffset(options.xPosition));
 			var top = (this.y * options.containerHeight) - ($(element).yOffset(options.yPosition));
+			
 			if (this.width && this.height) {
 				element.css({width: this.width + 'px', height: this.height + 'px'});
 				element.find(".frm-note").css({top: this.height + 10 + "px"});
 			}
+			
 			/*
 			if (this.width && this.height) {
 				var width = (this.width * $(container).width());

@@ -1,25 +1,14 @@
 @import "style.scss";
-@import "jqmodal";
-@import "login";
 
 .column-body-inner {width: 900px; margin: 0 auto;}
 	.column-body h1 {font-size: 42px; letter-spacing: -2px; font-weight: normal; color: $color_light_pink;}
 	.column-body h2 {font-size: 36px; letter-spacing: -2px; font-weight: normal; margin-bottom: 10px;}
 	.column-body h3 {font-size: 18px; color: $color_light_gray; font-weight: normal; margin-top: 5px;}
 	
-	
-.contact {
-	& .column .column-body {height: 560px;}
-	& .view {position: relative;}
-	
-	& .field input,
-	& .field textarea {width: 500px;}
-	& .btn-submit {margin-top: 20px;}
-	
-	#form-notes {position: absolute; left: 560px; width: 325px; font-size: 24px;
-		p {color: $color_light_gray; font-size: 18px;}
+.not-supported {
+	ul {float: left; list-style: disc; padding: 0; margin: 10px 0 0 30px;
+		li {padding: 0; font-size: 16px;}
 	}
-	#thanks {display: none;}
 }
 	
 #main, footer {opacity: 1; min-height: 0;}

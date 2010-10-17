@@ -76,7 +76,10 @@ peeq.prototype.annotate =
 						peeq.annotate.save_group($annotation, obj_serialized.task_groups, obj_serialized.new_group);
 					}
 				}
-			});			
+
+				$annotation.trigger("deactivate");	
+			});		
+		
 			return false;
 		}).delegate(".annotation .btn-cancel", "click", function(evt) {  // cancel
 			var $annotation = $(this).parents(".annotation");

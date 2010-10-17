@@ -44,7 +44,8 @@ if($domain_info->ok)
 			$response["result"] = array("state"       => get_state($_REQUEST['project'], $_REQUEST['view'], $_REQUEST['state']),
 										"annotations" => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/" . $_REQUEST['view'] . "/" . $_REQUEST['state'] . "/annotations"))),
 										"task_groups" => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/project/" . $_REQUEST['project'] . "/group/task"))),
-										"account"     => $domain_info->company);
+										"account"     => $domain_info->company,
+										"users"		  => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/account/$domain/users")))->users);
 			break;
 		
 		case "settings":

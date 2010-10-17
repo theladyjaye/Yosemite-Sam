@@ -1,4 +1,7 @@
-<?php require 'application/system/YSSEnvironment.php'; ?>
+<?php 
+require 'application/system/YSSEnvironment.php'; 
+YSSPage::Controller('PageController.php'); 
+?>
 <!DOCTYPE HTML>
 <? //<html manifest="peeq.cache">?>
 <html>

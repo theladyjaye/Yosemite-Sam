@@ -57,7 +57,7 @@
 					<div class="column-item-right">
 						<a href="<%=peeq.utils.template.sanitize_id(view.states[0]._id)%>" class="title"><%=peeq.utils.template.truncate(view.label, 15)%></a>
 						<div class="meta">
-							<a class="author" href="#"><%=view.created_by%></a>
+							<a class="author" href="#/settings"><%=view.created_by%></a>
 							<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(view.created_at)%></span>
 							<div class="excerpt">
 								<p><%=peeq.utils.template.truncate(view.description, 185)%></p>
@@ -93,7 +93,7 @@
 			<div class="column-body-inner">
 				<h2 class="editable"><%=project.label%></h2>
 				<div class="meta">
-					<a class="author" href="#"><%=project.created_by%></a>
+					<a class="author" href="#/settings"><%=project.created_by%></a>
 					<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(project.created_at)%></span>
 				</div>
 				<hr class="thick" />

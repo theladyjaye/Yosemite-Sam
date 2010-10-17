@@ -22,7 +22,7 @@
 			<div class="column-body-inner">
 				<h2 class="editable"><%=project.label%></h2>
 				<div class="meta">
-					<a class="author" href="#"><%=project.created_by%></a>
+					<a class="author" href="#/settings"><%=project.created_by%></a>
 					<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(project.created_at)%></span>
 				</div>
 				<hr class="thick" />

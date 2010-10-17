@@ -36,7 +36,7 @@
 					<div class="column-item-right">
 						<a href="<%=peeq.utils.template.sanitize_id(projects[i]._id)%>" class="title"><%=peeq.utils.template.truncate(project.label, 14)%></a>
 						<div class="meta">
-							<a class="author" href="#"><%=project.created_by%></a>
+							<a class="author" href="#/settings"><%=project.created_by%></a>
 							<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(project.created_at)%></span>
 							<div class="excerpt">
 								<p><%=peeq.utils.template.truncate(project.description, 185)%></p>

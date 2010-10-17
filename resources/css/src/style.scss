@@ -11,7 +11,7 @@ body {font: 14px "Calibri", "Lucida Sans", Helvetica, Arial, sans-serif; color: 
 	ul {list-style: none;}
 	hr {clear: both;}
 	hr.thick {border-width: 6px; border-color: #000;}
-#main {position: relative; margin: 0 auto; width: $wrap_width; padding-bottom: 20px; opacity: 0; min-height: 800px;}
+#main {position: relative; margin: 0 auto; width: $wrap_width; padding-bottom: 20px; opacity: 0; /*min-height: 800px;*/}
 // END BASE 
 
 // BG
@@ -27,9 +27,7 @@ header {position: relative; width: 100%; background: #20211f; height: $header_he
     header section {float: right; height: $header_height; margin-right: 20px;}
         header h1 {float: left; display: inline; color: $color_light_white; font-size: 24px; line-height: $header_height; font-weight: normal;}
         header h1.username {font-style: italic; letter-spacing: -0.8px;}
-            header h1 a {color: $color_light_yellow; @include transition(color, 0.15s, ease-out);
-                    &:hover {color: $color_light_pink;}
-                }
+            header h1 span {color: $color_light_yellow}
         header nav {float: left; display: inline; margin-left: 30px; height: $header_height;}
             header nav li {float: left; display: inline; font-size: 18px; font-weight: bold; line-height: $header_height;}
             header nav a {color: $color_light_white; padding: 5px 10px; margin: 0 5px; @include corner(5px); text-shadow: 0 1px 0 $color_dark_gray;
@@ -37,7 +35,7 @@ header {position: relative; width: 100%; background: #20211f; height: $header_he
                     &:hover {@include lineargradient($color_light_blue, $color_dark_blue); color: $color_light_white;}
 					&.on {@include boxshadow(rgba(255, 255, 255, 0.4), 0, 0, 8px);}
                 }        
-            header nav .logout a {color: $color_light_gray;
+            header nav .logout a {color: $color_light_gray; @include transition(none, 0s, ease-out);
                     &:hover {color: #fff;};
                 }
 // END HEADER

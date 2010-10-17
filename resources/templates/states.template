@@ -11,6 +11,11 @@
 		</nav>
 		<section class="column-body">					
 			<div id="table-annotations-container">
+			<% 
+				var len = annotations.length; 
+				if(len) 
+				{
+			%>
 				<table class="table-sortable table-annotations">
 					<thead>
 						<tr>
@@ -23,31 +28,29 @@
 						</tr>
 					</thead>
 					<tbody>
-						<%
-							var len = annotations.length;
-							if(len)
-							{
-								for(var i = 0, annotation; i < len; i++)
-								{
-									annotation = annotations[i];
-						%>
-									<tr class="annotation-item annotation-id-<%=peeq.utils.template.annotations.sanitize_id(annotation._id)%> status-<%=peeq.utils.template.annotations.get_status(annotation.status)%>">
-										<td class="table-column-priority"><%if(annotation.priority) {%><%=peeq.utils.template.annotations.get_priority(annotation.priority)%><%}%></td>
-										<td class="table-column-context"><%=annotation.context%></td>
-										<td class="table-column-title"><%=annotation.label%></td>
-										<td class="table-column-creator"><%=annotation.created_by%></td>
-										<td class="table-column-assigned-to"><%=annotation.assigned_to%></td>
-										<td class="table-column-estimate"><%=annotation.estimate%></td>
-									</tr>
-						<%		}
-							}
-							else
-							{								
-						%>
-								<p class="table-annotations none">You have 0 annotations.  <a href="<%=document.location.href%>/annotate">Get started now</a>.</p>
-						<%	} %>
+					<%
+						for(var i = 0, annotation; i < len; i++)
+						{
+							annotation = annotations[i];
+					%>
+							<tr class="annotation-item annotation-id-<%=peeq.utils.template.annotations.sanitize_id(annotation._id)%> status-<%=peeq.utils.template.annotations.get_status(annotation.status)%>">
+								<td class="table-column-priority"><%if(annotation.priority) {%><%=peeq.utils.template.annotations.get_priority(annotation.priority)%><%}%></td>
+								<td class="table-column-context"><%if(annotation.type == 'note') {%>-<%}else{%><%=annotation.context%><%}%></td>
+								<td class="table-column-title"><%=annotation.label%></td>
+								<td class="table-column-creator"><%=annotation.created_by%></td>
+								<td class="table-column-assigned-to"><%=annotation.assigned_to%></td>
+								<td class="table-column-estimate"><%=annotation.estimate%></td>
+							</tr>
+					<%	} %>
 					</tbody>
 				</table>	
+			<%	
+				}
+				else
+				{								
+			%>
+					<p class="table-annotations none">You have 0 annotations.  <a href="<%=document.location.href%>/annotate">Get started now</a>.</p>
+			<%	} %>
 			</div>
 			<%if(len) {%>
 			<div class="expander"></div>
@@ -73,7 +76,7 @@
 					<hr />
 					<h2 class="editable"><%=view.label%></h2>
 					<div class="meta">
-						<a class="author" href="#"><%=state.created_by%></a>
+						<a class="author" href="#/settings"><%=state.created_by%></a>
 						<span class="timestamp">Created <%=peeq.utils.template.elapsed_time(state.created_at)%></span>
 					</div>
 					<hr class="thick" />

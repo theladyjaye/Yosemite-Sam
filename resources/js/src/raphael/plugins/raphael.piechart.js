@@ -27,7 +27,7 @@ Raphael.fn.piechart = function (cx, cy, r, values, labels, stroke, stroke_width,
 
 			if(show_labels)
 			{
-               	txt = paper.text(cx + (r + delta - 8) * Math.cos(-popangle * rad), cy + (r + delta - 5) * Math.sin(-popangle * rad), values[j] + "%").attr({fill: "#000", stroke: "none", opacity: 0, "font-family": 'Calibri, Lucida Sans, Helvetica, Arial', "font-size": "16px", "font-weight": "bold"});
+               	txt = paper.text(cx + (0.4 * (r + delta - 8)) * Math.cos(-popangle * rad), cy + (r + delta - 5) * Math.sin(-popangle * rad), values[j] + "%").attr({fill: "#333", stroke: "none", opacity: 0, "font-family": 'Calibri, Lucida Sans, Helvetica, Arial', "font-size": "14px", "font-weight": "normal"});
 			}
 
 			if(is_hoverable)

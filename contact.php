@@ -1,4 +1,7 @@
-<?php require 'application/system/YSSEnvironment.php'; ?>
+<?php 
+require 'application/system/YSSEnvironment.php'; 
+YSSPage::Controller('PageController.php');
+?>
 <!DOCTYPE HTML>
 <? //<html manifest="peeq.cache">?>
 <html>
@@ -21,6 +24,15 @@
 		<header>
 			<a class="peeq" href="/"><img src="resources/imgs/peeq.png" alt="peeq" /></a>
 			<section>
+				<?php if(isset($_SESSION['YSS'])): $current_user = $_SESSION['YSS']['currentUser']; ?>
+				<h1 class="username">G'day <span><?=$current_user->firstname?></span></h1>
+				<nav>
+					<ul>
+						<li><a href="#/settings">Settings</a></li>
+						<li id="btn-logout" class="logout"><a href="#">Logout</a></li>
+					</ul>
+				</nav>
+				<?else:?>
 				<nav>
 					<ul>
 						<li><a href="/">Home</a></li>
@@ -28,6 +40,7 @@
 						<li><a href="/#login" class="btn-modal modal-view-login">Login</a></li>
 					</ul>
 				</nav>
+				<?endif;?>
 			</section>
 		</header>
 		<article id="main">

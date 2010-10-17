@@ -12,7 +12,7 @@ abstract class YSSController extends YSSPage
 		
 		if($this->requiresPermission)
 			$this->verifyPermission() ? null : $this->verifyPermissionFailed();
-		
+
 		$this->initialize();
 	}
 
@@ -39,10 +39,5 @@ abstract class YSSController extends YSSPage
 	{
 		return true;
 	}
-	
-	
-	
-	
-	
 }
 ?>

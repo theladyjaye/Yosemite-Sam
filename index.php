@@ -1,5 +1,7 @@
 <?php 
 require 'application/system/YSSEnvironment.php'; 
+YSSPage::Controller('PageController.php');
+
 if(isset($_SESSION['YSS']))
 {
 	$current_user = $_SESSION['YSS']['currentUser'];
@@ -34,7 +36,7 @@ else
 			<a class="peeq" href="/"><img src="resources/imgs/peeq.png" alt="peeq" /></a>
 			<a class="btn btn-back" href="#">Back to Details</a>
 			<section>
-				<h1 class="username">G'day <a href="#/settings"><?=$current_user->firstname?></a></h1>
+				<h1 class="username">G'day <span><?=$current_user->firstname?></span></h1>
 				<nav>
 					<ul>
 						<li><a href="#/settings">Settings</a></li>
@@ -81,9 +83,6 @@ else
 	<script src="resources/js/src/jquery/plugins/jquery.validation.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.lastfieldentersubmit.js"></script>
 	<script src="resources/js/src/sammy/sammy.min.js"></script>
-	<script src="resources/js/src/sammy/plugins/sammy.cache.js"></script>
-	<script src="resources/js/src/sammy/plugins/sammy.json.js"></script>
-	<script src="resources/js/src/sammy/plugins/sammy.storage.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.template.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.title.js"></script>
 	<script src="resources/js/src/peeq/peeq.class.js"></script>

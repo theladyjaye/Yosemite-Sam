@@ -78,10 +78,10 @@
 				<h2>Signing up is simple!</h2>
 				<ol>
 					<li>Enter your name.</li>
-					<li>Choose your username.</li>
+					<li>Enter your username.</li>
 					<li>Enter your email.</li>
 					<li>Enter your company name.</li>
-					<li>Choose your domain.</li>
+					<li>Enter your domain.</li>
 				</ol>			
 				<p>Once you setup your account you'll receive an email asking you to verify your account.</p>
 			</div>
