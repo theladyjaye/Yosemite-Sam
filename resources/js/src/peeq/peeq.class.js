@@ -162,9 +162,7 @@ function peeq()
 						});					
 					}
 					*/
-					
-					var template = (data.projects.length) ? "projects" : "projects-none";			
-					
+					var template = (data.projects != null && data.projects.length) ? "projects" : "projects-none";			
 					context.render(get_template_path(template), {"projects": data.projects, "account": data.account}, function(content) {
 						swap_transition(content, function() {
 							$(".pie-chart").piechart();

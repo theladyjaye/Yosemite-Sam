@@ -253,7 +253,7 @@
 	}
 }
 	
-.annotation .annotation-num {position: absolute; top: -17px; left: -18px; background: #272727; width: 21px; height: 20px; line-height: 20px; text-align: center; color: #fff; @include corner(15px); padding: 4px; font-size: 14px; font-weight: bold; cursor: pointer; @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); @include transition(color, 0.15s, ease-out)}
+.annotation .annotation-num {position: absolute; top: -17px; left: -18px; background: #272727; width: 21px; height: 20px; line-height: 20px; text-align: center; color: #fff; @include corner(15px); padding: 4px; font-size: 14px; font-weight: bold; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.2); @include boxshadow(rgba(0, 0, 0, 0.4), 0, 1px, 1px); @include transition(color, 0.15s, ease-out)}
 .annotation.minimized .annotation-num {background: $color_light_gray; @include transition(all, 0.15s, ease-out);
 		&:hover {background: $color_light_blue; color: #fff;}
 	}
@@ -269,7 +269,7 @@
 .annotation.active .frm-annotation {display: block;}
 .annotation .ui-resizable,
 .annotation .frm-annotation {display: none;}
-.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; background: #272727;@include corner(); color: #ccc; padding: 15px 15px 25px 15px; font-size: 12px; float: left; display: none; @include boxshadow(); /* @include transition(height, 0.15s, ease-out); */}
+.annotation .frm-annotation {position: absolute; top: 30px; width: 400px; background: #272727;@include corner(); color: #ccc; padding: 15px; font-size: 12px; float: left; display: none; @include boxshadow(); /* @include transition(height, 0.15s, ease-out); */}
 	
 	.annotation .frm-annotation-container {width: 400px; height: 420px; overflow: hidden;}
 	.annotation.type-note .frm-annotation-container {height: 270px;}
@@ -305,14 +305,14 @@
 	.annotation form input[name=new_group] {width: 100px; height: 14px; font-size: 12px; margin-top: 6px; float: right; font-weight: bold; display: none;}
 	
 	.annotation .type {position: absolute; left: -26px; top: 6px;
-			& .btn {height: 25px; padding: 1px 6px; background: #272727; @include corner(0); opacity: 0.5;
+			& .btn {height: 25px; padding: 1px 6px; background: #272727; @include corner(0); opacity: 0.7;
 					&:first-child {@include onecorner(5px, "top", "left")}
 					&:nth-child(2) {@include onecorner(5px, "bottom", "left")}
 					&.selected {opacity: 1;}
 					& span {margin-top: 5px;}
 				}
 		}
-		
+			
 	.annotation .task-fields {display: none;}
 	.annotation.type-task .task-fields {display: block;}
 	.annotation .btn-see-related-tasks {position: relative; top: 12px; left: 10px; font-size: 14px; font-weight: bold}

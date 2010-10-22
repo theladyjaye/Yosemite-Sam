@@ -75,6 +75,20 @@ peeq.prototype.annotate =
 					{
 						peeq.annotate.save_group($annotation, obj_serialized.task_groups, obj_serialized.new_group);
 					}
+					
+					// ISSUE #3 Save Notification
+					var $annotation_num = $annotation.find(".annotation-num"),
+						annotation_num_width = $annotation_num.width();
+					
+					$annotation_num.append("<span class='msg-save peeq'> Saving </span>").animate({
+						"width": 70
+					}, 250, function() {
+						$(this).delay(2000).animate({
+							"width": annotation_num_width
+						}, 200, function() {
+							$(this).find(".msg-save").remove();
+						});
+					});
 				}
 
 				$annotation.trigger("deactivate");	
@@ -170,6 +184,10 @@ peeq.prototype.annotate =
 						$task_groups.selectmenu({
 							width: 175
 						});
+						
+						// ISSUE #2
+						// add new task to config for furture annotations						
+						peeq.annotate.config.task_groups[response._id] = new_group_name;
 					}
 				});
 			}		

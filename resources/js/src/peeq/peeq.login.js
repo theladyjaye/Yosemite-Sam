@@ -45,39 +45,42 @@ peeq.login =
 		peeq.login.forgotpassword_validation();
 	},	
 	setup_modal: function()
-	{		
-		$(".modal").addClass("jqmWindow").jqm({
-			overlay: 90,
-			trigger: false,
-			closeClass: "btn-modal-close",
-			onShow: function(hash) {
-				hash.w.css({
-					"top": "-1000px",
-					"display": "block",
-					"opacity": 0
-				}).animate({
-					"top": "7%",
-					"opacity": 1
-				}, 300, "easeOutQuad");
+	{	
+		if($(".modal").length)
+		{	
+			$(".modal").addClass("jqmWindow").jqm({
+				overlay: 90,
+				trigger: false,
+				closeClass: "btn-modal-close",
+				onShow: function(hash) {
+					hash.w.css({
+						"top": "-1000px",
+						"display": "block",
+						"opacity": 0
+					}).animate({
+						"top": "7%",
+						"opacity": 1
+					}, 300, "easeOutQuad");
 
-				$("input").toggle_form_field();
-			},
-			onHide: function(hash) {
-				hash.w.animate({
-					"top": "-1000px",
-					"opacity": 0
-				}, 150, "easeOutQuad");
+					$("input").toggle_form_field();
+				},
+				onHide: function(hash) {
+					hash.w.animate({
+						"top": "-1000px",
+						"opacity": 0
+					}, 150, "easeOutQuad");
 
-				hash.o.fadeOut(150, function() {
-					$(this).remove();
-				});
-			}
-		});
+					hash.o.fadeOut(150, function() {
+						$(this).remove();
+					});
+				}
+			});
 
-		$(".btn-modal").click(function() {
-			$(".modal.modal-view-login").jqmShow();
-			return false;
-		});
+			$(".btn-modal").click(function() {
+				$(".modal.modal-view-login").jqmShow();
+				return false;
+			});
+		}
 	},	
 	login_validation: function() 
 	{

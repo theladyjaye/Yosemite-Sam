@@ -48,8 +48,7 @@ YSSPage::Controller('PageController.php');
 			<?php include('application/templates/login.php');?>
 		</article>
 	</div>
-	<?php include('application/templates/footer.php');?>
-	
+	<?php include('application/templates/footer.php');?>	
 	<?php include('application/templates/tracking.php');?>
 	
 	<?if("release" == YSSConfiguration::applicationConfiguration()):?>

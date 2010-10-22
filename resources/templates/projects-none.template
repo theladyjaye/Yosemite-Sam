@@ -29,9 +29,9 @@
 					<hr />
 					<dl>
 						<dt class="incomplete">Projects</dt>
-						<dd class="incomplete"><%=projects.length%></dd>
+						<dd class="incomplete">0</dd>
 						<dt class="complete">Completed</dt>
-						<dd class="complete"><%=peeq.utils.template.get_completed_projects_count(projects)%></dd>
+						<dd class="complete">0</dd>
 					</dl>
 					<hr />
 					<dl>

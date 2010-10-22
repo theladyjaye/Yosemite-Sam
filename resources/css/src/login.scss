@@ -1,0 +1,12 @@
+@import "style.scss";
+@import "login";
+
+.column-body-inner {width: 580px; margin: 0 auto;}
+	.column-body h1 {font-size: 42px; letter-spacing: -2px; font-weight: normal; color: $color_light_pink;}
+	.column-body h2 {font-size: 36px; letter-spacing: -2px; font-weight: normal; margin-bottom: 10px;}
+	.column-body h3 {font-size: 18px; color: $color_light_gray; font-weight: normal; margin-top: 5px;}
+
+.login .column-body {height: 380px;}
+.left {float: left; clear: both; margin-top: 20px;}
+	
+#main, footer {opacity: 1; min-height: 0;}
