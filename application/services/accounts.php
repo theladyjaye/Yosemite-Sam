@@ -37,8 +37,10 @@ class YSSServiceAccounts extends YSSService
 		switch($method)
 		{
 			case "GET":
-				$this->addEndpoint("GET",     "/api/account/{domain}",        "getDomainInfo");
-				$this->addEndpoint("GET",     "/api/account/{domain}/users",  "getUsersInDomain");
+				$this->addEndpoint("GET",     "/api/account/{domain}",                "getDomainInfo");
+				$this->addEndpoint("GET",     "/api/account/{domain}/users",          "getUsersInDomain");
+				$this->addEndpoint("GET",     "/api/account/{domain}/users/active",   "getActiveUsersInDomain");
+				$this->addEndpoint("GET",     "/api/account/{domain}/users/inactive", "getInactiveUsersInDomain");
 				break;
 				
 			case "POST":
@@ -48,7 +50,7 @@ class YSSServiceAccounts extends YSSService
 				break;
 			
 			case "DELETE":
-				$this->addEndpoint("DELETE",    "/api/account/{domain}/users/{username}",  "deleteUserInDomain");
+				$this->addEndpoint("DELETE",  "/api/account/{domain}/users/{username}",  "deleteUserInDomain");
 				break;
 		}
 	}
@@ -398,7 +400,17 @@ class YSSServiceAccounts extends YSSService
 		echo json_encode($response);
 	}
 	
-	public function getUsersInDomain($domain)
+	public function getActiveUsersInDomain($domain)
+	{
+		$this->getUsersInDomain($domain, YSSUserActiveState::kActive);
+	}
+	
+	public function getInactiveUsersInDomain($domain)
+	{
+		$this->getUsersInDomain($domain, YSSUserActiveState::kInactive);
+	}
+	
+	public function getUsersInDomain($domain, $active=null)
 	{
 		$response     = new stdClass();
 		$response->ok = false;
@@ -416,14 +428,14 @@ class YSSServiceAccounts extends YSSService
 					$response->ok    = true;
 					$response->users = array();
 				
-					$users = $company->getUsers();
+					$users = $company->getUsers($active);
 				
 					foreach($users as $user)
 					{	
-						// identify current logged in user by username				
-						$user['is_current_user'] = ($user['username'] == $session->currentUser->username);											
+						// identify current logged in user by username
+						$user['is_current_user'] = ($user['username'] == $session->currentUser->username);
 						$response->users[] = $user;
-					}					
+					}
 				}
 				else
 				{

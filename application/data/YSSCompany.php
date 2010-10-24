@@ -107,12 +107,12 @@ class YSSCompany
 		return $result;
 	}
 	
-	public function getUsers()
+	public function getUsers($active = null)
 	{
 		if($this->id)
 		{
 			$database = YSSDatabase::connection(YSSDatabase::kSql);
-			$query = new YSSQueryCompanyUsers($database, array('company_id'=>$this->id));
+			$query = new YSSQueryCompanyUsers($database, array('company_id'=>$this->id, 'active' => $active));
 			return $query;
 		}
 	}
