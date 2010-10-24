@@ -449,9 +449,7 @@ class YSSServiceAccounts extends YSSService
 		$response->ok = false;
 		
 		$session  = YSSSession::sharedSession();
-		/*
-			TODO Company needs the logo image url
-		*/
+		
 		if($session->currentUser)
 		{
 			if($session->currentUser->domain == $domain)
