@@ -1,0 +1,11 @@
+#! /bin/sh
+
+# to run: sh compileall
+# batch compiles all files for js min script
+
+sh compile index.php script.min.js
+sh compile sign-up.php sign-up.min.js
+sh compile login.php login.min.js
+sh compile contact.php contact.min.js
+sh compile coming-soon.php coming-soon.min.js
+sh compile account-verify.php account-verify.min.js
