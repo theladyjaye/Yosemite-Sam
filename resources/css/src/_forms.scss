@@ -20,13 +20,13 @@ form {}
 			form .field-domain input:focus ~ p > label, 
 			.field input:focus + label,
 			.field textarea:focus + label {opacity: 1; color: $color_dark_gray;}		
-		form .field-domain input {border: 0; outline: none; font-size: 28px; color: $color_dark_gray; width: 240px; height: 38px; letter-spacing: -1px; text-align: right;}
+		form .field-domain input {border: 0; outline: none; font-size: 28px; color: $color_dark_gray; width: 165px; height: 38px; letter-spacing: -1px; text-align: right;}
 		form .field-domain p {position: absolute; top: 50px; left: 0;}
 		ul ul .field input {width: 160px; float: left; display: inline; margin-right: 20px;}
 		label {color: $color_light_gray; opacity: 0.5; margin-top: 5px; font-size: 18px; float: left; clear: both; letter-spacing: -0.5px; @include transition(all, 0.15s, ease-out);}	
 		#frm-sign-in label {color: #000;}
 		form .domain,	
-		form .hint {position: absolute; top: 22px; left: 8px; font-size: 20px; letter-spacing: -1px; color: #aaa; opacity: 0.45; z-index: 1;}		
+		form .hint {position: absolute; top: 17px; left: 8px; font-size: 20px; letter-spacing: -1px; color: #aaa; opacity: 0.45; z-index: 1;}		
 		form textarea + label + .hint {top: 8px;}
 		form .domain {float: right; margin: -55px 10px 0 0; position: relative; font-size: 28px}
 		form .success ~ .icon-success,
@@ -58,12 +58,12 @@ form {}
 .ui-selectmenu-menu li .ui-icon, .ui-selectmenu-status .ui-icon { position: absolute; top: 1em; margin-top: -8px; left: 0; }
 .ui-selectmenu-status {line-height: 1.4em; @include boxshadow(rgba(0, 0, 0, 0.5), 0, 0, 3px, inset); font-weight: bold; height: 14px}
 .ui-state-active .ui-selectmenu-status {}
-.ui-selectmenu-open li.ui-selectmenu-item-focus a {  }
+.ui-selectmenu-open li.ui-selectmenu-item-focus a {}
 .ui-selectmenu-open li.ui-selectmenu-item-selected a {background: $color_light_pink; color: #fff;}
-.ui-selectmenu-menu li span,.ui-selectmenu-status span { display:block}
-.ui-selectmenu-menu li .ui-selectmenu-item-header { font-weight: bold; }
-.ui-selectmenu-menu li .ui-selectmenu-item-content {  }
-.ui-selectmenu-menu li .ui-selectmenu-item-footer { opacity: .8; }
+.ui-selectmenu-menu li span,.ui-selectmenu-status span {display:block}
+.ui-selectmenu-menu li .ui-selectmenu-item-header {font-weight: bold; width: 120px;}
+.ui-selectmenu-menu li .ui-selectmenu-item-close {float: right; margin: -14px 0 0 0;}
+.ui-selectmenu-menu li .ui-selectmenu-item-footer {opacity: .8; }
 /*for optgroups*/
 .ui-selectmenu-menu .ui-selectmenu-group { font-size: 1em; }
 .ui-selectmenu-menu .ui-selectmenu-group .ui-selectmenu-group-label { line-height: 1.4em; display:block; padding:.6em .5em 0; font-weight: bold; }

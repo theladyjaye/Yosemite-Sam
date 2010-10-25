@@ -25,16 +25,16 @@
 					<p id="about"><span class="peeq">peeq</span> is an <strong>online service</strong> that will shape the way you consider <strong>project development</strong> creating an environment for team collaboration from design to engineering to launch.</p>
 	
 					<div id="first-to-know">
-						<p>Be the first to take a sneeq <span class="peeq">peeq</span>:</p>
+						<p>Sign up to take a sneeq <span class="peeq">peeq</span>:</p>
 						<form id="frm-signup" method="post" action="">
 							<ul>
 								<li class="field">
-									<input type="email" name="email" />
+									<input type="email" name="email" autocomplete="off" />
 									<span class="hint">me@domain.com</span>
 									<span class="error">Invalid Email Address</span>
 								</li>
 								<li>
-									<a class="btn btn-submit" href="#">Let me know</a>
+									<a class="btn btn-submit" href="#">Sign up</a>
 								</li>
 							</ul>
 						</form>

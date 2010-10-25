@@ -4,9 +4,18 @@ peeq.prototype.editable =
 	{
 		$(".editable").editable(function(value, settings) {
 			peeq.editable.save({"label": value}, function(response) {
-				console.log(response);
-			//	var ary_hash = document.location.hash.split("/");
-			//	document.location.hash = ary_hash.slice(0, ary_hash.length - 1).push(value)
+				if(response.ok)
+				{
+					var path = response.id.split("/").slice(1),
+						ary_current_hash = document.location.hash.split("/");
+						
+					if(ary_current_hash.length > 3) // in state
+					{
+						path.push(ary_current_hash[3]);
+					}
+					
+					document.location.hash = "/" + path.join("/");
+				}
 			});
 			return value;
 		}, { 
@@ -17,13 +26,14 @@ peeq.prototype.editable =
 			cancel: "Cancel",
 			cssclass: "frm-editable",
 			width: "none",
-			height: "none"
+			height: "none",
+			maxlength: 17
 		});
 		
 		$(".editable-textarea").editable(function(value, settings) {
 			value = peeq.utils.template.nl2br(value);
 			peeq.editable.save({"description": value}, function(response) {
-				console.log(response);
+				//console.log(response);
 			});
 			return value;
 		}, {

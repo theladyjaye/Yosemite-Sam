@@ -315,10 +315,10 @@ class YSSServiceAccounts extends YSSService
 					$context = array(AMForm::kDataKey=>$_POST);
 					$input   = AMForm::formWithContext($context);
 
-					$input->addValidator(new AMPatternValidator('firstname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
-					$input->addValidator(new AMPatternValidator('lastname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. Must start with at least 2 letters, followed by letters or spaces"));
+					$input->addValidator(new AMPatternValidator('firstname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid first name. Expecting minimum 2 characters."));
+					$input->addValidator(new AMPatternValidator('lastname', AMValidator::kRequired, '/^[a-zA-Z]{2,}[a-zA-Z ]{0,}$/', "Invalid last name.  Expecting minimum 2 characters. "));
 					$input->addValidator(new AMEmailValidator('email', AMValidator::kRequired, 'Invalid email address'));
-					$input->addValidator(new AMPatternValidator('username', AMValidator::kRequired, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters. Must be composed of letters, numbers or _"));
+					$input->addValidator(new AMPatternValidator('username', AMValidator::kRequired, '/^[\w\d]{4,}$/', "Invalid username.  Expecting minimum 4 characters."));
 
 					if($input->isValid)
 					{
@@ -343,7 +343,7 @@ class YSSServiceAccounts extends YSSService
 							if($user)
 							{
 								$dirty = true;
-								$input->addValidator(new AMErrorValidator('email', "Invalid email address.  This email address is currently in use."));
+								$input->addValidator(new AMErrorValidator('email', "This email address is currently in use."));
 								$this->hydrateErrors($input, $response);
 							}
 							
@@ -366,14 +366,19 @@ class YSSServiceAccounts extends YSSService
 								
 								$response->ok    = true;
 								//$response->token = $token;
+								
+								// remove password, active, and timestamp from user
+								unset($user->password, $user->active, $user->timestamp);
+
+								$response->user = $user;
 							}
 						}
 						else
 						{
 							if($user)
-								$input->addValidator(new AMErrorValidator('email', "Invalid email address.  This email address is currently in use."));
+								$input->addValidator(new AMErrorValidator('email', "This email address is currently in use."));
 								
-							$input->addValidator(new AMErrorValidator('username', "Invalid username.  This username is already taken"));
+							$input->addValidator(new AMErrorValidator('username', "This username is already taken"));
 							$this->hydrateErrors($input, $response);
 						}
 					}

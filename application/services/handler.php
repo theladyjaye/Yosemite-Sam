@@ -50,7 +50,8 @@ if($domain_info->ok)
 		
 		case "settings":
 			$response["result"] = array("projects"    => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/projects"))),
-										"users"       => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/account/$domain/users")))->users,
+										"users"       => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/account/$domain/users/active")))->users,
+										"inactive"       => json_decode(peeq_api_request(array('method' => 'GET', 'path' => "/api/account/$domain/users/inactive")))->users,
 										"account"     => $domain_info->company);
 			break;
 	}

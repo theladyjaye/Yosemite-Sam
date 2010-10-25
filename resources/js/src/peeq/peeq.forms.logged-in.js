@@ -393,18 +393,28 @@ peeq.prototype.forms =
 						peeq.api.request("/account/" + peeq.utils.get_subdomain() + "/users", $form.serialize(), "POST", function(response) {
 
 						if(response.ok)
-						{
+						{							
+							var $add_user_container = $(".add-user-container"),
+								$add_user_inactive_container = $(".add-user-inactive-container");
+							
 							// user needs to verify before we can add them
+							$add_user_container.hide();
+							$add_user_inactive_container.show();
+							$add_user_inactive_container.find("strong").text(response.user.email);
 							
-							
-							// add row
-							//var $row = $("<tr />").appendTo(".table-users tbody");
+							// add inactive user row
+							// clone first row (w/ events and data) that is not logged in user (.is_me) and append to table
+							// remove classes and put in .inactive
+							var $row = $(".table-users tbody tr:not(.is_me):first").clone(true).attr("class", "inactive");
 
 							// update row
-							//peeq.forms.user.update_row_in_table($row, response.user, response.user.username);
-
+							peeq.forms.user.update_row_in_table($row, response.user, response.user.username);
+							
 							// hide modal
-							$(".modal").jqmHide();							
+							var timer = setTimeout(function() {
+								$(".modal").jqmHide();																														
+								clearTimeout(timer);								
+							}, 2000);
 						}
 						else
 						{
@@ -637,6 +647,7 @@ peeq.prototype.forms =
 			$row.find(".table-column-username").text(user.username);
 			$row.find(".table-column-email").text(user.email);
 			$row.find(".table-column-admin").text((user.level >= 7) ? '<td class="table-column-admin"><span class="icon icon-success ir">admin</span></td>' : '');
+			$row.find(".table-column-delete a").attr("href", "#" + username);
 		}
 	},
 	utils:

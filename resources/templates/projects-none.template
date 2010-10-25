@@ -19,12 +19,12 @@
 			<div class="column-body-inner">
 				<div class="company-logo">
 					<span></span>
-					<img src="http://yss.com/api/attachments/domain-logo" alt="" />
+					<a href="/#/settings"><img src="http://yss.com/api/attachments/domain-logo" alt="" /></a>
 				</div>
 				<hr class="thick" />
 				<div class="company-meta">
 					<p class="company"><%=account.name%></p>
-					<p class="domain"><%=account.domain%>.peeq.com</p>
+					<p class="domain"><%=account.domain%>.peeqservice.com</p>
 					<p class="timestamp">Created <%=peeq.utils.template.elapsed_time(account.timestamp)%></p>
 					<hr />
 					<dl>

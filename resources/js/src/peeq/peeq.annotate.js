@@ -4,12 +4,12 @@ peeq.prototype.annotate =
 		users: {},
 		context_options: 
 		{
+			"general": "General",
 			"Flash": "Flash",
 			"HTML": "HTML",
 			"PHP": "PHP",
 			"dotnet": ".NET",
-			"design": "Design",
-			"general": "General"
+			"design": "Design"
 		},
 		task_groups: {}
 	},
@@ -31,7 +31,9 @@ peeq.prototype.annotate =
 				label = $annotation.find("input[name=label]").val(),
 				description = $annotation.find("textarea[name=description]").val(),
 				obj_serialized = peeq.utils.querystring_to_object($frm_annotation.serialize()),
-				annotation_props = $annotation.serializeAnnotation();
+				annotation_props = $annotation.serializeAnnotation(),
+				$annotation_num = $annotation.find(".annotation-num"),
+				annotation_num_width = $annotation_num.width();
 			
 			// clean up
 			// annotation_props => obj_serialized
@@ -65,6 +67,13 @@ peeq.prototype.annotate =
 				id = "project/" + hash + "/" + peeq.utils.template.annotations.sanitize_id(id);
 				method = "POST";
 			}
+			
+			// ISSUE #3 Save Notification
+			$annotation.addClass("saving");
+			$annotation_num.append("<span class='msg-save peeq'> Saving </span>").animate({
+				"width": 70
+			}, 250); 
+
 			peeq.api.request("/" + id, obj_serialized, method, function(response) {
 				if(response.ok)
 				{
@@ -76,18 +85,11 @@ peeq.prototype.annotate =
 						peeq.annotate.save_group($annotation, obj_serialized.task_groups, obj_serialized.new_group);
 					}
 					
-					// ISSUE #3 Save Notification
-					var $annotation_num = $annotation.find(".annotation-num"),
-						annotation_num_width = $annotation_num.width();
-					
-					$annotation_num.append("<span class='msg-save peeq'> Saving </span>").animate({
-						"width": 70
-					}, 250, function() {
-						$(this).delay(2000).animate({
-							"width": annotation_num_width
-						}, 200, function() {
-							$(this).find(".msg-save").remove();
-						});
+					$annotation_num.delay(2000).animate({
+						"width": annotation_num_width
+					}, 200, function() {
+						$annotation.removeClass("saving");
+						$annotation_num.find(".msg-save").remove();
 					});
 				}
 
@@ -118,8 +120,9 @@ peeq.prototype.annotate =
 			var id = $annotation.data("annotation-id"); // if exists then saved annotation and can delete from db
 			if(id) 
 			{
+				// delete annotation
 				peeq.api.request("/" + id, {}, "DELETE", function(response) {
-					console.log(response);
+					
 				});
 			}
 
@@ -136,8 +139,7 @@ peeq.prototype.annotate =
 				peeq.annotate.deeplink_to_annotation(ary_href[1]);
 				return false;
 			}
-		});
-		
+		});		
 	},
 	save_group: function($annotation, group_id, new_group_name)
 	{
@@ -153,9 +155,7 @@ peeq.prototype.annotate =
 		{
 			group_id = group_id.split("/")[4];
 		}
-		
-		//console.log(group_id, current_group_id);
-				
+						
 		if(project)
 		{		
 			if(group_id == -1) // create new group
@@ -187,7 +187,7 @@ peeq.prototype.annotate =
 						
 						// ISSUE #2
 						// add new task to config for furture annotations						
-						peeq.annotate.config.task_groups[response._id] = new_group_name;
+						peeq.annotate.config.task_groups[response.id] = new_group_name;
 					}
 				});
 			}		
@@ -206,8 +206,7 @@ peeq.prototype.annotate =
 			}
 			else if(group_id != current_group_id && group_id != 0)
 			{
-				// add task to group
-				// ? gets 404				
+				// add task to group		
 				peeq.api.request("/project/" + project + "/group/task/" + group_id + "/" + encodeURIComponent(annotation_id), {}, "POST", function(response) {
 					$annotation.data("group-id", response.id);
 				});
@@ -261,7 +260,7 @@ peeq.prototype.annotate =
 	},		
 	is_empty_annotation: function($annotation) 
 	{
-		return $annotation.find("input[name=label]").val() == "" && !$annotation.data("annotation-id");
+		return ($annotation.find("input[name=label]").val() == "" || $annotation.find("input[name=label]").val() == "No Title") && !$annotation.data("annotation-id");
 	},
 	ui_annotation: function(options)
 	{
@@ -422,7 +421,7 @@ peeq.prototype.annotate =
 
 		// create form content
 		var $frm_content = $("<div />", {
-			"html": '<div class="type"><a href="#" class="btn btn-note selected"><span class="icon icon-note"></span></a><a href="#" class="btn btn-task"><span class="icon icon-task"></span></a><input type="radio" value="note" name="type" checked="checked" class="visuallyhidden" /><input type="radio" value="task" name="type" class="visuallyhidden" /></div><div class="frm-annotation-container"><div class="frm-annotation-inner"><p class="field"><a href="#" class="btn btn-priority" title="Low Priority">!</a><input type="checkbox" name="priority" class="visuallyhidden"/><input type="text" name="label" value="' + options.label + '" /><label for="label">Title</label></p><p class="field"><textarea name="description">' + options.description + '</textarea><label for="description">Description</label></p><div class="task-fields"><p><label for="context">Context</label><select id="dd-context-' + annotation_id + '" class="dd-context" name="context"></select></p><p><label for="assigned_to">Assigned To</label><select id="dd-assigned-to-' + annotation_id + '" class="dd-assigned-to" name="assigned_to"></select><a href="#" class="btn btn-status status-close">Close Task</a><input type="checkbox" name="status" class="visuallyhidden" /></p><p class="field field-estimate"><label for="estimate">Estimate</label><input type="text" name="estimate" maxlength="4" /> <select id="dd-estimate-' + annotation_id + '" class="dd-estimate" name="estimate_time"><option value="hours">hours</option><option value="days">days</option><option value="weeks">weeks</option></select></p><p class="field field-groups"><label for="task-groups">Group</label><select id="dd-task-groups-' + annotation_id + '" class="dd-task-groups" name="task_groups"></select><input type="text" name="new_group" /><a href="#" class="btn-see-related-tasks">See Related Tasks &raquo;</a></p></div><p class="group-cta"><a href="#" class="btn btn-save">Save</a><a href="#" class="btn btn-cancel">Cancel</a><a href="#" class="btn btn-delete">Delete</a></p><div class="view-related-tasks"><a href="#" class="btn btn-back btn-back-to-form">Back</a><ol class="tbl-related-tasks"></ol></div></div></div>'
+			"html": '<div class="type"><a href="#" class="btn btn-note selected"><span class="icon icon-note"></span></a><a href="#" class="btn btn-task"><span class="icon icon-task"></span></a><input type="radio" value="note" name="type" checked="checked" class="visuallyhidden" /><input type="radio" value="task" name="type" class="visuallyhidden" /></div><div class="frm-annotation-container"><div class="frm-annotation-inner"><p class="field"><a href="#" class="btn btn-priority" title="Low Priority">!</a><input type="checkbox" name="priority" class="visuallyhidden"/><input type="text" name="label" value="' + options.label + '" maxlength="35" /><label for="label">Title</label></p><p class="field"><textarea name="description">' + options.description + '</textarea><label for="description">Description</label></p><div class="task-fields"><p><label for="context">Context</label><select id="dd-context-' + annotation_id + '" class="dd-context" name="context"></select></p><p><label for="assigned_to">Assigned To</label><select id="dd-assigned-to-' + annotation_id + '" class="dd-assigned-to" name="assigned_to"></select><a href="#" class="btn btn-status status-close">Close Task</a><input type="checkbox" name="status" class="visuallyhidden" /></p><p class="field field-estimate"><label for="estimate">Estimate</label><input type="text" name="estimate" maxlength="4" /> <select id="dd-estimate-' + annotation_id + '" class="dd-estimate" name="estimate_time"><option value="hours">hours</option><option value="days">days</option><option value="weeks">weeks</option></select></p><p class="field field-groups"><label for="task-groups">Group</label><select id="dd-task-groups-' + annotation_id + '" class="dd-task-groups" name="task_groups"></select><input type="text" maxlength="15" name="new_group" /><a href="#" class="btn-see-related-tasks">See Related Tasks &raquo;</a></p></div><p class="group-cta"><a href="#" class="btn btn-save">Save</a><a href="#" class="btn btn-cancel">Cancel</a><a href="#" class="btn btn-delete">Delete</a></p><div class="view-related-tasks"><a href="#" class="btn btn-back btn-back-to-form">Back</a><a href="#" class="btn btn-delete-task-group">Delete Group</a><ol class="tbl-related-tasks"></ol></div></div></div>'
 		}).appendTo($frm);
 		
 		// add context options
@@ -558,6 +557,56 @@ peeq.prototype.annotate =
 			return false;
 		});
 		
+		// delete task group
+		$frm.find(".btn-delete-task-group").click(function() {
+			var task_group = $frm.find(".dd-task-groups").val();
+			
+			peeq.api.request("/" + task_group, {}, "DELETE", function(response) {
+				// remove from all dropdowns and update selection
+				
+				// delete group from configuration of task groups
+				delete peeq.annotate.config.task_groups[task_group];
+				
+				peeq.annotate.cleanup();
+				var $task_groups = $("#representation").find(".annotation .dd-task-groups"),
+					ary_current_task_group = [];
+				
+				// get current selection of task group for each annotation
+				$task_groups.each(function() {
+					ary_current_task_group.push($(this).val());
+				});
+					
+				// reset task group options
+				peeq.utils.add_options_to_select(peeq.annotate.config.task_groups, $task_groups);
+				
+				// change value to new group in custom menu						
+				$task_groups.each(function(i) {
+					if(ary_current_task_group[i] == task_group) // if task group that was removed
+					{
+						$(this).find("option[value=0]").attr("selected", "selected");
+						$(this).parents(".annotation").find(".btn-see-related-tasks").hide();
+					}
+					else // wasn't task group that was selected, reselected original task group
+					{
+						$(this).find("option[value=" + ary_current_task_group[i] + "]").attr("selected", "selected");
+					}
+				});
+				
+				$annotation.find("input[name=new_group]").val("").hide();
+				$annotation.find(".btn-see-related-tasks").hide();
+				
+				// recreate custom menu
+				$task_groups.selectmenu({
+					width: 175
+				});
+				
+				// return to form
+				$frm.find(".btn-back-to-form").click();
+			});
+			
+			return false;
+		});
+		
 		// priority toggle
 		$frm.find(".btn-priority").click(function() {
 			var $this = $(this),
@@ -651,6 +700,7 @@ peeq.prototype.annotate =
 			}
 			else
 			{
+				//console.log($frm.find(".dd-task-groups"), options.group);
 				$frm.find(".dd-task-groups option[value=" + options.group + "]").attr("selected", "selected");
 				$annotation.data("group-id", options.group);
 			}
@@ -688,7 +738,7 @@ peeq.prototype.annotate =
 				//array of find replaces
 				var findreps = [
 					{find:/^([^\-]+) \- /g, rep: '<span class="ui-selectmenu-item-header">$1</span>'},
-					{find:/([^\|><]+) \| /g, rep: '<span class="ui-selectmenu-item-content">$1</span>'},
+					{find:/([^\|><]+) \| /g, rep: '<span class="ui-selectmenu-item-close">$1</span>'},
 					{find:/([^\|><\(\)]+) (\()/g, rep: '<span class="ui-selectmenu-item-content">$1</span>$2'},
 					{find:/([^\|><\(\)]+)$/g, rep: '<span class="ui-selectmenu-item-content">$1</span>'},
 					{find:/(\([^\|><]+\))$/g, rep: '<span class="ui-selectmenu-item-footer">$1</span>'}

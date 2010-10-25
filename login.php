@@ -1,12 +1,17 @@
 <?php
 require 'application/system/YSSEnvironment.php'; 
 YSSPage::Controller('PageController.php');
+// session exists (already logged in) => redirect
+if(isset($_SESSION['YSS']))
+{
+	header("Location: http://" . $_SESSION['YSS']['currentUser']->domain . ".yss.com");
+}
 ?>
 <!DOCTYPE HTML>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>peeq</title>
+	<title>peeq | Login</title>
 	<meta name="description" content="about peeq">
 	<meta name="author" content="peeq">
 	<link rel="shortcut icon" href="" />
@@ -21,6 +26,17 @@ YSSPage::Controller('PageController.php');
 	<div id="container">
 		<header>
 			<a class="peeq" href="/"><img src="resources/imgs/peeq.png" alt="peeq" /></a>
+			<section>				
+				<nav>
+					<ul>
+						<?/*<li><a href="/">Home</a></li>
+						<li><a class="on" href="/sign-up">Sign up</a></li>
+						<li><a href="/#login" class="btn-modal modal-view-login">Login</a></li>
+						*/?>
+						<li><a href="/login" class="on">Login</a></li>
+					</ul>
+				</nav>
+			</section>
 		</header>
 		<article id="main">
 			<section class="wrap login">
@@ -71,8 +87,6 @@ YSSPage::Controller('PageController.php');
 					</section>
 				</div>
 				<div class="column sidebar">
-					<!-- <nav>
-					</nav> -->
 					<section class="column-body">
 						<div class="column-body-inner">
 							<h2>Need an account?</h2>									
@@ -92,7 +106,6 @@ YSSPage::Controller('PageController.php');
 	<script src="resources/js/src/jquery/jquery.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.toggle_form_field.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.validation.js"></script>
-	<script src="resources/js/src/jquery/plugins/jquery.lastfieldentersubmit.js"></script>
 	<script src="resources/js/src/peeq/peeq.login.index.js"></script>
 	<script src="resources/js/src/peeq/peeq.login.js"></script>
 	<?endif;?>

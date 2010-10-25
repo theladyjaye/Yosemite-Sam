@@ -35,7 +35,7 @@
 					%>
 							<tr class="annotation-item annotation-id-<%=peeq.utils.template.annotations.sanitize_id(annotation._id)%> status-<%=peeq.utils.template.annotations.get_status(annotation.status)%>">
 								<td class="table-column-priority"><%if(annotation.priority) {%><%=peeq.utils.template.annotations.get_priority(annotation.priority)%><%}%></td>
-								<td class="table-column-context"><%if(annotation.type == 'note') {%>-<%}else{%><%=annotation.context%><%}%></td>
+								<td class="table-column-context"><%if(annotation.type == 'note') {%><%}else{%><%=annotation.context%><%}%></td>
 								<td class="table-column-title"><%=annotation.label%></td>
 								<td class="table-column-creator"><%=annotation.created_by%></td>
 								<td class="table-column-assigned-to"><%=annotation.assigned_to%></td>

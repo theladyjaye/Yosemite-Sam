@@ -44,13 +44,13 @@ h1 {font-size: 40px; margin-bottom: 20px; text-indent: -9999px; background: url(
 
 // FIRST TO KNOW
 #first-to-know {margin: 40px 0 0 0;
-	& p {font-size: 22px; color: $color_dark_gray; margin: 0 0 5px 0}
+	& p {font-size: 26px; color: $color_dark_gray; margin: 0 0 5px 0; letter-spacing: -1px;}
 }
 
 form li {clear: none; width: auto; margin: 5px 0; width: 400px; position: relative}
-	form .field input {width: 225px; margin-right: 20px;}
-	form .hint {top: 14px; font-size: 26px;}
-	form .btn {margin-top: 6px;}
+	form .field input {width: 225px; margin-right: 20px; font-size: 26px;}
+	#frm-signup .hint {top: 12px; font-size: 26px;}
+	form .btn {margin-top: 6px; position: relative;}
 	
 	.field input {position: relative; z-index: 2; background: transparent; @include boxshadow(rgba(0, 0, 1, 0.2), 0, 0, 3px, inset); @include corner(); font-size: 22px; color: $color_dark_gray; width: 351px; height: 38px; float: left; padding: 5px; letter-spacing: -1px; border: 1px solid rgba(0, 0, 0, 0.1); outline: none; @include transition(all, 0.15s, ease-out)}
 	form .hint {position: absolute; top: 22px; left: 8px; font-size: 20px; letter-spacing: -1px; color: #aaa; opacity: 0.45; z-index: 1;}

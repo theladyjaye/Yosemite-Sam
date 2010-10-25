@@ -39,7 +39,7 @@ else
 				<h1 class="username">G'day <span><?=$current_user->firstname?></span></h1>
 				<nav>
 					<ul>
-						<li><a href="#/settings">Settings</a></li>
+						<li><a href="/#/settings">Settings</a></li>
 						<li id="btn-logout" class="logout"><a href="#">Logout</a></li>
 					</ul>
 				</nav>
@@ -81,7 +81,6 @@ else
 	<script src="resources/js/src/jquery/plugins/jqueryui.selectmenu.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.numeric.js"></script>
 	<script src="resources/js/src/jquery/plugins/jquery.validation.js"></script>
-	<script src="resources/js/src/jquery/plugins/jquery.lastfieldentersubmit.js"></script>
 	<script src="resources/js/src/sammy/sammy.min.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.template.js"></script>
 	<script src="resources/js/src/sammy/plugins/sammy.title.js"></script>

@@ -13,13 +13,7 @@ function peeq()
 		}).parent().find(".domain").click(function() {
 			$(this).parent().find("input").focus();
 		});
-				
-		 // whenever a user presses enter in the last input field of the form it will fire .btn-submit (submitting the form) 
-		$("form").lastfieldentersubmit({
-			submit: function($frm) {
-				$frm.find(".btn-submit").click();
-			}
-		});
+
 	};
 	
 	var transition_in = function() 

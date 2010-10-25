@@ -376,6 +376,8 @@ class YSSServiceAnnotations extends YSSService
 	
 	private function updateBaseAnnotation(&$annotation, &$input, &$response)
 	{
+		if($input->type && $annotation->type != $input->type)
+			$annotation->type = $input->type;
 		
 		if($input->label && $annotation->label != $input->label)
 			$annotation->label = $input->label;

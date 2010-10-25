@@ -64,11 +64,12 @@ header {position: relative; width: 100%; background: #20211f; height: $header_he
 // END NETWORK CONNECTIVITY
 
 // FOOTER
-footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; position: relative; width: 100%; padding-bottom: 20px; margin-top: 60px; opacity: 0;}
-	footer p {float: left;}
-	footer nav {float: right;}
+footer {font-size: 13px; color: $color_dark_gray; float: left; clear: both; position: relative; width: 100%; padding-bottom: 20px; margin-top: 60px; opacity: 0; color: $color_dark_gray;}
+	footer a {@include transition(none, 0.15s, ease-out);}
+	footer p {float: right;}
+	footer nav {float: left;}
 		footer nav li {float: left; display: inline; margin-left: 5px}
-			footer nav a {color: $color_dark_gray;}
+			footer nav a {color: $color_light_gray; @include transition(all, 0.15s, ease-out);}
 // END FOOTER
 
 // UTILITIES

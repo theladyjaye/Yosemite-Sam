@@ -9,7 +9,7 @@
 		this.each(function(i) {	
 			$frm = $(this);
 			// submit form when user presses enter on last field
-			$frm.find("input:last").keypress(function(evt) {
+			$frm.delegate("input[type=text], textarea", "keypress", function(evt) {
 				if(evt.keyCode == 13)
 				{
 					if(config.submit && $.isFunction(config.submit))

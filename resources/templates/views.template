@@ -64,12 +64,12 @@
 							</div>
 						</div>
 						<div class="stats">
-							<p>															
+							<p title="Notes">															
 								<span class="icon icon-note ir">Notes</span>	
 								<span class="count"><%=view.notes%></span>
 							</p>	
 							<%if(view.states.length > 1) {%>						
-							<p>
+							<p title="States">
 								<span class="icon icon-state ir">States</span>
 								<span class="count"><%=view.states.length%></span>
 							</p>

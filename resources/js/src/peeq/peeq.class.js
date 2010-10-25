@@ -97,6 +97,8 @@ function peeq()
 			$(this).animate({
 				"opacity": 1
 			}, 300, "linear", function() {
+				transition_in_footer();
+				
 				if($.isFunction(complete_callback)) 
 				{
 					complete_callback(this);
@@ -380,7 +382,8 @@ function peeq()
 									  	preview_position = null,
 										$annotation_preview_image = $(this),
 										preview_width = $annotation_preview_image.width(),
-										preview_height = $annotation_preview_image.height();
+										preview_height = $annotation_preview_image.height(),
+										icon_size = 5;
 
 
 									$("#annotate-preview").addAnnotations(function(props) {
@@ -395,10 +398,10 @@ function peeq()
 									for(var i = 0, len = data.annotations.length, $preview_annotations = $("#annotate-preview").find(".annotation-item"); i < len; i++)
 									{
 										$preview_annotation = $($preview_annotations[i]);
-										preview_position = $preview_annotation.position();
-								
-										if(preview_position.top < -5 || preview_position.top > preview_height ||
-										   preview_position.left < -5 || preview_position.left > preview_width)
+										preview_position = $preview_annotation.position();										
+											
+										if(preview_position.top > preview_height - icon_size ||
+										   preview_position.left > preview_width - icon_size)
 										{
 											$preview_annotation.css("visibility", "hidden");
 										}			
@@ -439,6 +442,14 @@ function peeq()
 				peeq.api.request("/handler", {"service": "settings"}, "get", function(data) {
 					verify_authorization(data);
 					context.title("» " + data.result.account.name + " » Settings");
+					
+					// merge active/inactive users
+					for(var i = 0, len = data.result.inactive.length; i < len; i++)
+					{
+						data.result.inactive[i].inactive = true;
+						data.result.users.push(data.result.inactive[i]);
+					}
+										
 					context.render(get_template_path("settings"), data.result, function(content) {
 						swap_transition(content, function() {
 							change_bg("settings");
@@ -554,6 +565,8 @@ function peeq()
 								{
 									peeq.annotate.config.users[data.users[i].username] = data.users[i].firstname + " " + data.users[i].lastname
 								}
+								
+								//console.log(data.task_groups);
 														
 								var groups = {"0": "None"};
 								if(data.task_groups)
@@ -590,13 +603,12 @@ function peeq()
 	
 	var transition_in_footer = function()
 	{
-		$("footer").css({
-			"top": "+=10"
-		}).delay(250).animate({
-			"top": "-=10",
-			"opacity": 1
-		}, 250, "easeOutQuad");
-		
+		if($("footer").not(":visible"))
+		{
+			$("footer").delay(250).animate({
+				"opacity": 1
+			}, 250, "easeOutQuad");		
+		}
 	};	
 	
 	// checking every 500ms for network connection
@@ -691,25 +703,25 @@ function peeq()
 					$(this).remove();
 				});
 			}
-		}).find("form").lastfieldentersubmit({ // whenever a user presses enter in the last input field of the form it will fire .btn-submit (submitting the form) 
-			submit: function($frm) {
-				$frm.find(".btn-submit").click();
-			}
 		});
 		
 		$(".btn-modal").click(function() {
-			$(".modal"+ get_modal_view(this)).jqmShow();
+			var $modal = $(".modal"+ get_modal_view(this));
+			$modal.jqmShow();
+			
+			// clear fields when opening modals
+			$modal.find("form")[0].reset();
 			
 			// attachment delete modal link 
 			// state delete modal link
 			// user delete modal link
 			// => populate fields
-			if($(this).hasClass("modal-view-delete-attachment") || $(this).hasClass("modal-view-delete-state")  || $(this).hasClass("modal-view-delete-user"))
+			if($(this).hasClass("modal-view-delete-attachment") || $(this).hasClass("modal-view-delete-state") || $(this).hasClass("modal-view-delete-user"))
 			{
 				var $this = $(this),
 					id = $this.attr("href").substr(1),
 					column_name = ".table-column-title",
-					$frm;
+					$frm, frm_id;
 					
 				if($this.hasClass("modal-view-delete-attachment"))
 				{
@@ -721,12 +733,23 @@ function peeq()
 				}
 				else
 				{
-					$frm = $("#frm-user-delete");
+					$frm = $("#frm-user-delete");										
 					column_name = ".table-column-username";
 				}
+				
+				frm_id = $frm.attr("id"); // weird issue where form id gets set to input field
 								
+				// !!!!
 				$frm.find("input[name=id]").val(id); // populate id
 				$frm.find("p strong").append(" " + $this.parents("tr").find(column_name).text()); // populate label
+				
+				$frm.attr("id", frm_id); // reset form id for weird issue
+			}
+			
+			if($(this).hasClass("modal-view-add-user"))
+			{
+				$(".add-user-container").show();
+				$(".add-user-inactive-container").hide();
 			}
 			
 			return false;
@@ -766,9 +789,6 @@ function peeq()
 		sammy.run();
 		
 		register_events();
-		
-		// transition in footer
-		transition_in_footer();
 		
 		// setup polling for online/offline connectivity
 		poll_network_connectivity();
