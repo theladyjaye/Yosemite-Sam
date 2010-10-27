@@ -4,12 +4,11 @@ peeq.prototype.annotate =
 		users: {},
 		context_options: 
 		{
+			"animation": "Animation",
+			"design": "Design",
 			"general": "General",
-			"Flash": "Flash",
-			"HTML": "HTML",
-			"PHP": "PHP",
-			"dotnet": ".NET",
-			"design": "Design"
+			"server": "server",
+			"ui": "UI"
 		},
 		task_groups: {}
 	},
@@ -24,7 +23,7 @@ peeq.prototype.annotate =
 		});
 		
 		// save annotation
-		$representation.delegate(".annotation .btn-save", "click", function(evt) {
+		$representation.delegate(".annotation .btn-save", "click", function(evt, is_notifying) {			
 			// save to db
 			var $annotation = $(this).parents(".annotation"),
 				$frm_annotation = $annotation.find(".frm-annotation"),
@@ -33,7 +32,8 @@ peeq.prototype.annotate =
 				obj_serialized = peeq.utils.querystring_to_object($frm_annotation.serialize()),
 				annotation_props = $annotation.serializeAnnotation(),
 				$annotation_num = $annotation.find(".annotation-num"),
-				annotation_num_width = $annotation_num.width();
+				annotation_num_width = $annotation_num.width(),
+				is_notifying = is_notifying == false ? false : true; // show notification of saving
 			
 			// clean up
 			// annotation_props => obj_serialized
@@ -69,10 +69,13 @@ peeq.prototype.annotate =
 			}
 			
 			// ISSUE #3 Save Notification
-			$annotation.addClass("saving");
-			$annotation_num.append("<span class='msg-save peeq'> Saving </span>").animate({
-				"width": 70
-			}, 250); 
+			if(is_notifying)
+			{
+				$annotation.addClass("saving");
+				$annotation_num.append("<span class='msg-save peeq'> Saving </span>").animate({
+					"width": 70
+				}, 250); 
+			}
 
 			peeq.api.request("/" + id, obj_serialized, method, function(response) {
 				if(response.ok)
@@ -85,15 +88,21 @@ peeq.prototype.annotate =
 						peeq.annotate.save_group($annotation, obj_serialized.task_groups, obj_serialized.new_group);
 					}
 					
-					$annotation_num.delay(2000).animate({
-						"width": annotation_num_width
-					}, 200, function() {
-						$annotation.removeClass("saving");
-						$annotation_num.find(".msg-save").remove();
-					});
+					if(is_notifying)
+					{
+						$annotation_num.delay(2000).animate({
+							"width": annotation_num_width
+						}, 200, function() {
+							$annotation.removeClass("saving");
+							$annotation_num.find(".msg-save").remove();
+						});
+					}
 				}
 
-				$annotation.trigger("deactivate");	
+				if(is_notifying)
+				{
+					$annotation.trigger("deactivate");	
+				}
 			});		
 		
 			return false;
@@ -224,16 +233,7 @@ peeq.prototype.annotate =
 		return $("#representation .annotation").serializeAnnotations();
 	},
 	add_annotations: function(annotations, deeplink_id) 
-	{
-		// dummy info
-		/*
-		var annotations = [
-			{x: 0.3, y: 0.4, width: 200, height: 300},
-			{x: 0.65, y: 0.28, width: 500, height: 100},
-			{x: 0.58, y: 0.31, width: 300, height: 40}
-		];
-		*/
-		
+	{		
 		$("#representation").addAnnotations(peeq.annotate.ui_annotation, annotations, {
 			xPosition: "left",
 			yPosition: "top"
@@ -267,7 +267,7 @@ peeq.prototype.annotate =
 		// DEFAULTS => OPTIONS
 		var defaults = {
 			id: "",
-			context: "",
+			context: "general",
 			description: "",
 			height: 0,
 			width: 0,
@@ -319,10 +319,14 @@ peeq.prototype.annotate =
 				$(this).trigger("deactivate");				
 			},
 			stop: function(evt, ui)
-			{							
+			{					
+				// save annotation in background when done resizing
+				// ??? need to call click twice for event to fire
+				$(this).find(".btn-save").click().trigger("click", false);
+						
 				$(this).find(".frm-annotation").css({
 					"top": ui.size.height + 10
-				});				
+				});
 			}
 		}).draggable({ // drag annotation
 			containment: 'parent',
@@ -330,6 +334,12 @@ peeq.prototype.annotate =
 			start: function(evt, ui)
 			{
 				$(this).trigger("deactivate");
+			},
+			stop: function(evt, ui)
+			{
+				// save annotation in background when done dragging
+				// ??? need to call click twice for event to fire
+				$(this).find(".btn-save").click().trigger("click", false);
 			}
 		}).mouseup(function() {
 			$(this).addClass("active");
@@ -672,7 +682,8 @@ peeq.prototype.annotate =
 		}
 		
 		// context for tasks
-		if(options.context)
+		// if options context exist then set it 		
+		if($frm.find(".dd-context option[value=" + options.context + "]").length)
 		{
 			$frm.find(".dd-context option[value=" + options.context + "]").attr("selected", "selected");
 		}

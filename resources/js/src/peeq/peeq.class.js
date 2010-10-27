@@ -583,7 +583,8 @@ function peeq()
 								peeq.annotate.main();
 						
 								var deeplink_id = context.params["id"] || null;
-								peeq.annotate.add_annotations(data.annotations, deeplink_id);						
+								// reverse annotations latest is highest number
+								peeq.annotate.add_annotations(data.annotations.reverse(), deeplink_id);						
 							});
 						});
 					});
